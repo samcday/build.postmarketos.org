@@ -264,14 +264,37 @@ def init():
             self.engine.dispose()
 
 
-def get_package(session, pkgname, arch, branch):
+def validate_job_id(db_result, job_id):
+    """ :param db_result: either None or a db object with job_id param
+                          (Package, Image)
+        :param job_id: either None or the job ID passed from an API call, that
+                       the job service (sourcehut, local) assigned to the job
+        :returns: True if the job_id matches,
+                  False if either db_result or job_id are None
+    """
+    if not db_result or job_id is None:
+        return False
+
+    if not job_id.isdecimal():
+        raise ValueError(f"validate_job_id: invalid: {job_id}")
+
+    job_id_db = db_result[0].job_id
+    if job_id_db != int(job_id):
+        raise ValueError(f"validate_job_id: got {job_id} instead of"
+                         f" {job_id_db}")
+
+    return True
+
+
+def get_package(session, pkgname, arch, branch, job_id=None):
     result = session.query(bpo.db.Package).filter_by(arch=arch,
                                                      branch=branch,
                                                      pkgname=pkgname).all()
+    validate_job_id(result, job_id)
     return result[0] if len(result) else None
 
 
-def get_image(session, branch, device, ui):
+def get_image(session, branch, device, ui, job_id=None):
     """ Get a branch:device:ui specific image, that is currently being
         processed (status is not finished). Unlike packages, we keep more than
         just the latest entry in the database. """
@@ -279,6 +302,7 @@ def get_image(session, branch, device, ui):
         filter_by(branch=branch, device=device, ui=ui).\
         filter(bpo.db.Image.status != bpo.db.ImageStatus.published).\
         all()
+    validate_job_id(result, job_id)
     return result[0] if len(result) else None
 
 

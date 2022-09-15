@@ -29,8 +29,8 @@ def get_files(request):
     return ret
 
 
-def get_image(session, branch, device, ui):
-    ret = bpo.db.get_image(session, branch, device, ui)
+def get_image(session, branch, device, ui, job_id):
+    ret = bpo.db.get_image(session, branch, device, ui, job_id)
     if not ret:
         raise ValueError(f"No unfinished image found with: device={device},"
                          " branch={branch}, ui={ui}")
@@ -58,7 +58,7 @@ def job_callback_build_image():
     ui = bpo.api.get_header(request, "Ui")
 
     session = bpo.db.session()
-    image = get_image(session, branch, device, ui)
+    image = get_image(session, branch, device, ui, job_id)
     files = get_files(request)
 
     # Create target dir

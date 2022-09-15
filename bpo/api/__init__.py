@@ -35,9 +35,10 @@ def get_branch(request):
 def get_package(session, request):
     pkgname = get_header(request, "Pkgname")
     version = get_header(request, "Version")
+    job_id = get_header(request, "Job-Id")
     branch = get_branch(request)
     arch = get_arch(request, branch)
-    ret = bpo.db.get_package(session, pkgname, arch, branch)
+    ret = bpo.db.get_package(session, pkgname, arch, branch, job_id)
     if not ret:
         raise ValueError("no package found with: pkgname=" + pkgname +
                          ", arch=" + arch)
