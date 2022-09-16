@@ -28,6 +28,7 @@ ui_allowlist = [
         "fbkeyboard",
         "glacier",
         "gnome",
+        "gnome-mobile",
         "i3wm",
         "kodi",
         "lxqt",
@@ -120,8 +121,28 @@ images = {
         },
     },
     "oneplus-enchilada": {
+        "branch_configs": {
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
+        },
     },
     "oneplus-fajita": {
+        "branch_configs": {
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
+        },
     },
     "pine64-pinebookpro": {
         "branch_configs": {
@@ -142,12 +163,28 @@ images = {
             "all": {
                 "installer": True,
             },
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
         },
     },
     "pine64-pinephonepro": {
         "branch_configs": {
             "all": {
                 "installer": True,
+            },
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -179,6 +216,16 @@ images = {
         },
     },
     "samsung-a3": {
+        "branch_configs": {
+            "master": {
+                "ui": [
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                    "gnome-mobile",
+                ],
+            },
+        },
     },
     "samsung-a5": {
     },
@@ -219,6 +266,16 @@ images = {
             "master",
             "v22.06",
         ],
+        "branch_configs": {
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
+        },
     },
     "wileyfox-crackling": {
     },
@@ -228,6 +285,14 @@ images = {
                 "kernels": [
                     "tianma",
                     "ebbg",
+                ],
+            },
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
                 ],
             },
         },
