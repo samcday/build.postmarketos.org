@@ -109,7 +109,7 @@ class BPOServer():
                     and start building them immediatelly.
                     """
             threading.Thread.__init__(self)
-            os.environ["FLASK_ENV"] = "development"
+            os.environ["FLASK_DEBUG"] = "1"
             sys.argv = ["bpo.py", "-t", "test/test_tokens.cfg"]
             if disable_pmos_mirror:
                 sys.argv += ["--mirror", ""]
