@@ -117,9 +117,14 @@ class LocalJobServiceThread(threading.Thread):
         self.job_id = job_id
 
         # Prepare log
-        self.log_path = (bpo.config.args.temp_path + "/local_job_logs/" +
-                         str(job_id) + ".txt")
+        temp_path = f"{bpo.config.args.temp_path}/local_job_logs"
+        self.log_path = f"{temp_path}/{job_id}.txt"
         logging.info("Job " + name + " started, logging to: " + self.log_path)
+
+        current = f"{temp_path}/current.txt"
+        if os.path.exists(current):
+            os.unlink(current)
+        os.symlink(self.log_path, current)
 
         # Begin with setup task
         tasks["setup"] = self.setup_task(branch)
