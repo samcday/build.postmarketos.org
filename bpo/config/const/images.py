@@ -246,10 +246,6 @@ images = {
     "samsung-gt58": {
     },
     "samsung-m0": {
-        "branches": [
-            "master",
-            "v22.06",
-        ],
         "branch_configs": {
             "all": {
                 "ui": [
@@ -262,10 +258,6 @@ images = {
     "samsung-serranove": {
     },
     "shift-axolotl": {
-        "branches": [
-            "master",
-            "v22.06",
-        ],
         "branch_configs": {
             "master": {
                 "ui": [
