@@ -17,7 +17,6 @@ for key in ["BPO_API_ENDPOINT",
             "BPO_DEVICE",
             "BPO_JOB_ID",
             "BPO_JOB_NAME",
-            "BPO_PAYLOAD_FILES",    # one file per line
             "BPO_PAYLOAD_IS_JSON",  # set to "1" to enable
             "BPO_PKGNAME",
             "BPO_TOKEN_FILE",
@@ -29,11 +28,13 @@ for key in ["BPO_API_ENDPOINT",
         exit(1)
 
 # Parse and check files
-files = os.environ["BPO_PAYLOAD_FILES"].split("\n")
-for path in files:
-    if not os.path.exists(path):
-        print("ERROR: file not found: " + path)
-        exit(1)
+files = []
+if os.environ["BPO_PAYLOAD_FILES"]:
+    files = os.environ["BPO_PAYLOAD_FILES"].split("\n")
+    for path in files:
+        if not os.path.exists(path):
+            print("ERROR: file not found: " + path)
+            exit(1)
 
 # Load token
 with open(os.path.expanduser(os.environ["BPO_TOKEN_FILE"]),
