@@ -57,7 +57,7 @@ pytest:
     when: "on_failure"
     paths:
     - "_html_out/index.html"
-    - "_temp/local_job/current_task.sh"
+    - "_temp/local_job/task_*.sh"
     - "_temp/local_job_logs/*.txt"
     - "pytest.log"
     expire_in: "1 week"

@@ -37,8 +37,6 @@ def run(branch):
         export BPO_UI=""
         export BPO_VERSION=""
 
-        # Always run submit.py with exec, because when running locally, the
-        # current_task.sh script can change before submit.py completes!
         exec build.postmarketos.org/helpers/submit.py
         """
 
