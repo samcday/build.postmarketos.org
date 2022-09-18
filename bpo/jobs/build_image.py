@@ -184,12 +184,23 @@ def run(device, branch, ui):
             export BPO_BRANCH={arg_branch}
             export BPO_DEVICE={arg_device}
             export BPO_UI={arg_ui}
-            export BPO_PAYLOAD_FILES="$(find out -type f)"
             export BPO_PAYLOAD_IS_JSON="0"
             export BPO_PKGNAME=""
             export BPO_VERSION="$(cat img-date)"
 
-            exec build.postmarketos.org/helpers/submit.py
+            # Upload one file at a time
+            prev=""
+            for i in out/*; do
+                export BPO_PAYLOAD_FILES_PREVIOUS="$prev"
+                export BPO_PAYLOAD_FILES="$i"
+                build.postmarketos.org/helpers/submit.py
+                prev="$prev$(basename "$i")#"
+            done
+
+            # Finalize upload
+            export BPO_PAYLOAD_FILES_PREVIOUS="$prev"
+            export BPO_PAYLOAD_FILES=""
+            build.postmarketos.org/helpers/submit.py
     """
 
     # Submit to job service

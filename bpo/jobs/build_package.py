@@ -93,6 +93,7 @@ def run(arch, pkgname, branch):
             export BPO_DEVICE=""
             packages="$(pmbootstrap -q config work)/packages"
             export BPO_PAYLOAD_FILES="$(find "$packages" -name '*.apk')"
+            export BPO_PAYLOAD_FILES_PREVIOUS=""
             export BPO_PAYLOAD_IS_JSON="0"
             export BPO_PKGNAME=""" + shlex.quote(pkgname) + """
             export BPO_UI=""

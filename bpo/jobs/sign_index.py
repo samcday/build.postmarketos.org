@@ -49,6 +49,7 @@ def run(arch, branch):
             export BPO_BRANCH=""" + shlex.quote(branch) + """
             export BPO_DEVICE=""
             export BPO_PAYLOAD_FILES="APKINDEX.tar.gz"
+            export BPO_PAYLOAD_FILES_PREVIOUS=""
             export BPO_PAYLOAD_IS_JSON="0"
             export BPO_PKGNAME=""
             export BPO_UI=""

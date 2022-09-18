@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 import datetime
+import glob
 import logging
 import os
 
@@ -48,6 +49,86 @@ def get_dir_name(request):
     return ret
 
 
+def get_path_temp(job_id):
+    """ One image consists of multiple files. They get big, especially with the
+        installer images, so now we upload only one file at once and put them
+        into this temp dir until all of them are uploaded.
+        :param job_id: already sanitized ID of the image build job
+        :returns: the temporary upload path for the current job """
+    return f"{bpo.config.args.temp_path}/image_upload/{job_id}"
+
+
+def verify_previous_files(request, path_temp):
+    key = "Payload-Files-Previous"
+    prev_arg = bpo.api.get_header(request, key)
+
+    # Create dict with files currently in temp dir as key, False as value
+    temp_dir = {}
+    for path in glob.glob(f"{path_temp}/*"):
+        temp_dir[os.path.basename(path)] = False
+
+    # Check if each file in prev_arg is in the temp dir
+    for file_arg in prev_arg.split("#"):
+        if not file_arg:
+            break
+        if file_arg not in temp_dir:
+            raise ValueError(f"found '{file_arg}' in {key}, but not in"
+                             f" temp dir {path_temp}: {temp_dir}")
+        temp_dir[file_arg] = True
+
+    # Check if temp dir doesn't contain additional files
+    for file_temp, found in temp_dir.items():
+        if not found:
+            raise ValueError(f"found '{file_temp}' in temp dir {path_temp},"
+                             f" but not in {key}: '{prev_arg}'")
+
+
+def upload_new_files(path_temp, files):
+    """ Receive one or more files and put them into the temp path. """
+    os.makedirs(path_temp, exist_ok=True)
+
+    count = 0
+    for img in files:
+        path_img = os.path.join(path_temp, img.filename)
+        logging.info(f"Saving {path_img}")
+        img.save(path_img)
+        count += 1
+
+    return f"got {count} file(s)"
+
+
+def upload_finish(session, image, path_temp, dir_name):
+    # Create target dir
+    path = bpo.images.path(image.branch, image.device, image.ui, dir_name)
+    os.makedirs(path, exist_ok=True)
+
+    # Fill target dir
+    count = 0
+    for path_img_temp in glob.glob(f"{path_temp}/*"):
+        path_img = os.path.join(path, os.path.basename(path_img_temp))
+        logging.info(f"Moving from tempdir: {path_img}")
+        os.replace(path_img_temp, path_img)
+        count += 1
+
+    os.rmdir(path_temp)
+
+    # Update database (status, job_id, dir_name, date)
+    bpo.db.set_image_status(session, image, bpo.db.ImageStatus.published,
+                            image.job_id, dir_name, datetime.datetime.now())
+    bpo.ui.log_image(image, "api_job_callback_build_image")
+
+    # Remove old image
+    bpo.images.remove_old()
+
+    # Generate HTML files (for all dirs in the images path, including the path
+    # of this image and its potentially new parent directories)
+    bpo.ui.images.write_index_all()
+
+    # Start next build job
+    bpo.repo.build()
+    return f"image dir created from {count} files, kthxbye"
+
+
 @blueprint.route("/api/job-callback/build-image", methods=["POST"])
 @header_auth("X-BPO-Token", "job_callback")
 def job_callback_build_image():
@@ -60,29 +141,10 @@ def job_callback_build_image():
     session = bpo.db.session()
     image = get_image(session, branch, device, ui, job_id)
     files = get_files(request)
+    path_temp = get_path_temp(job_id)
 
-    # Create target dir
-    path = bpo.images.path(branch, device, ui, dir_name)
-    os.makedirs(path, exist_ok=True)
+    verify_previous_files(request, path_temp)
 
-    # Fill target dir
-    for img in files:
-        path_img = os.path.join(path, img.filename)
-        logging.info(f"Saving {path_img}")
-        img.save(path_img)
-
-    # Update database (status, job_id, dir_name, date)
-    bpo.db.set_image_status(session, image, bpo.db.ImageStatus.published,
-                            job_id, dir_name, datetime.datetime.now())
-    bpo.ui.log_image(image, "api_job_callback_build_image")
-
-    # Remove old image
-    bpo.images.remove_old()
-
-    # Generate HTML files (for all dirs in the images path, including the path
-    # of this image and its potentially new parent directories)
-    bpo.ui.images.write_index_all()
-
-    # Start next build job
-    bpo.repo.build()
-    return "image received, kthxbye"
+    if files:
+        return upload_new_files(path_temp, files)
+    return upload_finish(session, image, path_temp, dir_name)

@@ -17,6 +17,7 @@ for key in ["BPO_API_ENDPOINT",
             "BPO_DEVICE",
             "BPO_JOB_ID",
             "BPO_JOB_NAME",
+            "BPO_PAYLOAD_FILES_PREVIOUS",  # separated by '#'
             "BPO_PAYLOAD_IS_JSON",  # set to "1" to enable
             "BPO_PKGNAME",
             "BPO_TOKEN_FILE",
@@ -52,6 +53,8 @@ headers = {"X-BPO-Arch": os.environ["BPO_ARCH"],
            "X-BPO-Device": os.environ["BPO_DEVICE"],
            "X-BPO-Job-Id": os.environ["BPO_JOB_ID"],
            "X-BPO-Job-Name": os.environ["BPO_JOB_NAME"],
+           "X-BPO-Payload-Files-Previous":
+               os.environ["BPO_PAYLOAD_FILES_PREVIOUS"],
            "X-BPO-Pkgname": os.environ["BPO_PKGNAME"],
            "X-BPO-Token": token,
            "X-BPO-Ui": os.environ["BPO_UI"],
