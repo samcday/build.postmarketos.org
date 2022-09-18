@@ -164,7 +164,7 @@ class LocalJobServiceThread(threading.Thread):
         # Write each task's script into a temp file and run it
         task_i = 1
         for task, script in tasks.items():
-            print(f"### Task {task_i}/{len(tasks)}: {task} ###")
+            logging.info(f"### Task {task_i}/{len(tasks)}: {task} ###")
 
             temp_script = f"{temp_path}/task_{job_id}.{task_i}_{task}.sh"
             with open(temp_script, "w", encoding="utf-8") as handle:
@@ -175,7 +175,7 @@ class LocalJobServiceThread(threading.Thread):
                 handle.write("# Script\n")
                 handle.write(script)
 
-            print(f"Running: {temp_script}")
+            logging.info(f"Running: {temp_script}")
             if not self.run_print_try(["sh", "-ex", temp_script]):
                 logging.info("Job failed!")
                 return False
