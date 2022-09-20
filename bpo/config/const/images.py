@@ -26,7 +26,6 @@ ui_allowlist = [
         "asteroid",
         "console",
         "fbkeyboard",
-        "glacier",
         "gnome",
         "gnome-mobile",
         "i3wm",
