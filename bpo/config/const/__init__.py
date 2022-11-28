@@ -29,7 +29,7 @@ branches["master"] = {"arches": ["x86_64",
                                  "x86",
                                  "riscv64"],
                       "ignore_errors": False}
-branches["v22.12"] = {"arches": ["x86_64"],
+branches["v22.12"] = {"arches": ["x86_64", "aarch64", "armv7"],
                       "ignore_errors": True}
 
 # Alpine mirror, might need to be switched to a different one if dl-cdn has
