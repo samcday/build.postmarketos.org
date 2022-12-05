@@ -14,6 +14,7 @@ password = "147147"
 # Branches to build images for, can be overridden per device in 'images' below
 branches_default = [
         "master",
+        "v22.12",
         "v22.06",
     ]
 
@@ -93,6 +94,7 @@ images = {
     "fairphone-fp4": {
         "branches": [
             "master",
+            "v22.12",
         ],
     },
     "lenovo-a6000": {
@@ -230,7 +232,38 @@ images = {
     },
     "samsung-e7": {
     },
-    "samsung-espresso3g": {
+    "samsung-espresso3g": {  # replaced by espresso10, 7 in v22.12 and edge
+        "branches": [
+            "v22.06",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": [
+                    "phosh",
+                    "xfce4",
+                ],
+            },
+        },
+    },
+    "samsung-espresso10": {
+        "branches": [
+            "master",
+            "v22.12",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": [
+                    "phosh",
+                    "xfce4",
+                ],
+            },
+        },
+    },
+    "samsung-espresso7": {
+        "branches": [
+            "master",
+            "v22.12",
+        ],
         "branch_configs": {
             "all": {
                 "ui": [
