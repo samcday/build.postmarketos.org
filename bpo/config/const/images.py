@@ -85,23 +85,56 @@ images = {
                     "console",
                 ],
             },
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
         },
     },
     "asus-me176c": {
+        "branch_configs": {
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
+        },
     },
     "bq-paella": {
+        "branch_configs": {
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
+        },
     },
     "fairphone-fp4": {
         "branches": [
             "master",
             "v22.12",
         ],
+        "branch_configs": {
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
+        },
     },
     "lenovo-a6000": {
+        "branch_configs": {
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
+        },
     },
     "lenovo-a6010": {
+        "branch_configs": {
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
+        },
     },
     "motorola-harpia": {
+        "branch_configs": {
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
+        },
     },
     "nokia-n900": {
         "branch_configs": {
@@ -110,7 +143,10 @@ images = {
                     "i3wm",
                 ],
             },
-         },
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
+        },
     },
     "odroid-hc2": {
         "branch_configs": {
@@ -118,6 +154,9 @@ images = {
                 "ui": [
                     "console",
                 ],
+            },
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
             },
         },
     },
@@ -131,6 +170,9 @@ images = {
                     "sxmo-de-sway",
                 ],
             },
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
         },
     },
     "oneplus-fajita": {
@@ -142,6 +184,9 @@ images = {
                     "plasma-mobile",
                     "sxmo-de-sway",
                 ],
+            },
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
             },
         },
     },
@@ -156,6 +201,9 @@ images = {
                     "phosh",
                 ],
                 "installer": True,
+            },
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
             },
         },
     },
@@ -172,6 +220,9 @@ images = {
                     "sxmo-de-sway",
                 ],
             },
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
         },
     },
     "pine64-pinephonepro": {
@@ -187,6 +238,9 @@ images = {
                     "sxmo-de-sway",
                 ],
             },
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
         },
     },
     "pine64-pinetab": {
@@ -196,6 +250,9 @@ images = {
                 "kernels": [
                     "allwinner",
                 ],
+            },
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
             },
         },
     },
@@ -207,12 +264,18 @@ images = {
                     "plasma-bigscreen",
                 ],
             },
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
         },
     },
     "purism-librem5": {
         "branch_configs": {
             "all": {
                 "installer": True,
+            },
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
             },
         },
     },
@@ -226,11 +289,24 @@ images = {
                     "gnome-mobile",
                 ],
             },
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
         },
     },
     "samsung-a5": {
+        "branch_configs": {
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
+        },
     },
     "samsung-e7": {
+        "branch_configs": {
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
+        },
     },
     "samsung-espresso3g": {  # replaced by espresso10, 7 in v22.12 and edge
         "branches": [
@@ -257,6 +333,9 @@ images = {
                     "xfce4",
                 ],
             },
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
         },
     },
     "samsung-espresso7": {
@@ -271,11 +350,24 @@ images = {
                     "xfce4",
                 ],
             },
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
         },
     },
     "samsung-gt510": {
+        "branch_configs": {
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
+        },
     },
     "samsung-gt58": {
+        "branch_configs": {
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
+        },
     },
     "samsung-m0": {
         "branch_configs": {
@@ -285,9 +377,17 @@ images = {
                     "sxmo-de-sway",
                 ],
             },
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
         },
     },
     "samsung-serranove": {
+        "branch_configs": {
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
+        },
     },
     "shift-axolotl": {
         "branch_configs": {
@@ -299,9 +399,17 @@ images = {
                     "sxmo-de-sway",
                 ],
             },
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
         },
     },
     "wileyfox-crackling": {
+        "branch_configs": {
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
+        },
     },
     "xiaomi-beryllium": {
         "branch_configs": {
@@ -319,10 +427,23 @@ images = {
                     "sxmo-de-sway",
                 ],
             },
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
         },
     },
     "xiaomi-scorpio": {
+        "branch_configs": {
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
+        },
     },
     "xiaomi-wt88047": {
+        "branch_configs": {
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
+        },
     },
 }
