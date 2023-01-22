@@ -15,7 +15,6 @@ password = "147147"
 branches_default = [
         "master",
         "v22.12",
-        "v22.06",
     ]
 
 # Prevent errors by listing explicitly allowed UIs here. Notably "none" is
@@ -305,19 +304,6 @@ images = {
         "branch_configs": {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
-            },
-        },
-    },
-    "samsung-espresso3g": {  # replaced by espresso10, 7 in v22.12 and edge
-        "branches": [
-            "v22.06",
-        ],
-        "branch_configs": {
-            "all": {
-                "ui": [
-                    "phosh",
-                    "xfce4",
-                ],
             },
         },
     },
