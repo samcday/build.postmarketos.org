@@ -329,6 +329,11 @@ images = {
             },
         },
     },
+    "samsung-grandmax": {
+        "branches": [
+            "master",
+        ],
+    },
     "samsung-gt510": {
         "branch_configs": {
             "v22.12": {
