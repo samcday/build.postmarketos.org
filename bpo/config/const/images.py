@@ -104,10 +104,6 @@ images = {
         },
     },
     "fairphone-fp4": {
-        "branches": [
-            "master",
-            "v22.12",
-        ],
         "branch_configs": {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
@@ -308,10 +304,6 @@ images = {
         },
     },
     "samsung-espresso10": {
-        "branches": [
-            "master",
-            "v22.12",
-        ],
         "branch_configs": {
             "all": {
                 "ui": [
@@ -325,10 +317,6 @@ images = {
         },
     },
     "samsung-espresso7": {
-        "branches": [
-            "master",
-            "v22.12",
-        ],
         "branch_configs": {
             "all": {
                 "ui": [
