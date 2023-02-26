@@ -330,9 +330,11 @@ images = {
         },
     },
     "samsung-grandmax": {
-        "branches": [
-            "master",
-        ],
+        "branch_configs": {
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
+            },
+        },
     },
     "samsung-gt510": {
         "branch_configs": {
