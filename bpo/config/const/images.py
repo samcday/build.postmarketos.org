@@ -352,14 +352,12 @@ images = {
     },
     "samsung-m0": {
         "branch_configs": {
-            "all": {
+            "v22.12": {
+                "date-start": "2022-12-18",  # Sunday
                 "ui": [
                     "phosh",
                     "sxmo-de-sway",
                 ],
-            },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
             },
         },
     },
