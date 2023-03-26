@@ -70,14 +70,27 @@ $ ./bpo_sourcehut.sh
 
 ### Running tests
 
+Run all CI tests with:
+
 ```
-$ pip install -r requirements-test.txt
-$ .ci/pytest.sh
+$ pmbootstrap ci
 ```
 
-The local job is running in a different thread, so if there's nothing useful in
-the trace, open _html_out/index.html and check the latest log files (which are
-linked there).
+While pytest is running, follow the logs (in a second terminal) with:
+```
+$ helpers/pytest_logs.sh
+```
+
+Open `_html_out/index.html` in your browser and refresh it manually to see the
+current generated HTML output.
+
+Run one specific pytest, after having `pmbootstrap ci pytest` initialize the
+venv once:
+
+```
+$ source .venv/bin/activate
+pytest -xvv test/test_zz1_slow.py -k test_build_final_repo_with_two_pkgs_SLOW_120s
+```
 
 ### Generating the images.postmarketos.org/bpo directory listing
 
