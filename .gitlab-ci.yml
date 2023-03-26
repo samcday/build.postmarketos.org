@@ -35,22 +35,13 @@ pytest:
   image: "alpine:3.14"
   before_script:
   - wget "https://gitlab.com/postmarketOS/ci-common/-/raw/master/install_pmbootstrap.sh"
-  # Install all python depends natively on Alpine for best performance, not with pip
-  - sh ./install_pmbootstrap.sh \
-        py3-flask \
-        py3-jsonschema \
-        py3-pytest \
-        py3-pytest-cov \
-        py3-pytest-timeout \
-        py3-requests \
-        py3-sqlalchemy \
-        xz
+  - sh ./install_pmbootstrap.sh
   - ln -s /tmp/pmbootstrap ../pmbootstrap
   - ln -s /home/pmos/.local/var/pmbootstrap/cache_git/pmaports ../pmbootstrap/aports
   script:
   # Avoid "Cross-device link" error
   - "export BPO_BUILD_IMAGE_LN=cp"
-  - "su pmos -c '.ci/pytest.sh'"
+  - .ci/pytest.sh
   artifacts:
     when: "on_failure"
     paths:
