@@ -124,14 +124,14 @@ def job_callback_get_depends():
 
     # Update packages in DB
     session = bpo.db.session()
-    force_repo_update = False
+    force_repo_update_branch = None
     for arch, payload in payloads.items():
         update_or_insert_packages(session, payload, arch, branch)
         update_package_depends(session, payload, arch, branch)
         if remove_deleted_packages_db(session, payload, arch, branch):
             bpo.repo.wip.clean(arch, branch)
             # Delete obsolete apks in final repo
-            force_repo_update = True
+            force_repo_update_branch = branch
 
     bpo.ui.log("api_job_callback_get_depends", payload=payload, branch=branch,
                job_id=job_id)
@@ -139,5 +139,5 @@ def job_callback_get_depends():
     # Make sure that we did not miss any job status changes
     bpo.helpers.job.update_status()
 
-    bpo.repo.build(force_repo_update)
+    bpo.repo.build(force_repo_update_branch)
     return "warming up build servers..."

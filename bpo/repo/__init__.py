@@ -162,7 +162,7 @@ def build_images_branch(session, slots_available, branch):
     return started
 
 
-def _build(force_repo_update=False, no_repo_update=False):
+def _build(force_repo_update_branch=None, no_repo_update=False):
     """ Start as many parallel build jobs, as configured. When all packages are
         built, publish the packages. (Images get published right after they
         get submitted to the server in bpo/api/job_callback/build_image.py, not
@@ -171,10 +171,12 @@ def _build(force_repo_update=False, no_repo_update=False):
         Always use bpo.repo.build() wrapper below, to make sure that this only
         runs in one thread at once!
 
-        :param force_repo_update: rebuild the symlink and final repo, even if
-                                  no new packages were built. Set this to True
-                                  after deleting packages in the database, so
-                                  the apks get removed from the final repo.
+        :param force_repo_update_branch: rebuild the symlink and final repo for
+                                         this branch, even if no new packages
+                                         were built. Set this to True after
+                                         deleting packages in the database, so
+                                         the apks get removed from the final
+                                         repo.
         :param no_repo_update: never update symlink and final repo (used from
                                the images timer thread, see #98) """
     session = bpo.db.session()
@@ -185,6 +187,7 @@ def _build(force_repo_update=False, no_repo_update=False):
     # a new job or to proceed with rolling out their fully built WIP repo
     for branch, branch_data in bpo.config.const.branches.items():
         for arch in branch_data["arches"]:
+            force_repo_update = (force_repo_update_branch == branch)
             slots_available -= build_arch_branch(session, slots_available,
                                                  arch, branch,
                                                  force_repo_update,
@@ -204,14 +207,14 @@ def _build(force_repo_update=False, no_repo_update=False):
             break
 
 
-def build(force_repo_update=False, no_repo_update=False):
+def build(force_repo_update_branch=None, no_repo_update=False):
     """ Run build() with a threading.Condition(), so it runs at most in one
         thread at once. Otherwise it will lead to corrupt indexes being
         generated. See _build() for parameter description. """
     global build_cond
 
     with build_cond:
-        return _build(force_repo_update, no_repo_update)
+        return _build(force_repo_update_branch, no_repo_update)
 
 
 def get_apks(cwd):
