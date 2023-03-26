@@ -1,10 +1,17 @@
 #!/bin/sh -e
-topdir="$(realpath "$(dirname "$0")/..")"
+# Description: lint all python scripts
+# https://postmarketos.org/pmb-ci
+
+if [ "$(id -u)" = 0 ]; then
+	set -x
+	apk -q add py3-flake8
+	exec su "${TESTUSER:-build}" -c "sh -e $0"
+fi
+
+set -x
 
 flake8 \
 	*.py \
 	$(find bpo -name "*.py") \
 	$(find helpers -name "*.py") \
 	$(find test -name "*.py")
-
-echo "flake8 check passed"

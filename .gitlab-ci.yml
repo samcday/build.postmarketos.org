@@ -18,8 +18,7 @@ mr-settings:
 flake8:
   <<: *only-default
   before_script:
-  - "apk -q add py3-pip"
-  - "pip3 -q --disable-pip-version-check install flake8"
+  - "adduser -D build"
   script:
   - ".ci/flake8.sh"
 
