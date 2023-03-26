@@ -207,7 +207,7 @@ def _build(force_repo_update=False, no_repo_update=False):
 def build(force_repo_update=False, no_repo_update=False):
     """ Run build() with a threading.Condition(), so it runs at most in one
         thread at once. Otherwise it will lead to corrupt indexes being
-        generated. """
+        generated. See _build() for parameter description. """
     global build_cond
 
     with build_cond:
