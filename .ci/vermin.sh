@@ -1,20 +1,22 @@
 #!/bin/sh -e
-topdir="$(realpath "$(dirname "$0")/..")"
+# Description: verify that we don't use too new python features
+# https://postmarketos.org/pmb-ci
 
-_vermin() {
-	if ! vermin -q "$@" >/dev/null 2>&1; then
-		vermin -vv "$@"
-	fi
-}
+if [ "$(id -u)" = 0 ]; then
+	set -x
+	apk -q add vermin
+	exec su "${TESTUSER:-build}" -c "sh -e $0"
+fi
 
-_vermin \
+# shellcheck disable=SC2046
+vermin \
 	-t=3.7- \
 	--backport argparse \
 	--backport configparser \
 	--backport enum \
-	$(ls -1 *.py) \
+	--backport importlib \
+	--lint \
+	--no-parse-comments \
 	$(find bpo -name '*.py') \
 	$(find test -name '*.py') \
-	helpers/bpo_package_status.py
-
-echo "vermin check passed"
+	$(find helpers -name '*.py')

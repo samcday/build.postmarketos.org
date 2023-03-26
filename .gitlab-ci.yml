@@ -25,8 +25,7 @@ flake8:
 vermin:
   <<: *only-default
   before_script:
-  - "apk -q add py3-pip"
-  - "pip3 -q --disable-pip-version-check install vermin"
+  - "adduser -D build"
   script:
   - ".ci/vermin.sh"
 
