@@ -6,11 +6,25 @@ import os
 import shutil
 
 import bpo.config.const
+import bpo.repo.staging
 import bpo.repo.status
 
 
 def get_path(arch, branch):
-    return "{}/{}/{}".format(bpo.config.args.repo_final_path, branch, arch)
+    repo_final_path = bpo.config.args.repo_final_path
+
+    if "_staging_" in branch:
+        branch_orig, name = bpo.repo.staging.branch_split(branch)
+        # Have the branch_orig + arch at the end of the path, so it is in the
+        # same format as for the original repositories and pmbootstrap is able
+        # to use it with "pmbootstrap --mirror-pmOS=..." with a staging URL
+        # like http://mirror.postmarketos.org/postmarketos/staging/test. If we
+        # used the branch name (master_staging_test) instead of the branch_orig
+        # (master), we would need to add additional complexity to pmbootstrap
+        # to figure out the correct full URLs.
+        return f"{repo_final_path}/staging/{name}/{branch_orig}/{arch}"
+
+    return f"{repo_final_path}/{branch}/{arch}"
 
 
 def copy_new_apks(arch, branch):

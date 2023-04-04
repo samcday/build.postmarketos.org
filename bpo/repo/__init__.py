@@ -14,6 +14,7 @@ import bpo.jobs.build_package
 import bpo.jobs.sign_index
 import bpo.repo.symlink
 import bpo.repo.tools
+import bpo.repo.staging
 import bpo.repo.wip
 
 
@@ -118,6 +119,20 @@ def build_arch_branch(session, slots_available, arch, branch,
         :param no_repo_update: never update symlink and final repo (used from
                                the images timer thread, see #98) """
     logging.info(branch + "/" + arch + ": starting new package build job(s)")
+
+    if "_staging_" in branch:
+        branch_orig, branch_staging = bpo.repo.staging.branch_split(branch)
+        if count_unpublished_packages(session, branch_orig):
+            # As long as the original branch has unpublished packages, don't
+            # build any packages for its staging branches. Otherwise we might
+            # have a package failing on an orig branch, therefore not getting
+            # synced to the staging repo, and then we try to build the same
+            # package in the staging repo just to have it fail there again.
+            logging.info(f"{branch}/{arch}: skip building packages, as"
+                         f" {branch_orig} has unpublished packages")
+            return 0
+        bpo.repo.staging.sync_with_orig_repo(branch, arch)
+
     started = 0
     while True:
         pkgname = next_package_to_build(session, arch, branch)
@@ -184,7 +199,8 @@ def _build(force_repo_update_branch=None, no_repo_update=False):
 
     # Iterate over all branch-arch combinations, to give them a chance to start
     # a new job or to proceed with rolling out their fully built WIP repo
-    for branch, branch_data in bpo.config.const.branches.items():
+    branches_with_staging = bpo.repo.staging.get_branches_with_staging()
+    for branch, branch_data in branches_with_staging.items():
         for arch in branch_data["arches"]:
             force_repo_update = (force_repo_update_branch == branch)
             slots_available -= build_arch_branch(session, slots_available,

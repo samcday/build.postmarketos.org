@@ -4,6 +4,7 @@
 import flask
 import bpo.config.const
 import bpo.db
+import bpo.repo.staging
 
 blueprint = flask.Blueprint("bpo_api", __name__)
 
@@ -18,7 +19,8 @@ def get_header(request, key):
 def get_arch(request, branch):
     """ Get architecture from X-BPO-Arch header and validate it. """
     arch = get_header(request, "Arch")
-    arches = bpo.config.const.branches[branch]["arches"]
+    branches_with_staging = bpo.repo.staging.get_branches_with_staging()
+    arches = branches_with_staging[branch]["arches"]
     if arch not in arches:
         raise ValueError("invalid X-BPO-Arch: " + arch)
     return arch
@@ -27,9 +29,12 @@ def get_arch(request, branch):
 def get_branch(request):
     """ Get branch from X-BPO-Branch header and validate it. """
     branch = get_header(request, "Branch")
-    if branch not in bpo.config.const.branches:
-        raise ValueError("invalid X-BPO-Branch: " + branch)
-    return branch
+
+    if branch in bpo.config.const.branches \
+            or branch in bpo.repo.staging.get_branches_with_staging():
+        return branch
+
+    raise ValueError(f"invalid X-BPO-Branch: {branch}")
 
 
 def get_package(session, request):

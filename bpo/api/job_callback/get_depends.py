@@ -10,6 +10,7 @@ import bpo.config.args
 import bpo.db
 import bpo.helpers.job
 import bpo.repo
+import bpo.repo.staging
 import bpo.repo.wip
 import bpo.ui
 
@@ -119,7 +120,8 @@ def job_callback_get_depends():
     job_id = bpo.api.get_header(request, "Job-Id")
     branch = bpo.api.get_branch(request)
     payloads = collections.OrderedDict()
-    for arch in bpo.config.const.branches[branch]["arches"]:
+    branches_with_staging = bpo.repo.staging.get_branches_with_staging()
+    for arch in branches_with_staging[branch]["arches"]:
         payloads[arch] = get_payload(request, arch)
 
     # Update packages in DB

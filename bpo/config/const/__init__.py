@@ -30,6 +30,9 @@ branches["master"] = {"arches": ["x86_64",
                                  "riscv64"],
                       "ignore_errors": False}
 
+# Build staging repositories for these architectures
+staging_arches = ["x86_64", "aarch64", "armv7"]
+
 # Alpine mirror, might need to be switched to a different one if dl-cdn has
 # caching errors again. Note that this mirror ends up in the final device
 # images. Mirror status: https://mirrors.alpinelinux.org/

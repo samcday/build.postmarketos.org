@@ -24,6 +24,7 @@ from sqlalchemy.orm import relationship
 
 import bpo.config.args
 import bpo.db.migrate
+import bpo.repo.staging
 
 
 base = sqlalchemy.ext.declarative.declarative_base()
@@ -310,16 +311,47 @@ def get_image(session, branch, device, ui, job_id=None):
 
 
 def get_recent_packages_by_status(session):
-    """ :returns: {"failed": pkglist1, "building": pkglist2, ...},
-                  pkglist is a list of bpo.db.Package objects """
+    """ :returns: a dict like this (pkglist is a list of bpo.db.Package
+                  objects):
+                  {"queued": pkglist1,
+                   "building": pkglist2,
+                   "built": pkglist3,
+                   "published": pkglist4,
+                   "failed": pkglist5,
+                   "built_synced": {"master_staging_test": {"x86_64": 5,
+                                                            "aarch64": 3}},
+                   "published_synced": {...}}  # same format as built_synced
+    """
+    all_branches = bpo.repo.staging.get_branches_with_staging().keys()
+
+    # Add package list for each status
     ret = {}
     for status in bpo.db.PackageStatus:
         ret[status.name] = session.query(bpo.db.Package).\
             filter_by(status=status).\
-            filter(bpo.db.Package.branch.in_(bpo.config.const.branches.keys())).\
+            filter(bpo.db.Package.branch.in_(all_branches)).\
             order_by(bpo.db.Package.branch,
                      bpo.db.Package.arch,
                      bpo.db.Package.pkgname)
+
+    # Add synced counts
+    for status in ["built", "published"]:
+        sync_str = f"{status}_synced"
+        assert sync_str not in ret
+
+        ret[sync_str] = {}
+        for pkg in ret[status]:
+            if pkg.job_id:
+                continue
+            arch = pkg.arch
+            branch = pkg.branch
+            if branch not in ret[sync_str]:
+                ret[sync_str][branch] = {}
+            if arch in ret[sync_str][branch]:
+                ret[sync_str][branch][arch] += 1
+            else:
+                ret[sync_str][branch][arch] = 1
+
     return ret
 
 

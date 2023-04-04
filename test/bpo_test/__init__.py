@@ -227,3 +227,8 @@ def assert_image(device, branch, ui, status=None, count=1):
             if image.status != status_value:
                 raise RuntimeError(f"Expected status {status}, but has"
                                    f" {image.status.name}: {image}")
+
+
+def is_same_file(path_a, path_b):
+    with open(path_a, "rb") as f1, open(path_b, "rb") as f2:
+        return f1.read() == f2.read()

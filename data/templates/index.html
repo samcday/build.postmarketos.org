@@ -96,7 +96,7 @@
     <br>
     <a class="h3" name="branches" href="#branches">Branches</a><br>
     <ul>
-        {% for branch, branch_data in bpo.config.const.branches.items() %}
+        {% for branch, branch_data in bpo.repo.staging.get_branches_with_staging().items() %}
         <li> <span class="branch">{{branch}}</span> ({%for arch in branch_data["arches"]
             %}<span class="arch">{{ arch }}</span>{{
             ", " if not loop.last
@@ -144,6 +144,8 @@
             * package related actions *
             #}{% elif entry.action == "api_push_hook_gitlab" %}
             new commit(s) pushed to pmaports.git
+            {% elif entry.action == "delete_staging_repo" %}
+            staging repository removed (git branch removed)
             {% elif entry.action == "job_get_depends" %}
             calculating missing binary packages
             {% elif entry.action == "api_job_callback_get_depends" %}
@@ -199,6 +201,10 @@
             <small>(dependency "{{ entry.depend_pkgname }}"
                 modified in {{ commit_link(entry.commit)|safe
                 }})</small>
+            {% elif entry.action == "init_staging_repo" %}
+            initialized new staging repository
+            {% elif entry.action == "sync_with_orig_repo" %}
+            synced {{ entry.count }} package(s) from original repository
             {#
 
             * image related actions *
@@ -337,11 +343,20 @@
     </a>
     <ul>
         {% for package in pkgs.built %}
+            {% if package.job_id %}
         <li> <span class="branch">{{package.branch}}</span>/<span
             class="arch">{{package.arch}}</span>/<span
             class="pkgname">{{package.pkgname}}</span>-<span
             class="version">{{package.version}}</span>
             <a class="job-log" href="{{ bpo.helpers.job.get_link(package.job_id) }}">[log]</a>
+            {% endif %}
+        {% endfor %}
+        {% for branch in pkgs.built_synced %}
+            {% for arch in pkgs.built_synced[branch] %}
+        <li> <span class="branch">{{branch}}</span>/<span
+            class="arch">{{arch}}</span> synced {{pkgs.built_synced[branch][arch]}}
+            package(s) from original repository
+            {% endfor %}
         {% endfor %}
     </ul>
     {% endif %}
@@ -353,11 +368,20 @@
     </a>
     <ul>
         {% for package in pkgs.published %}
+            {% if package.job_id %}
         <li> <span class="branch">{{package.branch}}</span>/<span
             class="arch">{{package.arch}}</span>/<span
             class="pkgname">{{package.pkgname}}</span>-<span
             class="version">{{package.version}}</span>
             <a class="job-log" href="{{ bpo.helpers.job.get_link(package.job_id) }}">[log]</a>
+            {% endif %}
+        {% endfor %}
+        {% for branch in pkgs.published_synced %}
+            {% for arch in pkgs.published_synced[branch] %}
+        <li> <span class="branch">{{branch}}</span>/<span
+            class="arch">{{arch}}</span> synced {{pkgs.published_synced[branch][arch]}}
+            package(s) from original repository
+            {% endfor %}
         {% endfor %}
     </ul>
     {% endif %}

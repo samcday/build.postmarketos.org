@@ -152,6 +152,11 @@ def init():
 
 def get_pmos_mirror_for_pmbootstrap(branch):
     ret = bpo.config.args.mirror
-    if ret:
-        ret += "/"
-    return ret
+    if not ret:
+        return ""
+
+    if "_staging_" in branch:
+        branch_orig, name = bpo.repo.staging.branch_split(branch)
+        return f"{ret}/staging/{name}/"
+
+    return f"{ret}/"

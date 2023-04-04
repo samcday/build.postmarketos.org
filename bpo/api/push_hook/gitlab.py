@@ -8,6 +8,7 @@ from bpo.helpers.headerauth import header_auth
 import bpo.jobs.get_depends
 import bpo.api
 import bpo.db
+import bpo.repo.staging
 
 blueprint = bpo.api.blueprint
 
@@ -25,7 +26,11 @@ def get_branch(payload):
                            payload["ref"])
 
     branch = payload["ref"][len(prefix):]
+
     if branch in bpo.config.const.branches:
+        return branch
+
+    if bpo.repo.staging.branch_split(branch):
         return branch
 
     # Ignore non-configured branches
@@ -115,12 +120,23 @@ def push_hook_gitlab():
     if payload["object_kind"] != "push":
         abort(400, "Unknown object_kind")
 
+    # Check for push with deleted staging branch
+    if payload["after"] == "0000000000000000000000000000000000000000":
+        if bpo.repo.staging.remove(branch):
+            bpo.ui.log("delete_staging_repo", payload=payload, branch=branch)
+            return "Repository removed"
+        else:
+            return "Repository not removed"
+
     # Insert log entry
     bpo.ui.log("api_push_hook_gitlab", payload=payload, branch=branch)
 
     # Reset relevant failed packages
     pkgnames_commits = get_pkgnames_commits(payload)
     reset_failed_packages(pkgnames_commits, branch)
+
+    if "_staging_" in branch:
+        bpo.repo.staging.init(branch)
 
     # Run depends job for all arches
     bpo.jobs.get_depends.run(branch)
