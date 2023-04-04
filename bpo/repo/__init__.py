@@ -173,10 +173,9 @@ def _build(force_repo_update_branch=None, no_repo_update=False):
 
         :param force_repo_update_branch: rebuild the symlink and final repo for
                                          this branch, even if no new packages
-                                         were built. Set this to True after
-                                         deleting packages in the database, so
-                                         the apks get removed from the final
-                                         repo.
+                                         were built. Set this after deleting
+                                         packages in the database, so the apks
+                                         get removed from the final repo.
         :param no_repo_update: never update symlink and final repo (used from
                                the images timer thread, see #98) """
     session = bpo.db.session()
