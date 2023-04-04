@@ -24,12 +24,13 @@ def get_branch(payload):
         raise RuntimeError("'ref' does *not* start with '" + prefix + "': " +
                            payload["ref"])
 
-    # Ignore non-configured branches
     branch = payload["ref"][len(prefix):]
-    if branch not in bpo.config.const.branches:
-        logging.info("NOTE: ignoring push for branch: " + branch)
-        return None
-    return branch
+    if branch in bpo.config.const.branches:
+        return branch
+
+    # Ignore non-configured branches
+    logging.info("NOTE: ignoring push for branch: " + branch)
+    return None
 
 
 def get_pkgnames_commits(payload):
