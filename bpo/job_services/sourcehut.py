@@ -8,6 +8,7 @@ import shlex
 import re
 
 import bpo.config.args
+import bpo.config.const
 import bpo.config.tokens
 import bpo.db
 from bpo.job_services.base import JobService
@@ -51,6 +52,7 @@ def get_manifest(name, tasks, branch):
     url_api = bpo.config.args.url_api
     url_repo_wip_http = bpo.config.args.url_repo_wip_http + "/"
     url_repo_wip_https = bpo.config.args.url_repo_wip_https + "/"
+    arches = " ".join(bpo.config.const.branches[branch]["arches"])
     ret = """
         image: alpine/latest
         packages:
@@ -93,6 +95,16 @@ def get_manifest(name, tasks, branch):
                echo "ERROR: pmbootstrap switched to the wrong branch: $branch"
                exit 1
            fi
+
+           # Put apk cache into tmpfs to use less disk space (pma#1623)
+           sudo mkdir -p /mnt/tmpfs-for-apks
+           sudo mount -t tmpfs -o size=1500M tmpfs /mnt/tmpfs-for-apks
+           WORK="$(pmbootstrap config work)"
+           for arch in """ + arches + """; do
+               mkdir -p /mnt/tmpfs-for-apks/cache_apk_"$arch"
+               rm -rf "$WORK"/cache_apk_"$arch"
+               ln -s /mnt/tmpfs-for-apks/cache_apk_"$arch" "$WORK"
+           done
     """
 
     ret = bpo.helpers.job.remove_additional_indent(ret, 8)[:-1]
