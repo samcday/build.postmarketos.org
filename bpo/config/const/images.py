@@ -188,10 +188,9 @@ images = {
     "pine64-pinebookpro": {
         "branch_configs": {
             "all": {
-                "ui": [
+                "ui": [  # "plasma-desktop" is disabled, see pma#1623
                     "console",
                     "gnome",
-                    "plasma-desktop",
                     "sway",
                     "phosh",
                 ],
