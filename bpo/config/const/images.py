@@ -237,19 +237,6 @@ images = {
             },
         },
     },
-    "pine64-pinetab": {
-        "branch_configs": {
-            "all": {
-                "installer": True,
-                "kernels": [
-                    "allwinner",
-                ],
-            },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-            },
-        },
-    },
     "pine64-rockpro64": {
         "branch_configs": {
             "all": {
