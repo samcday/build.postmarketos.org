@@ -15,6 +15,7 @@ password = "147147"
 branches_default = [
         "master",
         "v22.12",
+        "v23.06",
     ]
 
 # Prevent errors by listing explicitly allowed UIs here. Notably "none" is
@@ -87,12 +88,18 @@ images = {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
+            },
         },
     },
     "asus-me176c": {
         "branch_configs": {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
+            },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
             },
         },
     },
@@ -101,12 +108,18 @@ images = {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
+            },
         },
     },
     "fairphone-fp4": {
         "branch_configs": {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
+            },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
             },
         },
     },
@@ -115,6 +128,9 @@ images = {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
+            },
         },
     },
     "lenovo-a6010": {
@@ -122,12 +138,18 @@ images = {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
+            },
         },
     },
     "motorola-harpia": {
         "branch_configs": {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
+            },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
             },
         },
     },
@@ -141,6 +163,9 @@ images = {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
+            },
         },
     },
     "odroid-hc2": {
@@ -152,6 +177,9 @@ images = {
             },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
+            },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
             },
         },
     },
@@ -168,6 +196,9 @@ images = {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
+            },
         },
     },
     "oneplus-fajita": {
@@ -182,6 +213,9 @@ images = {
             },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
+            },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
             },
         },
     },
@@ -198,6 +232,9 @@ images = {
             },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
+            },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
             },
         },
     },
@@ -217,6 +254,9 @@ images = {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
+            },
         },
     },
     "pine64-pinephonepro": {
@@ -235,6 +275,9 @@ images = {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
+            },
         },
     },
     "pine64-rockpro64": {
@@ -248,6 +291,9 @@ images = {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
+            },
         },
     },
     "purism-librem5": {
@@ -257,6 +303,9 @@ images = {
             },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
+            },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
             },
         },
     },
@@ -273,6 +322,9 @@ images = {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
+            },
         },
     },
     "samsung-a5": {
@@ -280,12 +332,18 @@ images = {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
+            },
         },
     },
     "samsung-e7": {
         "branch_configs": {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
+            },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
             },
         },
     },
@@ -300,6 +358,9 @@ images = {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
+            },
         },
     },
     "samsung-espresso7": {
@@ -313,12 +374,18 @@ images = {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
+            },
         },
     },
     "samsung-grandmax": {
         "branch_configs": {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
+            },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
             },
         },
     },
@@ -327,12 +394,18 @@ images = {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
+            },
         },
     },
     "samsung-gt58": {
         "branch_configs": {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
+            },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
             },
         },
     },
@@ -345,12 +418,18 @@ images = {
                     "sxmo-de-sway",
                 ],
             },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
+            },
         },
     },
     "samsung-serranove": {
         "branch_configs": {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
+            },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
             },
         },
     },
@@ -367,12 +446,18 @@ images = {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
+            },
         },
     },
     "wileyfox-crackling": {
         "branch_configs": {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
+            },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
             },
         },
     },
@@ -395,6 +480,9 @@ images = {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
+            },
         },
     },
     "xiaomi-scorpio": {
@@ -402,12 +490,18 @@ images = {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
+            },
         },
     },
     "xiaomi-wt88047": {
         "branch_configs": {
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
+            },
+            "v23.06": {
+                "date-start": "2023-05-25",  # Thursday
             },
         },
     },
