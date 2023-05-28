@@ -100,6 +100,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -110,6 +116,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -120,6 +132,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -130,6 +148,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -140,6 +164,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -150,6 +180,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -198,6 +234,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -216,6 +258,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -256,6 +304,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -277,6 +331,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -306,6 +366,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -324,6 +390,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -334,6 +406,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -344,6 +422,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -386,6 +470,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -396,6 +486,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -406,6 +502,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -420,6 +522,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -430,6 +538,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -448,6 +562,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -458,6 +578,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -482,6 +608,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -492,6 +624,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
@@ -502,6 +640,12 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-05-25",  # Thursday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
