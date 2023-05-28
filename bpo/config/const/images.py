@@ -95,6 +95,14 @@ images = {
     },
     "asus-me176c": {
         "branch_configs": {
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
@@ -111,6 +119,14 @@ images = {
     },
     "bq-paella": {
         "branch_configs": {
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
@@ -127,6 +143,14 @@ images = {
     },
     "fairphone-fp4": {
         "branch_configs": {
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
@@ -143,6 +167,14 @@ images = {
     },
     "lenovo-a6000": {
         "branch_configs": {
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
@@ -159,6 +191,14 @@ images = {
     },
     "lenovo-a6010": {
         "branch_configs": {
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
@@ -175,6 +215,14 @@ images = {
     },
     "motorola-harpia": {
         "branch_configs": {
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
@@ -361,6 +409,14 @@ images = {
             "all": {
                 "installer": True,
             },
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
@@ -401,6 +457,14 @@ images = {
     },
     "samsung-a5": {
         "branch_configs": {
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
@@ -417,6 +481,14 @@ images = {
     },
     "samsung-e7": {
         "branch_configs": {
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
@@ -465,6 +537,14 @@ images = {
     },
     "samsung-grandmax": {
         "branch_configs": {
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
@@ -481,6 +561,14 @@ images = {
     },
     "samsung-gt510": {
         "branch_configs": {
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
@@ -497,6 +585,14 @@ images = {
     },
     "samsung-gt58": {
         "branch_configs": {
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
@@ -513,6 +609,14 @@ images = {
     },
     "samsung-m0": {
         "branch_configs": {
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
                 "ui": [
@@ -533,6 +637,14 @@ images = {
     },
     "samsung-serranove": {
         "branch_configs": {
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
@@ -573,6 +685,14 @@ images = {
     },
     "wileyfox-crackling": {
         "branch_configs": {
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
@@ -619,6 +739,14 @@ images = {
     },
     "xiaomi-scorpio": {
         "branch_configs": {
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
@@ -635,6 +763,14 @@ images = {
     },
     "xiaomi-wt88047": {
         "branch_configs": {
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
             "v22.12": {
                 "date-start": "2022-12-18",  # Sunday
             },
