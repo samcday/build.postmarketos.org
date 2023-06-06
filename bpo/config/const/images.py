@@ -89,7 +89,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
             },
         },
     },
@@ -107,7 +107,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -131,7 +131,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -155,7 +155,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -179,7 +179,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -203,7 +203,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -227,7 +227,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -248,7 +248,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
             },
         },
     },
@@ -263,7 +263,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
             },
         },
     },
@@ -281,7 +281,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -305,7 +305,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -330,7 +330,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
             },
         },
     },
@@ -351,7 +351,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -378,7 +378,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -400,7 +400,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
             },
         },
     },
@@ -421,7 +421,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -445,7 +445,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -469,7 +469,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -493,7 +493,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -515,7 +515,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
             },
         },
     },
@@ -531,7 +531,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
             },
         },
     },
@@ -549,7 +549,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -573,7 +573,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -597,7 +597,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -625,7 +625,7 @@ images = {
                 ],
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -649,7 +649,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -673,7 +673,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -697,7 +697,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -727,7 +727,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -751,7 +751,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
@@ -775,7 +775,7 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-05-25",  # Thursday
+                "date-start": "2023-06-05",  # Monday
                 "ui": [
                     "gnome-mobile",
                     "phosh",
