@@ -101,8 +101,8 @@
             "pretty_name": "v23.06",
             "devices": [
                 {
-                    "name": "pine64-pinephone",
-                    "pretty_name": "PINE64 PinePhone",
+                    "name": "fake-phone",
+                    "pretty_name": "fake-phone",
                     "interfaces": [
                         {
                             "name": "sxmo-de-sway",
@@ -112,7 +112,7 @@
                                     "name": "first.txt",
                                     "timestamp": "2021-01-02T00:00:00",
                                     "size": 1337,
-                                    "url": "https://images.postmarketos.org/bpo/v23.06/pine64-pinephone/sxmo-de-sway/20210102-0000/first.txt"
+                                    "url": "https://images.postmarketos.org/bpo/v23.06/fake-phone/sxmo-de-sway/20210102-0000/first.txt"
                                 }
                             ]
                         }
@@ -129,14 +129,14 @@
                     "pretty_name": "PINE64 PinePhone",
                     "interfaces": [
                         {
-                            "name": "sxmo-de-sway",
-                            "pretty_name": "Sxmo (Sway)",
+                            "name": "fake-ui",
+                            "pretty_name": "fake-ui",
                             "images": [
                                 {
                                     "name": "first.txt",
                                     "timestamp": "2021-01-02T00:00:00",
                                     "size": 1337,
-                                    "url": "https://images.postmarketos.org/bpo/v23.12/pine64-pinephone/sxmo-de-sway/20210102-0000/first.txt"
+                                    "url": "https://images.postmarketos.org/bpo/v23.12/pine64-pinephone/fake-ui/20210102-0000/first.txt"
                                 }
                             ]
                         }

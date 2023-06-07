@@ -60,8 +60,8 @@ def test_write_index_json(monkeypatch):
                   "edge/nokia-n900/xfce4/20210102-0000/first.txt",
                   "edge/pine64-pinephone/sxmo-de-sway/20210102-0000/first.txt",
                   "v21.06/pine64-pinephone/sxmo-de-sway/20210102-0000/first.txt",
-                  "v23.06/pine64-pinephone/sxmo-de-sway/20210102-0000/first.txt",
-                  "v23.12/pine64-pinephone/sxmo-de-sway/20210102-0000/first.txt"]:
+                  "v23.06/fake-phone/sxmo-de-sway/20210102-0000/first.txt",
+                  "v23.12/pine64-pinephone/fake-ui/20210102-0000/first.txt"]:
             yield f"{bpo.config.args.images_path}/{f}"
     monkeypatch.setattr(glob, "iglob", fake_iglob)
 

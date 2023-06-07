@@ -211,17 +211,23 @@ def write_index_json():
         releases.append(release)
         for device_name, u in d.items():
             interfaces = []
+            device_pretty_name = device_name
+            if device_name in bpo.config.const.images.devices:
+                device_pretty_name = bpo.config.const.images.devices[device_name]
             dev = {
                 "name": device_name,
-                "pretty_name": bpo.config.const.images.devices[device_name],
+                "pretty_name": device_pretty_name,
                 "interfaces": interfaces,
             }
             devices.append(dev)
             for ui_name, i in u.items():
                 images = []
+                ui_pretty_name = ui_name
+                if ui_name in bpo.config.const.images.ui_list:
+                    ui_pretty_name = bpo.config.const.images.ui_list[ui_name]
                 interface = {
                     "name": ui_name,
-                    "pretty_name": bpo.config.const.images.ui_list[ui_name],
+                    "pretty_name": ui_pretty_name,
                     "images": images,
                 }
                 interfaces.append(interface)
