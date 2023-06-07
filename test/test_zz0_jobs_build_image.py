@@ -20,7 +20,7 @@ def build_image(monkeypatch):
                             "branches": ["master"],
                             "branch_configs": {
                                 "master": {
-                                    "ui": ["none"],
+                                    "ui": ["console"],
                                     "installer": True,
                                     "kernels": ["virt"],
                                 }
@@ -29,7 +29,7 @@ def build_image(monkeypatch):
 
     device = "qemu-amd64"
     branch = "master"
-    ui = "none"
+    ui = "console"
 
     with bpo_test.BPOServer(disable_pmos_mirror=False, fill_image_queue=True):
         monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)
@@ -73,8 +73,8 @@ def test_build_image_stub(monkeypatch):
     assert os.path.exists("_images/index.html")
     assert os.path.exists("_images/edge/index.html")
     assert os.path.exists("_images/edge/qemu-amd64/index.html")
-    assert os.path.exists("_images/edge/qemu-amd64/none/index.html")
-    assert len(glob.glob("_images/edge/qemu-amd64/none/20*-*/index.html")) == 1
+    assert os.path.exists("_images/edge/qemu-amd64/console/index.html")
+    assert len(glob.glob("_images/edge/qemu-amd64/console/20*-*/index.html")) == 1
 
     with open("_images/index.json", "r") as handle:
         index = json.load(handle)
