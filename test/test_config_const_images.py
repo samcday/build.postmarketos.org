@@ -31,14 +31,14 @@ def test_ui():
         one by accident and only notice it while trying to build it. """
     cfg_images = bpo.config.const.images.images
     cfg_default = bpo.config.const.images.branch_config_default
-    allowlist = bpo.config.const.images.ui_allowlist
+    allowlist = bpo.config.const.images.ui_list.keys()
 
     assert "none" not in allowlist, "UI 'none' is intentionally not allowed," \
                                     " use 'console' instead"
 
     for ui in cfg_default["ui"]:
         assert ui in allowlist, f"branch_config_default: UI '{ui}' is not in" \
-                " ui_allowlist. Typo, or needs to be added?"
+                " ui_list. Typo, or needs to be added?"
 
     for device, image_config in cfg_images.items():
         if "branch_configs" not in image_config:
@@ -48,7 +48,7 @@ def test_ui():
                 continue
             for ui in branch_config["ui"]:
                 assert ui in allowlist, f"{device}: {branch}: UI '{ui}' is" \
-                    " not in ui_allowlist. Typo, or needs to be added?"
+                    " not in ui_list. Typo, or needs to be added?"
 
 
 def test_config_keys():

@@ -23,27 +23,27 @@ branches_default = [
 # (postmarketos-ui-none/APKBUILD doesn't exist). Code in bpo.jobs.build_image
 # would try to extract the pkgver from the file and do something undefined.
 # Use "console" instead.
-ui_allowlist = [
-        "asteroid",
-        "console",
-        "fbkeyboard",
-        "gnome",
-        "gnome-mobile",
-        "i3wm",
-        "kodi",
-        "lxqt",
-        "mate",
-        "phosh",
-        "plasma-bigscreen",
-        "plasma-desktop",
-        "plasma-mobile",
-        "shelli",
-        "sway",
-        "sxmo-de-dwm",
-        "sxmo-de-sway",
-        "weston",
-        "xfce4"
-    ]
+ui_list = {
+    "asteroid": "Asteroid",
+    "console": "Console",
+    "fbkeyboard": "Fbkeyboard",
+    "gnome": "GNOME",
+    "gnome-mobile": "GNOME Mobile",
+    "i3wm": "i3",
+    "kodi": "Kodi",
+    "lxqt": "LXQt",
+    "mate": "Mate",
+    "phosh": "Phosh",
+    "plasma-bigscreen": "Plasma Bigscreen",
+    "plasma-desktop": "Plasma Desktop",
+    "plasma-mobile": "Plasma Mobile",
+    "shelli": "Shelli",
+    "sway": "Sway",
+    "sxmo-de-dwm": "Sxmo (dwm)",
+    "sxmo-de-sway": "Sxmo (Sway)",
+    "weston": "Weston",
+    "xfce4": "XFCE4",
+}
 
 # Pretty name mapping for device codenames
 devices = {

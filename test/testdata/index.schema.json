@@ -85,6 +85,7 @@
 										"additionalProperties": false,
 										"required": [
 											"name",
+											"pretty_name",
 											"images"
 										],
 										"properties": {
@@ -94,6 +95,16 @@
 												"default": "",
 												"examples": [
 													"sxmo-de-sway"
+												],
+												"pattern": "^.*$"
+											},
+											"pretty_name": {
+												"title": "Pretty Name",
+												"type": "string",
+												"default": "",
+												"examples": [
+													"Plasma Mobile",
+													"Sxmo (Sway)"
 												],
 												"pattern": "^.*$"
 											},
