@@ -4,13 +4,13 @@
 
 if [ "$(id -u)" = 0 ]; then
 	set -x
-	apk -q add py3-flake8
+	apk -q add ruff
 	exec su "${TESTUSER:-build}" -c "sh -e $0"
 fi
 
 set -x
 
-flake8 \
+ruff \
 	*.py \
 	$(find bpo -name "*.py") \
 	$(find helpers -name "*.py") \

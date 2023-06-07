@@ -2,4 +2,4 @@
 topdir="$(realpath "$(dirname "$0")/..")"
 
 .ci/vermin.sh
-.ci/flake8.sh
+.ci/ruff.sh

@@ -1,0 +1,3 @@
+[tool.ruff]
+# E741: ambiguous variable name
+ignore=["E741"]

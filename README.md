@@ -189,20 +189,6 @@ without the additional subdir.
 * If that does not help, run the build.postmarketos.org.git trigger again from
   gitlab, to restart the bpo server.
 
-### How to run the flake8/vermin checks locally?
-
-Run it once:
-```
-$ pip install flake8 vermin
-$ .ci/flake8.sh
-$ .ci/vermin.sh
-```
-
-Run it before every git commit (recommended):
-```
-$ ln -s ../../helpers/pre-commit.sh .git/hooks/pre-commit
-```
-
 ### How to trigger a sign_index job for development?
 
 Run `test_build_final_repo_with_two_pkgs_SLOW_45s` to build a test repository
