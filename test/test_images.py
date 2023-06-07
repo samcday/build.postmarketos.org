@@ -22,8 +22,8 @@ def test_path(monkeypatch):
     bpo.config.args.init()
 
     func = bpo.images.path
-    assert func("master", "qemu-amd64", "sxmo", "20210105-1617") == \
-        "/mnt/test/edge/qemu-amd64/sxmo/20210105-1617"
+    assert func("master", "qemu-amd64", "sxmo-de-sway", "20210105-1617") == \
+        "/mnt/test/edge/qemu-amd64/sxmo-de-sway/20210105-1617"
 
 
 def test_remove_old(monkeypatch):
@@ -31,13 +31,13 @@ def test_remove_old(monkeypatch):
                         "qemu-amd64": {
                             "branches": ["master"],
                             "branch_configs": {
-                                "master": {"ui": ["sxmo"],
+                                "master": {"ui": ["sxmo-de-sway"],
                                            "keep": 2}
                                 }
                         }})
     branch = "master"
     device = "qemu-amd64"
-    ui = "sxmo"
+    ui = "sxmo-de-sway"
 
     # Init and clear DB
     monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)
@@ -60,7 +60,7 @@ def test_remove_old(monkeypatch):
         bpo.ui.images.write_index_file_list(path_img, "05_files.html")
 
     # Verify that image dirs were created
-    dir_ui = f"{bpo.config.args.images_path}/edge/qemu-amd64/sxmo"
+    dir_ui = f"{bpo.config.args.images_path}/edge/qemu-amd64/sxmo-de-sway"
     assert os.path.exists(f"{dir_ui}/20210101-1337/index.html")
     assert os.path.exists(f"{dir_ui}/20210102-1337/index.html")
     assert os.path.exists(f"{dir_ui}/20210103-1337/index.html")

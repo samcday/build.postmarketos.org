@@ -93,7 +93,7 @@
 												"type": "string",
 												"default": "",
 												"examples": [
-													"sxmo"
+													"sxmo-de-sway"
 												],
 												"pattern": "^.*$"
 											},
@@ -117,7 +117,7 @@
 															"type": "string",
 															"default": "",
 															"examples": [
-																"20210929-0323-postmarketOS-edge-sxmo-1.5.1-motorola-harpia-mainline-modem.img.xz"
+																"20210929-0323-postmarketOS-edge-sxmo-de-sway-1.5.1-motorola-harpia-mainline-modem.img.xz"
 															],
 															"pattern": "^.*$"
 														},
@@ -143,7 +143,7 @@
 															"type": "string",
 															"default": "",
 															"examples": [
-																"https://images.postmarketos.org/bpo/edge/motorola-harpia/sxmo/20210929-0323/20210929-0323-postmarketOS-edge-sxmo-1.5.1-motorola-harpia-mainline-modem.img.xz"
+																"https://images.postmarketos.org/bpo/edge/motorola-harpia/sxmo-de-sway/20210929-0323/20210929-0323-postmarketOS-edge-sxmo-de-sway-1.5.1-motorola-harpia-mainline-modem.img.xz"
 															],
 															"pattern": "^.*$"
 														},

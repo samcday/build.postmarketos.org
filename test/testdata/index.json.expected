@@ -55,13 +55,13 @@
                     "pretty_name": "PINE64 PinePhone",
                     "interfaces": [
                         {
-                            "name": "sxmo",
+                            "name": "sxmo-de-sway",
                             "images": [
                                 {
                                     "name": "first.txt",
                                     "timestamp": "2021-01-02T00:00:00",
                                     "size": 1337,
-                                    "url": "https://images.postmarketos.org/bpo/edge/pine64-pinephone/sxmo/20210102-0000/first.txt"
+                                    "url": "https://images.postmarketos.org/bpo/edge/pine64-pinephone/sxmo-de-sway/20210102-0000/first.txt"
                                 }
                             ]
                         }
@@ -78,13 +78,13 @@
                     "pretty_name": "PINE64 PinePhone",
                     "interfaces": [
                         {
-                            "name": "sxmo",
+                            "name": "sxmo-de-sway",
                             "images": [
                                 {
                                     "name": "first.txt",
                                     "timestamp": "2021-01-02T00:00:00",
                                     "size": 1337,
-                                    "url": "https://images.postmarketos.org/bpo/v21.06/pine64-pinephone/sxmo/20210102-0000/first.txt"
+                                    "url": "https://images.postmarketos.org/bpo/v21.06/pine64-pinephone/sxmo-de-sway/20210102-0000/first.txt"
                                 }
                             ]
                         }
@@ -101,13 +101,13 @@
                     "pretty_name": "PINE64 PinePhone",
                     "interfaces": [
                         {
-                            "name": "sxmo",
+                            "name": "sxmo-de-sway",
                             "images": [
                                 {
                                     "name": "first.txt",
                                     "timestamp": "2021-01-02T00:00:00",
                                     "size": 1337,
-                                    "url": "https://images.postmarketos.org/bpo/v23.06/pine64-pinephone/sxmo/20210102-0000/first.txt"
+                                    "url": "https://images.postmarketos.org/bpo/v23.06/pine64-pinephone/sxmo-de-sway/20210102-0000/first.txt"
                                 }
                             ]
                         }
@@ -124,13 +124,13 @@
                     "pretty_name": "PINE64 PinePhone",
                     "interfaces": [
                         {
-                            "name": "sxmo",
+                            "name": "sxmo-de-sway",
                             "images": [
                                 {
                                     "name": "first.txt",
                                     "timestamp": "2021-01-02T00:00:00",
                                     "size": 1337,
-                                    "url": "https://images.postmarketos.org/bpo/v23.12/pine64-pinephone/sxmo/20210102-0000/first.txt"
+                                    "url": "https://images.postmarketos.org/bpo/v23.12/pine64-pinephone/sxmo-de-sway/20210102-0000/first.txt"
                                 }
                             ]
                         }

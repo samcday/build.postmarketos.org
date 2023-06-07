@@ -14,7 +14,7 @@ def test_remove_not_in_config(monkeypatch):
                         "qemu-amd64": {
                             "branches": ["master"],
                             "branch_configs": {
-                                "master": {"ui": ["sxmo"]}
+                                "master": {"ui": ["sxmo-de-sway"]}
                                 }
                         }})
 
@@ -26,7 +26,7 @@ def test_remove_not_in_config(monkeypatch):
     # 1. queued, does exist in config
     device = "qemu-amd64"
     branch = "master"
-    ui = "sxmo"
+    ui = "sxmo-de-sway"
     image = bpo.db.Image(device, branch, ui)
     session.merge(image)
 
@@ -44,14 +44,14 @@ def test_remove_not_in_config(monkeypatch):
 
     # Commit and verify
     session.commit()
-    bpo_test.assert_image(device, branch, "sxmo")
+    bpo_test.assert_image(device, branch, "sxmo-de-sway")
     bpo_test.assert_image(device, branch, "unknown-ui-2")
     bpo_test.assert_image(device, branch, "unknown-ui-3")
 
     # Delete entries and verify
     bpo.images.queue.remove_not_in_config()
     session = bpo.db.session()
-    bpo_test.assert_image(device, branch, "sxmo")
+    bpo_test.assert_image(device, branch, "sxmo-de-sway")
     bpo_test.assert_image(device, branch, "unknown-ui-2", count=0)
     bpo_test.assert_image(device, branch, "unknown-ui-3")
 

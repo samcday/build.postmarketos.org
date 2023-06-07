@@ -49,7 +49,7 @@ def test_get_images(monkeypatch):
     monkeypatch.setattr(bpo.config.const.images, "branch_config_default", {
                         "date-interval": 7,
                         "date-start": "2021-01-05",
-                        "ui": ["sxmo"],
+                        "ui": ["sxmo-de-sway"],
                         "installer": False,
                         "keep": 3})
 
@@ -63,12 +63,12 @@ def test_get_images(monkeypatch):
     ret = list(bpo.images.config.get_images(now))
     assert ret == [{"branch": "master",
                     "device": "qemu-amd64",
-                    "ui": "sxmo",
+                    "ui": "sxmo-de-sway",
                     "date-start": date_expected,
                     "keep": 3},
                    {"branch": "v20.05",
                     "device": "qemu-amd64",
-                    "ui": "sxmo",
+                    "ui": "sxmo-de-sway",
                     "date-start": date_expected,
                     "keep": 3}]
 
