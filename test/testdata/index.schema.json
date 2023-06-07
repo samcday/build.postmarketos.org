@@ -53,6 +53,7 @@
 							"additionalProperties": false,
 							"required": [
 								"name",
+								"pretty_name",
 								"interfaces"
 							],
 							"properties": {
@@ -62,6 +63,15 @@
 									"default": "",
 									"examples": [
 										"motorola-harpia"
+									],
+									"pattern": "^.*$"
+								},
+								"pretty_name": {
+									"title": "Pretty Name",
+									"type": "string",
+									"default": "",
+									"examples": [
+										"Motorola Moto G4 Play"
 									],
 									"pattern": "^.*$"
 								},

@@ -45,6 +45,42 @@ ui_allowlist = [
         "xfce4"
     ]
 
+# Pretty name mapping for device codenames
+devices = {
+    "arrow-db410c": "Arrow DragonBoard 410c",
+    "asus-me176c": "ASUS MeMO Pad 7",
+    "bq-paella": "BQ Aquaris X5",
+    "fairphone-fp4": "Fairphone 4",
+    "lenovo-a6000": "Lenovo A6000",
+    "lenovo-a6010": "Lenovo A6010",
+    "motorola-harpia": "Motorola Moto G4 Play",
+    "nokia-n900": "Nokia N900",
+    "odroid-hc2": "ODROID HC2",
+    "oneplus-enchilada": "OnePlus 6",
+    "oneplus-fajita": "OnePlus 6T",
+    "pine64-pinebookpro": "PINE64 Pinebook Pro",
+    "pine64-pinephone": "PINE64 PinePhone",
+    "pine64-pinephonepro": "PINE64 PinePhone Pro",
+    "pine64-rockpro64": "PINE64 RockPro64",
+    "purism-librem5": "Purism Librem5",
+    "qemu-amd64": "QEMU amd64",  # just used for test suite
+    "samsung-a3": "Samsung Galaxy A3 2015",
+    "samsung-a5": "Samsung Galaxy A5 2015",
+    "samsung-e7": "Samsung Galaxy E7",
+    "samsung-espresso10": "Samsung Galaxy Tab 2 10.1\"",
+    "samsung-espresso7": "Samsung Galaxy Tab 2 7.0\"",
+    "samsung-grandmax": "Samsung Galaxy Grand Max",
+    "samsung-gt510": "Samsung Galaxy Tab A 9.7 2015",
+    "samsung-gt58": "Samsung Galaxy Tab A 8.0 2015",
+    "samsung-m0": "Samsung Galaxy S III",
+    "samsung-serranove": "Samsung Galaxy S4 Mini Value Edition",
+    "shift-axolotl": "SHIFT SHIFT6mq",
+    "wileyfox-crackling": "Wileyfox Swift",
+    "xiaomi-beryllium": "Xiaomi POCO F1",
+    "xiaomi-scorpio": "Xiaomi Mi Note 2",
+    "xiaomi-wt88047": "Xiaomi Redmi 2",
+}
+
 # Build configuration, can be overridden per device/branch in 'images' below
 branch_config_default = {
     # Schedule a new image each {date-interval} days, start at {date-start}.

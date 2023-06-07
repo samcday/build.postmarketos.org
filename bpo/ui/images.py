@@ -213,6 +213,7 @@ def write_index_json():
             interfaces = []
             dev = {
                 "name": device_name,
+                "pretty_name": bpo.config.const.images.devices[device_name],
                 "interfaces": interfaces,
             }
             devices.append(dev)

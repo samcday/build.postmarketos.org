@@ -6,6 +6,7 @@
             "devices": [
                 {
                     "name": "nokia-n900",
+                    "pretty_name": "Nokia N900",
                     "interfaces": [
                         {
                             "name": "i3wm",
@@ -51,6 +52,7 @@
                 },
                 {
                     "name": "pine64-pinephone",
+                    "pretty_name": "PINE64 PinePhone",
                     "interfaces": [
                         {
                             "name": "sxmo",
@@ -73,6 +75,7 @@
             "devices": [
                 {
                     "name": "pine64-pinephone",
+                    "pretty_name": "PINE64 PinePhone",
                     "interfaces": [
                         {
                             "name": "sxmo",
@@ -95,6 +98,7 @@
             "devices": [
                 {
                     "name": "pine64-pinephone",
+                    "pretty_name": "PINE64 PinePhone",
                     "interfaces": [
                         {
                             "name": "sxmo",
@@ -117,6 +121,7 @@
             "devices": [
                 {
                     "name": "pine64-pinephone",
+                    "pretty_name": "PINE64 PinePhone",
                     "interfaces": [
                         {
                             "name": "sxmo",
