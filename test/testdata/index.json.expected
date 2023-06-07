@@ -2,6 +2,7 @@
     "releases": [
         {
             "name": "edge",
+            "pretty_name": "edge (unstable)",
             "devices": [
                 {
                     "name": "nokia-n900",
@@ -68,6 +69,7 @@
         },
         {
             "name": "v21.06",
+            "pretty_name": "v21.06 (end of life)",
             "devices": [
                 {
                     "name": "pine64-pinephone",
@@ -80,6 +82,50 @@
                                     "timestamp": "2021-01-02T00:00:00",
                                     "size": 1337,
                                     "url": "https://images.postmarketos.org/bpo/v21.06/pine64-pinephone/sxmo/20210102-0000/first.txt"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "v23.06",
+            "pretty_name": "v23.06",
+            "devices": [
+                {
+                    "name": "pine64-pinephone",
+                    "interfaces": [
+                        {
+                            "name": "sxmo",
+                            "images": [
+                                {
+                                    "name": "first.txt",
+                                    "timestamp": "2021-01-02T00:00:00",
+                                    "size": 1337,
+                                    "url": "https://images.postmarketos.org/bpo/v23.06/pine64-pinephone/sxmo/20210102-0000/first.txt"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "v23.12",
+            "pretty_name": "v23.12 (work in progress)",
+            "devices": [
+                {
+                    "name": "pine64-pinephone",
+                    "interfaces": [
+                        {
+                            "name": "sxmo",
+                            "images": [
+                                {
+                                    "name": "first.txt",
+                                    "timestamp": "2021-01-02T00:00:00",
+                                    "size": 1337,
+                                    "url": "https://images.postmarketos.org/bpo/v23.12/pine64-pinephone/sxmo/20210102-0000/first.txt"
                                 }
                             ]
                         }

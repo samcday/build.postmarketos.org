@@ -18,6 +18,7 @@
 				"additionalProperties": false,
 				"required": [
 					"name",
+					"pretty_name",
 					"devices"
 				],
 				"properties": {
@@ -27,6 +28,18 @@
 						"default": "",
 						"examples": [
 							"edge"
+						],
+						"pattern": "^.*$"
+					},
+					"pretty_name": {
+						"title": "Pretty Name",
+						"type": "string",
+						"default": "",
+						"examples": [
+							"edge (unstable)",
+							"v22.12 (end of life)",
+							"v23.06",
+							"v23.12 (work in progress)"
 						],
 						"pattern": "^.*$"
 					},

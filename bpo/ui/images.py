@@ -196,8 +196,16 @@ def write_index_json():
     index = {"releases": releases}
     for release_name, d in fs_index.items():
         devices = []
+        release_name_pretty = release_name
+        if release_name == "edge":
+            release_name_pretty += " (unstable)"
+        elif release_name not in bpo.config.const.branches:
+            release_name_pretty += " (end of life)"
+        elif bpo.config.const.branches[release_name]["ignore_errors"]:
+            release_name_pretty += " (work in progress)"
         release = {
             "name": release_name,
+            "pretty_name": release_name_pretty,
             "devices": devices,
         }
         releases.append(release)
