@@ -8,6 +8,7 @@
         session.add(log)
         session.commit() """
 
+import datetime
 import enum
 import sys
 import json
@@ -324,9 +325,14 @@ def get_recent_images_by_status(session):
     """ :returns: {"failed": imglist1, "building": imglist2, ...},
                   imglist is a list of bpo.db.Image objects """
     ret = {}
+
+    # Don't list images older than 10 weeks
+    date_min = datetime.datetime.now() - datetime.timedelta(weeks=10)
+
     for status in bpo.db.ImageStatus:
         ret[status.name] = session.query(bpo.db.Image).\
             filter_by(status=status).\
+            filter(bpo.db.Image.date >= date_min).\
             filter(bpo.db.Image.branch.in_(bpo.config.const.branches.keys())).\
             order_by(bpo.db.Image.date.desc())
     return ret

@@ -1,6 +1,7 @@
 # Copyright 2022 Oliver Smith
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """ Testing bpo/db/__init__.py """
+import datetime
 import pytest
 import sys
 
@@ -95,6 +96,11 @@ def test_get_recent_images_by_status(monkeypatch):
 
     # Fill the DB with test images
     session = bpo.db.session()
+
+    img = bpo.db.Image("qemu-amd64", "master", "phosh")
+    img.date = datetime.datetime.fromisoformat("2022-01-01")
+    session.merge(img)
+
     session.merge(bpo.db.Image("qemu-amd64", "master", "phosh"))
     session.merge(bpo.db.Image("qemu-amd64", "v22.12", "phosh"))
     session.merge(bpo.db.Image("qemu-amd64", "v23.06", "phosh"))
@@ -103,8 +109,7 @@ def test_get_recent_images_by_status(monkeypatch):
 
     q = bpo.db.get_recent_images_by_status(session)["queued"]
 
-    # Verify that the v22.06 image does not get returned, as it is not in
-    # bpo.config.const.branches
+    # Verify that old images (by date, and the v22.06 image) don't get returned
     assert q.count() == 3
     assert q[0].branch == "master"
     assert q[1].branch == "v22.12"
