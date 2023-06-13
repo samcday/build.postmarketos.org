@@ -306,7 +306,7 @@ def get_image(session, branch, device, ui, job_id=None):
     return result[0] if len(result) else None
 
 
-def get_all_packages_by_status(session):
+def get_recent_packages_by_status(session):
     """ :returns: {"failed": pkglist1, "building": pkglist2, ...},
                   pkglist is a list of bpo.db.Package objects """
     ret = {}
@@ -320,7 +320,7 @@ def get_all_packages_by_status(session):
     return ret
 
 
-def get_all_images_by_status(session):
+def get_recent_images_by_status(session):
     """ :returns: {"failed": imglist1, "building": imglist2, ...},
                   imglist is a list of bpo.db.Image objects """
     ret = {}

@@ -51,7 +51,7 @@ def test_validate_job_id(monkeypatch):
     assert "invalid: 1337_1" in str(e.value)
 
 
-def test_get_all_packages_by_status(monkeypatch):
+def test_get_recent_packages_by_status(monkeypatch):
     monkeypatch.setattr(bpo.config.const, "branches",
                         {"v22.12": {},
                          "v23.06": {},
@@ -71,7 +71,7 @@ def test_get_all_packages_by_status(monkeypatch):
     session.merge(bpo.db.Package("x86_64", "v22.06", "hello-world", "1.0.0"))
     session.commit()
 
-    q = bpo.db.get_all_packages_by_status(session)["queued"]
+    q = bpo.db.get_recent_packages_by_status(session)["queued"]
 
     # Verify that the v22.06 package does not get returned, as it is not in
     # bpo.config.const.branches
@@ -81,7 +81,7 @@ def test_get_all_packages_by_status(monkeypatch):
     assert q[2].branch == "v23.06"
 
 
-def test_get_all_images_by_status(monkeypatch):
+def test_get_recent_images_by_status(monkeypatch):
     monkeypatch.setattr(bpo.config.const, "branches",
                         {"v22.12": {},
                          "v23.06": {},
@@ -101,7 +101,7 @@ def test_get_all_images_by_status(monkeypatch):
     session.merge(bpo.db.Image("qemu-amd64", "v22.06", "phosh"))
     session.commit()
 
-    q = bpo.db.get_all_images_by_status(session)["queued"]
+    q = bpo.db.get_recent_images_by_status(session)["queued"]
 
     # Verify that the v22.06 image does not get returned, as it is not in
     # bpo.config.const.branches

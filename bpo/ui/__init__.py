@@ -20,8 +20,8 @@ ui_update_cond = threading.Condition()
 def update_badge(session, pkgs, imgs):
     """ Update html_out/badge.svg
         :param session: return value of bpo.db.session()
-        :param pkgs: return value of bpo.db.get_all_packages_by_status()
-        :param imgs: return value of bpo.db.get_all_images_by_status()
+        :param pkgs: return value of bpo.db.get_recent_packages_by_status()
+        :param imgs: return value of bpo.db.get_recent_images_by_status()
         :returns: one of: "up-to-date", "failed", "building" """
     # Get new name
     new = "up-to-date"
@@ -68,8 +68,8 @@ def commit_link(commit):
 def update_index(session, pkgs, imgs):
     """ Update html_out/index.html
         :param session: return value of bpo.db.session()
-        :param pkgs: return value of bpo.db.get_all_packages_by_status()
-        :param imgs: return value of bpo.db.get_all_images_by_status() """
+        :param pkgs: return value of bpo.db.get_recent_packages_by_status()
+        :param imgs: return value of bpo.db.get_recent_images_by_status() """
     # Query information from DB
     log_entries_days = log_entries_by_day(session)
     pkgcount = session.query(func.count(bpo.db.Package.id)).scalar()
@@ -99,8 +99,8 @@ def update(session):
     """ Update everything in html_out """
     global ui_update_cond
 
-    pkgs = bpo.db.get_all_packages_by_status(session)
-    imgs = bpo.db.get_all_images_by_status(session)
+    pkgs = bpo.db.get_recent_packages_by_status(session)
+    imgs = bpo.db.get_recent_images_by_status(session)
 
     with ui_update_cond:
         update_index(session, pkgs, imgs)

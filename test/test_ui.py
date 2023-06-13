@@ -28,8 +28,8 @@ def test_update_badge(monkeypatch):
 
     session = bpo.db.session()
     func = bpo.ui.update_badge
-    func_pkgs = bpo.db.get_all_packages_by_status
-    func_imgs = bpo.db.get_all_images_by_status
+    func_pkgs = bpo.db.get_recent_packages_by_status
+    func_imgs = bpo.db.get_recent_images_by_status
     arch = "x86_64"
     branch = "master"
 
