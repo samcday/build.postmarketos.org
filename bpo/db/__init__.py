@@ -312,7 +312,11 @@ def get_all_packages_by_status(session):
     ret = {}
     for status in bpo.db.PackageStatus:
         ret[status.name] = session.query(bpo.db.Package).\
-            filter_by(status=status)
+            filter_by(status=status).\
+            filter(bpo.db.Package.branch.in_(bpo.config.const.branches.keys())).\
+            order_by(bpo.db.Package.branch,
+                     bpo.db.Package.arch,
+                     bpo.db.Package.pkgname)
     return ret
 
 
@@ -323,6 +327,7 @@ def get_all_images_by_status(session):
     for status in bpo.db.ImageStatus:
         ret[status.name] = session.query(bpo.db.Image).\
             filter_by(status=status).\
+            filter(bpo.db.Image.branch.in_(bpo.config.const.branches.keys())).\
             order_by(bpo.db.Image.date.desc())
     return ret
 

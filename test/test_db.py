@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """ Testing bpo/db/__init__.py """
 import pytest
+import sys
 
 import bpo_test
 import bpo_test.trigger
@@ -48,3 +49,63 @@ def test_validate_job_id(monkeypatch):
     with pytest.raises(ValueError) as e:
         func(result, job_id)
     assert "invalid: 1337_1" in str(e.value)
+
+
+def test_get_all_packages_by_status(monkeypatch):
+    monkeypatch.setattr(bpo.config.const, "branches",
+                        {"v22.12": {},
+                         "v23.06": {},
+                         "master": {}})
+
+    # Initialize bpo
+    bpo_test.reset()
+    monkeypatch.setattr(sys, "argv", ["bpo.py", "-t", "test/test_tokens.cfg",
+                                      "--mirror", "", "local"])
+    bpo.init_components()
+
+    # Fill the DB with test packages
+    session = bpo.db.session()
+    session.merge(bpo.db.Package("x86_64", "master", "hello-world", "1.0.0"))
+    session.merge(bpo.db.Package("x86_64", "v22.12", "hello-world", "1.0.0"))
+    session.merge(bpo.db.Package("x86_64", "v23.06", "hello-world", "1.0.0"))
+    session.merge(bpo.db.Package("x86_64", "v22.06", "hello-world", "1.0.0"))
+    session.commit()
+
+    q = bpo.db.get_all_packages_by_status(session)["queued"]
+
+    # Verify that the v22.06 package does not get returned, as it is not in
+    # bpo.config.const.branches
+    assert q.count() == 3
+    assert q[0].branch == "master"
+    assert q[1].branch == "v22.12"
+    assert q[2].branch == "v23.06"
+
+
+def test_get_all_images_by_status(monkeypatch):
+    monkeypatch.setattr(bpo.config.const, "branches",
+                        {"v22.12": {},
+                         "v23.06": {},
+                         "master": {}})
+
+    # Initialize bpo
+    bpo_test.reset()
+    monkeypatch.setattr(sys, "argv", ["bpo.py", "-t", "test/test_tokens.cfg",
+                                      "--mirror", "", "local"])
+    bpo.init_components()
+
+    # Fill the DB with test images
+    session = bpo.db.session()
+    session.merge(bpo.db.Image("qemu-amd64", "master", "phosh"))
+    session.merge(bpo.db.Image("qemu-amd64", "v22.12", "phosh"))
+    session.merge(bpo.db.Image("qemu-amd64", "v23.06", "phosh"))
+    session.merge(bpo.db.Image("qemu-amd64", "v22.06", "phosh"))
+    session.commit()
+
+    q = bpo.db.get_all_images_by_status(session)["queued"]
+
+    # Verify that the v22.06 image does not get returned, as it is not in
+    # bpo.config.const.branches
+    assert q.count() == 3
+    assert q[0].branch == "master"
+    assert q[1].branch == "v22.12"
+    assert q[2].branch == "v23.06"
