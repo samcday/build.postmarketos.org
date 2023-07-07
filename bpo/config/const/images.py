@@ -284,7 +284,10 @@ images = {
                 "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
-                "date-start": "2023-06-05",  # Monday
+                "date-start": "2023-07-07",  # Friday
+            },
+            "master": {
+                "date-start": "2023-07-07",  # Friday
             },
         },
     },
