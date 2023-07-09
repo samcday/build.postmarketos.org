@@ -77,3 +77,10 @@ def upgrade():
                        " ADD COLUMN 'depend_pkgname'"
                        " VARCHAR")
         version_set(7)
+
+    # Log: add column "count"
+    if version_get() == 7:
+        engine.execute("ALTER TABLE 'log'"
+                       " ADD COLUMN 'count'"
+                       " INT DEFAULT(0)")
+        version_set(8)
