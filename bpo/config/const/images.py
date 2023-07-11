@@ -14,7 +14,6 @@ password = "147147"
 # Branches to build images for, can be overridden per device in 'images' below
 branches_default = [
         "master",
-        "v22.12",
         "v23.06",
     ]
 
@@ -121,9 +120,6 @@ images = {
                     "console",
                 ],
             },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
             },
@@ -138,9 +134,6 @@ images = {
                     "plasma-mobile",
                     "sxmo-de-sway",
                 ],
-            },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
@@ -163,9 +156,6 @@ images = {
                     "sxmo-de-sway",
                 ],
             },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
                 "ui": [
@@ -186,9 +176,6 @@ images = {
                     "plasma-mobile",
                     "sxmo-de-sway",
                 ],
-            },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
@@ -211,9 +198,6 @@ images = {
                     "sxmo-de-sway",
                 ],
             },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
                 "ui": [
@@ -234,9 +218,6 @@ images = {
                     "plasma-mobile",
                     "sxmo-de-sway",
                 ],
-            },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
@@ -259,9 +240,6 @@ images = {
                     "sxmo-de-sway",
                 ],
             },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
                 "ui": [
@@ -280,9 +258,6 @@ images = {
                     "i3wm",
                 ],
             },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-            },
             "v23.06": {
                 "date-start": "2023-07-07",  # Friday
             },
@@ -298,9 +273,6 @@ images = {
                     "console",
                 ],
             },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
             },
@@ -315,9 +287,6 @@ images = {
                     "plasma-mobile",
                     "sxmo-de-sway",
                 ],
-            },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
@@ -339,9 +308,6 @@ images = {
                     "plasma-mobile",
                     "sxmo-de-sway",
                 ],
-            },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
@@ -365,9 +331,6 @@ images = {
                 ],
                 "installer": True,
             },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
             },
@@ -385,9 +348,6 @@ images = {
                     "plasma-mobile",
                     "sxmo-de-sway",
                 ],
-            },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
@@ -413,9 +373,6 @@ images = {
                     "sxmo-de-sway",
                 ],
             },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
                 "ui": [
@@ -435,9 +392,6 @@ images = {
                     "plasma-bigscreen",
                 ],
             },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
             },
@@ -455,9 +409,6 @@ images = {
                     "plasma-mobile",
                     "sxmo-de-sway",
                 ],
-            },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
@@ -480,9 +431,6 @@ images = {
                     "gnome-mobile",
                 ],
             },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
                 "ui": [
@@ -503,9 +451,6 @@ images = {
                     "plasma-mobile",
                     "sxmo-de-sway",
                 ],
-            },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
@@ -528,9 +473,6 @@ images = {
                     "sxmo-de-sway",
                 ],
             },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
                 "ui": [
@@ -550,9 +492,6 @@ images = {
                     "xfce4",
                 ],
             },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
             },
@@ -565,9 +504,6 @@ images = {
                     "phosh",
                     "xfce4",
                 ],
-            },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
@@ -583,9 +519,6 @@ images = {
                     "plasma-mobile",
                     "sxmo-de-sway",
                 ],
-            },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
@@ -608,9 +541,6 @@ images = {
                     "sxmo-de-sway",
                 ],
             },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
                 "ui": [
@@ -632,9 +562,6 @@ images = {
                     "sxmo-de-sway",
                 ],
             },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
                 "ui": [
@@ -653,13 +580,6 @@ images = {
                     "gnome-mobile",
                     "phosh",
                     "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-                "ui": [
-                    "phosh",
                     "sxmo-de-sway",
                 ],
             },
@@ -684,9 +604,6 @@ images = {
                     "sxmo-de-sway",
                 ],
             },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
                 "ui": [
@@ -708,9 +625,6 @@ images = {
                     "sxmo-de-sway",
                 ],
             },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
                 "ui": [
@@ -731,9 +645,6 @@ images = {
                     "plasma-mobile",
                     "sxmo-de-sway",
                 ],
-            },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
@@ -762,9 +673,6 @@ images = {
                     "sxmo-de-sway",
                 ],
             },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
                 "ui": [
@@ -786,9 +694,6 @@ images = {
                     "sxmo-de-sway",
                 ],
             },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
                 "ui": [
@@ -809,9 +714,6 @@ images = {
                     "plasma-mobile",
                     "sxmo-de-sway",
                 ],
-            },
-            "v22.12": {
-                "date-start": "2022-12-18",  # Sunday
             },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
