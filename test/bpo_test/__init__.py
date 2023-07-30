@@ -1,12 +1,13 @@
 # Copyright 2022 Oliver Smith
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-import threading
 import logging
 import os
 import queue
 import shutil
+import subprocess
 import sys
+import threading
 import werkzeug.serving
 
 # Add topdir to import path
@@ -24,11 +25,32 @@ import bpo.job_services.local  # noqa
 result_queue = None
 
 
+def get_pmb_work_dir():
+    work_dir = os.environ.get("PMB_WORK_DIR", "~/.local/var/pmbootstrap")
+    work_dir = os.path.expanduser(work_dir)
+    assert os.path.exists(work_dir), "pmbootstrap work dir not found! Make" \
+        " sure you ran 'pmbootstrap init' before running the bpo testsuite." \
+        f" If you use a different work dir than {work_dir}, set the" \
+        " PMB_WORK_DIR variable."
+    return work_dir
+
+
+def reset_wip_rsa_pub():
+    """ Remove wip.rsa.pub from config_apk_keys in pmbootstrap's work dir, as
+        having a file from a previous run will result in the old key getting
+        used instead of the new one, and therefore tests will fail. """
+    wip_rsa_pub = f"{get_pmb_work_dir()}/config_apk_keys/wip.rsa.pub"
+    if os.path.exists(wip_rsa_pub):
+        subprocess.run(["sudo", "rm", wip_rsa_pub], check=True)
+
+
 def reset():
     """ Remove the database, generated binary packages and temp dirs. To be
         used at the start of test cases. Using bpo.config.const.args instead
         of bpo.config.args, because this runs before bpo.config.args.init().
     """
+    reset_wip_rsa_pub()
+
     paths = [bpo.config.const.args.db_path,
              bpo.config.const.args.html_out,
              bpo.config.const.args.images_path,
