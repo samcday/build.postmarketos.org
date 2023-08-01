@@ -50,6 +50,13 @@ devices = {
     "asus-me176c": "ASUS MeMO Pad 7",
     "bq-paella": "BQ Aquaris X5",
     "fairphone-fp4": "Fairphone 4",
+    "google-gru": "Google Gru Chromebooks",
+    "google-kukui": "Google Kukui Chromebooks",
+    "google-oak": "Google Oak Chromebooks",
+    "google-peach-pit": "Samsung Chromebook 2 11.6\"",
+    "google-snow": "Samsung Chromebook",
+    "google-trogdor": "Google Trogdor Chromebooks",
+    "google-veyron": "Google Veyron Chromebooks",
     "lenovo-a6000": "Lenovo A6000",
     "lenovo-a6010": "Lenovo A6010",
     "motorola-harpia": "Motorola Moto G4 Play",
@@ -184,6 +191,113 @@ images = {
                     "phosh",
                     "plasma-mobile",
                     "sxmo-de-sway",
+                ],
+            },
+        },
+    },
+    "google-gru": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": [ # convertible, laptops, tablets
+                    "console",
+                    "gnome",
+                    "phosh",
+                    "plasma-desktop",
+                    "sway",
+                ],
+            },
+        },
+    },
+    "google-kukui": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": [ # convertible, laptops, tablets
+                    "console",
+                    "gnome",
+                    "phosh",
+                    "plasma-desktop",
+                    "sway",
+                ],
+            },
+        },
+    },
+    "google-oak": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": [ # convertible and laptops without GPU support
+                    "console",
+                    "xfce4",
+                    "mate",
+                ],
+            },
+        },
+    },
+    "google-peach-pit": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": [ # laptop
+                    "console",
+                    "gnome",
+                    "plasma-desktop",
+                    "sway",
+                ],
+            },
+        },
+    },
+    "google-snow": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": [ # laptop without GPU support
+                    "console",
+                    "xfce4",
+                    "mate",
+                ],
+            },
+        },
+    },
+    "google-trogdor": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": [ # convertible and tablets
+                    "console",
+                    "gnome",
+                    "phosh",
+                    "plasma-desktop",
+                    "sway",
+                ],
+            },
+        },
+    },
+    "google-veyron": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": [ # convertible and laptops
+                    "console",
+                    "gnome",
+                    "phosh",
+                    "plasma-desktop",
+                    "sway",
                 ],
             },
         },
