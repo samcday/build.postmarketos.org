@@ -33,7 +33,7 @@ def run(device, branch, ui):
     # Shell arguments
     arg_branch = shlex.quote(branch)
     arg_device = shlex.quote(device)
-    arg_ln = shlex.quote(bpo.config.const.build_image_ln)
+    arg_ln = shlex.quote(bpo.config.const.cmd_ln)
     arg_pass = shlex.quote(bpo.config.const.images.password)
     arg_pmos_ver = shlex.quote(bpo.images.pmos_ver(branch))
     arg_ui = shlex.quote(ui)
