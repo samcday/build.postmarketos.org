@@ -130,7 +130,7 @@ class BPOServer():
                 :param fill_image_queue: add new images to the "image" table
                     and start building them immediatelly.
                     """
-            threading.Thread.__init__(self)
+            threading.Thread.__init__(self, name="BPOServerThread")
             os.environ["FLASK_DEBUG"] = "1"
             sys.argv = ["bpo.py", "-t", "test/test_tokens.cfg"]
             if disable_pmos_mirror:
