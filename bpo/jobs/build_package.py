@@ -49,9 +49,7 @@ def run(arch, pkgname, branch):
     mirror_alpine = shlex.quote(bpo.config.const.mirror_alpine)
     wip_path = "{}/{}/{}/APKINDEX.tar.gz".format(bpo.config.args.repo_wip_path,
                                                  branch, arch)
-    mirror_final = bpo.config.args.mirror
-    if mirror_final:
-        mirror_final += "/"
+    mirror_final = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(branch)
     mirrors = "-mp " + shlex.quote(mirror_final)
     if os.path.exists(wip_path):
         mirrors = '$BPO_WIP_REPO_ARG ' + mirrors

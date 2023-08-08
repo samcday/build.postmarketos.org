@@ -148,3 +148,10 @@ def get_link(job_id):
 def init():
     """ Initialize the job service (make sure that tokens are there etc.) """
     return get_job_service().init()
+
+
+def get_pmos_mirror_for_pmbootstrap(branch):
+    ret = bpo.config.args.mirror
+    if ret:
+        ret += "/"
+    return ret

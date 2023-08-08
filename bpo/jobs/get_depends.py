@@ -9,9 +9,8 @@ import bpo.helpers.job
 
 def run(branch):
     tasks = collections.OrderedDict()
-    mirror_final = bpo.config.args.mirror
-    if mirror_final:
-        mirror_final += "/"
+
+    mirror_final = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(branch)
 
     for arch in bpo.config.const.branches[branch]["arches"]:
         tasks[branch + "_" + arch] = """
