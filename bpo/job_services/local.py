@@ -33,6 +33,12 @@ jobs = {}
 jobs_cond = threading.Condition()
 
 
+def job_failed():
+    """ The testsuite can hook into this function to stop on failure, instead
+        of having build jobs retry multiple times as usually. """
+    return
+
+
 class LocalJobServiceThread(threading.Thread):
     """ Local jobs are running on the same machine, but in a different thread.
         New jobs can be queued while another job is running. They will be
@@ -92,6 +98,9 @@ class LocalJobServiceThread(threading.Thread):
                     build.postmarketos.org
             echo """ + shlex.quote(token) + """ > ./token
             pmbootstrap -q -y zap -p
+
+            # Create staging branch
+            git -C pmaports checkout -B master_staging_test_1234 master
 
             # Switch branch and release channel
             git -C pmaports checkout """ + shlex.quote(branch) + """
@@ -177,7 +186,8 @@ class LocalJobServiceThread(threading.Thread):
 
             logging.info(f"Running: {temp_script}")
             if not self.run_print_try(["sh", "-ex", temp_script]):
-                logging.info("Job failed!")
+                logging.error(f"Job failed: {temp_script}")
+                job_failed()
                 return False
 
             task_i += 1
