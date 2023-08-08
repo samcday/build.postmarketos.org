@@ -24,6 +24,7 @@ url_repo_wip_http = "http://build.postmarketos.org/wip"
 url_repo_wip_https = "https://build.postmarketos.org/wip"
 url_images = os.getenv("BPO_URL_IMG", "https://images.postmarketos.org/bpo")
 force_final_repo_sign = False
+final_repo_key_name = "build.postmarketos.org.rsa"
 
 # Defaults (local)
 local_pmaports = os.path.realpath(bpo.config.const.top_dir +

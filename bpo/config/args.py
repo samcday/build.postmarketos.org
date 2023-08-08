@@ -81,6 +81,13 @@ def init():
                              " sign_index)")
     parser.add_argument("--url-images",
                         help="external URL to the images dir")
+    parser.add_argument("--final-repo-key-name",
+                        help="repo key name that abuild-sign embeds into"
+                             " the APKINDEX, the name of the .pub file in"
+                             " pmbootstrap.git's pmb/data/keys dir must match"
+                             " (apk is picky about the name, check the source"
+                             " when in doubt; otherwise it fails to verify the"
+                             " APKINDEX even though it is signed correctly)")
 
     # Job service subparsers
     job_service = parser.add_subparsers(title="job service",
