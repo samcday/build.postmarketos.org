@@ -73,7 +73,7 @@ def test_repo_is_apk_origin_in_db(monkeypatch):
     apk_path = (bpo.config.const.top_dir +
                 "/test/testdata/hello-world-wrapper-subpkg-1-r2.apk")
     session = bpo.db.session()
-    assert func(session, arch, branch, apk_path) is True
+    assert func(session, arch, branch, apk_path) == "hello-world-wrapper"
 
     # Change version of origin
     origin_pkgname = "hello-world-wrapper"

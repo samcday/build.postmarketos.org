@@ -229,10 +229,12 @@ def get_apks(cwd):
 
 def is_apk_origin_in_db(session, arch, branch, apk_path):
     """ :param apk_path: full path to the apk file
-        :returns: True if the origin is in the db and has the same version,
+        :returns: origin pkgname if the origin is in db and has same version,
                   False otherwise """
 
     metadata = bpo.helpers.apk.get_metadata(apk_path)
     pkgname = metadata["origin"]
     version = metadata["pkgver"]  # yes, this is actually the full version
-    return bpo.db.package_has_version(session, pkgname, arch, branch, version)
+    if bpo.db.package_has_version(session, pkgname, arch, branch, version):
+        return pkgname
+    return False
