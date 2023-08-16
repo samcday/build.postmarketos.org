@@ -52,3 +52,4 @@ pytest:
     - "_temp/local_job_logs/*.txt"
     - "pytest.log"
     expire_in: "1 week"
+  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
