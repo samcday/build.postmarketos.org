@@ -37,20 +37,20 @@
             <table class="toc">
                 <tr>
                     <td>{{ pkgs.building.count() }}</td>
-                    <td><a href="#building">
+                    <td><a href="#building-pkgs">
                         building</a></td>
                 </tr>
                 <tr>
                     <td>{{ pkgs.failed.count() }}</td>
-                    <td><a href="#failed">failed</a></td>
+                    <td><a href="#failed-pkgs">failed</a></td>
                 </tr>
                 <tr>
                     <td>{{ pkgs.queued.count() }}</td>
-                    <td><a href="#queued">queued</a></td>
+                    <td><a href="#queued-pkgs">queued</a></td>
                 </tr>
                 <tr>
                     <td>{{ pkgs.built.count() }}</td>
-                    <td><a href="#built">built</a></td>
+                    <td><a href="#built-pkgs">built</a></td>
                 </tr>
                 <tr>
                     <td>{{ pkgs.published.count() }}</td>
@@ -68,16 +68,16 @@
             <table class="toc">
                 <tr>
                     <td>{{ imgs.building.count() }}</td>
-                    <td><a href="#building">
+                    <td><a href="#building-imgs">
                         building</a></td>
                 </tr>
                 <tr>
                     <td>{{ imgs.failed.count() }}</td>
-                    <td><a href="#failed">failed</a></td>
+                    <td><a href="#failed-imgs">failed</a></td>
                 </tr>
                 <tr>
                     <td>{{ imgs.queued.count() }}</td>
-                    <td><a href="#queued">queued</a></td>
+                    <td><a href="#queued-imgs">queued</a></td>
                 </tr>
                 <tr>
                     <td>{{ imgs.published.count() }}</td>
@@ -235,45 +235,76 @@
         {% endfor %}
     </div>
 
-    <a class="h" name="building" href="#building">
-        Building ({{ pkgs.building.count() + imgs.building.count() }})
+    <a class="h" name="building" href="#building">Building</a><br>
+    {% if pkgs.building.count() %}
+    <a class="h3" name="building-pkgs" href="#building-pkgs">
+        Packages ({{ pkgs.building.count() }})
     </a>
     <ul>
         {% for package in pkgs.building %}
-        <li> {{package.branch}}/{{package.arch}}/{{package.pkgname}}-{{package.version}}.apk
+        <li> <span class="branch">{{package.branch}}</span>/<span
+            class="arch">{{package.arch}}</span>/<span
+            class="pkgname">{{package.pkgname}}</span>-<span
+            class="version">{{package.version}}</span>
             <a class="job-log" href="{{ bpo.helpers.job.get_link(package.job_id) }}">[log]</a>
         {% endfor %}
+    </ul>
+    {% endif %}
+    {% if imgs.building.count() %}
+    <a class="h3" name="building-imgs" href="#building-imgs">
+        Images ({{ imgs.building.count() }})
+    </a>
+    <ul>
         {% for img in imgs.building %}
-        <li> {{img.branch}}:{{img.device}}:{{img.ui}}
+        <li> <span class="branch">{{img.branch}}</span>:<span
+            class="device">{{img.device}}</span>:<span
+            class="ui">{{img.ui}}</span>
             <a class="job-log" href="{{ bpo.helpers.job.get_link(img.job_id) }}">[log]</a>
         {% endfor %}
     </ul>
+    {% endif %}
 
-    <a class="h" name="failed" href="#failed">
-        Failed ({{ pkgs.failed.count() + imgs.failed.count() }})
+    <a class="h" name="failed" href="#failed">Failed</a><br>
+    {% if pkgs.failed.count() %}
+    <a class="h3" name="failed-pkgs" href="#failed-pkgs">
+        Packages ({{ pkgs.failed.count() }})
     </a>
-
-    <p style="font-size: 80%; font-style: italic">
-    Note: failures on WIP branches are ignored for the overall status badge on the top right.
-    </p>
     <ul>
         {% for package in pkgs.failed %}
-        <li> {{package.branch}}/{{package.arch}}/{{package.pkgname}}-{{package.version}}.apk
+        <li> <span class="branch">{{package.branch}}</span>/<span
+            class="arch">{{package.arch}}</span>/<span
+            class="pkgname">{{package.pkgname}}</span>-<span
+            class="version">{{package.version}}</span>
             (try {{package.retry_count + 1}}/{{bpo.config.const.retry_count_max + 1}})
             <a class="job-log" href="{{ bpo.helpers.job.get_link(package.job_id) }}">[log]</a>
         {% endfor %}
+    </ul>
+    {% endif %}
+    {% if imgs.failed.count() %}
+    <a class="h3" name="failed-imgs" href="#failed-imgs">
+        Images ({{ imgs.failed.count() }})
+    </a>
+    <ul>
         {% for img in imgs.failed %}
-        <li> {{img.branch}}:{{img.device}}:{{img.ui}}
+        <li> <span class="branch">{{img.branch}}</span>:<span
+            class="device">{{img.device}}</span>:<span
+            class="ui">{{img.ui}}</span>
             <a class="job-log" href="{{ bpo.helpers.job.get_link(img.job_id) }}">[log]</a>
         {% endfor %}
     </ul>
+    {% endif %}
 
-    <a class="h" name="queued" href="#queued">
-        Queued ({{ pkgs.queued.count() + imgs.queued.count() }})
+    <a class="h" name="queued" href="#queued">Queued</a><br>
+    {% if pkgs.queued.count() %}
+    <a class="h3" name="queued-pkgs" href="#queued-pkgs">
+        Packages ({{ pkgs.queued.count() }})
     </a>
     <ul>
         {% for package in pkgs.queued %}
-        <li> {{package.branch}}/{{package.arch}}/{{package.pkgname}}-{{package.version}}.apk
+        <li> <span class="branch">{{package.branch}}</span>/<span
+            class="arch">{{package.arch}}</span>/<span
+            class="pkgname">{{package.pkgname}}</span>-<span
+            class="version">{{package.version}}</span>
             {% if not package.depends_built() %}
             (missing depends:
             {% for depend in package.depends_missing_list()
@@ -281,29 +312,40 @@
             endfor %})
             {% endif %}
         {% endfor %}
+    </ul>
+    {% endif %}
+    {% if imgs.queued.count() %}
+    <a class="h3" name="queued-imgs" href="#queued-imgs">
+        Images ({{ imgs.queued.count() }})
+    </a>
+    <ul>
         {% for img in imgs.queued %}
-        <li> {{img.branch}}:{{img.device}}:{{img.ui}}
+        <li> <span class="branch">{{img.branch}}</span>:<span
+            class="device">{{img.device}}</span>:<span
+            class="ui">{{img.ui}}</span>
             <a class="job-log" href="{{ bpo.helpers.job.get_link(img.job_id) }}">[log]</a>
         {% endfor %}
     </ul>
+    {% endif %}
 
-    <a class="h" name="built" href="#built">
-        Built ({{ pkgs.built.count() }})
+    <a class="h" name="built" href="#built">Built</a><br>
+    {% if pkgs.built.count() %}
+    <a class="h3" name="built-pkgs" href="#built-pkgs">
+        Packages ({{ pkgs.built.count() }})
     </a>
-    <p style="font-size: 80%; font-style: italic">
-        Note: these packages get published after there are no more
-        queued and failing packages for the same arch and branch. This
-        is to prevent half-baked updates
-        (<a href="https://gitlab.com/postmarketOS/build.postmarketos.org/#repositories">more</a>).
-    </p>
     <ul>
         {% for package in pkgs.built %}
-        <li> {{package.branch}}/{{package.arch}}/{{package.pkgname}}-{{package.version}}.apk
+        <li> <span class="branch">{{package.branch}}</span>/<span
+            class="arch">{{package.arch}}</span>/<span
+            class="pkgname">{{package.pkgname}}</span>-<span
+            class="version">{{package.version}}</span>
             <a class="job-log" href="{{ bpo.helpers.job.get_link(package.job_id) }}">[log]</a>
         {% endfor %}
     </ul>
+    {% endif %}
 
     <a class="h" name="published" href="#published">Published</a><br>
+    {% if pkgs.published.count() %}
     <a class="h3" name="published-pkgs" href="#published-pkgs">
         Packages ({{ pkgs.published.count() }})
     </a>
@@ -312,23 +354,37 @@
         <li> <span class="branch">{{package.branch}}</span>/<span
             class="arch">{{package.arch}}</span>/<span
             class="pkgname">{{package.pkgname}}</span>-<span
-            class="version">{{package.version}}</span>.apk
+            class="version">{{package.version}}</span>
             <a class="job-log" href="{{ bpo.helpers.job.get_link(package.job_id) }}">[log]</a>
         {% endfor %}
     </ul>
+    {% endif %}
+    {% if imgs.published.count() %}
     <a class="h3" name="published-imgs" href="#published-imgs">
         Images ({{ imgs.published.count() }})
     </a>
     <ul>
         {% for img in imgs.published %}
         <li> <span class="time">{{ img.dir_name }}</span>
-            {{img.branch}}:{{img.device}}:{{img.ui}}
+            <span class="branch">{{img.branch}}</span>:<span
+            class="device">{{img.device}}</span>:<span
+            class="ui">{{img.ui}}</span>
             <a class="job-log" href="{{
                 bpo.helpers.job.get_link(img.job_id)
                 }}">[log]</a>
             <a class="img-dir" href="{{bpo.images.url_db_obj(img)
                 }}">[dir]</a>
         {% endfor %}
+    </ul>
+    {% endif %}
+    <a class="h" name="notes" href="#notes">Notes</a><br>
+    <ul class="notes">
+        <li> Failures on WIP branches are ignored for the top right status
+             badge.
+        <li> Packages listed under Built get published after there are no more
+             Queued and Failed packages for the same arch and branch.
+        <li> As images don't depend on other images, they just get published
+             directly without passing through the Built status.
     </ul>
 </main>
 <footer>

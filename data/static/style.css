@@ -13,6 +13,11 @@ ul {
     margin: 0;
 }
 
+ul.notes {
+    list-style: circle;
+    padding-left: 20px;
+}
+
 body {
     display: grid;
     grid-template-areas: ". header ."
