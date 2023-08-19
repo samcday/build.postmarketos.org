@@ -35,8 +35,8 @@ def update_badge(session, pkgs, imgs):
         new = "building"
 
     # Copy to output dir
-    source = bpo.config.const.top_dir + "/data/badges/" + new + ".svg"
-    target = bpo.config.args.html_out + "/badge.svg"
+    source = f"{bpo.config.const.top_dir}/data/static/badges/{new}.svg"
+    target = f"{bpo.config.args.html_out}/badge.svg"
     target_temp = target + "_"
     shutil.copy(source, target_temp)
     os.rename(target_temp, target)
@@ -65,11 +65,12 @@ def commit_link(commit):
     return f"<a href='{url}' class='commit'>{short}</a>"
 
 
-def update_index(session, pkgs, imgs):
+def update_index(session, pkgs, imgs, badge_name):
     """ Update html_out/index.html
         :param session: return value of bpo.db.session()
         :param pkgs: return value of bpo.db.get_recent_packages_by_status()
-        :param imgs: return value of bpo.db.get_recent_images_by_status() """
+        :param imgs: return value of bpo.db.get_recent_images_by_status()
+        :param badge_name: return value of update_badge() """
     # Query information from DB
     log_entries_days = log_entries_by_day(session)
     pkgcount = session.query(func.count(bpo.db.Package.id)).scalar()
@@ -85,7 +86,8 @@ def update_index(session, pkgs, imgs):
                            imgcount=imgcount,
                            imgs=imgs,
                            len=len,
-                           log_entries_days=log_entries_days)
+                           log_entries_days=log_entries_days,
+                           badge_name=badge_name)
 
     # Write to output dir
     output = bpo.config.args.html_out + "/index.html"
@@ -103,8 +105,8 @@ def update(session):
     imgs = bpo.db.get_recent_images_by_status(session)
 
     with ui_update_cond:
-        update_index(session, pkgs, imgs)
-        update_badge(session, pkgs, imgs)
+        badge_name = update_badge(session, pkgs, imgs)
+        update_index(session, pkgs, imgs, badge_name)
 
 
 def copy_static():
