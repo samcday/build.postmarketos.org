@@ -45,11 +45,16 @@ pytest:
   - "export BPO_CMD_LN=cp"
   - .ci/pytest.sh
   artifacts:
-    when: "on_failure"
+    when: "on_failure"  # reports artifacts are always uploaded
     paths:
+    - "coverage.xml"
     - "_html_out/index.html"
     - "_temp/local_job/task_*.sh"
     - "_temp/local_job_logs/*.txt"
     - "pytest.log"
+    reports:
+      coverage_report:
+        coverage_format: "cobertura"
+        path: "coverage.xml"
     expire_in: "1 week"
   coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'

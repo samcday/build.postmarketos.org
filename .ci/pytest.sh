@@ -6,6 +6,7 @@
 if [ "$(id -u)" = 0 ]; then
 	set -x
 	apk -q add \
+		py3-coverage \
 		py3-flask \
 		py3-jsonschema \
 		py3-pytest \
@@ -66,3 +67,7 @@ pytest \
 	test \
 		-m "not skip_ci" \
 		"$@"
+
+if command -v coverage >/dev/null; then
+	coverage xml -o coverage.xml
+fi
