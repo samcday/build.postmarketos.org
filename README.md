@@ -89,7 +89,7 @@ venv once:
 
 ```
 $ source .venv/bin/activate
-pytest -xvv test/test_zz1_slow.py -k test_build_final_repo_with_two_pkgs_SLOW_120s
+pytest -xvv test/test_zz_90_slow_other.py -k test_build_final_repo_with_two_pkgs_SLOW_120s
 ```
 
 ### Generating the images.postmarketos.org/bpo directory listing
@@ -198,7 +198,7 @@ will detect, that the package is now in the wip repo, and attempt to finalize
 the repository and sign it.
 
 ```
-$ pytest -vv -x test/test_zzz_slow.py
+$ pytest -xvv test/test_zz_90_slow_other.py
 $ mv _repo_final/master/x86_64/hello-world-wrapper-1-r2.apk _repo_wip/master/x86_64/
 $ ./bpo_sourcehut.sh
 ```
@@ -214,5 +214,5 @@ interestingly with the generated `index.html` files):
 
 ```
 $ source .venv/bin/activate
-$ pytest -xvv test/test_zz0_jobs_build_image.py -k "test_build_image_stub"
+$ pytest -xvv test/test_zz_70_build_image.py -k "test_build_image_stub"
 ```
