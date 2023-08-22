@@ -62,6 +62,7 @@ devices = {
     "motorola-harpia": "Motorola Moto G4 Play",
     "nokia-n900": "Nokia N900",
     "odroid-hc2": "ODROID HC2",
+    "odroid-xu4": "ODROID XU4",
     "oneplus-enchilada": "OnePlus 6",
     "oneplus-fajita": "OnePlus 6T",
     "pine64-pinebookpro": "PINE64 Pinebook Pro",
@@ -389,6 +390,18 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
+            },
+        },
+    },
+    "odroid-xu4": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": [
+                    "console",
+                ],
             },
         },
     },
