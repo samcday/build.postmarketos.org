@@ -139,7 +139,7 @@ def sync_with_orig_repo(branch_staging, arch):
 
     if stats["synced"]:
         bpo.repo.wip.update_apkindex(arch, branch_staging)
-        bpo.ui.log("sync_with_orig_repo", branch=branch_staging,
+        bpo.ui.log("sync_with_orig_repo", branch=branch_staging, arch=arch,
                    count=stats["synced"])
 
     return stats
