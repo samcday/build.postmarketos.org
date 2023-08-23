@@ -373,8 +373,10 @@ def get_recent_images_by_status(session):
 
 
 def get_failed_packages_count_relevant(session):
-    """ :returns: count of failed packages, without the branches where we are
-                  building for the first time. """
+    """ :returns: count of failed packages, without the branches where
+                  ignore_errors is set (it's always set for staging branches,
+                  and usually for branches we build for the first time as we
+                  prepare a new release). """
     relevant = []
     for branch, branch_data in bpo.config.const.branches.items():
         if not branch_data["ignore_errors"]:
