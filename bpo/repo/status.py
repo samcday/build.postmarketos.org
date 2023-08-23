@@ -125,6 +125,7 @@ def fix(limit_arch=None, limit_branch=None):
 
     logging.info("Fixing inconsistencies between DB and files on disk")
     for branch in branches:
+        # Skip staging branches here intentionally
         arches = bpo.config.const.branches[branch]["arches"]
         if limit_arch:
             arches = [limit_arch]

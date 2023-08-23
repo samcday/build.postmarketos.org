@@ -5,14 +5,16 @@ import collections
 import shlex
 
 import bpo.helpers.job
+import bpo.repo.staging
 
 
 def run(branch):
     tasks = collections.OrderedDict()
 
     mirror_final = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(branch)
+    branches = bpo.repo.staging.get_branches_with_staging()
 
-    for arch in bpo.config.const.branches[branch]["arches"]:
+    for arch in branches[branch]["arches"]:
         tasks[branch + "_" + arch] = """
             export ARCH=""" + shlex.quote(arch) + """
             export JSON="depends.$ARCH.json"

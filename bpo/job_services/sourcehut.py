@@ -11,6 +11,7 @@ import bpo.config.args
 import bpo.config.const
 import bpo.config.tokens
 import bpo.db
+import bpo.repo.staging
 from bpo.job_services.base import JobService
 
 
@@ -52,7 +53,8 @@ def get_manifest(name, tasks, branch):
     url_api = bpo.config.args.url_api
     url_repo_wip_http = bpo.config.args.url_repo_wip_http + "/"
     url_repo_wip_https = bpo.config.args.url_repo_wip_https + "/"
-    arches = " ".join(bpo.config.const.branches[branch]["arches"])
+    branches = bpo.repo.staging.get_branches_with_staging()
+    arches = " ".join(branches[branch]["arches"])
     ret = """
         image: alpine/latest
         packages:

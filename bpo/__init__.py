@@ -18,6 +18,7 @@ import bpo.db
 import bpo.helpers.job
 import bpo.images.queue
 import bpo.repo
+import bpo.repo.staging
 import bpo.repo.tools
 import bpo.repo.wip
 import bpo.ui
@@ -61,7 +62,7 @@ def main(return_app=False, fill_image_queue=True):
     if bpo.config.args.force_final_repo_sign:
         # Force final repo sign
         logging.warning("WARNING: doing force final repo sign (-f)!")
-        for branch, branch_data in bpo.config.const.branches.items():
+        for branch, branch_data in bpo.repo.staging.get_branches_with_staging().items():
             for arch in branch_data["arches"]:
                 bpo.repo.symlink.create(arch, branch, True)
     else:
@@ -72,7 +73,7 @@ def main(return_app=False, fill_image_queue=True):
 
     # Fill up queue with packages to build
     if bpo.config.args.auto_get_depends:
-        for branch in bpo.config.const.branches.keys():
+        for branch in bpo.repo.staging.get_branches_with_staging():
             bpo.jobs.get_depends.run(branch)
 
     # Restart is complete
