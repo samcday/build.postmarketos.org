@@ -95,7 +95,8 @@ def count_unpublished_packages(session, branch):
 
 
 def has_unfinished_builds(session, arch, branch):
-    for status in bpo.db.PackageStatus.failed, bpo.db.PackageStatus.building:
+    for status in bpo.db.PackageStatus.failed, bpo.db.PackageStatus.building, \
+            bpo.db.PackageStatus.queued:
         if session.query(bpo.db.Package).filter_by(status=status, arch=arch,
                                                    branch=branch).count():
             return True
