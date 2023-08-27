@@ -88,11 +88,6 @@ class Package(base):
 
     def depends_built(self):
         for depend in self.depends:
-            if depend == self:
-                # Ignore depend on itself, most likely a parsing bug. If a
-                # package really depends on itself and can't build because of
-                # that, it will fail during the build.
-                continue
             if depend.status not in [PackageStatus.built,
                                      PackageStatus.published]:
                 return False
@@ -101,9 +96,6 @@ class Package(base):
     def depends_missing_list(self):
         ret = []
         for depend in self.depends:
-            if depend == self:
-                # Ignore depend on itself, see comment above
-                continue
             if depend.status not in [PackageStatus.built,
                                      PackageStatus.published]:
                 ret += [depend]
