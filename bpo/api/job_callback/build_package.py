@@ -9,6 +9,7 @@ from bpo.helpers.headerauth import header_auth
 import bpo.api
 import bpo.config.args
 import bpo.db
+import bpo.repo.wip
 import bpo.ui
 
 blueprint = bpo.api.blueprint
@@ -34,8 +35,7 @@ def job_callback_build_package():
     apks = get_apks(request)
 
     # Create WIP dir
-    wip = (bpo.config.args.repo_wip_path + "/" + package.branch + "/" +
-           package.arch)
+    wip = bpo.repo.wip.get_path(package.arch, package.branch)
     os.makedirs(wip, exist_ok=True)
 
     # Save files to disk
