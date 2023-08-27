@@ -53,6 +53,12 @@ def get_manifest(name, tasks, branch):
     url_api = bpo.config.args.url_api
     url_repo_wip_http = bpo.config.args.url_repo_wip_http + "/"
     url_repo_wip_https = bpo.config.args.url_repo_wip_https + "/"
+
+    if "_staging_" in branch:
+        branch_orig, name = bpo.repo.staging.branch_split(branch)
+        url_repo_wip_http += f"staging/{name}/"
+        url_repo_wip_https += f"staging/{name}/"
+
     branches = bpo.repo.staging.get_branches_with_staging()
     arches = " ".join(branches[branch]["arches"])
     ret = """

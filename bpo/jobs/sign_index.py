@@ -9,7 +9,7 @@ import bpo.helpers.job
 
 
 def run(arch, branch):
-    unsigned = "{}/{}/APKINDEX-symlink-repo.tar.gz".format(branch, arch)
+    unsigned = f"{arch}/APKINDEX-symlink-repo.tar.gz"
     uid = bpo.config.const.pmbootstrap_chroot_uid_user
     rsa = bpo.config.args.final_repo_key_name
     note = "Sign index: `{}/{}`".format(branch, arch)

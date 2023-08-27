@@ -130,7 +130,7 @@ def test_build_publish_remove_staging_repo(monkeypatch, tmpdir):
     def bpo_ui_log(action, *args, **kwargs):
         assert action == "delete_staging_repo"
         assert not os.path.exists(f"{repo_final_path}/staging/test_1234")
-        assert not os.path.exists(f"{repo_wip_path}/{branch_staging}")
+        assert not os.path.exists(f"{repo_wip_path}/staging/test_1234/master")
         logging.info(" ### [part 8] done, stopping bpo server")
         bpo_test.stop_server()
 
@@ -152,7 +152,7 @@ def test_build_publish_remove_staging_repo(monkeypatch, tmpdir):
         logging.info(" ### [part 7] staging: remove")
         monkeypatch.setattr(bpo.ui, "log", bpo_ui_log)
         assert os.path.exists(f"{repo_final_path}/staging/test_1234")
-        assert os.path.exists(f"{repo_wip_path}/{branch_staging}")
+        assert os.path.exists(f"{repo_wip_path}/staging/test_1234/master")
         bpo_test.trigger.push_hook_gitlab(branch=branch_staging, background=True,
                                           after="0000000000000000000000000000000000000000")
 

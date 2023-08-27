@@ -78,9 +78,14 @@ class LocalJobServiceThread(threading.Thread):
         pmaports = bpo.config.args.local_pmaports
         pmbootstrap = bpo.config.args.local_pmbootstrap
         token = bpo.config.const.test_tokens["job_callback"]
-        repo_wip_path = bpo.config.args.repo_wip_path
         repo_wip_key = bpo.config.const.repo_wip_keys + "/wip.rsa"
         uid = bpo.config.const.pmbootstrap_chroot_uid_user
+
+        repo_wip_path = f"{bpo.config.args.repo_wip_path}/{branch}"
+        if "_staging_" in branch:
+            branch_orig, name = bpo.repo.staging.branch_split(branch)
+            repo_wip_path = f"{bpo.config.args.repo_wip_path}/staging/{name}/{branch_orig}"
+
         return """
             # Remove old temp dir
             temp_dir=""" + shlex.quote(temp_path) + """
@@ -111,9 +116,9 @@ class LocalJobServiceThread(threading.Thread):
             work_path="$(pmbootstrap -q config work)"
             packages_path="$work_path/packages"
             repo_wip_path=""" + shlex.quote(repo_wip_path) + """
-            if [ -n "$branch" ] && [ -d "$repo_wip_path/$branch" ]; then
+            if [ -n "$branch" ] && [ -d "$repo_wip_path" ]; then
                 sudo mkdir -p "$packages_path/$channel"
-                sudo cp -r "$repo_wip_path/$branch/"* \
+                sudo cp -r "$repo_wip_path/"* \
                     "$packages_path/$channel"
                 sudo chown -R """ + shlex.quote(uid) + """ "$packages_path"
             fi
@@ -147,6 +152,13 @@ class LocalJobServiceThread(threading.Thread):
         host = ("http://" + bpo.config.args.host + ":" +
                 str(bpo.config.args.port))
         wip_repo_path = bpo.config.args.repo_wip_path
+
+        if "_staging_" in branch:
+            branch_orig, name = bpo.repo.staging.branch_split(branch)
+            wip_repo_path += f"/staging/{name}/{branch_orig}"
+        else:
+            wip_repo_path += f"/{branch}"
+
         task_header = f"""
             export BPO_TOKEN_FILE="./token"
             export BPO_API_HOST={shlex.quote(host)}

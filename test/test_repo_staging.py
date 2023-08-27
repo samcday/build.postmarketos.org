@@ -75,11 +75,11 @@ def test_remove(monkeypatch):
 
     branch_1 = "master_staging_test_branch"
     path_final_1 = f"{repo_final_path}/staging/test_branch/master"
-    path_wip_1 = f"{repo_wip_path}/{branch_1}"
+    path_wip_1 = f"{repo_wip_path}/staging/test_branch/master"
 
     branch_2 = "v23.06_staging_test_branch"
     path_final_2 = f"{repo_final_path}/staging/test_branch/v23.06"
-    path_wip_2 = f"{repo_wip_path}/{branch_2}"
+    path_wip_2 = f"{repo_wip_path}/staging/test_branch/v23.06"
 
     with bpo_test.BPOServer():
         try:

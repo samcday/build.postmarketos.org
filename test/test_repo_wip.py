@@ -7,8 +7,26 @@ import bpo.db
 import bpo.repo
 import bpo.repo.wip
 
-import shutil
 import os
+import shutil
+import sys
+
+
+def test_get_path(monkeypatch):
+    monkeypatch.setattr(sys, "argv", ["bpo.py", "--repo-wip-path", "/repo-wip", "local"])
+    bpo.config.args.init()
+
+    func = bpo.repo.wip.get_path
+    arch = "x86_64"
+    branch = "master"
+    assert func(arch, branch) == "/repo-wip/master/x86_64"
+
+    branch = "master_staging_test"
+    assert func(arch, branch) == "/repo-wip/staging/test/master/x86_64"
+
+    # Reset
+    monkeypatch.setattr(sys, "argv", ["bpo.py", "local"])
+    bpo.config.args.init()
 
 
 def test_repo_wip_clean(monkeypatch):

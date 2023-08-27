@@ -184,10 +184,14 @@ def remove(branch):
             shutil.rmtree(path_name)
 
     # Remove wip repo dir
-    path = f"{bpo.config.args.repo_wip_path}/{branch}"
-    if os.path.exists(path):
-        logging.info(f"{branch}: remove {path}")
-        shutil.rmtree(path)
+    path_name = f"{bpo.config.args.repo_wip_path}/staging/{name}"
+    path_branch = f"{path_name}/{branch_orig}"
+    if os.path.exists(path_branch):
+        logging.info(f"{branch}: remove {path_branch}")
+        shutil.rmtree(path_branch)
+        if not any(os.scandir(path_name)):
+            logging.info(f"{branch}: remove {path_name}")
+            shutil.rmtree(path_name)
 
     # Remove from db
     session = bpo.db.session()
