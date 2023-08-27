@@ -47,11 +47,9 @@ def run(arch, pkgname, branch):
 
     # Set mirror args (either primary mirror, or WIP + primary)
     mirror_alpine = shlex.quote(bpo.config.const.mirror_alpine)
-    wip_path = "{}/{}/{}/APKINDEX.tar.gz".format(bpo.config.args.repo_wip_path,
-                                                 branch, arch)
     mirror_final = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(branch)
     mirrors = "-mp " + shlex.quote(mirror_final)
-    if os.path.exists(wip_path):
+    if os.path.exists(f"{wip_path}/APKINDEX.tar.gz"):
         mirrors = '$BPO_WIP_REPO_ARG ' + mirrors
 
     strict_arg = "--strict" if do_build_strict(pkgname) else ""
