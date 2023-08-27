@@ -123,7 +123,7 @@ def test_build_publish_remove_staging_repo(monkeypatch, tmpdir):
     payload_path = str(tmpdir) + "/payload.json"
 
     repo_final_path = bpo.config.const.args.repo_final_path
-    repo_wip_path = bpo.config.args.repo_wip_path
+    repo_wip_path = bpo.config.const.args.repo_wip_path
     v_hello = bpo_test.const.version_hello_world
     v_wrapper = bpo_test.const.version_hello_world_wrapper
 
