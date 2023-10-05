@@ -84,8 +84,14 @@ devices = {
     "shift-axolotl": "SHIFT SHIFT6mq",
     "wileyfox-crackling": "Wileyfox Swift",
     "xiaomi-beryllium": "Xiaomi POCO F1",
+    "xiaomi-daisy": "Xiaomi Mi A2 Lite",
+    "xiaomi-markw": "Xiaomi Redmi 4 Prime",
+    "xiaomi-mido": "Xiaomi Redmi Note 4",
     "xiaomi-scorpio": "Xiaomi Mi Note 2",
+    "xiaomi-tissot": "Xiaomi Mi A1",
+    "xiaomi-vince": "Xiaomi Redmi 5 Plus",
     "xiaomi-wt88047": "Xiaomi Redmi 2",
+    "xiaomi-ysl": "Xiaomi Redmi S2/Y2",
 }
 
 # Build configuration, can be overridden per device/branch in 'images' below
@@ -811,6 +817,51 @@ images = {
             },
         },
     },
+    "xiaomi-daisy": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
+        },
+    },
+    "xiaomi-markw": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
+        },
+    },
+    "xiaomi-mido": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
+        },
+    },
     "xiaomi-scorpio": {
         "branch_configs": {
             "master": {
@@ -832,6 +883,36 @@ images = {
             },
         },
     },
+    "xiaomi-tissot": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
+        },
+    },
+    "xiaomi-vince": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
+        },
+    },
     "xiaomi-wt88047": {
         "branch_configs": {
             "master": {
@@ -844,6 +925,21 @@ images = {
             },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "plasma-mobile",
+                    "sxmo-de-sway",
+                ],
+            },
+        },
+    },
+    "xiaomi-ysl": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
                 "ui": [
                     "gnome-mobile",
                     "phosh",
