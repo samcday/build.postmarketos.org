@@ -53,6 +53,7 @@ def test_build_image_stub(monkeypatch):
         return f"""true # pmbootstrap install stub from testsuite
                 rootfs="{arg_work_rootfs}/qemu-amd64.img"
                 bootimg="{arg_work_boot}/boot.img"
+                lk2ndimg="{arg_work_boot}/lk2nd.img"
 
                 mkdir -p {arg_work_rootfs} {arg_work_boot}
                 dd \\
@@ -61,8 +62,9 @@ def test_build_image_stub(monkeypatch):
                     bs=1M \\
                     count=1
 
-                # Pretent to have a boot.img too, to test that code path
+                # Pretend to have a boot.img/lk2nd.img, to test that code path
                 cp -v "$rootfs" "$bootimg"
+                cp -v "$rootfs" "$lk2ndimg"
 
                 echo pmbootstrap install"""
 

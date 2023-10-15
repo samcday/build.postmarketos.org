@@ -130,6 +130,21 @@ def run(device, branch, ui):
             ls -lh out
         """
 
+        # Task: img_lk2nd
+        # For Androids, it's useful to have the proper lk2nd image available
+        # besides the other image files (#127).
+        tasks[f"{task_name}_lk2nd"] = f"""
+            IMG_PREFIX={arg_img_prefix}
+
+            for i in {arg_work_boot}/lk2nd.img; do
+                if [ -e "$i" ]; then
+                    sudo mv "$i" "out/$IMG_PREFIX-lk2nd.img"
+                fi
+            done
+
+            ls -lh out
+        """
+
         # Task: img_installer (wrap installer around previous image)
         if not branch_cfg["installer"]:
             continue
