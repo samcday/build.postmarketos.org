@@ -29,7 +29,7 @@ branches["master"] = {"arches": ["x86_64",
                                  "x86",
                                  "riscv64"],
                       "ignore_errors": False}
-branches["v23.12"] = {"arches": ["x86_64"],
+branches["v23.12"] = {"arches": ["x86_64", "aarch64", "armv7"],
                       "ignore_errors": True}
 
 # Build staging repositories for these architectures
