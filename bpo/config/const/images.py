@@ -270,6 +270,11 @@ images = {
         ],
         "branch_configs": {
             "all": {
+                "kernels": [
+                    # lts kernel config is currently better for these devices than edge
+                    # let's build only lts
+                    "lts",
+                ],
                 "ui": ui_laptop_convertible,
             },
         },
