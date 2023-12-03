@@ -122,6 +122,7 @@ branch_config_default = {
     # User interfaces to build. At least one UI must be set for each device,
     # otherwise no image for that device will be built.
     "ui": [
+        "gnome-mobile",
         "phosh",
         "plasma-mobile",
         "sxmo-de-sway",
@@ -160,64 +161,22 @@ images = {
     },
     "asus-me176c": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
     "bq-paella": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
     "fairphone-fp4": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
@@ -308,64 +267,22 @@ images = {
     },
     "lenovo-a6000": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
     "lenovo-a6010": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
     "motorola-harpia": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
@@ -410,43 +327,15 @@ images = {
     },
     "oneplus-enchilada": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
     "oneplus-fajita": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
@@ -471,22 +360,8 @@ images = {
             "all": {
                 "installer": True,
             },
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
@@ -495,22 +370,8 @@ images = {
             "all": {
                 "installer": True,
             },
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
@@ -532,85 +393,29 @@ images = {
             "all": {
                 "installer": True,
             },
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
     "samsung-a3": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                    "gnome-mobile",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
     "samsung-a5": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
     "samsung-e7": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
@@ -642,148 +447,50 @@ images = {
     },
     "samsung-grandmax": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
     "samsung-gt510": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
     "samsung-gt58": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
     "samsung-m0": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
     "samsung-serranove": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
     "shift-axolotl": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
     "wileyfox-crackling": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
@@ -795,22 +502,8 @@ images = {
                     "ebbg",
                 ],
             },
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
@@ -818,65 +511,21 @@ images = {
         "branches": [
             "master",
         ],
-        "branch_configs": {
-            "all": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
-        },
     },
     "xiaomi-markw": {
         "branches": [
             "master",
         ],
-        "branch_configs": {
-            "all": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
-        },
     },
     "xiaomi-mido": {
         "branches": [
             "master",
         ],
-        "branch_configs": {
-            "all": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
-        },
     },
     "xiaomi-scorpio": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
@@ -884,50 +533,16 @@ images = {
         "branches": [
             "master",
         ],
-        "branch_configs": {
-            "all": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
-        },
     },
     "xiaomi-vince": {
         "branches": [
             "master",
         ],
-        "branch_configs": {
-            "all": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
-        },
     },
     "xiaomi-wt88047": {
         "branch_configs": {
-            "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
             },
         },
     },
@@ -935,15 +550,5 @@ images = {
         "branches": [
             "master",
         ],
-        "branch_configs": {
-            "all": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "plasma-mobile",
-                    "sxmo-de-sway",
-                ],
-            },
-        },
     },
 }
