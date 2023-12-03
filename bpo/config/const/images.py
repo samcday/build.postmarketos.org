@@ -15,6 +15,7 @@ password = "147147"
 branches_default = [
         "master",
         "v23.06",
+        "v23.12",
     ]
 
 # UIs value used in the "images" variable below for various laptop/convertible/
@@ -183,6 +184,7 @@ images = {
     "google-gru": {
         "branches": [
             "master",
+            "v23.12",
         ],
         "branch_configs": {
             "all": {
@@ -193,6 +195,7 @@ images = {
     "google-kukui": {
         "branches": [
             "master",
+            "v23.12",
         ],
         "branch_configs": {
             "all": {
@@ -203,6 +206,7 @@ images = {
     "google-oak": {
         "branches": [
             "master",
+            "v23.12",
         ],
         "branch_configs": {
             "all": {
@@ -213,6 +217,7 @@ images = {
     "google-peach-pit": {
         "branches": [
             "master",
+            "v23.12",
         ],
         "branch_configs": {
             "all": {
@@ -228,6 +233,7 @@ images = {
     "google-snow": {
         "branches": [
             "master",
+            "v23.12",
         ],
         "branch_configs": {
             "all": {
@@ -238,6 +244,7 @@ images = {
     "google-trogdor": {
         "branches": [
             "master",
+            "v23.12",
         ],
         "branch_configs": {
             "all": {
@@ -248,6 +255,7 @@ images = {
     "google-veyron": {
         "branches": [
             "master",
+            "v23.12",
         ],
         "branch_configs": {
             "all": {
@@ -258,6 +266,7 @@ images = {
     "google-x64cros": {
         "branches": [
             "master",
+            "v23.12",
         ],
         "branch_configs": {
             "all": {
@@ -316,6 +325,7 @@ images = {
     "odroid-xu4": {
         "branches": [
             "master",
+            "v23.12",
         ],
         "branch_configs": {
             "all": {
@@ -510,16 +520,19 @@ images = {
     "xiaomi-daisy": {
         "branches": [
             "master",
+            "v23.12",
         ],
     },
     "xiaomi-markw": {
         "branches": [
             "master",
+            "v23.12",
         ],
     },
     "xiaomi-mido": {
         "branches": [
             "master",
+            "v23.12",
         ],
     },
     "xiaomi-scorpio": {
@@ -532,11 +545,13 @@ images = {
     "xiaomi-tissot": {
         "branches": [
             "master",
+            "v23.12",
         ],
     },
     "xiaomi-vince": {
         "branches": [
             "master",
+            "v23.12",
         ],
     },
     "xiaomi-wt88047": {
@@ -549,6 +564,7 @@ images = {
     "xiaomi-ysl": {
         "branches": [
             "master",
+            "v23.12",
         ],
     },
 }
