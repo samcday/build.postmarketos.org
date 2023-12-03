@@ -57,6 +57,7 @@ devices = {
     "google-snow": "Samsung Chromebook",
     "google-trogdor": "Google Trogdor Chromebooks",
     "google-veyron": "Google Veyron Chromebooks",
+    "google-x64cros": "Google Chromebooks with x64 CPU",
     "lenovo-a6000": "Lenovo A6000",
     "lenovo-a6010": "Lenovo A6010",
     "motorola-harpia": "Motorola Moto G4 Play",
@@ -294,6 +295,22 @@ images = {
         },
     },
     "google-veyron": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": [ # convertible and laptops
+                    "console",
+                    "gnome",
+                    "phosh",
+                    "plasma-desktop",
+                    "sway",
+                ],
+            },
+        },
+    },
+    "google-x64cros": {
         "branches": [
             "master",
         ],
