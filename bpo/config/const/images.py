@@ -17,6 +17,24 @@ branches_default = [
         "v23.06",
     ]
 
+# UIs value used in the "images" variable below for various laptop/convertible/
+# tablet devices
+ui_laptop_convertible = [
+    "console",
+    "gnome",
+    "phosh",
+    "plasma-desktop",
+    "sway",
+]
+
+# UIs value used in the "images" variable below for various laptop/convertible/
+# tablet devices without GPU support
+ui_laptop_convertible_no_gpu = [
+    "console",
+    "xfce4",
+    "mate",
+]
+
 # Prevent errors by listing explicitly allowed UIs here. Notably "none" is
 # missing, as the UI does not follow the usual naming scheme
 # (postmarketos-ui-none/APKBUILD doesn't exist). Code in bpo.jobs.build_image
@@ -209,13 +227,7 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                "ui": [ # convertible, laptops, tablets
-                    "console",
-                    "gnome",
-                    "phosh",
-                    "plasma-desktop",
-                    "sway",
-                ],
+                "ui": ui_laptop_convertible,
             },
         },
     },
@@ -225,13 +237,7 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                "ui": [ # convertible, laptops, tablets
-                    "console",
-                    "gnome",
-                    "phosh",
-                    "plasma-desktop",
-                    "sway",
-                ],
+                "ui": ui_laptop_convertible,
             },
         },
     },
@@ -241,11 +247,7 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                "ui": [ # convertible and laptops without GPU support
-                    "console",
-                    "xfce4",
-                    "mate",
-                ],
+                "ui": ui_laptop_convertible_no_gpu,
             },
         },
     },
@@ -270,11 +272,7 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                "ui": [ # laptop without GPU support
-                    "console",
-                    "xfce4",
-                    "mate",
-                ],
+                "ui": ui_laptop_convertible_no_gpu,
             },
         },
     },
@@ -284,13 +282,7 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                "ui": [ # convertible and tablets
-                    "console",
-                    "gnome",
-                    "phosh",
-                    "plasma-desktop",
-                    "sway",
-                ],
+                "ui": ui_laptop_convertible,
             },
         },
     },
@@ -300,13 +292,7 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                "ui": [ # convertible and laptops
-                    "console",
-                    "gnome",
-                    "phosh",
-                    "plasma-desktop",
-                    "sway",
-                ],
+                "ui": ui_laptop_convertible,
             },
         },
     },
@@ -316,13 +302,7 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                "ui": [ # convertible and laptops
-                    "console",
-                    "gnome",
-                    "phosh",
-                    "plasma-desktop",
-                    "sway",
-                ],
+                "ui": ui_laptop_convertible,
             },
         },
     },
