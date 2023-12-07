@@ -315,18 +315,6 @@ images = {
             },
         },
     },
-    "odroid-hc2": {
-        "branch_configs": {
-            "all": {
-                "ui": [
-                    "console",
-                ],
-            },
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
-    },
     "odroid-xu4": {
         "branches": [
             "master",
