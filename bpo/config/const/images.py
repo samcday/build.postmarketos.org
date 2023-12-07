@@ -271,9 +271,13 @@ images = {
         "branch_configs": {
             "all": {
                 "kernels": [
-                    # lts kernel config is currently better for these devices than edge
-                    # let's build only lts
-                    "lts",
+                    # "lts" kernel would be a bit better in theory, but it is
+                    # too big to fit the cgpt_kpart partition:
+                    #   % dd if=…/boot/vmlinuz.kpart of=/dev/installp1
+                    #   dd: error writing '/dev/installp1': No space left on device
+                    # Use "edge" instead, it actually misses only a few configs
+                    # for these devices, nothing critical.
+                    "edge",
                 ],
                 "ui": ui_laptop_convertible,
             },
