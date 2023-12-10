@@ -355,29 +355,25 @@ images = {
                     "sway",
                     "phosh",
                 ],
-                "installer": True,
             },
             "v23.06": {
+                "installer": True,
                 "date-start": "2023-06-05",  # Monday
             },
         },
     },
     "pine64-pinephone": {
         "branch_configs": {
-            "all": {
-                "installer": True,
-            },
             "v23.06": {
+                "installer": True,
                 "date-start": "2023-06-05",  # Monday
             },
         },
     },
     "pine64-pinephonepro": {
         "branch_configs": {
-            "all": {
-                "installer": True,
-            },
             "v23.06": {
+                "installer": True,
                 "date-start": "2023-06-05",  # Monday
             },
         },
@@ -397,10 +393,8 @@ images = {
     },
     "purism-librem5": {
         "branch_configs": {
-            "all": {
-                "installer": True,
-            },
             "v23.06": {
+                "installer": True,
                 "date-start": "2023-06-05",  # Monday
             },
         },
