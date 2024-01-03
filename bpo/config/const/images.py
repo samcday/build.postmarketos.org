@@ -229,6 +229,15 @@ images = {
                     "sway",
                 ],
             },
+            # Disable plasma for master:
+            # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
+            "master": {
+                "ui": [
+                    "console",
+                    "gnome",
+                    "sway",
+                ],
+            },
         },
     },
     "google-snow": {
@@ -262,6 +271,16 @@ images = {
             "all": {
                 "ui": ui_laptop_convertible,
             },
+            # Disable plasma for master:
+            # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
+            "master": {
+                "ui": [
+                    "console",
+                    "gnome",
+                    "phosh",
+                    "sway",
+                ],
+            }
         },
     },
     "google-x64cros": {
@@ -429,6 +448,15 @@ images = {
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
             },
+            # Disable plasma for master:
+            # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "sxmo-de-sway",
+                ],
+            },
         },
     },
     "samsung-espresso10": {
@@ -462,6 +490,15 @@ images = {
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
             },
+            # Disable plasma for master:
+            # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "sxmo-de-sway",
+                ],
+            },
         },
     },
     "samsung-gt510": {
@@ -483,12 +520,30 @@ images = {
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
             },
+            # Disable plasma for master:
+            # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "sxmo-de-sway",
+                ],
+            },
         },
     },
     "samsung-serranove": {
         "branch_configs": {
             "v23.06": {
                 "date-start": "2023-06-05",  # Monday
+            },
+            # Disable plasma for master:
+            # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
+            "master": {
+                "ui": [
+                    "gnome-mobile",
+                    "phosh",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
