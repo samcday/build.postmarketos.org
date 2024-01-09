@@ -5,6 +5,7 @@ import datetime
 import glob
 import logging
 import os
+import shutil
 
 from flask import request
 from bpo.helpers.headerauth import header_auth
@@ -107,7 +108,7 @@ def upload_finish(session, image, path_temp, dir_name):
     for path_img_temp in glob.glob(f"{path_temp}/*"):
         path_img = os.path.join(path, os.path.basename(path_img_temp))
         logging.info(f"Moving from tempdir: {path_img}")
-        os.replace(path_img_temp, path_img)
+        shutil.move(path_img_temp, path_img)
         count += 1
 
     os.rmdir(path_temp)
