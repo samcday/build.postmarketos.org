@@ -14,7 +14,6 @@ password = "147147"
 # Branches to build images for, can be overridden per device in 'images' below
 branches_default = [
         "master",
-        "v23.06",
         "v23.12",
     ]
 
@@ -156,31 +155,13 @@ images = {
                     "console",
                 ],
             },
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
         },
     },
     "asus-me176c": {
-        "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
     },
     "bq-paella": {
-        "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
     },
     "fairphone-fp4": {
-        "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
     },
     "google-gru": {
         "branches": [
@@ -304,25 +285,10 @@ images = {
         },
     },
     "lenovo-a6000": {
-        "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
     },
     "lenovo-a6010": {
-        "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
     },
     "motorola-harpia": {
-        "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
     },
     "nokia-n900": {
         "branch_configs": {
@@ -330,9 +296,6 @@ images = {
                 "ui": [
                     "i3wm",
                 ],
-            },
-            "v23.06": {
-                "date-start": "2023-07-07",  # Friday
             },
             "master": {
                 "date-start": "2023-07-07",  # Friday
@@ -363,18 +326,8 @@ images = {
         },
     },
     "oneplus-enchilada": {
-        "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
     },
     "oneplus-fajita": {
-        "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
     },
     "pine64-pinebookpro": {
         "branch_configs": {
@@ -386,27 +339,11 @@ images = {
                     "phosh",
                 ],
             },
-            "v23.06": {
-                "installer": True,
-                "date-start": "2023-06-05",  # Monday
-            },
         },
     },
     "pine64-pinephone": {
-        "branch_configs": {
-            "v23.06": {
-                "installer": True,
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
     },
     "pine64-pinephonepro": {
-        "branch_configs": {
-            "v23.06": {
-                "installer": True,
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
     },
     "pine64-rockpro64": {
         "branch_configs": {
@@ -416,38 +353,16 @@ images = {
                     "plasma-bigscreen",
                 ],
             },
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
         },
     },
     "purism-librem5": {
-        "branch_configs": {
-            "v23.06": {
-                "installer": True,
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
     },
     "samsung-a3": {
-        "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
     },
     "samsung-a5": {
-        "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
     },
     "samsung-e7": {
         "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
             # Disable plasma for master:
             # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
             "master": {
@@ -467,9 +382,6 @@ images = {
                     "xfce4",
                 ],
             },
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
         },
     },
     "samsung-espresso7": {
@@ -480,16 +392,10 @@ images = {
                     "xfce4",
                 ],
             },
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
         },
     },
     "samsung-grandmax": {
         "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
             # Disable plasma for master:
             # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
             "master": {
@@ -502,24 +408,11 @@ images = {
         },
     },
     "samsung-gt510": {
-        "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
     },
     "samsung-gt58": {
-        "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
     },
     "samsung-m0": {
         "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
             # Disable plasma for master:
             # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
             "master": {
@@ -533,9 +426,6 @@ images = {
     },
     "samsung-serranove": {
         "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
             # Disable plasma for master:
             # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
             "master": {
@@ -548,18 +438,8 @@ images = {
         },
     },
     "shift-axolotl": {
-        "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
     },
     "wileyfox-crackling": {
-        "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
     },
     "xiaomi-beryllium": {
         "branch_configs": {
@@ -568,9 +448,6 @@ images = {
                     "tianma",
                     "ebbg",
                 ],
-            },
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
             },
         },
     },
@@ -593,11 +470,6 @@ images = {
         ],
     },
     "xiaomi-scorpio": {
-        "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
     },
     "xiaomi-tissot": {
         "branches": [
@@ -612,11 +484,6 @@ images = {
         ],
     },
     "xiaomi-wt88047": {
-        "branch_configs": {
-            "v23.06": {
-                "date-start": "2023-06-05",  # Monday
-            },
-        },
     },
     "xiaomi-ysl": {
         "branches": [
