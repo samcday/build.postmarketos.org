@@ -5,7 +5,6 @@ import glob
 import logging
 import os
 import shutil
-import subprocess
 
 import bpo.config
 import bpo.db
@@ -107,14 +106,12 @@ def sync_with_orig_repo(branch_staging, arch):
             stats["skip_not_in_staging_branch"] += 1
             continue
 
-        # Create hardlink in staging repo's WIP repo
+        # Create copy in staging repo's WIP repo
         apk_full_path_staging = f"{path_repo_staging_wip}/{apk}"
         logging.info(f"{branch_staging}/{arch}: syncing {apk} (db +" \
-                     f" hardlink: {apk_full_path_staging})")
+                     f" copy: {apk_full_path_staging})")
         os.makedirs(path_repo_staging_wip, exist_ok=True)
-        cmd_ln = bpo.config.const.cmd_ln
-        subprocess.run([cmd_ln, apk_full_path, apk_full_path_staging],
-                       check=True)
+        shutil.copy(apk_full_path, apk_full_path_staging)
 
         # Mark as built in DB
         # job_id set to None together with status == built/published indicates
