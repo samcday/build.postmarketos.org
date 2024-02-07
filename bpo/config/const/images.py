@@ -68,6 +68,7 @@ devices = {
     "asus-me176c": "ASUS MeMO Pad 7",
     "bq-paella": "BQ Aquaris X5",
     "fairphone-fp4": "Fairphone 4",
+    "generic-x86_64": "Generic x86_64 Device",
     "google-gru": "Google Gru Chromebooks",
     "google-kukui": "Google Kukui Chromebooks",
     "google-oak": "Google Oak Chromebooks",
@@ -163,6 +164,16 @@ images = {
     "bq-paella": {
     },
     "fairphone-fp4": {
+    },
+    "generic-x86_64": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": ui_laptop_convertible,
+            },
+        },
     },
     "google-gru": {
         "branches": [
