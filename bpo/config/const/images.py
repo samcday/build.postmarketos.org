@@ -100,6 +100,7 @@ devices = {
     "samsung-gt510": "Samsung Galaxy Tab A 9.7 2015",
     "samsung-gt58": "Samsung Galaxy Tab A 8.0 2015",
     "samsung-m0": "Samsung Galaxy S III",
+    "samsung-manta": "Google Nexus 10",
     "samsung-serranove": "Samsung Galaxy S4 Mini Value Edition",
     "shift-axolotl": "SHIFT SHIFT6mq",
     "wileyfox-crackling": "Wileyfox Swift",
@@ -421,6 +422,19 @@ images = {
                     "phosh",
                     "sxmo-de-sway",
                 ],
+            },
+        },
+    },
+    "samsung-manta": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                # TODO: change it to UIs supported with GPU when this MR lands
+                # Alpine's mesa package:
+                # https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/27519
+                "ui": ui_laptop_convertible_no_gpu,
             },
         },
     },
