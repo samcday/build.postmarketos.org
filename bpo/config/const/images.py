@@ -228,7 +228,16 @@ images = {
             "v23.12",
         ],
         "branch_configs": {
-            "all": {
+            "master": {
+                "ui": [
+                    "console",
+                    "gnome",
+                    "plasma-desktop",
+                    "sway",
+                ],
+            },
+            "v23.12": {
+                # There is no GPU support in 23.12
                 "ui": ui_laptop_convertible_no_gpu,
             },
         },
@@ -431,10 +440,12 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                # TODO: change it to UIs supported with GPU when this MR lands
-                # Alpine's mesa package:
-                # https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/27519
-                "ui": ui_laptop_convertible_no_gpu,
+                "ui": [
+                    "console",
+                    "gnome-mobile",
+                    "phosh",
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
