@@ -112,7 +112,7 @@ def get_manifest(name, tasks, branch):
            WORK="$(pmbootstrap config work)"
            for arch in """ + arches + """; do
                mkdir -p /mnt/tmpfs-for-apks/cache_apk_"$arch"
-               rm -rf "$WORK"/cache_apk_"$arch"
+               sudo rm -rf "$WORK"/cache_apk_"$arch"
                ln -s /mnt/tmpfs-for-apks/cache_apk_"$arch" "$WORK"
            done
     """
