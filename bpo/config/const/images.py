@@ -374,6 +374,13 @@ images = {
                     "plasma-bigscreen",
                 ],
             },
+            # Disable plasma bigscreen for master:
+            # https://gitlab.com/postmarketOS/pmaports/-/issues/2650
+            "master": {
+                "ui": [
+                    "console",
+                ],
+            },
         },
     },
     "purism-librem5": {
