@@ -178,6 +178,9 @@ images = {
         "branch_configs": {
             "all": {
                 "ui": ui_laptop_convertible,
+                "kernels": [
+                    "lts",
+                ],
             },
         },
     },
