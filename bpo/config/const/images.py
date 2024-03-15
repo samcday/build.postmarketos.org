@@ -80,6 +80,7 @@ devices = {
     "google-x64cros": "Google Chromebooks with x64 CPU",
     "lenovo-a6000": "Lenovo A6000",
     "lenovo-a6010": "Lenovo A6010",
+    "microsoft-surface-rt": "Microsoft Surface RT",
     "motorola-harpia": "Motorola Moto G4 Play",
     "nokia-n900": "Nokia N900",
     "nvidia-tegra-armv7": "Nvidia Tegra armv7",
@@ -317,6 +318,21 @@ images = {
     "lenovo-a6000": {
     },
     "lenovo-a6010": {
+    },
+    "microsoft-surface-rt": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": [ # tablet with keyboard, no GPU
+                    "console",
+                    "xfce4",
+                    "mate",
+                    "sxmo-de-dwm",
+                ],
+            },
+        },
     },
     "motorola-harpia": {
     },
