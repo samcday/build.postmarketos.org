@@ -224,6 +224,21 @@
             remove old image dir {{ entry.dir_name }}
             {#
 
+            * repo_bootstrap related actions *
+            #}{% elif entry.action == "repo_bootstrap_add" %}
+            queued
+            {% elif entry.action == "job_repo_bootstrap" %}
+            building
+            {% elif entry.action == "job_update_repo_bootstrap_status_built" %}
+            built
+            {% elif entry.action == "job_update_repo_bootstrap_status_failed" %}
+            <b>failed</b>
+            (try {{entry.retry_count + 1
+                }}/{{bpo.config.const.retry_count_max + 1}})
+            {% elif entry.action == "repo_bootstrap_published" %}
+            published
+            {#
+
             * unknown action *
             #}{% else %}
             (unknown action: {{ entry.action }})

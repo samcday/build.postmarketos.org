@@ -136,9 +136,43 @@ def update_status_image():
     session.commit()
 
 
+def get_status_repo_bootstrap(rb):
+    result = get_job_service().get_status(rb.job_id)
+    status = bpo.job_services.base.JobStatus
+
+    if result in [status.pending, status.queued, status.running]:
+        return bpo.db.RepoBootstrapStatus.building
+
+    if result == status.success:
+        return bpo.db.RepoBootstrapStatus.built
+
+    if result in [status.failed, status.timeout, status.cancelled]:
+        return bpo.db.RepoBootstrapStatus.failed
+
+    raise RuntimeError(f"get_status_repo_bootstrap: failed on job status: {result}")
+
+
+def update_status_repo_bootstrap():
+    logging.info("Checking if 'building' repo_bootstrap jobs have failed or"
+                 " finished")
+    building = bpo.db.RepoBootstrapStatus.building
+
+    session = bpo.db.session()
+    result = session.query(bpo.db.RepoBootstrap).filter_by(status=building).all()
+    for rb in result:
+        status_new = get_status_repo_bootstrap(rb)
+        if status_new == building:
+            continue
+        bpo.db.set_repo_bootstrap_status(session, rb, status_new)
+        action = f"job_update_repo_bootstrap_status_{status_new.name}"
+        bpo.ui.log_repo_bootstrap(rb, action)
+    session.commit()
+
+
 def update_status():
     update_status_package()
     update_status_image()
+    update_status_repo_bootstrap()
 
 
 def get_link(job_id):

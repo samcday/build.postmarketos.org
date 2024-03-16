@@ -11,6 +11,7 @@ import bpo.db
 import bpo.helpers.apk
 import bpo.jobs.build_image
 import bpo.jobs.build_package
+import bpo.jobs.repo_bootstrap
 import bpo.jobs.sign_index
 import bpo.repo.symlink
 import bpo.repo.tools
@@ -70,6 +71,27 @@ def next_image_to_build(session, branch):
         .filter_by(branch=branch, status=queued)\
         .all()
     return result[0] if len(result) else None
+
+
+def repo_bootstrap_attempt(session, rb):
+    """
+    Start a repo_bootstrap job, if it makes sense depending on the status and
+    the failed retry attempts.
+
+    :returns: * True if a repo_bootstrap job was started
+              * False if it was not started
+    """
+    rbs = bpo.db.RepoBootstrapStatus
+
+    if rb.status not in [rbs.queued, rbs.failed]:
+        return False
+
+    if rb.status == rbs.failed and \
+            rb.retry_count >= bpo.config.const.retry_count_max:
+        return False
+
+    bpo.jobs.repo_bootstrap.run(session, rb)
+    return True
 
 
 def count_running_builds_packages(session):
@@ -135,6 +157,23 @@ def build_arch_branch(session, slots_available, arch, branch,
         bpo.repo.staging.sync_with_orig_repo(branch, arch)
 
     started = 0
+
+    # Do repo_bootstrap first if needed
+    rb = bpo.db.get_repo_bootstrap(session, arch, branch, "/")
+    if rb and rb.status != bpo.db.RepoBootstrapStatus.published:
+        if slots_available > 0:
+            if repo_bootstrap_attempt(session, rb):
+                started += 1
+                slots_available -= 1
+            elif rb.status == bpo.db.RepoBootstrapStatus.built:
+                logging.info(f"{rb}: publishing")
+                bpo.repo.symlink.create(arch, branch, True)
+        else:
+            logging.info(f"{rb}: no more slots available")
+
+        logging.info(f"{rb}: not done, not building any other packages")
+        return started
+
     while True:
         pkgname = next_package_to_build(session, arch, branch)
         if not pkgname:

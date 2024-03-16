@@ -55,6 +55,13 @@ def run(arch, pkgname, branch):
     strict_arg = "--strict" if do_build_strict(pkgname) else ""
     timeout = str(bpo.config.const.pmbootstrap_timeout)
 
+    # For now, set systemd=always when we did a repo_bootstrap. This will cause
+    # pmbootstrap to do usr-merge and install our custom apk-tools and abuild
+    # (that were built during repo_bootstrap).
+    systemd_arg = "never"
+    if bpo.db.get_repo_bootstrap(session, arch, branch):
+        systemd_arg = "always"
+
     # Start job
     note = "Build package: `{}/{}/{}-{}`".format(branch, arch, pkgname,
                                                  package.version)
@@ -64,6 +71,7 @@ def run(arch, pkgname, branch):
                 > pmbootstrap/pmb/data/keys/wip.rsa.pub
             """),
         ("pmbootstrap_build", """
+            pmbootstrap config systemd """ + systemd_arg + """
             pmbootstrap \\
                 -m """ + mirror_alpine + """ \
                 """ + mirrors + """ \\

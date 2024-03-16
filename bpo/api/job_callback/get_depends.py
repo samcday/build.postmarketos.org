@@ -10,6 +10,7 @@ import bpo.config.args
 import bpo.db
 import bpo.helpers.job
 import bpo.repo
+import bpo.repo.bootstrap
 import bpo.repo.staging
 import bpo.repo.wip
 import bpo.ui
@@ -128,6 +129,7 @@ def job_callback_get_depends():
     session = bpo.db.session()
     force_repo_update_branch = None
     for arch, payload in payloads.items():
+        bpo.repo.bootstrap.init(session, payload, arch, branch)
         update_or_insert_packages(session, payload, arch, branch)
         update_package_depends(session, payload, arch, branch)
         if remove_deleted_packages_db(session, payload, arch, branch):

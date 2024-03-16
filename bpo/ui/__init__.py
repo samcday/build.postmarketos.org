@@ -173,3 +173,13 @@ def log_image(image, action):
         job_id=image.job_id,
         retry_count=image.retry_count,
         dir_name=image.dir_name)
+
+
+def log_repo_bootstrap(rb, action):
+    log(action=action,
+        arch=rb.arch,
+        branch=rb.branch,
+        pkgname="[repo_bootstrap]",
+        job_id=rb.job_id,
+        retry_count=rb.retry_count,
+        dir_name=rb.dir_name)

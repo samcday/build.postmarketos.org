@@ -219,6 +219,42 @@ class Image(base):
         return ret
 
 
+class RepoBootstrapStatus(enum.Enum):
+    queued = 0     # waiting for build slot
+    building = 1   # "pmbootstrap repo_bootstrap" is running right now
+    built = 2      # packages have been built and uploaded
+    published = 3  # repository has been published with repo_bootstrap pkgs
+    failed = 4     # the job failed at least once
+
+
+class RepoBootstrap(base):
+    __tablename__ = "repo_bootstrap"
+
+    # === DATABASE LAYOUT, DO NOT CHANGE! (read docs/db.md) ===
+    id = Column(Integer, primary_key=True)
+    dir_name = Column(String, unique=True)
+    arch = Column(String)
+    branch = Column(String)
+    status = Column(Enum(RepoBootstrapStatus))
+    job_id = Column(Integer, unique=True)
+    retry_count = Column(Integer, default=0)
+
+    Index("rb:dir-arch-branch", dir_name, arch, branch, unique=True)
+    Index("rb:status", status)
+    # === END OF DATABASE LAYOUT ===
+
+    def __init__(self, arch, branch, dir_name="/"):
+        self.arch = arch
+        self.branch = branch
+        self.dir_name = dir_name
+        self.status = RepoBootstrapStatus.queued
+
+    def __repr__(self):
+        return (f"repo_bootstrap: {self.branch}/{self.arch}"
+                f" (dir_name={self.dir_name}, retry_count={self.retry_count},"
+                f" job_id={self.job_id}")
+
+
 def init_relationships():
     # Only run this once!
     self = sys.modules[__name__]
@@ -310,6 +346,14 @@ def get_image(session, branch, device, ui, job_id=None):
     return result[0] if len(result) else None
 
 
+def get_repo_bootstrap(session, arch, branch, dir_name="/", job_id=None):
+    result = session.query(bpo.db.RepoBootstrap).\
+        filter_by(arch=arch, branch=branch, dir_name=dir_name).\
+        all()
+    validate_job_id(result, job_id)
+    return result[0] if len(result) else None
+
+
 def get_recent_packages_by_status(session):
     """ :returns: a dict like this (pkglist is a list of bpo.db.Package
                   objects):
@@ -352,6 +396,24 @@ def get_recent_packages_by_status(session):
                 ret[sync_str][branch][arch] += 1
             else:
                 ret[sync_str][branch][arch] = 1
+
+    # For repo_bootstrap. before it is in built state, bpo can't display which
+    # packages are part of the repo_bootstrap. Add a fake package for it to the
+    # UI.
+    rb_all = session.query(RepoBootstrap).\
+             filter(RepoBootstrap.status != RepoBootstrapStatus.published).\
+             filter(RepoBootstrap.status != RepoBootstrapStatus.built).\
+             filter(RepoBootstrap.branch.in_(all_branches)).\
+             order_by(RepoBootstrap.branch,
+                      RepoBootstrap.arch)
+    for rb in rb_all:
+        status = rb.status.name
+        if status not in ret:
+            ret[status] = []
+        fake_pkg = Package(rb.arch, rb.branch, "[repo_bootstrap]", "")
+        fake_pkg.retry_count = rb.retry_count
+        fake_pkg.job_id = rb.job_id
+        ret[status] += [fake_pkg]
 
     return ret
 
@@ -416,6 +478,14 @@ def set_image_status(session, image, status, job_id=None, dir_name=None,
     if date:
         image.date = date
     session.merge(image)
+    session.commit()
+
+
+def set_repo_bootstrap_status(session, rb, status, job_id=None):
+    rb.status = status
+    if job_id:
+        rb.job_id = job_id
+    session.merge(rb)
     session.commit()
 
 
