@@ -431,7 +431,6 @@ images = {
         "branch_configs": {
             "all": {
                 "ui": [
-                    "phosh",
                     "xfce4",
                 ],
             },
@@ -441,7 +440,6 @@ images = {
         "branch_configs": {
             "all": {
                 "ui": [
-                    "phosh",
                     "xfce4",
                 ],
             },
