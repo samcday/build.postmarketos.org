@@ -10,7 +10,7 @@ fi
 
 set -x
 
-ruff \
+ruff check \
 	*.py \
 	$(find bpo -name "*.py") \
 	$(find helpers -name "*.py") \
