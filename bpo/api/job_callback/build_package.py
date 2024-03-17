@@ -15,24 +15,12 @@ import bpo.ui
 blueprint = bpo.api.blueprint
 
 
-def get_apks(request):
-    """ Get all attached apks and verify the file names. """
-    pattern = bpo.config.const.pattern_apk_name
-    ret = request.files.getlist("file[]")
-
-    for apk in ret:
-        if not pattern.match(apk.filename):
-            raise RuntimeError("Invalid filename: " + apk.filename)
-
-    return ret
-
-
 @blueprint.route("/api/job-callback/build-package", methods=["POST"])
 @header_auth("X-BPO-Token", "job_callback")
 def job_callback_build_package():
     session = bpo.db.session()
     package = bpo.api.get_package(session, request)
-    apks = get_apks(request)
+    apks = bpo.api.get_apks(request)
 
     # Create WIP dir
     wip = bpo.repo.wip.get_path(package.arch, package.branch)

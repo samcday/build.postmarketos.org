@@ -71,3 +71,15 @@ def get_file(request, filename):
         if storage.filename == filename:
             return storage
     raise ValueError("Missing file " + filename + " in payload.")
+
+
+def get_apks(request):
+    """ Get all attached apks and verify the file names. """
+    pattern = bpo.config.const.pattern_apk_name
+    ret = request.files.getlist("file[]")
+
+    for apk in ret:
+        if not pattern.match(apk.filename):
+            raise RuntimeError("Invalid filename: " + apk.filename)
+
+    return ret
