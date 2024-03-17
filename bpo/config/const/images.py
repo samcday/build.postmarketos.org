@@ -16,7 +16,7 @@ def get_ui_list(chassis, supports_gpu=True, exclude_ui=[]):
             ui.add("xfce4")
             ui.add("sxmo-de-dwm")
 
-    if "tablet" in chassis:
+    if "convertible" in chassis or "tablet" in chassis:
         if supports_gpu:
             ui.add("phosh")
             ui.add("sxmo-de-sway")
@@ -25,7 +25,7 @@ def get_ui_list(chassis, supports_gpu=True, exclude_ui=[]):
             ui.add("xfce4")
             ui.add("sxmo-de-dwm")
 
-    if "laptop" in chassis:
+    if "convertible" in chassis or "laptop" in chassis:
         ui.add("console")
         if supports_gpu:
             ui.add("gnome")
@@ -35,26 +35,6 @@ def get_ui_list(chassis, supports_gpu=True, exclude_ui=[]):
             ui.add("mate")
             ui.add("xfce4")
             ui.add("i3wm")
-
-    if "convertible" in chassis:
-        # Convertible devices have tablet and laptop modes, so we should
-        # build images that are usable in both modes *or either*.
-        ui.add("console")
-        if supports_gpu:
-            # Laptop UIs
-            ui.add("gnome")
-            ui.add("plasma-desktop")
-            ui.add("sway")
-            # Tablet UIs
-            ui.add("phosh")
-            ui.add("sxmo-de-sway")
-        else:
-            # Laptop UIs
-            ui.add("mate")
-            ui.add("xfce4")
-            ui.add("i3wm")
-            # Tablet UIs
-            ui.add("sxmo-de-dwm")
 
     if "embedded" in chassis:
         ui.add("console")
