@@ -48,7 +48,7 @@ def remove_additional_indent(script, spaces=12):
 
 
 def run(name, note, tasks, branch=None, arch=None, pkgname=None,
-        version=None, device=None, ui=None):
+        version=None, device=None, ui=None, dir_name=None):
     """ :param note: what to send to the job service as description, rendered
                      as markdown in sourcehut
         :param branch: of pmaports to check out before running the job
@@ -66,7 +66,8 @@ def run(name, note, tasks, branch=None, arch=None, pkgname=None,
     job_id = js.run_job(name, note, tasks_formatted, branch)
 
     bpo.ui.log("job_" + name, arch=arch, branch=branch, pkgname=pkgname,
-               version=version, job_id=job_id, device=device, ui=ui)
+               version=version, job_id=job_id, device=device, ui=ui,
+               dir_name=dir_name)
 
     return job_id
 
