@@ -234,8 +234,8 @@ images = {
         "branch_configs": {
             "all": {
                 "kernels": [
-                    "nyan_big",
-                    "nyan_big_fhd",
+                    "nyan-big",
+                    "nyan-big-fhd",
                 ],
                 "ui": get_ui_list(chassis=["laptop"], supports_gpu=False),
             },
