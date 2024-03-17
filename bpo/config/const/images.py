@@ -2,6 +2,69 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import re
 
+def get_ui_list(chassis, supports_gpu=True, exclude_ui=[]):
+    ui = set()
+
+    if "handset" in chassis:
+        if supports_gpu:
+            ui.add("gnome-mobile")
+            ui.add("phosh")
+            ui.add("plasma-mobile")
+            ui.add("sxmo-de-sway")
+        else:
+            ui.add("mate")
+            ui.add("xfce4")
+            ui.add("sxmo-de-dwm")
+
+    if "tablet" in chassis:
+        if supports_gpu:
+            ui.add("phosh")
+            ui.add("sxmo-de-sway")
+        else:
+            ui.add("mate")
+            ui.add("xfce4")
+            ui.add("sxmo-de-dwm")
+
+    if "laptop" in chassis:
+        ui.add("console")
+        if supports_gpu:
+            ui.add("gnome")
+            ui.add("plasma-desktop")
+            ui.add("sway")
+        else:
+            ui.add("mate")
+            ui.add("xfce4")
+            ui.add("i3wm")
+
+    if "convertible" in chassis:
+        # Convertible devices have tablet and laptop modes, so we should
+        # build images that are usable in both modes *or either*.
+        ui.add("console")
+        if supports_gpu:
+            # Laptop UIs
+            ui.add("gnome")
+            ui.add("plasma-desktop")
+            ui.add("sway")
+            # Tablet UIs
+            ui.add("phosh")
+            ui.add("sxmo-de-sway")
+        else:
+            # Laptop UIs
+            ui.add("mate")
+            ui.add("xfce4")
+            ui.add("i3wm")
+            # Tablet UIs
+            ui.add("sxmo-de-dwm")
+
+    if "embedded" in chassis:
+        ui.add("console")
+
+    if exclude_ui:
+        for ui_to_remove in exclude_ui:
+            ui.remove(ui_to_remove)
+
+    return list(ui)
+
 # Regular expressions for resulting dir and file names
 pattern_dir = re.compile("^[0-9]{8}-[0-9]{4}$")
 pattern_file = re.compile(
@@ -16,24 +79,6 @@ branches_default = [
         "master",
         "v23.12",
     ]
-
-# UIs value used in the "images" variable below for various laptop/convertible/
-# tablet devices
-ui_laptop_convertible = [
-    "console",
-    "gnome",
-    "phosh",
-    "plasma-desktop",
-    "sway",
-]
-
-# UIs value used in the "images" variable below for various laptop/convertible/
-# tablet devices without GPU support
-ui_laptop_convertible_no_gpu = [
-    "console",
-    "xfce4",
-    "mate",
-]
 
 # Prevent errors by listing explicitly allowed UIs here. Notably "none" is
 # missing, as the UI does not follow the usual naming scheme
@@ -126,12 +171,7 @@ branch_config_default = {
 
     # User interfaces to build. At least one UI must be set for each device,
     # otherwise no image for that device will be built.
-    "ui": [
-        "gnome-mobile",
-        "phosh",
-        "plasma-mobile",
-        "sxmo-de-sway",
-    ],
+    "ui": get_ui_list(chassis=["handset"]),
 
     # Build images with the on-device installer. If set to False, build one
     # image without the installer. If set to True, build another image, which
@@ -155,9 +195,7 @@ images = {
     "arrow-db410c": {
         "branch_configs": {
             "all": {
-                "ui": [
-                    "console",
-                ],
+                "ui": get_ui_list(chassis=["embedded"]),
             },
         },
     },
@@ -178,7 +216,7 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                "ui": ui_laptop_convertible,
+                "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"]),
                 "kernels": [
                     "lts",
                 ],
@@ -192,7 +230,7 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                "ui": ui_laptop_convertible,
+                "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"]),
             },
         },
     },
@@ -203,7 +241,7 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                "ui": ui_laptop_convertible,
+                "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"]),
             },
         },
     },
@@ -214,7 +252,7 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                "ui": ui_laptop_convertible_no_gpu,
+                "ui": get_ui_list(chassis=["laptop", "convertible"], supports_gpu=False),
             },
         },
     },
@@ -225,21 +263,12 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                "ui": [ # laptop
-                    "console",
-                    "gnome",
-                    "plasma-desktop",
-                    "sway",
-                ],
+                "ui": get_ui_list(chassis=["laptop"]),
             },
             # Disable plasma for master:
             # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
             "master": {
-                "ui": [
-                    "console",
-                    "gnome",
-                    "sway",
-                ],
+                "ui": get_ui_list(chassis=["laptop"], exclude_ui=["plasma-desktop"]),
             },
         },
     },
@@ -250,16 +279,11 @@ images = {
         ],
         "branch_configs": {
             "master": {
-                "ui": [
-                    "console",
-                    "gnome",
-                    "plasma-desktop",
-                    "sway",
-                ],
+                "ui": get_ui_list(chassis=["laptop"]),
             },
             "v23.12": {
                 # There is no GPU support in 23.12
-                "ui": ui_laptop_convertible_no_gpu,
+                "ui": get_ui_list(chassis=["laptop"], supports_gpu=False),
             },
         },
     },
@@ -270,7 +294,7 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                "ui": ui_laptop_convertible,
+                "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"]),
             },
         },
     },
@@ -281,17 +305,12 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                "ui": ui_laptop_convertible,
+                "ui": get_ui_list(chassis=["laptop", "convertible"]),
             },
             # Disable plasma for master:
             # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
             "master": {
-                "ui": [
-                    "console",
-                    "gnome",
-                    "phosh",
-                    "sway",
-                ],
+                "ui": get_ui_list(chassis=["laptop", "convertible"], exclude_ui=["plasma-desktop"]),
             }
         },
     },
@@ -311,7 +330,7 @@ images = {
                     # for these devices, nothing critical.
                     "edge",
                 ],
-                "ui": ui_laptop_convertible,
+                "ui": get_ui_list(chassis=["laptop", "convertible"]),
             },
         },
     },
@@ -325,12 +344,8 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                "ui": [ # tablet with keyboard, no GPU
-                    "console",
-                    "xfce4",
-                    "mate",
-                    "sxmo-de-dwm",
-                ],
+                # Tablet with detachable keyboard
+                "ui": get_ui_list(chassis=["convertible"], supports_gpu=False),
             },
         },
     },
@@ -339,9 +354,8 @@ images = {
     "nokia-n900": {
         "branch_configs": {
             "all": {
-                "ui": [
-                    "i3wm",
-                ],
+                # Handset with keyboard
+                "ui": get_ui_list(chassis=["convertible"], supports_gpu=False),
             },
             "master": {
                 "date-start": "2023-07-07",  # Friday
@@ -354,7 +368,7 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                "ui": ui_laptop_convertible_no_gpu,
+                "ui": get_ui_list(chassis=["convertible", "tablet", "handset"], supports_gpu=False),
             },
         },
     },
@@ -378,12 +392,7 @@ images = {
     "pine64-pinebookpro": {
         "branch_configs": {
             "all": {
-                "ui": [  # "plasma-desktop" is disabled, see pma#1623
-                    "console",
-                    "gnome",
-                    "sway",
-                    "phosh",
-                ],
+                "ui": get_ui_list(chassis=["laptop"]),
             },
         },
     },
@@ -419,29 +428,21 @@ images = {
             # Disable plasma for master:
             # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
             "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "sxmo-de-sway",
-                ],
+                "ui": get_ui_list(chassis=["handset"], exclude_ui=["plasma-mobile"]),
             },
         },
     },
     "samsung-espresso10": {
         "branch_configs": {
             "all": {
-                "ui": [
-                    "xfce4",
-                ],
+                "ui": get_ui_list(chassis=["tablet"], supports_gpu=False),
             },
         },
     },
     "samsung-espresso7": {
         "branch_configs": {
             "all": {
-                "ui": [
-                    "xfce4",
-                ],
+                "ui": get_ui_list(chassis=["tablet"], supports_gpu=False),
             },
         },
     },
@@ -450,11 +451,7 @@ images = {
             # Disable plasma for master:
             # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
             "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "sxmo-de-sway",
-                ],
+                "ui": get_ui_list(chassis=["handset"], exclude_ui=["plasma-mobile"]),
             },
         },
     },
@@ -467,11 +464,7 @@ images = {
             # Disable plasma for master:
             # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
             "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "sxmo-de-sway",
-                ],
+                "ui": get_ui_list(chassis=["handset"], exclude_ui=["plasma-mobile"]),
             },
         },
     },
@@ -481,12 +474,7 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                "ui": [
-                    "console",
-                    "gnome-mobile",
-                    "phosh",
-                    "sxmo-de-sway",
-                ],
+                "ui": get_ui_list(chassis=["tablet"]),
             },
         },
     },
@@ -495,11 +483,7 @@ images = {
             # Disable plasma for master:
             # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
             "master": {
-                "ui": [
-                    "gnome-mobile",
-                    "phosh",
-                    "sxmo-de-sway",
-                ],
+                "ui": get_ui_list(chassis=["handset"], exclude_ui=["plasma-mobile"]),
             },
         },
     },
