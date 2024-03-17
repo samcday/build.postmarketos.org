@@ -97,6 +97,8 @@ devices = {
     "generic-x86_64": "Generic x86_64 Device",
     "google-gru": "Google Gru Chromebooks",
     "google-kukui": "Google Kukui Chromebooks",
+    "google-nyan-big": "Acer Chromebook 13 CB5-311",
+    "google-nyan-blaze": "HP Chromebook 14 G3",
     "google-oak": "Google Oak Chromebooks",
     "google-peach-pit": "Samsung Chromebook 2 11.6\"",
     "google-snow": "Samsung Chromebook",
@@ -222,6 +224,30 @@ images = {
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"]),
+            },
+        },
+    },
+    "google-nyan-big": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "kernels": [
+                    "nyan_big",
+                    "nyan_big_fhd",
+                ],
+                "ui": get_ui_list(chassis=["laptop"], supports_gpu=False),
+            },
+        },
+    },
+    "google-nyan-blaze": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": get_ui_list(chassis=["laptop"], supports_gpu=False),
             },
         },
     },
