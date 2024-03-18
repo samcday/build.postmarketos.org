@@ -95,6 +95,9 @@ devices = {
     "fairphone-fp4": "Fairphone 4",
     "fairphone-fp5": "Fairphone 5",
     "generic-x86_64": "Generic x86_64 Device",
+    "google-asurada": "Google Asurada Chromebooks",
+    "google-cherry": "Google Cherry Chromebooks",
+    "google-corsola": "Google Corsola Chromebooks",
     "google-gru": "Google Gru Chromebooks",
     "google-kukui": "Google Kukui Chromebooks",
     "google-nyan-big": "Acer Chromebook 13 CB5-311",
@@ -202,6 +205,36 @@ images = {
                 "kernels": [
                     "lts",
                 ],
+            },
+        },
+    },
+    "google-asurada": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": get_ui_list(chassis=["laptop", "convertible"]),
+            },
+        },
+    },
+    "google-cherry": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": get_ui_list(chassis=["laptop", "convertible"]),
+            },
+        },
+    },
+    "google-corsola": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": get_ui_list(chassis=["laptop", "convertible"]),
             },
         },
     },
