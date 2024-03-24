@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# Copyright 2022 Oliver Smith
+# Copyright 2024 Oliver Smith
 # SPDX-License-Identifier: AGPL-3.0-or-later
-""" Change status of all failed packages and images back to queued. """
+""" Change status of all failed jobs back to queued. """
 import argparse
 import os
 import sys
@@ -49,7 +49,13 @@ def get_failed_images(session):
         all()
 
 
-def list_failed(packages, images):
+def get_failed_repo_bootstraps(session):
+    return session.query(bpo.db.RepoBootstrap).\
+        filter_by(status=bpo.db.RepoBootstrap.failed).\
+        all()
+
+
+def list_failed(packages, images, repo_bootstraps):
     if packages:
         print(f"Failed packages ({len(packages)}):")
         for package in packages:
@@ -60,8 +66,13 @@ def list_failed(packages, images):
         for image in images:
             print(f"* {image.branch}:{image.device}:{image.ui}")
 
+    if repo_bootstraps:
+        print(f"Failed repo bootstraps ({len(repo_bootstraps)}):")
+        for rb in repo_bootstraps:
+            print(f"* {rb.branch}:{rb.arch}:{rb.dir_name}")
 
-def change_to_queued(session, packages, images):
+
+def change_to_queued(session, packages, images, repo_bootstraps):
     for package in packages:
         package.status = bpo.db.PackageStatus.queued
         session.merge(package)
@@ -69,6 +80,10 @@ def change_to_queued(session, packages, images):
     for image in images:
         image.status = bpo.db.ImageStatus.queued
         session.merge(image)
+
+    for rb in repo_bootstraps:
+        rb.status = bpo.db.RepoBootstrapStatus.queued
+        session.merge(rb)
 
     session.commit()
 
@@ -83,16 +98,17 @@ def main():
     session = bpo.db.session()
     packages = get_failed_packages(session)
     images = get_failed_images(session)
+    repo_bootstraps = get_failed_repo_bootstraps(session)
 
-    if not images and not packages:
-        print("No failed images or packages found.")
+    if not images and not packages and not repo_bootstraps:
+        print("No failed jobs found.")
         sys.exit(0)
 
-    list_failed(packages, images)
+    list_failed(packages, images, repo_bootstraps,)
     print()
 
     confirm("Changing status from 'failed' to 'queued'.")
-    change_to_queued(session, packages, images)
+    change_to_queued(session, packages, images, repo_bootstraps)
     print("Done!")
 
 
