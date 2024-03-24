@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import re
 
-def get_ui_list(chassis, supports_gpu=True, exclude_ui=[]):
+def get_ui_list(chassis, supports_gpu=True, exclude_ui=[], add_ui=[]):
     ui = set()
 
     if "handset" in chassis:
@@ -42,6 +42,10 @@ def get_ui_list(chassis, supports_gpu=True, exclude_ui=[]):
     if exclude_ui:
         for ui_to_remove in exclude_ui:
             ui.remove(ui_to_remove)
+
+    if add_ui:
+        for ui_to_add in add_ui:
+            ui.add(ui_to_add)
 
     return list(ui)
 
@@ -418,9 +422,7 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                "ui": [
-                    "console",
-                ],
+                "ui": get_ui_list(chassis=["embedded"]),
             },
         },
     },
@@ -442,17 +444,12 @@ images = {
     "pine64-rockpro64": {
         "branch_configs": {
             "all": {
-                "ui": [
-                    "console",
-                    "plasma-bigscreen",
-                ],
+                "ui": get_ui_list(chassis=["embedded"], add_ui=["plasma-bigscreen"]),
             },
             # Disable plasma bigscreen for master:
             # https://gitlab.com/postmarketOS/pmaports/-/issues/2650
             "master": {
-                "ui": [
-                    "console",
-                ],
+                "ui": get_ui_list(chassis=["embedded"]),
             },
         },
     },
