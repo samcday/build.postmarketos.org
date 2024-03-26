@@ -233,7 +233,10 @@
             <a class="job-log" href="{{ bpo.helpers.job.get_link(entry.job_id) }}">[log]</a>
             {% endif %}
             {% if entry.dir_name and
-                entry.action != 'remove_old_image' %}
+                entry.action != 'remove_old_image' and
+                entry.ui and
+                entry.device and
+                entry.branch %}
             <a class="img-dir" href="{{
                 bpo.images.url_db_obj(entry)
                 }}">[dir]</a>
