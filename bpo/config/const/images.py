@@ -375,6 +375,13 @@ images = {
                 ],
                 "ui": get_ui_list(chassis=["laptop", "convertible"]),
             },
+            "v23.12": {
+                # plasma-desktop fails to build for v23.12 (pma#2688). Work
+                # around it by not building it, users can upgrade from the
+                # existing images and it works for edge.
+                "ui": get_ui_list(chassis=["laptop", "convertible"],
+                                  exclude_ui=["plasma-desktop"]),
+            },
         },
     },
     "lenovo-a6000": {
