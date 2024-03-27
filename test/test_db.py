@@ -76,7 +76,7 @@ def test_get_recent_packages_by_status(monkeypatch):
 
     # Verify that the v22.06 package does not get returned, as it is not in
     # bpo.config.const.branches
-    assert q.count() == 3
+    assert len(q) == 3
     assert q[0].branch == "master"
     assert q[1].branch == "v22.12"
     assert q[2].branch == "v23.06"

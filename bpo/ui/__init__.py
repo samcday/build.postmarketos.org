@@ -28,9 +28,9 @@ def update_badge(session, pkgs, imgs):
     if bpo.db.get_failed_packages_count_relevant(session) \
             or imgs["failed"].count():
         new = "failed"
-    elif pkgs["building"].count() \
+    elif len(pkgs["building"]) \
             or imgs["building"].count() \
-            or pkgs["queued"].count() \
+            or len(pkgs["queued"]) \
             or imgs["queued"].count():
         new = "building"
 

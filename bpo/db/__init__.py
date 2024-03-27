@@ -332,7 +332,7 @@ def get_recent_packages_by_status(session):
             filter(bpo.db.Package.branch.in_(all_branches)).\
             order_by(bpo.db.Package.branch,
                      bpo.db.Package.arch,
-                     bpo.db.Package.pkgname)
+                     bpo.db.Package.pkgname).all()
 
     # Add synced counts
     for status in ["built", "published"]:

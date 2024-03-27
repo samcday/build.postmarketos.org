@@ -38,24 +38,24 @@
             <a class="h3" name="pkgs" href="#pkgs">Packages</a><br>
             <table class="toc">
                 <tr>
-                    <td>{{ pkgs.building.count() }}</td>
+                    <td>{{ len(pkgs.building) }}</td>
                     <td><a href="#building-pkgs">
                         building</a></td>
                 </tr>
                 <tr>
-                    <td>{{ pkgs.failed.count() }}</td>
+                    <td>{{ len(pkgs.failed) }}</td>
                     <td><a href="#failed-pkgs">failed</a></td>
                 </tr>
                 <tr>
-                    <td>{{ pkgs.queued.count() }}</td>
+                    <td>{{ len(pkgs.queued) }}</td>
                     <td><a href="#queued-pkgs">queued</a></td>
                 </tr>
                 <tr>
-                    <td>{{ pkgs.built.count() }}</td>
+                    <td>{{ len(pkgs.built) }}</td>
                     <td><a href="#built-pkgs">built</a></td>
                 </tr>
                 <tr>
-                    <td>{{ pkgs.published.count() }}</td>
+                    <td>{{ len(pkgs.published) }}</td>
                     <td><a href="#published-pkgs">
                         published</a></td>
                 </tr>
@@ -247,9 +247,9 @@
     </div>
 
     <a class="h" name="building" href="#building">Building</a><br>
-    {% if pkgs.building.count() %}
+    {% if len(pkgs.building) %}
     <a class="h3" name="building-pkgs" href="#building-pkgs">
-        Packages ({{ pkgs.building.count() }})
+        Packages ({{ len(pkgs.building) }})
     </a>
     <ul>
         {% for package in pkgs.building %}
@@ -276,9 +276,9 @@
     {% endif %}
 
     <a class="h" name="failed" href="#failed">Failed</a><br>
-    {% if pkgs.failed.count() %}
+    {% if len(pkgs.failed) %}
     <a class="h3" name="failed-pkgs" href="#failed-pkgs">
-        Packages ({{ pkgs.failed.count() }})
+        Packages ({{ len(pkgs.failed) }})
     </a>
     <ul>
         {% for package in pkgs.failed %}
@@ -306,9 +306,9 @@
     {% endif %}
 
     <a class="h" name="queued" href="#queued">Queued</a><br>
-    {% if pkgs.queued.count() %}
+    {% if len(pkgs.queued) %}
     <a class="h3" name="queued-pkgs" href="#queued-pkgs">
-        Packages ({{ pkgs.queued.count() }})
+        Packages ({{ len(pkgs.queued) }})
     </a>
     <ul>
         {% for package in pkgs.queued %}
@@ -340,9 +340,9 @@
     {% endif %}
 
     <a class="h" name="built" href="#built">Built</a><br>
-    {% if pkgs.built.count() %}
+    {% if len(pkgs.built) %}
     <a class="h3" name="built-pkgs" href="#built-pkgs">
-        Packages ({{ pkgs.built.count() }})
+        Packages ({{ len(pkgs.built) }})
     </a>
     <ul>
         {% for package in pkgs.built %}
@@ -365,9 +365,9 @@
     {% endif %}
 
     <a class="h" name="published" href="#published">Published</a><br>
-    {% if pkgs.published.count() %}
+    {% if len(pkgs.published) %}
     <a class="h3" name="published-pkgs" href="#published-pkgs">
-        Packages ({{ pkgs.published.count() }})
+        Packages ({{ len(pkgs.published) }})
     </a>
     <ul>
         {% for package in pkgs.published %}
