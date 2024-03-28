@@ -255,8 +255,8 @@
         {% for package in pkgs.building %}
         <li> <span class="branch">{{package.branch}}</span>/<span
             class="arch">{{package.arch}}</span>/<span
-            class="pkgname">{{package.pkgname}}</span>-<span
-            class="version">{{package.version}}</span>
+            class="pkgname">{{package.pkgname}}</span>{%
+                if package.version %}-<span class="version">{{package.version}}</span>{% endif %}
             <a class="job-log" href="{{ bpo.helpers.job.get_link(package.job_id) }}">[log]</a>
         {% endfor %}
     </ul>
@@ -284,8 +284,8 @@
         {% for package in pkgs.failed %}
         <li> <span class="branch">{{package.branch}}</span>/<span
             class="arch">{{package.arch}}</span>/<span
-            class="pkgname">{{package.pkgname}}</span>-<span
-            class="version">{{package.version}}</span>
+            class="pkgname">{{package.pkgname}}</span>{%
+                if package.version %}-<span class="version">{{package.version}}</span>{% endif %}
             (try {{package.retry_count + 1}}/{{bpo.config.const.retry_count_max + 1}})
             <a class="job-log" href="{{ bpo.helpers.job.get_link(package.job_id) }}">[log]</a>
         {% endfor %}
@@ -314,8 +314,8 @@
         {% for package in pkgs.queued %}
         <li> <span class="branch">{{package.branch}}</span>/<span
             class="arch">{{package.arch}}</span>/<span
-            class="pkgname">{{package.pkgname}}</span>-<span
-            class="version">{{package.version}}</span>
+            class="pkgname">{{package.pkgname}}</span>{%
+                if package.version %}-<span class="version">{{package.version}}</span>{% endif %}
             {% if not package.depends_built() %}
             (missing depends:
             {% for depend in package.depends_missing_list()
@@ -349,8 +349,8 @@
             {% if package.job_id %}
         <li> <span class="branch">{{package.branch}}</span>/<span
             class="arch">{{package.arch}}</span>/<span
-            class="pkgname">{{package.pkgname}}</span>-<span
-            class="version">{{package.version}}</span>
+            class="pkgname">{{package.pkgname}}</span>{%
+                if package.version %}-<span class="version">{{package.version}}</span>{% endif %}
             <a class="job-log" href="{{ bpo.helpers.job.get_link(package.job_id) }}">[log]</a>
             {% endif %}
         {% endfor %}
@@ -374,8 +374,8 @@
             {% if package.job_id %}
         <li> <span class="branch">{{package.branch}}</span>/<span
             class="arch">{{package.arch}}</span>/<span
-            class="pkgname">{{package.pkgname}}</span>-<span
-            class="version">{{package.version}}</span>
+            class="pkgname">{{package.pkgname}}</span>{%
+                if package.version %}-<span class="version">{{package.version}}</span>{% endif %}
             <a class="job-log" href="{{ bpo.helpers.job.get_link(package.job_id) }}">[log]</a>
             {% endif %}
         {% endfor %}
