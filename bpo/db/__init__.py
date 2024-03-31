@@ -54,7 +54,7 @@ class Package(base):
     branch = Column(String)
     pkgname = Column(String)
     status = Column(Enum(PackageStatus))
-    job_id = Column(Integer, unique=True)
+    job_id = Column(Integer)
     retry_count = Column(Integer, default=0, system=True)  # [v4]
 
     # The following columns represent the latest state. We don't store the
@@ -232,7 +232,7 @@ class RepoBootstrap(base):
 
     # === DATABASE LAYOUT, DO NOT CHANGE! (read docs/db.md) ===
     id = Column(Integer, primary_key=True)
-    dir_name = Column(String, unique=True)
+    dir_name = Column(String)
     arch = Column(String)
     branch = Column(String)
     status = Column(Enum(RepoBootstrapStatus))
