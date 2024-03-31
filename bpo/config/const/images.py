@@ -205,7 +205,10 @@ images = {
         ],
         "branch_configs": {
             "all": {
-                "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"]),
+                # Disable plasma-desktop:
+                # https://gitlab.com/postmarketOS/build.postmarketos.org/-/issues/136
+                "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"],
+                                  exclude_ui=["plasma-desktop"]),
                 "kernels": [
                     "lts",
                 ],
