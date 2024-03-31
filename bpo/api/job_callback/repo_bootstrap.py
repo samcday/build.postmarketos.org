@@ -44,7 +44,7 @@ def job_callback_repo_bootstrap():
     apks = bpo.api.get_apks(request)
 
     wip = bpo.repo.wip.get_path(rb.arch, rb.branch)
-    os.makedirs(wip)
+    os.makedirs(wip, exist_ok=True)
 
     # Remove packages from disk that aren't in the DB (e.g. from a failed
     # previous repo_bootstrap run)
