@@ -1,7 +1,6 @@
 # Copyright 2024 Oliver Smith
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-import glob
 import logging
 import os
 
@@ -44,16 +43,17 @@ def job_callback_repo_bootstrap():
     rb = get_repo_bootstrap(session, request)
     apks = bpo.api.get_apks(request)
 
-    # Create WIP dir from scratch
     wip = bpo.repo.wip.get_path(rb.arch, rb.branch)
-    if os.path.exists(wip):
-        logging.info("Removing previous WIP repo (failed repo_bootstrap?)")
-        for wip_i in glob.glob(f"{wip}/*.apk", f"{wip}/APKINDEX.tar.gz"):
-            logging.info(f"Removing: {wip_i}")
-            os.unlink(wip_i)
-        logging.info(f"Removing: {wip}")
-        os.unlink(wip)
     os.makedirs(wip)
+
+    # Remove packages from disk that aren't in the DB (e.g. from a failed
+    # previous repo_bootstrap run)
+    bpo.repo.status.fix_disk_vs_db(
+        rb.arch,
+        rb.branch,
+        bpo.repo.wip.get_path(rb.arch, rb.branch),
+        bpo.db.PackageStatus.built,
+        True)
 
     # Save files to disk
     for apk in apks:
