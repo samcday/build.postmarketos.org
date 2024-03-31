@@ -51,7 +51,7 @@ def get_failed_images(session):
 
 def get_failed_repo_bootstraps(session):
     return session.query(bpo.db.RepoBootstrap).\
-        filter_by(status=bpo.db.RepoBootstrap.failed).\
+        filter_by(status=bpo.db.RepoBootstrapStatus.failed).\
         all()
 
 
