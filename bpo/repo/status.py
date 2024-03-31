@@ -54,7 +54,11 @@ def fix_disk_vs_db(arch, branch, path, status, is_wip=False):
         :param status: the package should have when the related apk file exists
                        e.g. bpo.db.PackageStatus.built
         :param is_wip: set to True when looking at the wip repo, False when
-                       looking at the final repo. """
+                       looking at the final repo.
+        :returns: (count of removed pkgs, count of updated pkgs) """
+    removed = 0
+    updated = 0
+
     session = bpo.db.session()
     apks = bpo.repo.get_apks(path)
     for apk in apks:
@@ -65,12 +69,14 @@ def fix_disk_vs_db(arch, branch, path, status, is_wip=False):
         if is_apk_broken(metadata):
             remove_broken_apk(session, pkgname, version, arch, branch,
                               path + "/" + apk)
+            removed += 1
             continue
 
         package = bpo.db.get_package(session, pkgname, arch, branch)
         if not package or package.version != version:
             if is_wip:
                 os.unlink(path + "/" + apk)
+                removed += 1
                 logging.warning("Removing obsolete wip package: " + apk)
                 if package:
                     bpo.ui.log_package(package, "obsolete_wip_package")
@@ -81,6 +87,9 @@ def fix_disk_vs_db(arch, branch, path, status, is_wip=False):
         if package.status != status:
             bpo.db.set_package_status(session, package, status)
             bpo.ui.log_package(package, "package_" + status.name)
+            updated += 1
+
+    return (removed, updated)
 
 
 def fix_db_vs_disk(arch, branch):
