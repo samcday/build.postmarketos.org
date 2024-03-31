@@ -9,6 +9,7 @@ import bpo.api
 import bpo.api.job_callback.build_image
 import bpo.api.job_callback.build_package
 import bpo.api.job_callback.get_depends
+import bpo.api.job_callback.repo_bootstrap
 import bpo.api.job_callback.sign_index
 import bpo.api.public.update_job_status
 import bpo.api.push_hook.gitlab
