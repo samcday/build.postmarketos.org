@@ -3,7 +3,7 @@
 topdir="$(realpath "$(dirname "$0")/..")"
 cd "$topdir"
 
-logs="test/pytest.log"
+logs=""
 
 mkdir -p _temp/local_job_logs
 
@@ -13,4 +13,5 @@ for i in $(seq 1 30); do
 	logs="$logs $i_path"
 done
 
-tail -F $logs
+touch pytest.log
+tail -F $logs pytest.log
