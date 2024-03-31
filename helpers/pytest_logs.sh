@@ -14,4 +14,4 @@ for i in $(seq 1 30); do
 done
 
 touch pytest.log
-tail -F $logs pytest.log
+tail -F $logs pytest.log 2>/dev/null
