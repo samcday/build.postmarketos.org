@@ -77,7 +77,8 @@ def get_images(now=None):
 
         for branch in branches:
             branch_config = get_branch_config(device, branch)
-            assert branch_config
+            if not branch_config:
+                raise RuntimeError(f"couldn't get branch_config({device}, {branch}")
 
             # Calculate start date
             start = datetime.datetime.strptime(branch_config["date-start"],

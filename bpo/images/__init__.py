@@ -24,10 +24,9 @@ def branch_from_pmos_ver(pmos_ver):
 def path(branch, device, ui, dir_name):
     """ :returns: absolute path to where the files for a certain image are
                   stored. """
-    assert branch
-    assert device
-    assert ui
-    assert dir_name
+    if not branch or not device or not ui or not dir_name:
+        raise RuntimeError(f"these can't be empty: branch={branch},"
+                           f" device={device}, ui={ui}, dir_name={dir_name}")
     return os.path.join(bpo.config.args.images_path,
                         pmos_ver(branch),
                         device,

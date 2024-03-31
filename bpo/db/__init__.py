@@ -337,7 +337,8 @@ def get_recent_packages_by_status(session):
     # Add synced counts
     for status in ["built", "published"]:
         sync_str = f"{status}_synced"
-        assert sync_str not in ret
+        if sync_str in ret:
+            raise RuntimeError(f"{sync_str} must not be in {ret}")
 
         ret[sync_str] = {}
         for pkg in ret[status]:
