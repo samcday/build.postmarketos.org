@@ -8,6 +8,7 @@ import shutil
 import subprocess
 import sys
 import threading
+import traceback
 import werkzeug.serving
 
 # Add topdir to import path
@@ -109,6 +110,12 @@ def raise_exception(*args, **kwargs):
     raise bpo.helpers.ThisExceptionIsExpectedAndCanBeIgnored("ohai")
 
 
+def bpo_test_exception_handler(e):
+    print(traceback.format_exc())
+    stop_server_nok()
+    return traceback.format_exc(), 500
+
+
 class BPOServer():
     """ Run the flask server in a second thread, so we can send requests to it
         from the main thread. Use this as "with statement", i.e.:
@@ -137,6 +144,7 @@ class BPOServer():
                 sys.argv += ["--mirror", ""]
             sys.argv += ["local"]
             app = bpo.main(True, fill_image_queue=fill_image_queue)
+            app.register_error_handler(Exception, bpo_test_exception_handler)
             self.srv = werkzeug.serving.make_server("127.0.0.1", 5000, app,
                                                     threaded=False)
             self.ctx = app.app_context()
