@@ -5,6 +5,8 @@ cd "$topdir"
 
 logs="test/pytest.log"
 
+mkdir -p _temp/local_job_logs
+
 for i in $(seq 1 30); do
 	i_path="_temp/local_job_logs/$i.txt"
 	touch "$i_path"
