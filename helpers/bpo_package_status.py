@@ -110,7 +110,7 @@ def get_status(session, pkgnames, arch, branch):
     print("-" * 40)
     for pkgname in pkgnames:
         package = bpo.db.get_package(session, pkgname, arch, branch)
-        print(format_str.format(package.status.name, package.job_id,
+        print(format_str.format(package.status.name, package.job_id or "-",
                                 package.pkgname))
 
 
