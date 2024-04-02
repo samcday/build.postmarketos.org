@@ -174,6 +174,8 @@ def build_arch_branch(session, slots_available, arch, branch,
             elif rb.status == bpo.db.RepoBootstrapStatus.built:
                 logging.info(f"{rb}: publishing")
                 bpo.repo.symlink.create(arch, branch, True)
+                started += 1
+                slots_available -= 1
         else:
             logging.info(f"{rb}: no more slots available")
 
