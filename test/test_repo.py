@@ -1,6 +1,7 @@
 # Copyright 2022 Oliver Smith
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """ Testing bpo/repo/__init__.py """
+import collections
 import logging
 import threading
 import time
@@ -233,3 +234,65 @@ def test_repo_next_package_to_build(monkeypatch):
 
     # Remaining "hello-world-wrapper" depends on failing package "hello-world"
     assert func(session, arch, branch) is None
+
+
+def test_build_foreign_arch(monkeypatch):
+    global expected_arches
+
+    # Start with empty database
+    with bpo_test.BPOServer():
+        bpo_test.stop_server()
+    session = bpo.db.session()
+
+    # Create hello-world x86_64 and aarch64 pkgs in DB
+    arch = "x86_64"
+    branch = "master"
+    pkgname = "hello-world"
+    version = "999-r0"
+    pkg = bpo.db.Package(arch, branch, pkgname, version)
+    session.merge(pkg)
+    arch = "aarch64"
+    pkg = bpo.db.Package(arch, branch, pkgname, version)
+    session.merge(pkg)
+    session.commit()
+    pkg = bpo.db.get_package(session, pkgname, "x86_64", branch)
+
+    # Override bpo.repo.build_arch_branch
+    def fake_build_arch_branch(session, slots_available, arch, branch,
+                               force_repo_update, no_repo_update):
+        global expected_arches
+
+        print(f"expected_arches={expected_arches}")
+        print(f"fake_build_arch_branch: slots_available={slots_available},"
+              f" arch={arch}, branch={branch}")
+
+        assert arch == expected_arches.pop(0)
+        assert branch == "master"
+
+        return 1
+
+    monkeypatch.setattr(bpo.repo, "build_arch_branch", fake_build_arch_branch)
+
+    # Override branches config
+    branches = collections.OrderedDict()
+    branches["master"] = {"arches": ["x86_64", "aarch64"]}
+    monkeypatch.setattr(bpo.config.const, "branches", branches)
+
+    print("--- x86_64 pkg is queued -> attempt to build x86_64 pkg")
+    func = bpo.repo._build
+    expected_arches = ["x86_64"]
+    func()
+    assert expected_arches == []
+
+    print("--- x86_64 pkg is built -> NO attempt to build aarch64 pkg")
+    bpo.db.set_package_status(session, pkg, bpo.db.PackageStatus.built)
+    expected_arches = ["x86_64"]
+    func()
+    assert expected_arches == []
+
+    print("--- x86_64 pkg is published -> DO attempt to build aarch64 pkg")
+    bpo.db.set_package_status(session, pkg, bpo.db.PackageStatus.published)
+    func = bpo.repo._build
+    expected_arches = ["x86_64", "aarch64"]
+    func()
+    assert expected_arches == []

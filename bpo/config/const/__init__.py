@@ -15,6 +15,7 @@ repo_wip_keys = top_dir + "/_repo_wip_keys"
 
 # Which pmaports.git branches will be built (e.g. "master", "v20.05", ...).
 # The order of branches/arches is the order in which packages will be built.
+# The native arch of the builders must come first.
 # ignore_errors: WIP branches that are building for the first time should be
 #                listed here, so they are ignored for the big overall status
 #                badge. We don't want errors from these to overshadow errors

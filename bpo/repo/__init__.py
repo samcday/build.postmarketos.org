@@ -109,7 +109,13 @@ def count_running_builds(session):
             count_running_builds_images(session))
 
 
-def count_unpublished_packages(session, branch):
+def count_unpublished_packages(session, branch, arch=None):
+    if arch:
+        return session.query(bpo.db.Package).\
+                filter_by(branch=branch).\
+                filter_by(arch=arch).\
+                filter(bpo.db.Package.status != bpo.db.PackageStatus.published).\
+                count()
     return session.query(bpo.db.Package).\
             filter_by(branch=branch).\
             filter(bpo.db.Package.status != bpo.db.PackageStatus.published).\
@@ -241,12 +247,24 @@ def _build(force_repo_update_branch=None, no_repo_update=False):
     # a new job or to proceed with rolling out their fully built WIP repo
     branches_with_staging = bpo.repo.staging.get_branches_with_staging()
     for branch, branch_data in branches_with_staging.items():
+        arch_is_first = True
+
         for arch in branch_data["arches"]:
             force_repo_update = (force_repo_update_branch == branch)
             slots_available -= build_arch_branch(session, slots_available,
                                                  arch, branch,
                                                  force_repo_update,
                                                  no_repo_update)
+            # Don't build packages in other architectures unless building the
+            # first architecture (the native arch) is complete. Otherwise cross
+            # compilers may be missing, etc.
+            if arch_is_first:
+                if count_unpublished_packages(session, branch, arch):
+                    logging.info(f"{branch}/{arch}: has unpublished packages,"
+                                 " not building packages for other arches")
+                    break
+                arch_is_first = False
+
     if slots_available <= 0:
         return
 
