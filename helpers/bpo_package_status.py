@@ -45,6 +45,8 @@ def parse_arguments():
                        choices=status_choices())
     group.add_argument("-j", help="set new job ID", dest="job_id",
                        type=int)
+    group.add_argument("-r", help="set new retry count", dest="retry_count",
+                       type=int)
 
     return parser.parse_args()
 
@@ -104,14 +106,29 @@ def set_job_id(session, pkgnames, arch, branch, job_id):
     print()
 
 
+def set_retry_count(session, pkgnames, arch, branch, retry_count):
+    confirm(f"Will set retry_count '{retry_count}' for the following packages:"
+            f" {pkgnames}")
+
+    for pkgname in pkgnames:
+        package = bpo.db.get_package(session, pkgname, arch, branch)
+        package.retry_count = retry_count
+        session.merge(package)
+
+    session.commit()
+
+    print("done!")
+    print()
+
+
 def get_status(session, pkgnames, arch, branch):
-    format_str = "{:10s} | {:9} | {}"
-    print(format_str.format("status", "job id", "pkgname"))
-    print("-" * 40)
+    format_str = "{:10s} | {:9} | {:12} | {}"
+    print(format_str.format("status", "job id", "retry count", "pkgname"))
+    print("-" * 50)
     for pkgname in pkgnames:
         package = bpo.db.get_package(session, pkgname, arch, branch)
         print(format_str.format(package.status.name, package.job_id or "-",
-                                package.pkgname))
+                                package.retry_count, package.pkgname))
 
 
 def main():
@@ -139,6 +156,8 @@ def main():
     # Ask for confirmation, apply change
     if args.job_id:
         set_job_id(session, pkgnames, arch, branch, args.job_id)
+    if args.retry_count:
+        set_retry_count(session, pkgnames, arch, branch, args.retry_count)
     if args.status:
         set_status(session, pkgnames, arch, branch, args.status)
 
