@@ -74,8 +74,8 @@ def job_callback_repo_bootstrap():
         fail_callback(session, rb, "Unexpected packages/versions uploaded by"
                                    " repo_bootstrap api call")
     if updated == 0:
-        fail_callback(session, rb, "No packages from repo_bootstrap updated in"
-                                   " database")
+        logging.warning("WARNING: no packages from repo_bootstrap updated in"
+                        " database, previous repo_bootstrap failed half-way?")
 
     bpo.db.set_repo_bootstrap_status(session,
                                      rb,
