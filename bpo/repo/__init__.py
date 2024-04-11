@@ -103,10 +103,15 @@ def count_running_builds_images(session):
     building = bpo.db.ImageStatus.building
     return session.query(bpo.db.Image).filter_by(status=building).count()
 
+def count_running_builds_repo_bootstrap(session):
+    building = bpo.db.RepoBootstrapStatus.building
+    return session.query(bpo.db.RepoBootstrap).filter_by(status=building).count()
+
 
 def count_running_builds(session):
     return (count_running_builds_packages(session) +
-            count_running_builds_images(session))
+            count_running_builds_images(session) +
+            count_running_builds_repo_bootstrap(session))
 
 
 def count_unpublished_packages(session, branch, arch=None):
