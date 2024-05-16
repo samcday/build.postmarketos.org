@@ -23,8 +23,6 @@ repo_wip_keys = top_dir + "/_repo_wip_keys"
 branches = collections.OrderedDict()
 branches["v23.12"] = {"arches": ["x86_64", "aarch64", "armv7"],
                       "ignore_errors": False}
-branches["v24.06"] = {"arches": ["x86_64", "aarch64", "armv7"],
-                      "ignore_errors": True}
 branches["master"] = {"arches": ["x86_64",
                                  "aarch64",
                                  "armv7",
@@ -32,6 +30,8 @@ branches["master"] = {"arches": ["x86_64",
                                  "x86",
                                  "riscv64"],
                       "ignore_errors": False}
+branches["v24.06"] = {"arches": ["x86_64", "aarch64", "armv7"],
+                      "ignore_errors": True}
 
 # Build staging repositories for these architectures
 staging_arches = ["x86_64", "aarch64", "armv7"]
