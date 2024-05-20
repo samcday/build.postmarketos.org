@@ -1,4 +1,4 @@
-## Database layout
+# Database layout
 
 The database layout is defined in `bpo/db/__init__.py`. The initial layout of
 each table **must not be modified**, unless following strict rules listed
@@ -6,12 +6,12 @@ below. Otherwise the live deployment of the bpo server can't migrate properly
 to the new version. Remember that we roll out each commit that is pushed to
 master automatically to the live instance.
 
-### Extending the DB layout
+## Extending the DB layout
 Using a "proper" migration framework was considered, but the amount of effort
 to write migrations would be overkill for this small project. Instead, the
 tables always get bootstrapped from version 0 to latest.
 
-#### New column
+### New column
 
 1. Extend `bpo/db/migrate.py:upgrade()` with a new entry like the following:
 
@@ -38,7 +38,7 @@ class Log(base):
     # === END OF DATABASE LAYOUT ===
 ```
 
-#### New index
+### New index
 
 1. Extend `bpo/db/migrate.py:upgrade()` with a new entry like the following:
 
@@ -65,7 +65,7 @@ class Log(base):
     # === END OF DATABASE LAYOUT ===
 ```
 
-#### New table
+### New table
 
 1. Add the table in `bpo/db/__init__.py` as new class, with the initial db
    layout. sqlalchemy will just create the table if it is missing, so there is

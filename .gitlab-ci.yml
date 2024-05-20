@@ -31,6 +31,15 @@ vermin:
   script:
     - ".ci/vermin.sh"
 
+docs:
+  before_script:
+    - "adduser -D build"
+  script:
+    - ".ci/docs.sh"
+  artifacts:
+    paths:
+      - public
+
 pytest:
   image: "alpine:3.18"  # has sqlalchemy<2.0
   before_script:
