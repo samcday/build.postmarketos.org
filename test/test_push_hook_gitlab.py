@@ -64,7 +64,6 @@ def test_push_hook_gitlab_reset_to_queued(monkeypatch):
             session.merge(package)
             session.commit()
             bpo.ui.log_package(package, "job_update_package_status_failed")
-        print("DEBUG9")
 
         bpo_test.assert_package("hello-world", status="failed", retry_count=2)
         bpo_test.assert_package("hello-world-wrapper", status="failed",
