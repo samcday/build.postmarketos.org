@@ -33,7 +33,7 @@ def test_repo_bootstrap_full(monkeypatch):
 
     def fake_step3(session, rb):
         TEST_STEP(3, "Run repo_bootstrap job")
-        # monkeypatch.setattr(bpo.repo.wip, "update_apkindex", fake_step4)
+        monkeypatch.setattr(bpo.jobs.build_package, "run", fake_step4)
         orig_step3(session, rb, f"{testdata_dir}/pmaports_repo_bootstrap.cfg")
 
     def fake_step4(arch, pkgname, branch):
@@ -42,10 +42,10 @@ def test_repo_bootstrap_full(monkeypatch):
         assert pkgname == "hello-world-wrapper"
         assert branch == "master"
         bpo_test.stop_server()
+        return True
 
     orig_step3 = bpo.jobs.repo_bootstrap.run
     monkeypatch.setattr(bpo.jobs.repo_bootstrap, "run", fake_step3)
-    monkeypatch.setattr(bpo.jobs.build_package, "run", fake_step4)
 
     TEST_STEP_CURRENT = 0
     TEST_STEP(1, "Start bpo server")
