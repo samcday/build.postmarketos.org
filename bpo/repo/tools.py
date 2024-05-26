@@ -67,7 +67,7 @@ def index(arch, branch, repo_name, cwd):
     # aports-turbo, hosted at pkgs.postmarketos.org, uses the description to
     # check if the APKINDEX was modified. Set it to the current date to make
     # that check work.
-    description = str(datetime.datetime.utcnow())
+    description = str(datetime.datetime.now(datetime.UTC))
 
     cmd = ["apk.static", "-q", "index", "--output", "APKINDEX.tar.gz",
            "--rewrite-arch", arch,
