@@ -1,5 +1,6 @@
 # Copyright 2022 Oliver Smith
 # SPDX-License-Identifier: AGPL-3.0-or-later
+import logging
 import os
 import shutil
 
@@ -19,7 +20,7 @@ def test_callback_depends_remove_deleted_packages_db(monkeypatch):
     def stop_count_increase(*args, **kwargs):
         global stop_count
         stop_count += 1
-        print("stop_count_increase: " + str(stop_count))
+        logging.info("stop_count_increase: " + str(stop_count))
         if stop_count == 3:
             bpo_test.stop_server()
     monkeypatch.setattr(bpo.repo, "build", stop_count_increase)
@@ -60,7 +61,7 @@ def test_callback_depends_update_package(monkeypatch):
     def stop_count_increase(*args, **kwargs):
         global stop_count
         stop_count += 1
-        print("stop_count_increase: " + str(stop_count))
+        logging.info("stop_count_increase: " + str(stop_count))
         if stop_count == 2:
             bpo_test.stop_server()
     monkeypatch.setattr(bpo.repo, "build", stop_count_increase)

@@ -196,6 +196,5 @@ def test_build_publish_remove_staging_repo(monkeypatch, tmpdir):
             bpo_test.trigger.job_callback_get_depends("master",
                                                       payload_path=payload_path)
         except Exception:
-            logging.error("### Exception (see stderr)")
-            print("### Exception from test case", file=sys.stderr)
-            traceback.print_exc()
+            logging.critical("### Exception from test case", file=sys.stderr)
+            logging.critical(traceback.format_exc())

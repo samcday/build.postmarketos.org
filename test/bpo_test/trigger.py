@@ -79,7 +79,7 @@ def override_depends_json(output, overrides, testfile="depends.x86_64.json"):
         :param overrides: dict of what should be changed, e.g.
                           {"hello-world": {"version": "1-r5"},
                            "hello-world-wrapper": {...}} """
-    print("{}: creating from {}".format(output, testfile))
+    logging.info("{}: creating from {}".format(output, testfile))
     file_path = (bpo.config.const.top_dir + "/test/testdata/" + testfile)
     with open(file_path, "r") as handle:
         content = json.load(handle)
@@ -92,8 +92,8 @@ def override_depends_json(output, overrides, testfile="depends.x86_64.json"):
                     continue
                 found = True
                 if entry[key] != value:
-                    print("{}[{}][{}]: replaced '{}' with '{}'".format(output,
-                          pkgname, key, entry[key], value))
+                    logging.info("{}[{}][{}]: replaced '{}' with '{}'".format(output,
+                                 pkgname, key, entry[key], value))
                     entry[key] = value
                 break
 

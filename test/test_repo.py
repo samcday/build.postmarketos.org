@@ -262,9 +262,9 @@ def test_build_foreign_arch(monkeypatch):
                                force_repo_update, no_repo_update):
         global expected_arches
 
-        print(f"expected_arches={expected_arches}")
-        print(f"fake_build_arch_branch: slots_available={slots_available},"
-              f" arch={arch}, branch={branch}")
+        logging.info(f"expected_arches={expected_arches}")
+        logging.info(f"fake_build_arch_branch: slots_available={slots_available},"
+                     f" arch={arch}, branch={branch}")
 
         assert arch == expected_arches.pop(0)
         assert branch == "master"
@@ -278,19 +278,19 @@ def test_build_foreign_arch(monkeypatch):
     branches["master"] = {"arches": ["x86_64", "aarch64"]}
     monkeypatch.setattr(bpo.config.const, "branches", branches)
 
-    print("--- x86_64 pkg is queued -> attempt to build x86_64 pkg")
+    logging.info("--- x86_64 pkg is queued -> attempt to build x86_64 pkg")
     func = bpo.repo._build
     expected_arches = ["x86_64"]
     func()
     assert expected_arches == []
 
-    print("--- x86_64 pkg is built -> NO attempt to build aarch64 pkg")
+    logging.info("--- x86_64 pkg is built -> NO attempt to build aarch64 pkg")
     bpo.db.set_package_status(session, pkg, bpo.db.PackageStatus.built)
     expected_arches = ["x86_64"]
     func()
     assert expected_arches == []
 
-    print("--- x86_64 pkg is published -> DO attempt to build aarch64 pkg")
+    logging.info("--- x86_64 pkg is published -> DO attempt to build aarch64 pkg")
     bpo.db.set_package_status(session, pkg, bpo.db.PackageStatus.published)
     func = bpo.repo._build
     expected_arches = ["x86_64", "aarch64"]

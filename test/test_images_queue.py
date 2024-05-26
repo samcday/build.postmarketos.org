@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """ Test bpo/images/queue.py """
 import datetime
+import logging
 import time
 import bpo_test  # noqa
 import bpo.config.args
@@ -121,7 +122,7 @@ def test_timer(monkeypatch):
     def fake_fill():
         global fake_fill_i
         fake_fill_i += 1
-        print(f"fake_fill_i: {fake_fill_i}")
+        logging.info(f"fake_fill_i: {fake_fill_i}")
 
     # Clear the database
     monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)

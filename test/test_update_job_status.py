@@ -1,6 +1,7 @@
 # Copyright 2022 Oliver Smith
 # SPDX-License-Identifier: AGPL-3.0-or-later
 """ Testing bpo/api/public/update_job_status.py """
+import logging
 import requests
 
 import bpo_test
@@ -23,10 +24,10 @@ def test_public_update_job_status(monkeypatch):
     # as soon as it tries to do that
     def fake_build_package(arch, pkgname, branch):
         if pkgname == "second-package":
-            print("bpo server tries to build expected package")
+            logging.info("bpo server tries to build expected package")
             bpo_test.stop_server()
         else:
-            print("bpo server tries to build something else: " + str(pkgname))
+            logging.info("bpo server tries to build something else: " + str(pkgname))
             bpo_test.stop_server_nok()
         # Fake job ID
         return 1337
