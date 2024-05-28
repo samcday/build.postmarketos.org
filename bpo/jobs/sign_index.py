@@ -2,10 +2,12 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 import collections
+import os
 import shlex
 
 import bpo.config.const
 import bpo.helpers.job
+import bpo.repo.final
 
 
 def run(arch, branch):
@@ -13,6 +15,12 @@ def run(arch, branch):
     uid = bpo.config.const.pmbootstrap_chroot_uid_user
     rsa = bpo.config.args.final_repo_key_name
     note = "Sign index: `{}/{}`".format(branch, arch)
+
+    # Ignore missing repos before initial build (bpo#137)
+    env_force_missing_repos = ""
+    final_path = bpo.repo.final.get_path(arch, branch)
+    if not os.path.exists(f"{final_path}/APKINDEX.tar.gz"):
+        env_force_missing_repos = "export PMB_APK_FORCE_MISSING_REPOSITORIES=1"
 
     bpo.helpers.job.run("sign_index", note, collections.OrderedDict([
         ("download_unsigned_index", """
@@ -25,6 +33,7 @@ def run(arch, branch):
             fi
             """),
         ("sign", """
+            """ + env_force_missing_repos + """
             pmbootstrap \\
                 --aports=$PWD/pmaports \\
                 --no-ccache \\
