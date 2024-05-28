@@ -8,9 +8,8 @@ import os
 import shlex
 
 import bpo.db
-import bpo.helpers.job
-import bpo.repo.final
 import bpo.ui
+import bpo.helpers.job
 
 
 def do_build_strict(pkgname):
@@ -49,14 +48,9 @@ def run(arch, pkgname, branch):
     # Set mirror args (either primary mirror, or WIP + primary)
     mirror_alpine = shlex.quote(bpo.config.const.mirror_alpine)
     mirror_final = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(branch)
-    final_path = bpo.repo.final.get_path(arch, branch)
-    mirrors = ""
-    if os.path.exists(f"{final_path}/APKINDEX.tar.gz"):
-        mirrors = "-mp " + shlex.quote(mirror_final)
+    mirrors = "-mp " + shlex.quote(mirror_final)
     if os.path.exists(f"{wip_path}/APKINDEX.tar.gz"):
         mirrors = '$BPO_WIP_REPO_ARG ' + mirrors
-    if not mirrors:
-        mirrors = "-mp ''"
 
     strict_arg = "--strict" if do_build_strict(pkgname) else ""
     timeout = str(bpo.config.const.pmbootstrap_timeout)
