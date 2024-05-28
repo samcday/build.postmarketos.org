@@ -52,6 +52,12 @@ def run(arch, pkgname, branch):
     if os.path.exists(f"{wip_path}/APKINDEX.tar.gz"):
         mirrors = '$BPO_WIP_REPO_ARG ' + mirrors
 
+    # Ignore missing repos before initial build (bpo#137)
+    env_force_missing_repos = ""
+    final_path = bpo.repo.final.get_path(arch, branch)
+    if not os.path.exists(f"{final_path}/APKINDEX.tar.gz"):
+        env_force_missing_repos = "export PMB_APK_FORCE_MISSING_REPOSITORIES=1"
+
     strict_arg = "--strict" if do_build_strict(pkgname) else ""
     timeout = str(bpo.config.const.pmbootstrap_timeout)
 
@@ -72,6 +78,7 @@ def run(arch, pkgname, branch):
             """),
         ("pmbootstrap_build", """
             pmbootstrap config systemd """ + systemd_arg + """
+            """ + env_force_missing_repos + """
             pmbootstrap \\
                 -m """ + mirror_alpine + """ \
                 """ + mirrors + """ \\
