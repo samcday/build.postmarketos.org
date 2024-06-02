@@ -62,6 +62,7 @@ password = "147147"
 branches_default = [
         "master",
         "v23.12",
+        "v24.06",
     ]
 
 # Prevent errors by listing explicitly allowed UIs here. Notably "none" is
@@ -197,11 +198,13 @@ images = {
     "fairphone-fp5": {
         "branches": [
             "master",
+            "v24.06",
         ],
     },
     "generic-x86_64": {
         "branches": [
             "master",
+            "v24.06",
         ],
         "branch_configs": {
             "all": {
@@ -218,6 +221,7 @@ images = {
     "google-asurada": {
         "branches": [
             "master",
+            "v24.06",
         ],
         "branch_configs": {
             "all": {
@@ -228,6 +232,7 @@ images = {
     "google-cherry": {
         "branches": [
             "master",
+            "v24.06",
         ],
         "branch_configs": {
             "all": {
@@ -238,6 +243,7 @@ images = {
     "google-corsola": {
         "branches": [
             "master",
+            "v24.06",
         ],
         "branch_configs": {
             "all": {
@@ -246,10 +252,6 @@ images = {
         },
     },
     "google-gru": {
-        "branches": [
-            "master",
-            "v23.12",
-        ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"]),
@@ -257,10 +259,6 @@ images = {
         },
     },
     "google-kukui": {
-        "branches": [
-            "master",
-            "v23.12",
-        ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"]),
@@ -270,6 +268,7 @@ images = {
     "google-nyan-big": {
         "branches": [
             "master",
+            "v24.06",
         ],
         "branch_configs": {
             "all": {
@@ -284,6 +283,7 @@ images = {
     "google-nyan-blaze": {
         "branches": [
             "master",
+            "v24.06",
         ],
         "branch_configs": {
             "all": {
@@ -292,10 +292,6 @@ images = {
         },
     },
     "google-oak": {
-        "branches": [
-            "master",
-            "v23.12",
-        ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible"], supports_gpu=False),
@@ -303,10 +299,6 @@ images = {
         },
     },
     "google-peach-pit": {
-        "branches": [
-            "master",
-            "v23.12",
-        ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop"]),
@@ -319,10 +311,6 @@ images = {
         },
     },
     "google-snow": {
-        "branches": [
-            "master",
-            "v23.12",
-        ],
         "branch_configs": {
             "master": {
                 "ui": get_ui_list(chassis=["laptop"]),
@@ -334,10 +322,6 @@ images = {
         },
     },
     "google-trogdor": {
-        "branches": [
-            "master",
-            "v23.12",
-        ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"]),
@@ -345,10 +329,6 @@ images = {
         },
     },
     "google-veyron": {
-        "branches": [
-            "master",
-            "v23.12",
-        ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible"]),
@@ -361,10 +341,6 @@ images = {
         },
     },
     "google-x64cros": {
-        "branches": [
-            "master",
-            "v23.12",
-        ],
         "branch_configs": {
             "all": {
                 "kernels": [
@@ -394,6 +370,7 @@ images = {
     "microsoft-surface-rt": {
         "branches": [
             "master",
+            "v24.06",
         ],
         "branch_configs": {
             "all": {
@@ -418,6 +395,7 @@ images = {
     "nvidia-tegra-armv7": {
         "branches": [
             "master",
+            "v24.06",
         ],
         "branch_configs": {
             "all": {
@@ -426,10 +404,6 @@ images = {
         },
     },
     "odroid-xu4": {
-        "branches": [
-            "master",
-            "v23.12",
-        ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["embedded"]),
@@ -517,6 +491,7 @@ images = {
     "samsung-manta": {
         "branches": [
             "master",
+            "v24.06",
         ],
         "branch_configs": {
             "all": {
@@ -548,43 +523,19 @@ images = {
         },
     },
     "xiaomi-daisy": {
-        "branches": [
-            "master",
-            "v23.12",
-        ],
     },
     "xiaomi-markw": {
-        "branches": [
-            "master",
-            "v23.12",
-        ],
     },
     "xiaomi-mido": {
-        "branches": [
-            "master",
-            "v23.12",
-        ],
     },
     "xiaomi-scorpio": {
     },
     "xiaomi-tissot": {
-        "branches": [
-            "master",
-            "v23.12",
-        ],
     },
     "xiaomi-vince": {
-        "branches": [
-            "master",
-            "v23.12",
-        ],
     },
     "xiaomi-wt88047": {
     },
     "xiaomi-ysl": {
-        "branches": [
-            "master",
-            "v23.12",
-        ],
     },
 }
