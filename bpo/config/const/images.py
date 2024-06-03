@@ -221,7 +221,6 @@ images = {
     "google-asurada": {
         "branches": [
             "master",
-            "v24.06",
         ],
         "branch_configs": {
             "all": {
@@ -232,7 +231,6 @@ images = {
     "google-cherry": {
         "branches": [
             "master",
-            "v24.06",
         ],
         "branch_configs": {
             "all": {
@@ -243,7 +241,6 @@ images = {
     "google-corsola": {
         "branches": [
             "master",
-            "v24.06",
         ],
         "branch_configs": {
             "all": {
