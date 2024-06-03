@@ -427,13 +427,13 @@ images = {
     },
     "pine64-rockpro64": {
         "branch_configs": {
-            "all": {
-                "ui": get_ui_list(chassis=["embedded"], add_ui=["plasma-bigscreen"]),
-            },
-            # Disable plasma bigscreen for master:
+            # Disable plasma bigscreen for master, v24.06:
             # https://gitlab.com/postmarketOS/pmaports/-/issues/2650
-            "master": {
+            "all": {
                 "ui": get_ui_list(chassis=["embedded"]),
+            },
+            "v23.12": {
+                "ui": get_ui_list(chassis=["embedded"], add_ui=["plasma-bigscreen"]),
             },
         },
     },
