@@ -114,6 +114,7 @@ devices = {
     "google-trogdor": "Google Trogdor Chromebooks",
     "google-veyron": "Google Veyron Chromebooks",
     "google-x64cros": "Google Chromebooks with x64 CPU",
+    "lenovo-21bx": "Lenovo Thinkpad X13s",
     "lenovo-a6000": "Lenovo A6000",
     "lenovo-a6010": "Lenovo A6010",
     "microsoft-surface-rt": "Microsoft Surface RT",
@@ -373,6 +374,17 @@ images = {
                 # existing images and it works for edge.
                 "ui": get_ui_list(chassis=["laptop", "convertible"],
                                   exclude_ui=["plasma-desktop"]),
+            },
+        },
+    },
+    "lenovo-x13s": {
+        "branches": [
+            "master",
+            "v24.06",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": get_ui_list(chassis=["laptop"]),
             },
         },
     },
