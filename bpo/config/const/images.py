@@ -108,6 +108,7 @@ devices = {
     "google-nyan-big": "Acer Chromebook 13 CB5-311",
     "google-nyan-blaze": "HP Chromebook 14 G3",
     "google-oak": "Google Oak Chromebooks",
+    "google-peach-pi": "Samsung Chromebook 2 13.3\"",
     "google-peach-pit": "Samsung Chromebook 2 11.6\"",
     "google-snow": "Samsung Chromebook",
     "google-trogdor": "Google Trogdor Chromebooks",
@@ -292,6 +293,21 @@ images = {
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible"], supports_gpu=False),
+            },
+        },
+    },
+    "google-peach-pi": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": get_ui_list(chassis=["laptop"]),
+            },
+            # Disable plasma for master:
+            # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
+            "master": {
+                "ui": get_ui_list(chassis=["laptop"], exclude_ui=["plasma-desktop"]),
             },
         },
     },
