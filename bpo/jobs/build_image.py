@@ -71,12 +71,7 @@ def run(device, branch, ui):
     # Always include unl0kr in the regular image if also building an installer
     # image (pmaports#1153).
     if branch_cfg["installer"]:
-        if branch == "v23.06":
-            # Remove this code path after v23.06 EOL
-            # https://postmarketos.org/edge/2023/10/04/osk-sdl-deprecated/
-            arg_extra_packages.append("osk-sdl")
-        else:
-            arg_extra_packages.append("unl0kr")
+        arg_extra_packages.append("unl0kr")
     for kernel in branch_cfg["kernels"]:
         # Task and image name, add kernel suffix if having multiple kernels
         task_name = "img"
