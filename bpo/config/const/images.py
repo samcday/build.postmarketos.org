@@ -52,7 +52,7 @@ def get_ui_list(chassis, supports_gpu=True, exclude_ui=[], add_ui=[]):
 # Regular expressions for resulting dir and file names
 pattern_dir = re.compile("^[0-9]{8}-[0-9]{4}$")
 pattern_file = re.compile(
-        "^[0-9]{8}-[0-9]{4}-postmarketOS-[a-z0-9._+-]+\\.img\\.xz"
+        "^[0-9]{8}-[0-9]{4}-postmarketOS-[a-z0-9._+-]+(\\.img\\.xz|\\.zip)"
         "(\\.sha(256|512))?$")
 
 # Default password for regular (non-installer) images
