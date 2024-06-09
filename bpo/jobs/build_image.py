@@ -202,7 +202,7 @@ def run(device, branch, ui):
             task_name = get_task_name("recovery_zip", kernel)
             arg_img_prefix = get_arg_img_prefix(kernel)
 
-            tasks[task_name] = """
+            tasks[task_name] = f"""
             OUTPUT_FILE=out/{arg_img_prefix}-android-recovery.zip
 
             pmbootstrap -q -y zap -p
