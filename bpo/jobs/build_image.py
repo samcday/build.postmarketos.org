@@ -141,41 +141,39 @@ def run(device, branch, ui):
         """
 
         # Task: img_installer (wrap installer around previous image)
-        if not branch_cfg["installer"]:
-            continue
-        task_name += "_installer"
-        tasks[task_name] = f"""
-            IMG_PREFIX={arg_img_prefix}
+        if branch_cfg["installer"]:
+            tasks[f"{task_name}_installer"] = f"""
+                IMG_PREFIX={arg_img_prefix}
 
-            pmbootstrap config extra_space 100
-            pmbootstrap config extra_packages none
-            pmbootstrap -q -y zap -p
+                pmbootstrap config extra_space 100
+                pmbootstrap config extra_packages none
+                pmbootstrap -q -y zap -p
 
-            # Use less space by hardlinking rootfs.img instead of copying
-            sudo mkdir -p {arg_work_installer}/var/lib
-            sudo {arg_ln} "out/$IMG_PREFIX.img" \\
-                    {arg_work_installer}/var/lib/rootfs.img
+                # Use less space by hardlinking rootfs.img instead of copying
+                sudo mkdir -p {arg_work_installer}/var/lib
+                sudo {arg_ln} "out/$IMG_PREFIX.img" \\
+                        {arg_work_installer}/var/lib/rootfs.img
 
-            {pmbootstrap_install} \\
-                --ondev \\
-                --no-rootfs
+                {pmbootstrap_install} \\
+                    --ondev \\
+                    --no-rootfs
 
-            # Remove hardlink again, so we can compress the file in-place
-            sudo rm {arg_work_installer}/var/lib/rootfs.img
+                # Remove hardlink again, so we can compress the file in-place
+                sudo rm {arg_work_installer}/var/lib/rootfs.img
 
-            if [ -e {arg_work_rootfs}/{arg_device}.img ]; then
-                sudo mv {arg_work_rootfs}/{arg_device}.img \\
-                    "out/$IMG_PREFIX-installer.img"
-            else
-                # Boot and root partitions in separate files (pmbootstrap!1871)
-                # Move the root partition to -installer.img and ignore the boot
-                # partition (it's the same as the -bootpart.img saved in the
-                # img task above).
-                sudo mv {arg_work_rootfs}/{arg_device}-root.img \\
-                    "out/$IMG_PREFIX-installer.img"
-            fi
-            ls -lh out
-        """
+                if [ -e {arg_work_rootfs}/{arg_device}.img ]; then
+                    sudo mv {arg_work_rootfs}/{arg_device}.img \\
+                        "out/$IMG_PREFIX-installer.img"
+                else
+                    # Boot and root partitions in separate files (pmbootstrap!1871)
+                    # Move the root partition to -installer.img and ignore the boot
+                    # partition (it's the same as the -bootpart.img saved in the
+                    # img task above).
+                    sudo mv {arg_work_rootfs}/{arg_device}-root.img \\
+                        "out/$IMG_PREFIX-installer.img"
+                fi
+                ls -lh out
+            """
 
     tasks["compress"] = """
             sudo chown "$(id -u):$(id -g)" out/*.img
