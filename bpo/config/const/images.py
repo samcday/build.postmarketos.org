@@ -170,6 +170,9 @@ branch_config_default = {
     # wraps the first image with the installer.
     "installer": False,
 
+    # Build images with android recovery zip
+    "android-recovery-zip": False,
+
     # To create additional images with other kernels selected, override this
     # variable. For qemu-amd64, this could be ["virt", "lts"].
     # https://postmarketos.org/multiple-kernels
@@ -480,6 +483,7 @@ images = {
     "samsung-espresso10": {
         "branch_configs": {
             "all": {
+                "android-recovery-zip": True,
                 "ui": get_ui_list(chassis=["tablet"], supports_gpu=False),
             },
         },
@@ -487,6 +491,7 @@ images = {
     "samsung-espresso7": {
         "branch_configs": {
             "all": {
+                "android-recovery-zip": True,
                 "ui": get_ui_list(chassis=["tablet"], supports_gpu=False),
             },
         },

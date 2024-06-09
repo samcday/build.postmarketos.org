@@ -28,7 +28,8 @@ def get_branch_config(device, branch):
         branch specific config.
         :returns: * None if device/branch was not found in the config
                   * the combined config, for example:
-                    {"date-start": "2020-12-29",
+                    {"android-recovery-zip": False,
+                     "date-start": "2020-12-29",
                      "date-interval": "1 week",
                      "ui": ["phosh", "plasma-mobile", "i3wm"],
                      "installer": True,

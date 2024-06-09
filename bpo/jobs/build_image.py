@@ -1,4 +1,4 @@
-# Copyright 2022 Oliver Smith
+# Copyright 2024 Oliver Smith
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import collections
 import shlex
@@ -194,6 +194,30 @@ def run(device, branch, ui):
 
             ls -lh out
     """
+
+    # Build the android recovery zip after compressing previously built images,
+    # so we consume less space while building
+    if branch_cfg["android-recovery-zip"]:
+        for kernel in branch_cfg["kernels"]:
+            task_name = get_task_name("recovery_zip", kernel)
+            arg_img_prefix = get_arg_img_prefix(kernel)
+
+            tasks[task_name] = """
+            OUTPUT_FILE=out/{arg_img_prefix}-android-recovery.zip
+
+            pmbootstrap -q -y zap -p
+
+            {pmbootstrap_install} \
+                    --password {arg_pass} \
+                    --android-recovery-zip \
+                    --recovery-install-partition=data
+
+            sudo mv {arg_work}/chroot_*/var/lib/postmarketos-android-recovery-installer/pmos-{arg_device}.zip \
+                    "$OUTPUT_FILE"
+
+            sudo chown "$(id -u):$(id -g)" "$OUTPUT_FILE"
+            ls -lh "$OUTPUT_FILE"
+            """
 
     tasks["checksums"] = """
             cd out
