@@ -25,6 +25,19 @@ def get_pmbootstrap_install_cmd():
                 --no-local-pkgs"""
 
 
+def get_task_name(prefix, kernel):
+    if kernel:
+        return f"{prefix}_{kernel}".replace("-", "_")
+    return prefix
+
+
+def get_arg_img_prefix(kernel):
+    ret = "$(cat img-prefix)"
+    if kernel:
+        ret += shlex.quote(f"-{kernel}")
+    return ret
+
+
 def run(device, branch, ui):
     """ Start a single image build job. """
     # Put the pkgver from this package into the image name
@@ -74,11 +87,8 @@ def run(device, branch, ui):
         arg_extra_packages.append("unl0kr")
     for kernel in branch_cfg["kernels"]:
         # Task and image name, add kernel suffix if having multiple kernels
-        task_name = "img"
-        arg_img_prefix = "$(cat img-prefix)"
-        if kernel:
-            task_name += f"_{kernel}".replace("-", "_")
-            arg_img_prefix += shlex.quote(f"-{kernel}")
+        task_name = get_task_name("img", kernel)
+        arg_img_prefix = get_arg_img_prefix(kernel)
 
         # Task: img (non-installer image)
         arg_kernel = shlex.quote(kernel)
