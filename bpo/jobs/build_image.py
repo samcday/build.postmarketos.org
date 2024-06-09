@@ -100,7 +100,7 @@ def run(device, branch, ui):
             pmbootstrap config extra_packages {",".join(arg_extra_packages)}
             pmbootstrap -q -y zap -p
 
-            printf "%s\\n%s\\n" {arg_pass} {arg_pass} | {pmbootstrap_install}
+            {pmbootstrap_install} --password {arg_pass}
 
             if [ -e {arg_work_rootfs}/{arg_device}.img ]; then
                 sudo mv {arg_work_rootfs}/{arg_device}.img \\
