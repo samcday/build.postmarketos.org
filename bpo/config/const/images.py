@@ -380,7 +380,7 @@ images = {
             },
         },
     },
-    "lenovo-x13s": {
+    "lenovo-21bx": {
         "branches": [
             "master",
             "v24.06",
