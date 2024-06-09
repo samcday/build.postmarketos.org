@@ -484,6 +484,7 @@ images = {
         "branch_configs": {
             "all": {
                 "android-recovery-zip": True,
+                "date-start": "2024-06-08",  # Saturday
                 "ui": get_ui_list(chassis=["tablet"], supports_gpu=False),
             },
         },
@@ -492,6 +493,7 @@ images = {
         "branch_configs": {
             "all": {
                 "android-recovery-zip": True,
+                "date-start": "2024-06-08",  # Saturday
                 "ui": get_ui_list(chassis=["tablet"], supports_gpu=False),
             },
         },
