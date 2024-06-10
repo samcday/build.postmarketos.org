@@ -89,6 +89,9 @@ def get_manifest(name, tasks, branch):
         - bpo_setup: |
            export BPO_JOB_ID="$JOB_ID"
 
+           # Use pmbootstrap 2.3.x branch until refactoring is done (pmb#2365)
+           git -C pmbootstrap checkout 2.3.x
+
            # Switch branch and release channel
            mkdir -p ~/.config
            ( echo "[pmbootstrap]"
