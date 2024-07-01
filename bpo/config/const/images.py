@@ -133,6 +133,7 @@ devices = {
     "qemu-amd64": "QEMU amd64",  # just used for test suite
     "samsung-a3": "Samsung Galaxy A3 2015",
     "samsung-a5": "Samsung Galaxy A5 2015",
+    "samsung-coreprimevelte": "Samsung Galaxy Core Prime VE LTE",
     "samsung-e7": "Samsung Galaxy E7",
     "samsung-espresso10": "Samsung Galaxy Tab 2 10.1\"",
     "samsung-espresso7": "Samsung Galaxy Tab 2 7.0\"",
@@ -470,6 +471,18 @@ images = {
     "samsung-a3": {
     },
     "samsung-a5": {
+    },
+    "samsung-coreprimevelte": {
+        "branches": [
+            "master",
+            "v24.06",
+        ],
+        "branch_configs": {
+            "all": {
+                # Only usable UI at the moment
+                "ui": [ "sxmo-de-sway" ],
+            },
+        },
     },
     "samsung-e7": {
         "branch_configs": {
