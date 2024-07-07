@@ -17,8 +17,7 @@ def test_update_badge(monkeypatch):
                                      "armhf",
                                      "aarch64",
                                      "armv7",
-                                     "x86"],
-                          "ignore_errors": False}
+                                     "x86"]}
     monkeypatch.setattr(bpo.config.const, "branches", branches)
 
     # Fill the db with "hello-world", "hello-world-wrapper"
@@ -62,7 +61,7 @@ def test_update_badge(monkeypatch):
     assert badge == "up-to-date"
 
     # Branch is in config: failed
-    branches["v20.05"] = {"arches": ["x86_64"], "ignore_errors": False}
+    branches["v20.05"] = {"arches": ["x86_64"]}
     badge = func(session, func_pkgs(session), func_imgs(session))
     assert badge == "failed"
 

@@ -23,8 +23,7 @@ def test_remove_deleted_package_SLOW_40s(monkeypatch):
     # Only one arch, so the bpo server doesn't attempt to run multiple repo
     # indexing jobs at once.
     branches = collections.OrderedDict()
-    branches["master"] = {"arches": ["x86_64"],
-                          "ignore_errors": False}
+    branches["master"] = {"arches": ["x86_64"]}
     monkeypatch.setattr(bpo.config.const, "branches", branches)
 
     # Stop server when it would publish the packages
@@ -76,8 +75,7 @@ def test_depends_SLOW_120s(monkeypatch):
 
     # Limit to two arches (more would increase test time)
     branches = collections.OrderedDict()
-    branches["master"] = {"arches": ["x86_64", "armv7"],
-                          "ignore_errors": False}
+    branches["master"] = {"arches": ["x86_64", "armv7"]}
     monkeypatch.setattr(bpo.config.const, "branches", branches)
 
     with bpo_test.BPOServer():

@@ -16,20 +16,24 @@ repo_wip_keys = top_dir + "/_repo_wip_keys"
 # Which pmaports.git branches will be built (e.g. "master", "v20.05", ...).
 # The order of branches/arches is the order in which packages will be built.
 # The native arch of the builders must come first.
+# Format:
+#   branches[NAME] = {
+#     "arches": [...],
+#     "ignore_errors": False | True,    (default: False)
+#   }
 # ignore_errors: WIP branches that are building for the first time should be
 #                listed here, so they are ignored for the big overall status
 #                badge. We don't want errors from these to overshadow errors
 #                from branches that are used in production.
 branches = collections.OrderedDict()
-branches["v24.06"] = {"arches": ["x86_64", "aarch64", "armv7"],
-                      "ignore_errors": False}
-branches["master"] = {"arches": ["x86_64",
-                                 "aarch64",
-                                 "armv7",
-                                 "armhf",
-                                 "x86",
-                                 "riscv64"],
-                      "ignore_errors": False}
+
+branches["v24.06"] = {
+    "arches": ["x86_64", "aarch64", "armv7"],
+}
+
+branches["master"] = {
+    "arches": ["x86_64", "aarch64", "armv7", "armhf", "x86", "riscv64"],
+}
 
 # Build staging repositories for these architectures
 staging_arches = ["x86_64", "aarch64", "armv7"]

@@ -442,7 +442,7 @@ def get_failed_packages_count_relevant(session):
                   prepare a new release). """
     relevant = []
     for branch, branch_data in bpo.config.const.branches.items():
-        if not branch_data["ignore_errors"]:
+        if not branch_data.get("ignore_errors"):
             relevant += [branch]
 
     return session.query(bpo.db.Package).\

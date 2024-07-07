@@ -201,7 +201,7 @@ def write_index_json():
             release_name_pretty += " (unstable)"
         elif release_name not in bpo.config.const.branches:
             release_name_pretty += " (end of life)"
-        elif bpo.config.const.branches[release_name]["ignore_errors"]:
+        elif bpo.config.const.branches[release_name].get("ignore_errors"):
             release_name_pretty += " (work in progress)"
         release = {
             "name": release_name,

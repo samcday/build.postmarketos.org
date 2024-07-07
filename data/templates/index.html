@@ -101,7 +101,7 @@
             %}<span class="arch">{{ arch }}</span>{{
             ", " if not loop.last
             }}{%endfor%})
-            {% if branch_data["ignore_errors"] %}
+            {% if branch_data.get("ignore_errors") %}
             (WIP)
             {% endif %}
 

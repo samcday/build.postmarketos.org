@@ -26,12 +26,10 @@ def test_branch_split():
 def test_get_branches_with_staging(monkeypatch, tmp_path):
     # Fake bpo.config.const.branches
     branches = collections.OrderedDict()
-    branches["v23.06"] = {"arches": ["x86_64", "aarch64"],
-                          "ignore_errors": False}
+    branches["v23.06"] = {"arches": ["x86_64", "aarch64"]}
     branches["master"] = {"arches": ["x86_64",
                                      "aarch64",
-                                     "riscv64"],
-                          "ignore_errors": False}
+                                     "riscv64"]}
     monkeypatch.setattr(bpo.config.const, "branches", branches)
     monkeypatch.setattr(bpo.config.const, "staging_arches", ["aarch64", "riscv64"])
 
@@ -48,10 +46,8 @@ def test_get_branches_with_staging(monkeypatch, tmp_path):
     # Check output
     func = bpo.repo.staging.get_branches_with_staging
     assert func() == collections.OrderedDict({
-        "v23.06": {"arches": ["x86_64", "aarch64"],
-                   "ignore_errors": False},
-        "master": {"arches": ["x86_64", "aarch64", "riscv64"],
-                   "ignore_errors": False},
+        "v23.06": {"arches": ["x86_64", "aarch64"]},
+        "master": {"arches": ["x86_64", "aarch64", "riscv64"]},
         "v23.06_staging_test_branch": {"arches": ["aarch64", "riscv64"],
                                        "ignore_errors": True},
         "master_staging_test_branch": {"arches": ["aarch64", "riscv64"],
@@ -65,8 +61,7 @@ def test_remove_wrong_branch():
 
 def test_remove(monkeypatch):
     branches = collections.OrderedDict()
-    branches["v23.06"] = {"arches": ["x86_64", "aarch64", "armv7"],
-                          "ignore_errors": False}
+    branches["v23.06"] = {"arches": ["x86_64", "aarch64", "armv7"]}
     branches["master"] = branches["v23.06"]
     monkeypatch.setattr(bpo.config.const, "branches", branches)
 
