@@ -62,6 +62,8 @@ def get_manifest(name, tasks, branch):
         url_repo_wip_https += f"{branch}/"
 
     branches = bpo.repo.staging.get_branches_with_staging()
+    pmb_branch = branches[branch].get("pmb_branch",
+                                      bpo.config.const.pmb_branch_default)
     arches = " ".join(branches[branch]["arches"])
     ret = """
         image: alpine/latest
@@ -89,8 +91,7 @@ def get_manifest(name, tasks, branch):
         - bpo_setup: |
            export BPO_JOB_ID="$JOB_ID"
 
-           # Use pmbootstrap 2.3.x branch until refactoring is done (pmb#2365)
-           git -C pmbootstrap checkout 2.3.x
+           git -C pmbootstrap checkout """ + pmb_branch + """
 
            # Switch branch and release channel
            mkdir -p ~/.config

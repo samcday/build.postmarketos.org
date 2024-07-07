@@ -154,7 +154,8 @@ def get_branches_with_staging():
             name = os.path.basename(os.path.dirname(os.path.dirname(path)))
             branch_staging = f"{branch_orig}_staging_{name}"
             ret[branch_staging] = {"arches": bpo.config.const.staging_arches,
-                                   "ignore_errors": True}
+                                   "ignore_errors": True,
+                                   "pmb_branch": bpo.config.const.staging_pmb_branch}
 
     return ret
 

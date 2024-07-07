@@ -49,9 +49,11 @@ def test_get_branches_with_staging(monkeypatch, tmp_path):
         "v23.06": {"arches": ["x86_64", "aarch64"]},
         "master": {"arches": ["x86_64", "aarch64", "riscv64"]},
         "v23.06_staging_test_branch": {"arches": ["aarch64", "riscv64"],
-                                       "ignore_errors": True},
+                                       "ignore_errors": True,
+                                       "pmb_branch": "master"},
         "master_staging_test_branch": {"arches": ["aarch64", "riscv64"],
-                                       "ignore_errors": True},
+                                       "ignore_errors": True,
+                                       "pmb_branch": "master"},
     })
 
 

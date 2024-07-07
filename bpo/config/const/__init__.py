@@ -20,6 +20,7 @@ repo_wip_keys = top_dir + "/_repo_wip_keys"
 #   branches[NAME] = {
 #     "arches": [...],
 #     "ignore_errors": False | True,    (default: False)
+#     "pmb_branch": PMBOOTSTRAP_BRANCH, (default: "2.3.x")
 #   }
 # ignore_errors: WIP branches that are building for the first time should be
 #                listed here, so they are ignored for the big overall status
@@ -33,10 +34,17 @@ branches["v24.06"] = {
 
 branches["master"] = {
     "arches": ["x86_64", "aarch64", "armv7", "armhf", "x86", "riscv64"],
+    "pmb_branch": "master",
 }
+
+# Current default is 2.3.x until pmbootstrap v3 is stable:
+# https://gitlab.com/postmarketOS/pmbootstrap/-/milestones/1
+pmb_branch_default = "2.3.x"
 
 # Build staging repositories for these architectures
 staging_arches = ["x86_64", "aarch64", "armv7"]
+# Use this pmbootstrap branch for staging repos
+staging_pmb_branch = "master"
 
 # Do "repo_bootstrap" for repositories that have packages in the following dirs
 repo_bootstrap_dirs = ["systemd"]
