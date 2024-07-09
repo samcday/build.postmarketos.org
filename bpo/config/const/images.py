@@ -129,6 +129,7 @@ devices = {
     "pine64-pinephone": "PINE64 PinePhone",
     "pine64-pinephonepro": "PINE64 PinePhone Pro",
     "pine64-rockpro64": "PINE64 RockPro64",
+    "postmarketos-trailblazer": "PostmarketOS Trailblazer",
     "purism-librem5": "Purism Librem5",
     "qemu-amd64": "QEMU amd64",  # just used for test suite
     "samsung-a3": "Samsung Galaxy A3 2015",
@@ -465,6 +466,17 @@ images = {
                 "ui": get_ui_list(chassis=["embedded"], add_ui=["plasma-bigscreen"]),
             },
         },
+    },
+    "postmarketos-trailblazer": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "master": {
+                "date-interval": 3,
+                "ui": ["gnome-mobile", "console"],
+            },
+        }
     },
     "purism-librem5": {
     },
