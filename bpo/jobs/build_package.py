@@ -71,48 +71,47 @@ def run(arch, pkgname, branch):
     # Start job
     note = "Build package: `{}/{}/{}-{}`".format(branch, arch, pkgname,
                                                  package.version)
-    tasks = collections.OrderedDict([
-        ("install_pubkey", """
-            echo -n '""" + pubkey + """' \
-                > pmbootstrap/pmb/data/keys/wip.rsa.pub
-            """),
-        ("pmbootstrap_build", """
-            pmbootstrap config systemd """ + systemd_arg + """
-            """ + env_force_missing_repos + """
-            pmbootstrap \\
-                -m """ + mirror_alpine + """ \
-                """ + mirrors + """ \\
-                --aports=$PWD/pmaports \\
-                --no-ccache \\
-                --timeout """ + timeout + """ \\
-                --details-to-stdout \\
-                build \\
-                --no-depends \\
-                """ + strict_arg + """ \\
-                --arch """ + shlex.quote(arch) + """ \\
-                --force \\
-                """ + shlex.quote(pkgname) + """
-            """),
-        ("checksums", """
-            cd "$(pmbootstrap -q config work)/packages/"
-            sha512sum $(find . -name '*.apk')
-        """),
-        ("submit", """
-            export BPO_API_ENDPOINT="build-package"
-            export BPO_ARCH=""" + shlex.quote(arch) + """
-            export BPO_BRANCH=""" + shlex.quote(branch) + """
-            export BPO_DEVICE=""
-            packages="$(pmbootstrap -q config work)/packages"
-            export BPO_PAYLOAD_FILES="$(find "$packages" -name '*.apk')"
-            export BPO_PAYLOAD_FILES_PREVIOUS=""
-            export BPO_PAYLOAD_IS_JSON="0"
-            export BPO_PKGNAME=""" + shlex.quote(pkgname) + """
-            export BPO_UI=""
-            export BPO_VERSION=""" + shlex.quote(package.version) + """
+    tasks = collections.OrderedDict([])
+    tasks["install_pubkey"] = f"""
+        echo -n {shlex.quote(pubkey)} \
+            > pmbootstrap/pmb/data/keys/wip.rsa.pub
+    """
+    tasks["pmbootstrap_build"] = f"""
+        pmbootstrap config systemd {shlex.quote(systemd_arg)}
+        {env_force_missing_repos}
+        pmbootstrap \\
+            -m {mirror_alpine} \\
+            {mirrors} \\
+            --aports=$PWD/pmaports \\
+            --no-ccache \\
+            --timeout {shlex.quote(timeout)} \\
+            --details-to-stdout \\
+            build \\
+            --no-depends \\
+            {strict_arg} \\
+            --arch {shlex.quote(arch)} \\
+            --force \\
+            {shlex.quote(pkgname)}
+    """
+    tasks["checksums"] = """
+        cd "$(pmbootstrap -q config work)/packages/"
+        sha512sum $(find . -name '*.apk')
+    """
+    tasks["submit"] = f"""
+        export BPO_API_ENDPOINT="build-package"
+        export BPO_ARCH={shlex.quote(arch)}
+        export BPO_BRANCH={shlex.quote(branch)}
+        export BPO_DEVICE=""
+        packages="$(pmbootstrap -q config work)/packages"
+        export BPO_PAYLOAD_FILES="$(find "$packages" -name '*.apk')"
+        export BPO_PAYLOAD_FILES_PREVIOUS=""
+        export BPO_PAYLOAD_IS_JSON="0"
+        export BPO_PKGNAME={shlex.quote(pkgname)}
+        export BPO_UI=""
+        export BPO_VERSION={shlex.quote(package.version)}
 
-            exec build.postmarketos.org/helpers/submit.py
-            """)
-    ])
+        exec build.postmarketos.org/helpers/submit.py
+    """
     job_id = bpo.helpers.job.run("build_package", note, tasks, branch, arch,
                                  pkgname, package.version)
 
