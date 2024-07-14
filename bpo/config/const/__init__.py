@@ -34,7 +34,8 @@ branches["v24.06"] = {
 
 branches["master"] = {
     "arches": ["x86_64", "aarch64", "armv7", "armhf", "x86", "riscv64"],
-    "pmb_branch": "master",
+    # Allow override for running the whole testsuite with pmb v2
+    "pmb_branch": os.environ.get("BPO_PMA_MASTER_PMB_BRANCH", "master"),
 }
 
 # Current default is 2.3.x until pmbootstrap v3 is stable:
@@ -44,7 +45,7 @@ pmb_branch_default = "2.3.x"
 # Build staging repositories for these architectures
 staging_arches = ["x86_64", "aarch64", "armv7"]
 # Use this pmbootstrap branch for staging repos
-staging_pmb_branch = "master"
+staging_pmb_branch = os.environ.get("BPO_PMA_STAGING_PMB_BRANCH", "master")
 
 # Do "repo_bootstrap" for repositories that have packages in the following dirs
 repo_bootstrap_dirs = ["systemd"]

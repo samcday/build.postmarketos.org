@@ -29,8 +29,10 @@ final_repo_key_name = "build.postmarketos.org.rsa"
 # Defaults (local)
 local_pmaports = os.path.realpath(bpo.config.const.top_dir +
                                   "/../pmbootstrap/aports")
-local_pmbootstrap = os.path.realpath(bpo.config.const.top_dir +
-                                     "/../pmbootstrap")
+local_pmbootstrap = os.environ.get(
+    "BPO_PMB_PATH",
+    os.path.realpath(bpo.config.const.top_dir + "/../pmbootstrap")
+)
 
 # Defaults (sourcehut)
 sourcehut_user = "postmarketos"
