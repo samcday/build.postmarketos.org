@@ -8,8 +8,9 @@ import os
 import shlex
 
 import bpo.db
-import bpo.ui
 import bpo.helpers.job
+import bpo.helpers.pmb
+import bpo.ui
 
 
 def do_build_strict(pkgname):
@@ -46,11 +47,13 @@ def run(arch, pkgname, branch):
         pubkey = handle.read()
 
     # Set mirror args (either primary mirror, or WIP + primary)
-    mirror_alpine = shlex.quote(bpo.config.const.mirror_alpine)
-    mirror_final = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(branch)
-    mirrors = "-mp " + shlex.quote(mirror_final)
-    if os.path.exists(f"{wip_path}/APKINDEX.tar.gz"):
-        mirrors = '$BPO_WIP_REPO_ARG ' + mirrors
+    pmb_v2_mirrors_arg = ""
+    if not bpo.helpers.pmb.is_master(branch):
+        mirror_final = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(branch)
+        if os.path.exists(f"{wip_path}/APKINDEX.tar.gz"):
+            pmb_v2_mirrors_arg += " $BPO_WIP_REPO_ARG\\\n"
+        pmb_v2_mirrors_arg += f" -mp {shlex.quote(mirror_final)}\\\n"
+        pmb_v2_mirrors_arg += f" -m {shlex.quote(bpo.config.const.mirror_alpine)}\\\n"
 
     # Ignore missing repos before initial build (bpo#137)
     env_force_missing_repos = ""
@@ -76,12 +79,15 @@ def run(arch, pkgname, branch):
         echo -n {shlex.quote(pubkey)} \
             > pmbootstrap/pmb/data/keys/wip.rsa.pub
     """
+
+    if bpo.helpers.pmb.is_master(branch):
+        tasks["set_repos"] = bpo.helpers.pmb.set_repos_task(arch, branch)
+
     tasks["pmbootstrap_build"] = f"""
         pmbootstrap config systemd {shlex.quote(systemd_arg)}
         {env_force_missing_repos}
         pmbootstrap \\
-            -m {mirror_alpine} \\
-            {mirrors} \\
+            {pmb_v2_mirrors_arg} \\
             --aports=$PWD/pmaports \\
             --no-ccache \\
             --timeout {shlex.quote(timeout)} \\
