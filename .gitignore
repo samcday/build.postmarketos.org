@@ -3,6 +3,7 @@ bpo.db-journal
 .tokens.cfg
 _repo*
 _temp
+_temp_bpo_testsuite_bin
 _html_out
 bpo_sourcehut.sh
 pytest.log

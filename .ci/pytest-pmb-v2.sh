@@ -1,5 +1,5 @@
 #!/bin/sh -e
-# Description: run python testsuite
+# Description: run python testsuite with pmbootstrap v2
 # Options: native slow
 # https://postmarketos.org/pmb-ci
 
@@ -36,16 +36,18 @@ if ! [ -e .ci_pytest_no_venv ]; then
 	fi
 fi
 
-if ../pmbootstrap/pmbootstrap.py --version | grep -q '^2\.'; then
-	echo "ERROR: expected pmbootstrap v3 branch to be checked out!"
+if ! [ -d ../pmbootstrap_v2 ]; then
+	echo "To run the pmbootstrap v2 tests:"
+	echo "* Put pmb v2 into ../pmbootstrap_v2"
+	echo "* Run pmb v2 'pmbootstrap init' and select a different work dir"
 	exit 1
 fi
 
-if [ -e ~/.config/pmbootstrap_v3.cfg ]; then
-	../pmbootstrap/pmbootstrap.py work_migrate
+if [ -e ~/.config/pmbootstrap.cfg ]; then
+	../pmbootstrap_v2/pmbootstrap.py work_migrate
 else
 	echo "Initializing pmbootstrap..."
-	if ! yes '' | ../pmbootstrap/pmbootstrap.py \
+	if ! yes '' | ../pmbootstrap_v2/pmbootstrap.py \
 			--details-to-stdout \
 			init \
 			>pmb_init_log 2>&1; then
@@ -54,7 +56,23 @@ else
 	fi
 fi
 
-../pmbootstrap/pmbootstrap.py -q shutdown
+../pmbootstrap_v2/pmbootstrap.py -q shutdown
+
+# Put pmbootstrap v2 into PATH
+TEMPBIN=$PWD/_temp_bpo_testsuite_bin
+rm -rf "$TEMPBIN"
+mkdir "$TEMPBIN"
+ln -s ../../pmbootstrap_v2/pmbootstrap.py "$TEMPBIN"/pmbootstrap
+export PATH="$TEMPBIN:$PATH"
+
+if ! pmbootstrap --version | grep -q '^2\.'; then
+	echo "ERROR: failed to put pmbv2 into PATH"
+	exit 1
+fi
+
+export BPO_PMA_MASTER_PMB_BRANCH="2.3.x"
+export BPO_PMA_STAGING_PMB_BRANCH="2.3.x"
+export BPO_PMB_PATH="$(realpath "$PWD/../pmbootstrap_v2")"
 
 # Use pytest-cov if it is installed to display code coverage
 cov_arg=""

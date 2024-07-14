@@ -31,19 +31,44 @@ vermin:
   script:
   - ".ci/vermin.sh"
 
-# Run same Alpine version as real bpo server
 pytest:
   <<: *only-default
-  image: "alpine:3.18"
+  image: "alpine:3.18"  # has sqlalchemy<2.0
   before_script:
   - wget "https://gitlab.com/postmarketOS/ci-common/-/raw/master/install_pmbootstrap.sh"
-  - sh ./install_pmbootstrap.sh
+  - PMBOOTSTRAP_TAG=master sh ./install_pmbootstrap.sh
   - ln -s /tmp/pmbootstrap ../pmbootstrap
-  - ln -s /home/pmos/.local/var/pmbootstrap/cache_git/pmaports ../pmbootstrap/aports
   script:
   # Avoid "Cross-device link" error
   - "export BPO_CMD_LN=cp"
   - .ci/pytest.sh
+  artifacts:
+    when: "on_failure"  # reports artifacts are always uploaded
+    paths:
+    - "coverage.xml"
+    - "_html_out/index.html"
+    - "_temp/local_job/task_*.sh"
+    - "_temp/local_job_logs/*.txt"
+    - "pytest.log"
+    reports:
+      coverage_report:
+        coverage_format: "cobertura"
+        path: "coverage.xml"
+    expire_in: "1 week"
+  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+
+pytest-pmb-v2:
+  <<: *only-default
+  image: "alpine:3.18"  # has sqlalchemy<2.0
+  before_script:
+  - wget "https://gitlab.com/postmarketOS/ci-common/-/raw/master/install_pmbootstrap.sh"
+  - PMBOOTSTRAP_TAG=2.3.x sh ./install_pmbootstrap.sh
+  - ln -s /tmp/pmbootstrap ../pmbootstrap_v2
+  - ln -s /home/pmos/.local/var/pmbootstrap/cache_git/pmaports ../pmbootstrap_v2/aports
+  script:
+  # Avoid "Cross-device link" error
+  - "export BPO_CMD_LN=cp"
+  - .ci/pytest-pmb-v2.sh
   artifacts:
     when: "on_failure"  # reports artifacts are always uploaded
     paths:
