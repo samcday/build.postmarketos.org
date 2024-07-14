@@ -8,6 +8,7 @@ import bpo_test
 import bpo_test.const
 import bpo_test.trigger
 import bpo.repo
+import bpo.config.args
 
 
 @pytest.mark.timeout(10)
@@ -48,7 +49,7 @@ def test_assert_package(monkeypatch):
 
 def test_const_pmaports_versions():
     """ Verify that bpo_test.const.version_* matches pmaports """
-    pmaports_dir = bpo.config.const.top_dir + "/../pmbootstrap/aports"
+    pmaports_dir = os.path.join(bpo.config.args.local_pmbootstrap, "aports")
     if not os.path.isdir(pmaports_dir):
         raise RuntimeError("Can't find pmaports, expected them here: '{}'"
                            " (if you want to add a way to override it, feel"
