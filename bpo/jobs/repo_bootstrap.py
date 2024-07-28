@@ -29,39 +29,40 @@ def run(session, rb, test_pmaports_cfg=None):
     tasks = collections.OrderedDict([])
 
     if test_pmaports_cfg:
-        tasks.update({"override_pmaports_cfg":
-            f"cp {shlex.quote(test_pmaports_cfg)} pmaports/pmaports.cfg"})
+        tasks["override_pmaports_cfg"] = f"""
+            cp {shlex.quote(test_pmaports_cfg)} pmaports/pmaports.cfg
+        """
 
-    tasks.update({"repo_bootstrap": """
-                pmbootstrap \\
-                    -m """ + mirror_alpine + """ \
-                    """ + mirrors + """ \\
-                    --aports=$PWD/pmaports \\
-                    --timeout """ + timeout + """ \\
-                    --details-to-stdout \\
-                    repo_bootstrap \\
-                    --arch """ + shlex.quote(rb.arch) + """ \\
-                    systemd
-                """}),
-    tasks.update({"checksums": """
-                    cd "$(pmbootstrap -q config work)/packages/"
-                    sha512sum $(find . -name '*.apk')
-                """}),
-    tasks.update({"submit": """
-                export BPO_API_ENDPOINT="repo-bootstrap"
-                export BPO_ARCH=""" + shlex.quote(rb.arch) + """
-                export BPO_BRANCH=""" + shlex.quote(rb.branch) + """
-                export BPO_DEVICE=""
-                packages="$(pmbootstrap -q config work)/packages"
-                export BPO_PAYLOAD_FILES="$(find "$packages" -name '*.apk')"
-                export BPO_PAYLOAD_FILES_PREVIOUS=""
-                export BPO_PAYLOAD_IS_JSON="0"
-                export BPO_PKGNAME=""
-                export BPO_UI=""
-                export BPO_VERSION=""
+    tasks["repo_bootstrap"] = f"""
+        pmbootstrap \\
+            -m {mirror_alpine} \\
+            {mirrors} \\
+            --aports=$PWD/pmaports \\
+            --timeout {shlex.quote(timeout)} \\
+            --details-to-stdout \\
+            repo_bootstrap \\
+            --arch {shlex.quote(rb.arch)} \\
+            systemd
+    """
+    tasks["checksums"] = """
+        cd "$(pmbootstrap -q config work)/packages/"
+        sha512sum $(find . -name '*.apk')
+    """
+    tasks["submit"] = f"""
+        export BPO_API_ENDPOINT="repo-bootstrap"
+        export BPO_ARCH={shlex.quote(rb.arch)}
+        export BPO_BRANCH={shlex.quote(rb.branch)}
+        export BPO_DEVICE=""
+        packages="$(pmbootstrap -q config work)/packages"
+        export BPO_PAYLOAD_FILES="$(find "$packages" -name '*.apk')"
+        export BPO_PAYLOAD_FILES_PREVIOUS=""
+        export BPO_PAYLOAD_IS_JSON="0"
+        export BPO_PKGNAME=""
+        export BPO_UI=""
+        export BPO_VERSION=""
 
-                exec build.postmarketos.org/helpers/submit.py
-                """})
+        exec build.postmarketos.org/helpers/submit.py
+    """
     job_id = bpo.helpers.job.run("repo_bootstrap", note, tasks, rb.branch,
                                  rb.arch, "[repo_bootstrap]",
                                  dir_name=rb.dir_name)
