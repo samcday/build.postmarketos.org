@@ -17,14 +17,14 @@ def is_master(pmaports_branch):
     return pmb_branch == "master"
 
 
-def set_repos_task(arch, branch):
+def set_repos_task(arch, branch, add_wip_repo=True):
     """Configure repositories for pmbootstrap v3"""
     wip_path = bpo.repo.wip.get_path(arch, branch)
-    pmaports = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(branch)
+    pmaports = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(branch) or "none"
     alpine = bpo.config.const.mirror_alpine
     ret = ""
 
-    if os.path.exists(f"{wip_path}/APKINDEX.tar.gz"):
+    if add_wip_repo and os.path.exists(f"{wip_path}/APKINDEX.tar.gz"):
         # * job service sourcehut: this sets the WIP repo url
         # * job service local: BPO_WIP_REPO_URL is an empty string because we
         #   copy the WIP packages instead. So this just prints the currently

@@ -7,6 +7,7 @@ import shlex
 import bpo.db
 import bpo.ui
 import bpo.helpers.job
+import bpo.helpers.pmb
 
 
 def run(session, rb, test_pmaports_cfg=None):
@@ -18,9 +19,11 @@ def run(session, rb, test_pmaports_cfg=None):
     :param test_pmaports_cfg: tests override pmaports.cfg with this
     """
     # Set mirror args (pmOS mirror is needed for cross compilers)
-    mirror_alpine = shlex.quote(bpo.config.const.mirror_alpine)
-    mirror_final = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(rb.branch)
-    mirrors = "-mp " + shlex.quote(mirror_final)
+    pmb_v2_mirrors_arg = ""
+    if not bpo.helpers.pmb.is_master(rb.branch):
+        mirror_final = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(rb.branch)
+        pmb_v2_mirrors_arg += f" -mp {shlex.quote(mirror_final)}\\\n"
+        pmb_v2_mirrors_arg += f" -m {shlex.quote(bpo.config.const.mirror_alpine)}\\\n"
 
     timeout = str(bpo.config.const.pmbootstrap_timeout)
 
@@ -33,10 +36,12 @@ def run(session, rb, test_pmaports_cfg=None):
             cp {shlex.quote(test_pmaports_cfg)} pmaports/pmaports.cfg
         """
 
+    if bpo.helpers.pmb.is_master(rb.branch):
+        tasks["set_repos"] = bpo.helpers.pmb.set_repos_task(rb.arch, rb.branch, False)
+
     tasks["repo_bootstrap"] = f"""
         pmbootstrap \\
-            -m {mirror_alpine} \\
-            {mirrors} \\
+            {pmb_v2_mirrors_arg} \\
             --aports=$PWD/pmaports \\
             --timeout {shlex.quote(timeout)} \\
             --details-to-stdout \\
