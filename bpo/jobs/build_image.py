@@ -4,21 +4,18 @@ import collections
 import shlex
 
 import bpo.db
-import bpo.ui
 import bpo.helpers.job
+import bpo.helpers.pmb
 import bpo.images
 import bpo.images.config
+import bpo.ui
 
 
 def get_pmbootstrap_install_cmd():
     """ pmbootstrap install command for image building. This is a separate
         function, so we can override it with a stub in a test. """
-    arg_mirror_alpine = shlex.quote(bpo.config.const.mirror_alpine)
-    arg_mirror_pmos = shlex.quote(f"{bpo.config.args.mirror}/")
 
-    return f"""pmbootstrap \\
-                -m {arg_mirror_alpine} \\
-                -mp {arg_mirror_pmos} \\
+    return """pmbootstrap \\
                 --details-to-stdout \\
                 install \\
                 --no-sshd \\
@@ -53,9 +50,18 @@ def run(device, branch, ui):
     arg_work = "$(pmbootstrap config work)"
     arg_work_boot = f"{arg_work}/chroot_rootfs_{arg_device}/boot"
     arg_work_rootfs = f"{arg_work}/chroot_native/home/pmos/rootfs"
+    tasks = collections.OrderedDict()
+
+    # Configure pmbootstrap mirrors
+    pmb_v2_mirrors_arg = ""
+    if bpo.helpers.pmb.is_master(branch):
+        tasks["set_repos"] = bpo.helpers.pmb.set_repos_task(None, branch, False)
+    else:
+        mirror_final = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(branch)
+        pmb_v2_mirrors_arg += f" -mp {shlex.quote(mirror_final)}\\\n"
+        pmb_v2_mirrors_arg += f" -m {shlex.quote(bpo.config.const.mirror_alpine)}\\\n"
 
     # Task: img_prepare (generate image prefix, configure pmb, create tmpdir)
-    tasks = collections.OrderedDict()
     tasks["img_prepare"] = f"""
         IMG_DATE="$(date +%Y%m%d-%H%M)"
         echo "$IMG_DATE" > img-date
@@ -94,7 +100,9 @@ def run(device, branch, ui):
             pmbootstrap config extra_packages {",".join(arg_extra_packages)}
             pmbootstrap -q -y zap -p
 
-            {pmbootstrap_install} --password {arg_pass}
+            {pmbootstrap_install} \\
+                {pmb_v2_mirrors_arg} \\
+                --password {arg_pass}
 
             if [ -e {arg_work_rootfs}/{arg_device}.img ]; then
                 sudo mv {arg_work_rootfs}/{arg_device}.img \\
@@ -166,9 +174,10 @@ def run(device, branch, ui):
 
             pmbootstrap -q -y zap -p
 
-            {pmbootstrap_install} \
-                    --password {arg_pass} \
-                    --android-recovery-zip \
+            {pmbootstrap_install} \\
+                    {pmb_v2_mirrors_arg} \\
+                    --password {arg_pass} \\
+                    --android-recovery-zip \\
                     --recovery-install-partition=data
 
             sudo mv {arg_work}/chroot_*/var/lib/postmarketos-android-recovery-installer/pmos-{arg_device}.zip \
