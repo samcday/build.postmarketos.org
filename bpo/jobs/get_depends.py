@@ -5,23 +5,31 @@ import collections
 import shlex
 
 import bpo.helpers.job
+import bpo.helpers.pmb
 import bpo.repo.staging
 
 
 def run(branch):
     tasks = collections.OrderedDict()
 
-    mirror_final = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(branch)
+    # Configure pmbootstrap mirrors
+    pmb_v2_mirrors_arg = ""
+    if bpo.helpers.pmb.is_master(branch):
+        tasks["set_repos"] = bpo.helpers.pmb.set_repos_task(None, branch, False)
+    else:
+        mirror_final = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(branch)
+        pmb_v2_mirrors_arg += f" -mp {shlex.quote(mirror_final)}\\\n"
+
     branches = bpo.repo.staging.get_branches_with_staging()
 
     for arch in branches[branch]["arches"]:
-        tasks[branch + "_" + arch] = """
-            export ARCH=""" + shlex.quote(arch) + """
+        tasks[f"{branch}_{arch}"] = f"""
+            export ARCH={shlex.quote(arch)}
             export JSON="depends.$ARCH.json"
 
             pmbootstrap \\
+                {pmb_v2_mirrors_arg} \\
                 --aports=$PWD/pmaports \\
-                -mp """ + shlex.quote(mirror_final) + """ \\
                 repo_missing --built --arch "$ARCH" \\
                 > "$JSON"
             cat "$JSON"
