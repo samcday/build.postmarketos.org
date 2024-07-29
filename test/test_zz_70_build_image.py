@@ -21,7 +21,6 @@ def build_image(monkeypatch):
                             "branch_configs": {
                                 "master": {
                                     "ui": ["console"],
-                                    "installer": True,
                                     "kernels": ["virt"],
                                 }
                             }
@@ -117,11 +116,4 @@ def test_build_image_stub_split_boot_root(monkeypatch):
 
     monkeypatch.setattr(bpo.jobs.build_image, "get_pmbootstrap_install_cmd",
                         pmbootstrap_install_stub)
-    build_image(monkeypatch)
-
-
-# Run with: test/manual/test_build_installer_run_in_qemu.sh
-@pytest.mark.skip_ci
-@pytest.mark.timeout(300)
-def test_build_image_SLOW_300s(monkeypatch):
     build_image(monkeypatch)

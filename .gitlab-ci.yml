@@ -39,8 +39,6 @@ pytest:
   - PMBOOTSTRAP_TAG=master sh ./install_pmbootstrap.sh
   - ln -s /tmp/pmbootstrap ../pmbootstrap
   script:
-  # Avoid "Cross-device link" error
-  - "export BPO_CMD_LN=cp"
   - .ci/pytest.sh
   artifacts:
     when: "on_failure"  # reports artifacts are always uploaded
@@ -66,8 +64,6 @@ pytest-pmb-v2:
   - ln -s /tmp/pmbootstrap ../pmbootstrap_v2
   - ln -s /home/pmos/.local/var/pmbootstrap/cache_git/pmaports ../pmbootstrap_v2/aports
   script:
-  # Avoid "Cross-device link" error
-  - "export BPO_CMD_LN=cp"
   - .ci/pytest-pmb-v2.sh
   artifacts:
     when: "on_failure"  # reports artifacts are always uploaded

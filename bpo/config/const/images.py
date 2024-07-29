@@ -55,7 +55,7 @@ pattern_file = re.compile(
         "^[0-9]{8}-[0-9]{4}-postmarketOS-[a-z0-9._+-]+(\\.img\\.xz|\\.zip)"
         "(\\.sha(256|512))?$")
 
-# Default password for regular (non-installer) images
+# Default password for images
 password = "147147"
 
 # Branches to build images for, can be overridden per device in 'images' below
@@ -165,11 +165,6 @@ branch_config_default = {
     # User interfaces to build. At least one UI must be set for each device,
     # otherwise no image for that device will be built.
     "ui": get_ui_list(chassis=["handset"]),
-
-    # Build images with the on-device installer. If set to False, build one
-    # image without the installer. If set to True, build another image, which
-    # wraps the first image with the installer.
-    "installer": False,
 
     # Build images with android recovery zip
     "android-recovery-zip": False,

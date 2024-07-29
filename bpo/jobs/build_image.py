@@ -46,7 +46,6 @@ def run(device, branch, ui):
     # Shell arguments
     arg_branch = shlex.quote(branch)
     arg_device = shlex.quote(device)
-    arg_ln = shlex.quote(bpo.config.const.cmd_ln)
     arg_pass = shlex.quote(bpo.config.const.images.password)
     arg_pmos_ver = shlex.quote(bpo.images.pmos_ver(branch))
     arg_ui = shlex.quote(ui)
@@ -54,7 +53,6 @@ def run(device, branch, ui):
     arg_work = "$(pmbootstrap config work)"
     arg_work_boot = f"{arg_work}/chroot_rootfs_{arg_device}/boot"
     arg_work_rootfs = f"{arg_work}/chroot_native/home/pmos/rootfs"
-    arg_work_installer = f"{arg_work}/chroot_installer_{arg_device}"
 
     # Task: img_prepare (generate image prefix, configure pmb, create tmpdir)
     tasks = collections.OrderedDict()
@@ -81,16 +79,12 @@ def run(device, branch, ui):
     # Iterate over kernels to generate the images, with zap in-between
     branch_cfg = bpo.images.config.get_branch_config(device, branch)
     arg_extra_packages = ["lang", "musl-locales"]
-    # Always include unl0kr in the regular image if also building an installer
-    # image (pmaports#1153).
-    if branch_cfg["installer"]:
-        arg_extra_packages.append("unl0kr")
     for kernel in branch_cfg["kernels"]:
         # Task and image name, add kernel suffix if having multiple kernels
         task_name = get_task_name("img", kernel)
         arg_img_prefix = get_arg_img_prefix(kernel)
 
-        # Task: img (non-installer image)
+        # Task: img
         arg_kernel = shlex.quote(kernel)
         tasks[task_name] = f"""
             IMG_PREFIX={arg_img_prefix}
@@ -149,41 +143,6 @@ def run(device, branch, ui):
 
             ls -lh out
         """
-
-        # Task: img_installer (wrap installer around previous image)
-        if branch_cfg["installer"]:
-            tasks[f"{task_name}_installer"] = f"""
-                IMG_PREFIX={arg_img_prefix}
-
-                pmbootstrap config extra_space 100
-                pmbootstrap config extra_packages none
-                pmbootstrap -q -y zap -p
-
-                # Use less space by hardlinking rootfs.img instead of copying
-                sudo mkdir -p {arg_work_installer}/var/lib
-                sudo {arg_ln} "out/$IMG_PREFIX.img" \\
-                        {arg_work_installer}/var/lib/rootfs.img
-
-                {pmbootstrap_install} \\
-                    --ondev \\
-                    --no-rootfs
-
-                # Remove hardlink again, so we can compress the file in-place
-                sudo rm {arg_work_installer}/var/lib/rootfs.img
-
-                if [ -e {arg_work_rootfs}/{arg_device}.img ]; then
-                    sudo mv {arg_work_rootfs}/{arg_device}.img \\
-                        "out/$IMG_PREFIX-installer.img"
-                else
-                    # Boot and root partitions in separate files (pmbootstrap!1871)
-                    # Move the root partition to -installer.img and ignore the boot
-                    # partition (it's the same as the -bootpart.img saved in the
-                    # img task above).
-                    sudo mv {arg_work_rootfs}/{arg_device}-root.img \\
-                        "out/$IMG_PREFIX-installer.img"
-                fi
-                ls -lh out
-            """
 
     tasks["compress"] = """
             sudo chown "$(id -u):$(id -g)" out/*.img

@@ -32,7 +32,6 @@ def get_branch_config(device, branch):
                      "date-start": "2020-12-29",
                      "date-interval": "1 week",
                      "ui": ["phosh", "plasma-mobile", "i3wm"],
-                     "installer": True,
                      "kernels": []} """
     if branch not in get_device_branches(device):
         logging.warning(f"images config: no entry for device={device},"

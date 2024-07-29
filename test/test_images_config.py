@@ -32,13 +32,13 @@ def test_get_branch_config(monkeypatch):
                             }
                         }})
     monkeypatch.setattr(bpo.config.const.images, "branch_config_default", {
-                        "installer": False, "keep": 3})
+                        "keep": 3})
 
     func = bpo.images.config.get_branch_config
     assert func("invalid-device", "invalid-branch") is None
     assert func("qemu-amd64", "invalid-branch") is None
-    assert func("qemu-amd64", "master") == {"installer": False, "keep": 10}
-    assert func("qemu-amd64", "v20.05") == {"installer": False, "keep": 5}
+    assert func("qemu-amd64", "master") == {"keep": 10}
+    assert func("qemu-amd64", "v20.05") == {"keep": 5}
 
 
 def test_get_images(monkeypatch):
@@ -50,7 +50,6 @@ def test_get_images(monkeypatch):
                         "date-interval": 7,
                         "date-start": "2021-01-05",
                         "ui": ["sxmo-de-sway"],
-                        "installer": False,
                         "keep": 3})
 
     # 14 days after date-start
