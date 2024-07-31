@@ -61,7 +61,6 @@ password = "147147"
 # Branches to build images for, can be overridden per device in 'images' below
 branches_default = [
         "master",
-        "v23.12",
         "v24.06",
     ]
 
@@ -334,10 +333,6 @@ images = {
             "master": {
                 "ui": get_ui_list(chassis=["laptop"]),
             },
-            "v23.12": {
-                # There is no GPU support in 23.12
-                "ui": get_ui_list(chassis=["laptop"], supports_gpu=False),
-            },
         },
     },
     "google-trogdor": {
@@ -372,13 +367,6 @@ images = {
                     "edge",
                 ],
                 "ui": get_ui_list(chassis=["laptop", "convertible"]),
-            },
-            "v23.12": {
-                # plasma-desktop fails to build for v23.12 (pma#2688). Work
-                # around it by not building it, users can upgrade from the
-                # existing images and it works for edge.
-                "ui": get_ui_list(chassis=["laptop", "convertible"],
-                                  exclude_ui=["plasma-desktop"]),
             },
         },
     },
@@ -461,9 +449,6 @@ images = {
             # https://gitlab.com/postmarketOS/pmaports/-/issues/2650
             "all": {
                 "ui": get_ui_list(chassis=["embedded"]),
-            },
-            "v23.12": {
-                "ui": get_ui_list(chassis=["embedded"], add_ui=["plasma-bigscreen"]),
             },
         },
     },
