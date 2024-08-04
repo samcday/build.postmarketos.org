@@ -62,6 +62,8 @@ if python -c "import pytest_cov" >/dev/null 2>&1; then
 	cov_arg="--cov=bpo"
 fi
 
+export BPO_PMA_PATH="$(pmbootstrap -q config aports)"
+
 echo "Running pytest..."
 echo "NOTE: use 'helpers/pytest_logs.sh' to see the detailed log if running locally."
 pytest \

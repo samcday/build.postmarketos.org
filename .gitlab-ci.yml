@@ -62,7 +62,6 @@ pytest-pmb-v2:
   - wget "https://gitlab.com/postmarketOS/ci-common/-/raw/master/install_pmbootstrap.sh"
   - PMBOOTSTRAP_TAG=2.3.x sh ./install_pmbootstrap.sh
   - ln -s /tmp/pmbootstrap ../pmbootstrap_v2
-  - ln -s /home/pmos/.local/var/pmbootstrap/cache_git/pmaports ../pmbootstrap_v2/aports
   script:
   - .ci/pytest-pmb-v2.sh
   artifacts:

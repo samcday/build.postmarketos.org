@@ -49,12 +49,11 @@ def test_assert_package(monkeypatch):
 
 def test_const_pmaports_versions():
     """ Verify that bpo_test.const.version_* matches pmaports """
-    pmaports_dir = os.path.join(bpo.config.args.local_pmbootstrap, "aports")
+    pmaports_dir = os.getenv("BPO_PMA_PATH",
+                             os.path.join(bpo.config.args.local_pmbootstrap, "aports"))
     if not os.path.isdir(pmaports_dir):
-        raise RuntimeError("Can't find pmaports, expected them here: '{}'"
-                           " (if you want to add a way to override it, feel"
-                           " free to submit a patch, see #45)"
-                           .format(pmaports_dir))
+        raise RuntimeError(f"Can't find pmaports dir at {pmaports_dir}."
+                           " Set BPO_PMA_PATH to use a different path.")
     v_hello = bpo_test.const.version_hello_world
     v_wrapper = bpo_test.const.version_hello_world_wrapper
     pkgnames_versions = {"hello-world": v_hello,

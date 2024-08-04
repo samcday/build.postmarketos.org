@@ -73,6 +73,7 @@ fi
 export BPO_PMA_MASTER_PMB_BRANCH="2.3.x"
 export BPO_PMA_STAGING_PMB_BRANCH="2.3.x"
 export BPO_PMB_PATH="$(realpath "$PWD/../pmbootstrap_v2")"
+export BPO_PMA_PATH="$(pmbootstrap -q config aports)"
 
 # Use pytest-cov if it is installed to display code coverage
 cov_arg=""
