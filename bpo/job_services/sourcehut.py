@@ -69,6 +69,7 @@ def get_manifest(name, tasks, branch):
         image: alpine/latest
         packages:
         - coreutils
+        - losetup
         - procps
         - py3-requests
         - xz
