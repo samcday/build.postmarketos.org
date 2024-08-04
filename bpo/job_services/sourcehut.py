@@ -11,6 +11,7 @@ import bpo.config.args
 import bpo.config.const
 import bpo.config.tokens
 import bpo.db
+import bpo.helpers.pmb
 import bpo.repo.staging
 from bpo.job_services.base import JobService
 
@@ -54,12 +55,20 @@ def get_manifest(name, tasks, branch):
     url_repo_wip_http = bpo.config.args.url_repo_wip_http + "/"
     url_repo_wip_https = bpo.config.args.url_repo_wip_https + "/"
 
-    if "_staging_" in branch:
-        branch_orig, staging_name = bpo.repo.staging.branch_split(branch)
-        url_repo_wip_http += f"staging/{staging_name}/"
-        url_repo_wip_https += f"staging/{staging_name}/{branch_orig}/"
+    if bpo.helpers.pmb.is_master(branch):
+        # For pmb v3's mirror configuration we don't add {branch} at the end
+        if "_staging_" in branch:
+            branch_orig, staging_name = bpo.repo.staging.branch_split(branch)
+            url_repo_wip_http += f"staging/{staging_name}/"
+            url_repo_wip_https += f"staging/{staging_name}/"
     else:
-        url_repo_wip_https += f"{branch}/"
+        # pmb v2's mirror configuration has {branch} at the end
+        if "_staging_" in branch:
+            branch_orig, staging_name = bpo.repo.staging.branch_split(branch)
+            url_repo_wip_http += f"staging/{staging_name}/"
+            url_repo_wip_https += f"staging/{staging_name}/{branch_orig}/"
+        else:
+            url_repo_wip_https += f"{branch}/"
 
     branches = bpo.repo.staging.get_branches_with_staging()
     pmb_branch = branches[branch].get("pmb_branch",
