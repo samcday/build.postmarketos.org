@@ -45,7 +45,7 @@ def test_get_branches_with_staging(monkeypatch, tmp_path):
 
     # Check output
     func = bpo.repo.staging.get_branches_with_staging
-    pmb_branch = os.environ.get("BPO_PMA_STAGING_PMB_BRANCH", "master")
+    pmb_branch = os.environ.get("BPO_PMA_STAGING_PMB_BRANCH", "2.3.x")
     assert func() == collections.OrderedDict({
         "v23.06": {"arches": ["x86_64", "aarch64"]},
         "master": {"arches": ["x86_64", "aarch64", "riscv64"]},
