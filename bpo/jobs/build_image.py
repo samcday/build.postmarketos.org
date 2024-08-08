@@ -11,12 +11,19 @@ import bpo.images.config
 import bpo.ui
 
 
-def get_pmbootstrap_install_cmd():
+def get_pmbootstrap_install_cmd(branch):
     """ pmbootstrap install command for image building. This is a separate
         function, so we can override it with a stub in a test. """
 
-    return """pmbootstrap \\
+    pmb_v2_mirrors_arg = ""
+    if not bpo.helpers.pmb.is_master(branch):
+        mirror_final = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(branch)
+        pmb_v2_mirrors_arg += f" -mp {shlex.quote(mirror_final)}\\\n"
+        pmb_v2_mirrors_arg += f" -m {shlex.quote(bpo.config.const.mirror_alpine)}\\\n"
+
+    return f"""pmbootstrap \\
                 --details-to-stdout \\
+                {pmb_v2_mirrors_arg} \\
                 install \\
                 --no-sshd \\
                 --no-local-pkgs"""
@@ -53,13 +60,8 @@ def run(device, branch, ui):
     tasks = collections.OrderedDict()
 
     # Configure pmbootstrap mirrors
-    pmb_v2_mirrors_arg = ""
     if bpo.helpers.pmb.is_master(branch):
         tasks["set_repos"] = bpo.helpers.pmb.set_repos_task(None, branch, False)
-    else:
-        mirror_final = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(branch)
-        pmb_v2_mirrors_arg += f" -mp {shlex.quote(mirror_final)}\\\n"
-        pmb_v2_mirrors_arg += f" -m {shlex.quote(bpo.config.const.mirror_alpine)}\\\n"
 
     # Task: img_prepare (generate image prefix, configure pmb, create tmpdir)
     tasks["img_prepare"] = f"""
@@ -80,7 +82,7 @@ def run(device, branch, ui):
         mkdir out
     """
 
-    pmbootstrap_install = get_pmbootstrap_install_cmd()
+    pmbootstrap_install = get_pmbootstrap_install_cmd(branch)
 
     # Iterate over kernels to generate the images, with zap in-between
     branch_cfg = bpo.images.config.get_branch_config(device, branch)
@@ -101,7 +103,6 @@ def run(device, branch, ui):
             pmbootstrap -q -y zap -p
 
             {pmbootstrap_install} \\
-                {pmb_v2_mirrors_arg} \\
                 --password {arg_pass}
 
             if [ -e {arg_work_rootfs}/{arg_device}.img ]; then
@@ -175,7 +176,6 @@ def run(device, branch, ui):
             pmbootstrap -q -y zap -p
 
             {pmbootstrap_install} \\
-                    {pmb_v2_mirrors_arg} \\
                     --password {arg_pass} \\
                     --android-recovery-zip \\
                     --recovery-install-partition=data

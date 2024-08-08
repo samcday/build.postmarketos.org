@@ -43,7 +43,7 @@ def test_build_image_stub(monkeypatch):
         This is much faster, and doesn't cause problems when running with
         gitlab CI (which would fail on 'modprobe loop' error). """
 
-    def pmbootstrap_install_stub():
+    def pmbootstrap_install_stub(branch):
         arg_work = "$(pmbootstrap config work)"
         arg_work_boot = f"{arg_work}/chroot_rootfs_qemu-amd64/boot"
         arg_work_rootfs = f"{arg_work}/chroot_native/home/pmos/rootfs"
@@ -94,7 +94,7 @@ def test_build_image_stub_split_boot_root(monkeypatch):
         split -boot and -root partitions, as it would do with
         deviceinfo_flasher="fastboot-bootpart". See also: pmb!1871 """
 
-    def pmbootstrap_install_stub():
+    def pmbootstrap_install_stub(branch):
         arg_work = "$(pmbootstrap config work)"
         arg_work_rootfs = f"{arg_work}/chroot_native/home/pmos/rootfs"
 
