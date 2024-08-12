@@ -70,15 +70,9 @@ def init():
                              " get wiped!)")
     parser.add_argument("--url-api", help="external URL to the bpo server for"
                         " accessing the API (ignored with local job service)")
-    parser.add_argument("--url-repo-wip-http",
+    parser.add_argument("--url-repo-wip",
                         help="external URL to the WIP repo dir"
-                             " (--repo-wip-path), HTTP protocol"
-                             " (used for packages signed with WIP key)")
-    parser.add_argument("--url-repo-wip-https",
-                        help="external URL to the WIP repo dir"
-                             " (--repo-wip-path), HTTPS protocol"
-                             " (used for downloading the unsigned index, job"
-                             " sign_index)")
+                             " (--repo-wip-path)")
     parser.add_argument("--url-images",
                         help="external URL to the images dir")
     parser.add_argument("--final-repo-key-name",
