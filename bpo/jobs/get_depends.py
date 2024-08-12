@@ -17,7 +17,7 @@ def run(branch):
     if bpo.helpers.pmb.is_master(branch):
         tasks["set_repos"] = bpo.helpers.pmb.set_repos_task(None, branch, False)
     else:
-        mirror_final = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(branch)
+        mirror_final = bpo.helpers.pmb.get_pmos_mirror(branch)
         pmb_v2_mirrors_arg += f" -mp {shlex.quote(mirror_final)}\\\n"
 
     branches = bpo.repo.staging.get_branches_with_staging()

@@ -1,6 +1,6 @@
 # Copyright 2024 Oliver Smith
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Various functions related to pmbootstrap >= 3
+# Various functions related to pmbootstrap
 import bpo.config.const
 import bpo.helpers.job
 import bpo.repo.staging
@@ -17,10 +17,22 @@ def is_master(pmaports_branch):
     return pmb_branch == "master"
 
 
+def get_pmos_mirror(branch):
+    ret = bpo.config.args.mirror
+    if not ret:
+        return ""
+
+    if "_staging_" in branch:
+        branch_orig, name = bpo.repo.staging.branch_split(branch)
+        return f"{ret}/staging/{name}/"
+
+    return f"{ret}/"
+
+
 def set_repos_task(arch, branch, add_wip_repo=True):
     """Configure repositories for pmbootstrap v3"""
     wip_path = bpo.repo.wip.get_path(arch, branch)
-    pmaports = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(branch) or "none"
+    pmaports = get_pmos_mirror(branch) or "none"
     alpine = bpo.config.const.mirror_alpine
     ret = ""
 

@@ -21,7 +21,7 @@ def run(session, rb, test_pmaports_cfg=None):
     # Set mirror args (pmOS mirror is needed for cross compilers)
     pmb_v2_mirrors_arg = ""
     if not bpo.helpers.pmb.is_master(rb.branch):
-        mirror_final = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(rb.branch)
+        mirror_final = bpo.helpers.pmb.get_pmos_mirror(rb.branch)
         pmb_v2_mirrors_arg += f" -mp {shlex.quote(mirror_final)}\\\n"
         pmb_v2_mirrors_arg += f" -m {shlex.quote(bpo.config.const.mirror_alpine)}\\\n"
 

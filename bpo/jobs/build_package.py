@@ -49,7 +49,7 @@ def run(arch, pkgname, branch):
     # Set mirror args (either primary mirror, or WIP + primary)
     pmb_v2_mirrors_arg = ""
     if not bpo.helpers.pmb.is_master(branch):
-        mirror_final = bpo.helpers.job.get_pmos_mirror_for_pmbootstrap(branch)
+        mirror_final = bpo.helpers.pmb.get_pmos_mirror(branch)
         if os.path.exists(f"{wip_path}/APKINDEX.tar.gz"):
             pmb_v2_mirrors_arg += " $BPO_WIP_REPO_ARG\\\n"
         pmb_v2_mirrors_arg += f" -mp {shlex.quote(mirror_final)}\\\n"
