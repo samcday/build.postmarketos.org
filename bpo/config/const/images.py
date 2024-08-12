@@ -109,6 +109,7 @@ devices = {
     "google-oak": "Google Oak Chromebooks",
     "google-peach-pi": "Samsung Chromebook 2 13.3\"",
     "google-peach-pit": "Samsung Chromebook 2 11.6\"",
+    "google-sargo": "Google Pixel 3a",
     "google-snow": "Samsung Chromebook",
     "google-trogdor": "Google Trogdor Chromebooks",
     "google-veyron": "Google Veyron Chromebooks",
@@ -322,6 +323,11 @@ images = {
                 "ui": get_ui_list(chassis=["laptop"], exclude_ui=["plasma-desktop"]),
             },
         },
+    },
+    "google-sargo": {
+        "branches": [
+            "master",
+        ],
     },
     "google-snow": {
         "branch_configs": {
