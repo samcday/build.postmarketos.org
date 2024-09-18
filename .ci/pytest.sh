@@ -66,6 +66,10 @@ export BPO_PMA_MASTER_PMB_BRANCH="master"
 export BPO_PMA_STAGING_PMB_BRANCH="master"
 export BPO_PMA_PATH="$(pmbootstrap -q config aports)"
 
+# Reset pmbootstrap config options
+pmbootstrap config -r mirrors.pmaports
+pmbootstrap config -r mirrors.pmaports_custom
+
 echo "Running pytest..."
 echo "NOTE: use 'helpers/pytest_logs.sh' to see the detailed log if running locally."
 pytest \
