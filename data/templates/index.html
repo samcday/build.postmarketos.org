@@ -239,6 +239,11 @@
             published
             {#
 
+            * other actions *
+            #}{% elif entry.action == "bug_found_shutting_down" %}
+            bpo seems to have hit a bug, shutting down
+            {#
+
             * unknown action *
             #}{% else %}
             (unknown action: {{ entry.action }})

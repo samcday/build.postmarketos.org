@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 import collections
+import datetime
 import importlib
 import logging
 
@@ -47,14 +48,58 @@ def remove_additional_indent(script, spaces=12):
     return ret
 
 
+def job_check_rate_limit(action, arch, branch, pkgname, version, device, ui,
+                         dir_name):
+    """ Check if there is a bug and we keep running the same job (bpo#141).
+        If that is the case, shutdown bpo. """
+    session = bpo.db.session()
+    entries = session.query(bpo.db.Log).order_by(bpo.db.Log.id.desc()
+                                                 ).limit(10).all()
+
+    if len(entries) < 10:
+        logging.debug("job_check_rate_limit: less than 10 log entries")
+        return
+
+    now = datetime.datetime.now(datetime.timezone.utc)
+
+    for entry in entries:
+        date = entry.date.date()
+        if date.year != now.year \
+                and date.month != now.month \
+                and date.day != now.day:
+            logging.debug(f"job_check_rate_limit: job_id={entry.job_id} wasn't today")
+            return
+        if entry.action != action \
+                or entry.arch != arch \
+                or entry.branch != branch \
+                or entry.pkgname != pkgname \
+                or entry.version != version \
+                or entry.device != device \
+                or entry.ui != ui \
+                or entry.dir_name != dir_name:
+            logging.debug(f"job_check_rate_limit: job_id={entry.job_id} is different")
+            return
+
+        logging.debug(f"job_check_rate_limit: job_id={entry.job_id} is the same")
+
+    bpo.ui.log("bug_found_shutting_down")
+    raise RuntimeError("job_check_rate_limit: we keep starting the same job."
+                       " There is a bug! Shutting bpo down to avoid API spam!")
+
+
 def run(name, note, tasks, branch=None, arch=None, pkgname=None,
         version=None, device=None, ui=None, dir_name=None):
     """ :param note: what to send to the job service as description, rendered
                      as markdown in sourcehut
         :param branch: of pmaports to check out before running the job
         :returns: ID of the generated job, as passed by the backend """
+
     logging.info("[{}] Run job: {} ({})".format(bpo.config.args.job_service,
                                                 note, name))
+
+    job_check_rate_limit(f"job_{name}", arch, branch, pkgname, version, device,
+                         ui, dir_name)
+
     js = get_job_service()
 
     # Format input tasks
