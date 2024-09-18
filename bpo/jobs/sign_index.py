@@ -22,18 +22,20 @@ def run(arch, branch):
     if not os.path.exists(f"{final_path}/APKINDEX.tar.gz"):
         env_force_missing_repos = "export PMB_APK_FORCE_MISSING_REPOSITORIES=1"
 
-    bpo.helpers.job.run("sign_index", note, collections.OrderedDict([
-        ("download_unsigned_index", """
+    tasks = collections.OrderedDict()
+
+    tasks["download_unsigned_index"] = f"""
             if [ -n "$BPO_WIP_REPO_PATH" ]; then
-                cp "$BPO_WIP_REPO_PATH"/""" + shlex.quote(unsigned) + """ \\
+                cp "$BPO_WIP_REPO_PATH"/{shlex.quote(unsigned)} \\
                     APKINDEX.tar.gz
             else
-                wget "$BPO_WIP_REPO_URL"/""" + shlex.quote(unsigned) + """ \\
+                wget "$BPO_WIP_REPO_URL"/{shlex.quote(unsigned)} \\
                     -O APKINDEX.tar.gz
             fi
-            """),
-        ("sign", """
-            """ + env_force_missing_repos + """
+    """
+
+    tasks["sign"] = f"""
+            {env_force_missing_repos}
             pmbootstrap \\
                 --aports=$PWD/pmaports \\
                 --no-ccache \\
@@ -41,21 +43,22 @@ def run(arch, branch):
             work_dir="$(pmbootstrap -q config work)"
             chroot_target="$work_dir/chroot_native/home/pmos/"
             sudo cp APKINDEX.tar.gz "$chroot_target"
-            sudo cp .final.rsa "$chroot_target"/""" + shlex.quote(rsa) + """
-            sudo chown -R """ + shlex.quote(uid) + """ "$chroot_target"
+            sudo cp .final.rsa "$chroot_target"/{shlex.quote(rsa)}
+            sudo chown -R {shlex.quote(uid)} "$chroot_target"
             pmbootstrap \\
                 --aports=$PWD/pmaports \\
                 --details-to-stdout \\
                 chroot --user -- \\
                     abuild-sign \\
-                        -k /home/pmos/""" + shlex.quote(rsa) + """ \\
+                        -k /home/pmos/{shlex.quote(rsa)} \\
                         /home/pmos/APKINDEX.tar.gz
             sudo mv "$chroot_target/APKINDEX.tar.gz" .
-        """),
-        ("upload", """
+    """
+
+    tasks["upload"] = f"""
             export BPO_API_ENDPOINT="sign-index"
-            export BPO_ARCH=""" + shlex.quote(arch) + """
-            export BPO_BRANCH=""" + shlex.quote(branch) + """
+            export BPO_ARCH={shlex.quote(arch)}
+            export BPO_BRANCH={shlex.quote(branch)}
             export BPO_DEVICE=""
             export BPO_PAYLOAD_FILES="APKINDEX.tar.gz"
             export BPO_PAYLOAD_FILES_PREVIOUS=""
@@ -65,5 +68,6 @@ def run(arch, branch):
             export BPO_VERSION=""
 
             exec build.postmarketos.org/helpers/submit.py
-        """),
-    ]), branch, arch)
+    """
+
+    bpo.helpers.job.run("sign_index", note, tasks, branch, arch)
