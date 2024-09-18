@@ -16,12 +16,6 @@ def run(arch, branch):
     rsa = bpo.config.args.final_repo_key_name
     note = "Sign index: `{}/{}`".format(branch, arch)
 
-    # Ignore missing repos before initial build (bpo#137)
-    env_force_missing_repos = ""
-    final_path = bpo.repo.final.get_path(arch, branch)
-    if not os.path.exists(f"{final_path}/APKINDEX.tar.gz"):
-        env_force_missing_repos = "export PMB_APK_FORCE_MISSING_REPOSITORIES=1"
-
     tasks = collections.OrderedDict()
 
     tasks["download_unsigned_index"] = f"""
@@ -33,6 +27,12 @@ def run(arch, branch):
                     -O APKINDEX.tar.gz
             fi
     """
+
+    # Ignore missing repos before initial build (bpo#137)
+    env_force_missing_repos = ""
+    final_path = bpo.repo.final.get_path(arch, branch)
+    if not os.path.exists(f"{final_path}/APKINDEX.tar.gz"):
+        env_force_missing_repos = "export PMB_APK_FORCE_MISSING_REPOSITORIES=1"
 
     tasks["sign"] = f"""
             {env_force_missing_repos}
