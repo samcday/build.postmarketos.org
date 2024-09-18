@@ -50,9 +50,20 @@ def run(arch, pkgname, branch):
     pmb_v2_mirrors_arg = ""
     if not bpo.helpers.pmb.is_master(branch):
         mirror_final = bpo.helpers.pmb.get_pmos_mirror(branch)
+
+        mp_arg_set = False
         if os.path.exists(f"{wip_path}/APKINDEX.tar.gz"):
-            pmb_v2_mirrors_arg += " $BPO_WIP_REPO_ARG\\\n"
-        pmb_v2_mirrors_arg += f" -mp {shlex.quote(mirror_final)}\\\n"
+            wip_repo_url = bpo.helpers.pmb.get_pmos_mirror(branch, "wip")
+            if bpo.helpers.pmb.should_add_wip_repo(branch):
+                pmb_v2_mirrors_arg += f" -mp {shlex.quote(wip_repo_url)}\\\n"
+                mp_arg_set = True
+
+        # Add the usual pmOS repo URL. If it is empty and no mirror was set
+        # yet, we must add it too to explicitly disable the mirror instead of
+        # using the default hardcoded into pmbootstrap.
+        if not mp_arg_set or mirror_final:
+            pmb_v2_mirrors_arg += f" -mp {shlex.quote(mirror_final)}\\\n"
+
         pmb_v2_mirrors_arg += f" -m {shlex.quote(bpo.config.const.mirror_alpine)}\\\n"
 
     # Ignore missing repos before initial build (bpo#137)

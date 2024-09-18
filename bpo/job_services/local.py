@@ -165,8 +165,6 @@ class LocalJobServiceThread(threading.Thread):
             export BPO_JOB_ID={job_id}
             export BPO_JOB_NAME={shlex.quote(name)}
             export BPO_WIP_REPO_PATH={shlex.quote(wip_repo_path)}
-            export BPO_WIP_REPO_URL="" # empty, because we copy it instead
-            export BPO_WIP_REPO_ARG="" # empty, because we copy it instead
             export BPO_TIMEOUT_READ="0.1"
             export BPO_TIMEOUT_READ_IGNORE="1"
 

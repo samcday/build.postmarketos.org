@@ -183,3 +183,8 @@ def get_link(job_id):
 def init():
     """ Initialize the job service (make sure that tokens are there etc.) """
     return get_job_service().init()
+
+
+def job_service_is_local():
+    """ Use this to run additional code only with the local job service. """
+    return bpo.config.args.job_service == "local"

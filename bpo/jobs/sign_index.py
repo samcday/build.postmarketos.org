@@ -11,22 +11,34 @@ import bpo.repo.final
 
 
 def run(arch, branch):
-    unsigned = f"{arch}/APKINDEX-symlink-repo.tar.gz"
     uid = bpo.config.const.pmbootstrap_chroot_uid_user
     rsa = bpo.config.args.final_repo_key_name
     note = "Sign index: `{}/{}`".format(branch, arch)
 
     tasks = collections.OrderedDict()
 
-    tasks["download_unsigned_index"] = f"""
-            if [ -n "$BPO_WIP_REPO_PATH" ]; then
-                cp "$BPO_WIP_REPO_PATH"/{shlex.quote(unsigned)} \\
+    unsigned_apkindex_url = os.path.join(
+        bpo.helpers.pmb.get_pmos_mirror(branch, "wip", True),
+        arch,
+        "APKINDEX-symlink-repo.tar.gz"
+    )
+
+    if bpo.helpers.pmb.should_add_wip_repo(branch):
+        tasks["download_unsigned_index"] = f"""
+                wget {shlex.quote(unsigned_apkindex_url)} -O APKINDEX.tar.gz
+        """
+
+    if bpo.helpers.job.job_service_is_local():
+        # For the local testsuite, we first download the real current unsigned
+        # apkindex from the live bpo server to test that this code path works,
+        # even though the APKINDEX file itself doesn't have the packages we
+        # have locally. Then remove it and replace it with the local unsigned
+        # APKINDEX, which does have the right packages.
+        tasks["local_copy_unsigned_index"] = f"""
+            rm -f APKINDEX.tar.gz
+            cp "$BPO_WIP_REPO_PATH"/{arch}/APKINDEX-symlink-repo.tar.gz \
                     APKINDEX.tar.gz
-            else
-                wget "$BPO_WIP_REPO_URL"/{shlex.quote(unsigned)} \\
-                    -O APKINDEX.tar.gz
-            fi
-    """
+        """
 
     # Ignore missing repos before initial build (bpo#137)
     env_force_missing_repos = ""
