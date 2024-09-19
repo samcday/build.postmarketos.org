@@ -6,6 +6,7 @@ import os
 import shutil
 
 import bpo.config.const
+import bpo.repo
 import bpo.repo.staging
 import bpo.repo.status
 
@@ -76,4 +77,4 @@ def update_from_symlink_repo(arch, branch):
 
 
 def publish(arch, branch):
-    logging.info("STUB: bpo.repo.final.publish")
+    bpo.repo.build()
