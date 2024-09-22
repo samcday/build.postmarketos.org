@@ -27,6 +27,13 @@ def run(branch):
             export ARCH={shlex.quote(arch)}
             export JSON="depends.$ARCH.json"
 
+            # Enable systemd, so pmbootstrap doesn't omit the packages in
+            # extra-repos/systemd. For repositories that don't have systemd,
+            # this does not make a difference. An edge case is having packages
+            # with the same name in both systemd and non-systemd repos, but
+            # this is currently not supported (bpo#144).
+            pmbootstrap config systemd always
+
             pmbootstrap \\
                 {pmb_v2_mirrors_arg} \\
                 --aports=$PWD/pmaports \\
