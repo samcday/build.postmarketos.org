@@ -200,6 +200,7 @@ def run(device, branch, ui):
             export BPO_ARCH=""
             export BPO_BRANCH={arg_branch}
             export BPO_DEVICE={arg_device}
+            export BPO_SPLITREPO=""
             export BPO_UI={arg_ui}
             export BPO_PAYLOAD_IS_JSON="0"
             export BPO_PKGNAME=""

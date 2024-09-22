@@ -57,6 +57,7 @@ def run(session, rb, test_pmaports_cfg=None):
         export BPO_API_ENDPOINT="repo-bootstrap"
         export BPO_ARCH={shlex.quote(rb.arch)}
         export BPO_BRANCH={shlex.quote(rb.branch)}
+        export BPO_SPLITREPO={shlex.quote(rb.dir_name)}
         export BPO_DEVICE=""
         packages="$(pmbootstrap -q config work)/packages"
         export BPO_PAYLOAD_FILES="$(find "$packages" -name '*.apk')"

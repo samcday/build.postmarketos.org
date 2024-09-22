@@ -20,6 +20,7 @@ for key in ["BPO_API_ENDPOINT",
             "BPO_PAYLOAD_FILES_PREVIOUS",  # separated by '#'
             "BPO_PAYLOAD_IS_JSON",  # set to "1" to enable
             "BPO_PKGNAME",
+            "BPO_SPLITREPO",
             "BPO_TOKEN_FILE",
             "BPO_UI",
             "BPO_VERSION",          # $pkgver-r$pkgrel
@@ -57,6 +58,7 @@ headers = {"X-BPO-Arch": os.environ["BPO_ARCH"],
                os.environ["BPO_PAYLOAD_FILES_PREVIOUS"],
            "X-BPO-Pkgname": os.environ["BPO_PKGNAME"],
            "X-BPO-Token": token,
+           "X-BPO-Splitrepo": os.environ["BPO_SPLITREPO"],
            "X-BPO-Ui": os.environ["BPO_UI"],
            "X-BPO-Version": os.environ["BPO_VERSION"]}
 

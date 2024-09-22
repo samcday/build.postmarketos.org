@@ -138,7 +138,8 @@ def job_callback_get_depends(branch, payload="depends.x86_64.json",
     token = bpo.config.const.test_tokens["job_callback"]
     headers = {"X-BPO-Job-Id": "1",
                "X-BPO-Token": token,
-               "X-BPO-Branch": branch}
+               "X-BPO-Branch": branch,
+               "X-BPO-Splitrepo": ""}
     api_request("job-callback/get-depends", headers, files=files,
                 background=background)
 

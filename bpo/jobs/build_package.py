@@ -125,6 +125,7 @@ def run(arch, pkgname, branch):
         export BPO_PAYLOAD_FILES_PREVIOUS=""
         export BPO_PAYLOAD_IS_JSON="0"
         export BPO_PKGNAME={shlex.quote(pkgname)}
+        export BPO_SPLITREPO=""  # FIXME
         export BPO_UI=""
         export BPO_VERSION={shlex.quote(package.version)}
 

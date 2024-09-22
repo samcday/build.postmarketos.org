@@ -60,6 +60,7 @@ def run(branch):
         export BPO_PAYLOAD_FILES_PREVIOUS=""
         export BPO_PAYLOAD_IS_JSON="0"
         export BPO_PKGNAME=""
+        export BPO_SPLITREPO=""
         export BPO_UI=""
         export BPO_VERSION=""
 
