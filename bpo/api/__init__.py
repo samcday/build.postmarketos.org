@@ -37,6 +37,17 @@ def get_branch(request):
     raise ValueError(f"invalid X-BPO-Branch: {branch}")
 
 
+def get_splitrepo(request, branch):
+    """ Get repo from X-BPO-Splitrepo header and validate it. """
+    splitrepo = get_header(request, "Splitrepo")
+    if splitrepo in ["", "None"]:
+        return None
+
+    # FIXME: check against known list of splitrepos from config
+
+    return splitrepo
+
+
 def get_package(session, request):
     pkgname = get_header(request, "Pkgname")
     version = get_header(request, "Version")

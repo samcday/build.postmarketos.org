@@ -19,7 +19,7 @@ def get_repo_bootstrap(session, request):
     branch = bpo.api.get_branch(request)
     arch = bpo.api.get_arch(request, branch)
     job_id = bpo.api.get_header(request, "Job-Id")
-    dir_name = "/"
+    dir_name = bpo.api.get_splitrepo(request, branch)
     ret = bpo.db.get_repo_bootstrap(session, arch, branch, dir_name, job_id)
     if not ret:
         raise ValueError(f"no repo_bootstrap found with: arch={arch},"

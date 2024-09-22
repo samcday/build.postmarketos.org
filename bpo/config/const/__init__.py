@@ -53,7 +53,8 @@ staging_arches = ["x86_64", "aarch64", "armv7"]
 # Use this pmbootstrap branch for staging repos
 staging_pmb_branch = os.environ.get("BPO_PMA_STAGING_PMB_BRANCH", "master")
 
-# Do "repo_bootstrap" for repositories that have packages in the following dirs
+# Do "repo_bootstrap" for repositories that have packages in the following
+# splitrepo dirs
 repo_bootstrap_dirs = ["systemd"]
 
 # Alpine mirror, might need to be switched to a different one if dl-cdn has

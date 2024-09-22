@@ -46,6 +46,6 @@ def job_callback_sign_index():
     bpo.repo.wip.clean(arch, branch)
     bpo.repo.final.publish(arch, branch)
 
-    bpo.repo.bootstrap.update_to_published(arch, branch)
+    bpo.repo.bootstrap.update_to_published(arch, branch, "systemd")  # FIXME
 
     return "alright, rollin' out the new repo"

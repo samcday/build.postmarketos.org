@@ -170,7 +170,7 @@ def build_arch_branch(session, slots_available, arch, branch,
     started = 0
 
     # Do repo_bootstrap first if needed
-    rb = bpo.db.get_repo_bootstrap(session, arch, branch, "/")
+    rb = bpo.db.get_repo_bootstrap(session, arch, branch, "systemd")  # FIXME
     if rb and rb.status != bpo.db.RepoBootstrapStatus.published:
         if slots_available > 0:
             if repo_bootstrap_attempt(session, rb):

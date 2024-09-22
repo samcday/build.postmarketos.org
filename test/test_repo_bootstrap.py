@@ -7,8 +7,8 @@ import bpo.db
 import bpo.repo.bootstrap
 
 
-def test_is_needed(monkeypatch):
-    func = bpo.repo.bootstrap.is_needed
+def test_get_splitrepos_where_bootstrap_is_needed(monkeypatch):
+    func = bpo.repo.bootstrap.get_splitrepos_where_bootstrap_is_needed
     rb_dirs = ["systemd"]
     monkeypatch.setattr(bpo.config.const, "repo_bootstrap_dirs", rb_dirs)
 
@@ -17,14 +17,14 @@ def test_is_needed(monkeypatch):
          "repo": "main",
          "version": "1-r4"}
     ]
-    assert func(payload) is False
+    assert func(payload) == []
 
     payload += [
         {"pkgname": "systemd",
          "repo": "systemd",
          "version": "123"}
     ]
-    assert func(payload) is True
+    assert func(payload) == ["systemd"]
 
 
 def test_init():
@@ -46,20 +46,20 @@ def test_init():
     get_rb = bpo.db.get_repo_bootstrap
     arch = "x86_64"
     branch = "master"
-    dir_name = "/"
+    dir_name = "systemd"
 
     with bpo_test.BPOServer():
         bpo_test.stop_server()
 
     session = bpo.db.session()
     # Not existing, not needed -> rb not created
-    assert func(session, payload, arch, branch, dir_name) is False
+    assert func(session, payload, arch, branch) is False
     assert get_rb(session, arch, branch, dir_name) is None
     # Not existing, needed -> rb gets created
-    assert func(session, payload_systemd, arch, branch, dir_name) is True
+    assert func(session, payload_systemd, arch, branch) is True
     assert get_rb(session, arch, branch, dir_name)
     # Existing -> rb not created
-    assert func(session, payload_systemd, arch, branch, dir_name) is False
+    assert func(session, payload_systemd, arch, branch) is False
     assert get_rb(session, arch, branch, dir_name)
 
 
@@ -78,7 +78,7 @@ def test_update_to_published():
     get_rb = bpo.db.get_repo_bootstrap
     arch = "x86_64"
     branch = "master"
-    dir_name = "/"
+    dir_name = "systemd"
 
     with bpo_test.BPOServer():
         bpo_test.stop_server()
@@ -88,7 +88,7 @@ def test_update_to_published():
 
     # Create RepoBootstrap entry
     session = bpo.db.session()
-    bpo.repo.bootstrap.init(session, payload, arch, branch, dir_name)
+    bpo.repo.bootstrap.init(session, payload, arch, branch)
 
     # RepoBootstrap exists, but status is queued
     assert func(arch, branch, dir_name) is False
