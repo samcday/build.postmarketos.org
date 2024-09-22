@@ -91,3 +91,12 @@ def upgrade():
                        " ADD COLUMN 'splitrepo'"
                        " VARCHAR")
         version_set(9)
+
+    # Package: update indexes for splitrepo
+    if version_get() == 9:
+        engine.execute("DROP INDEX 'pkgname-arch-branch'")
+        engine.execute("CREATE INDEX 'pkgname-arch-branch-splitrepo'"
+                       " ON 'package' (`pkgname`, `arch`, `branch`, `splitrepo`)")
+        engine.execute("CREATE INDEX 'arch-branch-splitrepo'"
+                       " ON 'package' (`arch`, `branch`, `splitrepo`)")
+        version_set(10)

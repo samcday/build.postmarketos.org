@@ -68,10 +68,14 @@ class Package(base):
     repo = Column(String)  # Use splitrepo instead!
     # Package.depends: see init_relationships() below.
 
+    # This index has been dropped in [v10], as having this unique is
+    # incompatible with splitrepo and bpo#144.
     Index("pkgname-arch-branch", pkgname, arch, branch, unique=True)
+
     Index("job_id", job_id)
-    # [v1]: Index("arch-branch", Package.arch, Package.branch)
-    # [v3]: Index("status", Package.status)
+    # [v01]: Index("arch-branch", Package.arch, Package.branch)
+    # [v03]: Index("status", Package.status)
+    # [v10]: Index("arch-branch-splitrepo", Package.arch, Package.branch, Package.splitrepo)
     # === END OF DATABASE LAYOUT ===
 
     def __init__(self, arch, branch, pkgname, version,
