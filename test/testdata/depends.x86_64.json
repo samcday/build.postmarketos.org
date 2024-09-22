@@ -1,10 +1,10 @@
 [
     {"pkgname": "hello-world",
-     "repo": "main",
+     "repo": null,
      "version": "1-r4",
      "depends": []},
     {"pkgname": "hello-world-wrapper",
-     "repo": "main",
+     "repo": null,
      "version": "1-r2",
      "depends": ["hello-world"]}
 ]
