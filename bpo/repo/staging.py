@@ -59,12 +59,11 @@ def init(branch):
 def sync_with_orig_repo(branch_staging, arch):
     """
     For all packages that are the same in the staging repo and the original
-    repository, create a hardlink to the package and update the copy of
-    the package with the staging branch in the database. This function gets
-    called right before calculating the next package to build from the staging
-    branch.
+    repository, copy the package and update the copy of the package with the
+    staging branch in the database. This function gets called right before
+    calculating the next package to build from the staging branch.
 
-    The hardlinks are created in the WIP repository of the staging branch.
+    The copies are created in the WIP repository of the staging branch.
     (After potentially building any missing packages, the WIP repository gets
     published, not part of this function.)
 
