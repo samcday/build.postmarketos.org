@@ -79,12 +79,14 @@ class Package(base):
     # === END OF DATABASE LAYOUT ===
 
     def __init__(self, arch, branch, pkgname, version,
-                 status=PackageStatus.queued):
+                 status=PackageStatus.queued,
+                 splitrepo=None):
         self.arch = arch
         self.branch = branch
         self.pkgname = pkgname
         self.version = version
         self.status = status
+        self.splitrepo = splitrepo
 
     def __repr__(self):
         depends = []

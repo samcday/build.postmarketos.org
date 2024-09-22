@@ -57,7 +57,8 @@ def update_or_insert_packages(session, payload, arch, branch):
             package_db.version = version
             package_db.splitrepo = splitrepo
         else:
-            package_db = bpo.db.Package(arch, branch, pkgname, version)
+            package_db = bpo.db.Package(arch, branch, pkgname, version,
+                                        splitrepo=splitrepo)
         session.merge(package_db)
     session.commit()
 
