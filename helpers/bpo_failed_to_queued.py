@@ -20,6 +20,14 @@ def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--db-path", help="path to sqlite3 database",
                         default=bpo.config.const.args.db_path)
+    parser.add_argument("-p", "--packages", help="handle packages",
+                        action="store_true")
+    parser.add_argument("-i", "--images", help="handle images",
+                        action="store_true")
+    parser.add_argument("-b", "--bootstraps", help="handle bootstraps",
+                        action="store_true")
+    parser.add_argument("-a", "--all", help="handle all (packages, images, bootstraps)",
+                        action="store_true")
     return parser.parse_args()
 
 
@@ -94,11 +102,25 @@ def main():
         print("ERROR: could not find database: " + args.db_path)
         sys.exit(1)
 
+    handle_packages = args.all or args.packages
+    handle_images = args.all or args.images
+    handle_bootstraps = args.all or args.bootstraps
+    if not handle_packages and not handle_images and not handle_bootstraps:
+        print("ERROR: use some limiting argument or --all")
+        sys.exit(1)
+
     init_db(args.db_path)
     session = bpo.db.session()
-    packages = get_failed_packages(session)
-    images = get_failed_images(session)
-    repo_bootstraps = get_failed_repo_bootstraps(session)
+
+    packages = []
+    images = []
+    repo_bootstraps = []
+    if handle_packages:
+        packages = get_failed_packages(session)
+    if handle_images:
+        images = get_failed_images(session)
+    if handle_bootstraps:
+        repo_bootstraps = get_failed_repo_bootstraps(session)
 
     if not images and not packages and not repo_bootstraps:
         print("No failed jobs found.")
