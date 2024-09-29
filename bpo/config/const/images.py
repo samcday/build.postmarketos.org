@@ -465,7 +465,7 @@ images = {
         "branch_configs": {
             "master": {
                 "date-interval": 3,
-                "ui": ["gnome-mobile", "console"],
+                "ui": ["gnome", "console"],
             },
         }
     },
