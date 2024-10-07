@@ -64,7 +64,7 @@ def push_hook_gitlab(branch="master", background=False, after="deadbeef"):
                [{"id": "5e9e102a00e58541ed91164de15fd209af628b42",
                  "message": "main/postmarketos-ui-phosh: clean-up\n",
                  "timestamp": "2019-05-25T16:23:30Z",
-                 "url": "https://gitlab.com/...d91164de15fd209af628b42",
+                 "url": "https://gitlab.postmarketos.org/...d91164de15fd209af628b42",
                  "author": {"name": "John Doe", "email": "john@localhost"},
                  "added": [],
                  "modified": ["main/hello-world/APKBUILD"],

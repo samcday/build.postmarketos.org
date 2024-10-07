@@ -12,7 +12,7 @@ mr-settings:
   before_script:
     - apk -q add python3
   script:
-    - wget -q "https://gitlab.com/postmarketOS/ci-common/-/raw/master/check_mr_settings.py"
+    - wget -q "https://gitlab.postmarketos.org/postmarketOS/ci-common/-/raw/master/check_mr_settings.py"
     - python3 ./check_mr_settings.py
 
 ruff:
@@ -35,7 +35,7 @@ pytest:
   <<: *only-default
   image: "alpine:3.18"  # has sqlalchemy<2.0
   before_script:
-  - wget "https://gitlab.com/postmarketOS/ci-common/-/raw/master/install_pmbootstrap.sh"
+  - wget "https://gitlab.postmarketos.org/postmarketOS/ci-common/-/raw/master/install_pmbootstrap.sh"
   - PMBOOTSTRAP_TAG=master sh ./install_pmbootstrap.sh
   - ln -s /tmp/pmbootstrap ../pmbootstrap
   script:
@@ -59,7 +59,7 @@ pytest-pmb-v2:
   <<: *only-default
   image: "alpine:3.18"  # has sqlalchemy<2.0
   before_script:
-  - wget "https://gitlab.com/postmarketOS/ci-common/-/raw/master/install_pmbootstrap.sh"
+  - wget "https://gitlab.postmarketos.org/postmarketOS/ci-common/-/raw/master/install_pmbootstrap.sh"
   - PMBOOTSTRAP_TAG=2.3.x sh ./install_pmbootstrap.sh
   - ln -s /tmp/pmbootstrap ../pmbootstrap_v2
   script:

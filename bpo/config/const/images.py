@@ -211,7 +211,7 @@ images = {
         "branch_configs": {
             "all": {
                 # Disable plasma-desktop:
-                # https://gitlab.com/postmarketOS/build.postmarketos.org/-/issues/136
+                # https://gitlab.postmarketos.org/postmarketOS/build.postmarketos.org/-/issues/136
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"],
                                   exclude_ui=["plasma-desktop"]),
                 "kernels": [
@@ -358,7 +358,7 @@ images = {
     "google-x64cros": {
         "branches": [
             # master is temporarily disabled:
-            # https://gitlab.com/postmarketOS/pmaports/-/issues/3095
+            # https://gitlab.postmarketos.org/postmarketOS/pmaports/-/issues/3095
             "v24.06",
         ],
         "branch_configs": {
@@ -452,7 +452,7 @@ images = {
     "pine64-rockpro64": {
         "branch_configs": {
             # Disable plasma bigscreen for master, v24.06:
-            # https://gitlab.com/postmarketOS/pmaports/-/issues/2650
+            # https://gitlab.postmarketos.org/postmarketOS/pmaports/-/issues/2650
             "all": {
                 "ui": get_ui_list(chassis=["embedded"]),
             },

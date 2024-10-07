@@ -39,7 +39,7 @@ branches["master"] = {
 }
 
 # Current default is 2.3.x until pmbootstrap v3 is stable:
-# https://gitlab.com/postmarketOS/pmbootstrap/-/milestones/1
+# https://gitlab.postmarketos.org/postmarketOS/pmbootstrap/-/milestones/1
 pmb_branch_default = "2.3.x"
 
 # Build staging repositories for these architectures
@@ -89,7 +89,7 @@ pattern_apk_name = re.compile("^[a-z0-9._+-]+\\.apk$")
 
 # Where log messages should link to when displaying commits. The commit will be
 # appended to the URL.
-commit_url = "https://gitlab.com/postmarketOS/pmaports/-/commit"
+commit_url = "https://gitlab.postmarketos.org/postmarketOS/pmaports/-/commit"
 
 # Directory listings generated for images.postmarketos.org/bpo use this URL to
 # set the path to BPO's style.css. Override it for development (see README).

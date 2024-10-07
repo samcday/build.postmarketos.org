@@ -28,7 +28,7 @@ def test_push_hook_gitlab_get_pkgnames_commits():
                [{"id": "1337f00",
                  "message": "main/postmarketos-ui-phosh: clean-up\n",
                  "timestamp": "2019-05-25T16:23:30Z",
-                 "url": "https://gitlab.com/...d91164de15fd209af628b42",
+                 "url": "https://gitlab.postmarketos.org/...d91164de15fd209af628b42",
                  "author": {"name": "John Doe", "email": "john@localhost"},
                  "added": ["device/main/device-pine64-pinephone/APKBUILD",
                            "main/hello-world/APKBUILD",

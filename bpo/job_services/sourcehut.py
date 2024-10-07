@@ -66,9 +66,9 @@ def get_manifest(name, tasks, branch):
         - py3-requests
         - xz
         sources:
-        - "https://gitlab.com/postmarketOS/pmaports.git/"
-        - "https://gitlab.com/postmarketOS/pmbootstrap.git/"
-        - "https://gitlab.com/postmarketOS/build.postmarketos.org.git/"
+        - "https://gitlab.postmarketos.org/postmarketOS/pmaports.git/"
+        - "https://gitlab.postmarketos.org/postmarketOS/pmbootstrap.git/"
+        - "https://gitlab.postmarketos.org/postmarketOS/build.postmarketos.org.git/"
         environment:
           BPO_TOKEN_FILE: "/home/build/.token"
           BPO_API_HOST: """ + shlex.quote(url_api) + """

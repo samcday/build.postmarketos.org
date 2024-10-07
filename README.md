@@ -5,7 +5,7 @@
 Requires python 3.7 or higher.
 
 ```
-$ git clone https://gitlab.com/postmarketOS/build.postmarketos.org
+$ git clone https://gitlab.postmarketos.org/postmarketOS/build.postmarketos.org
 $ cd build.postmarketos.org
 $ python3 -m venv .venv
 $ source .venv/bin/activate
