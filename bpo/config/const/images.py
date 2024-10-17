@@ -266,7 +266,8 @@ images = {
     },
     "google-nyan-big": {
         "branches": [
-            "master",
+            # Disabled on master:
+            # https://gitlab.postmarketos.org/postmarketOS/pmaports/-/issues/3186
             "v24.06",
         ],
         "branch_configs": {
@@ -281,7 +282,8 @@ images = {
     },
     "google-nyan-blaze": {
         "branches": [
-            "master",
+            # Disabled on master:
+            # https://gitlab.postmarketos.org/postmarketOS/pmaports/-/issues/3186
             "v24.06",
         ],
         "branch_configs": {
