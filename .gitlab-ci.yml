@@ -19,35 +19,35 @@ ruff:
   <<: *only-default
   image: "alpine:edge"
   before_script:
-  - "echo 'https://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories"
-  - "adduser -D build"
+    - "echo 'https://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories"
+    - "adduser -D build"
   script:
-  - ".ci/ruff.sh"
+    - ".ci/ruff.sh"
 
 vermin:
   <<: *only-default
   before_script:
-  - "adduser -D build"
+    - "adduser -D build"
   script:
-  - ".ci/vermin.sh"
+    - ".ci/vermin.sh"
 
 pytest:
   <<: *only-default
   image: "alpine:3.18"  # has sqlalchemy<2.0
   before_script:
-  - wget "https://gitlab.postmarketos.org/postmarketOS/ci-common/-/raw/master/install_pmbootstrap.sh"
-  - PMBOOTSTRAP_TAG=master sh ./install_pmbootstrap.sh
-  - ln -s /tmp/pmbootstrap ../pmbootstrap
+    - wget "https://gitlab.postmarketos.org/postmarketOS/ci-common/-/raw/master/install_pmbootstrap.sh"
+    - PMBOOTSTRAP_TAG=master sh ./install_pmbootstrap.sh
+    - ln -s /tmp/pmbootstrap ../pmbootstrap
   script:
-  - .ci/pytest.sh
+    - .ci/pytest.sh
   artifacts:
     when: "on_failure"  # reports artifacts are always uploaded
     paths:
-    - "coverage.xml"
-    - "_html_out/index.html"
-    - "_temp/local_job/task_*.sh"
-    - "_temp/local_job_logs/*.txt"
-    - "pytest.log"
+      - "coverage.xml"
+      - "_html_out/index.html"
+      - "_temp/local_job/task_*.sh"
+      - "_temp/local_job_logs/*.txt"
+      - "pytest.log"
     reports:
       coverage_report:
         coverage_format: "cobertura"
@@ -59,19 +59,19 @@ pytest-pmb-v2:
   <<: *only-default
   image: "alpine:3.18"  # has sqlalchemy<2.0
   before_script:
-  - wget "https://gitlab.postmarketos.org/postmarketOS/ci-common/-/raw/master/install_pmbootstrap.sh"
-  - PMBOOTSTRAP_TAG=2.3.x sh ./install_pmbootstrap.sh
-  - ln -s /tmp/pmbootstrap ../pmbootstrap_v2
+    - wget "https://gitlab.postmarketos.org/postmarketOS/ci-common/-/raw/master/install_pmbootstrap.sh"
+    - PMBOOTSTRAP_TAG=2.3.x sh ./install_pmbootstrap.sh
+    - ln -s /tmp/pmbootstrap ../pmbootstrap_v2
   script:
-  - .ci/pytest-pmb-v2.sh
+    - .ci/pytest-pmb-v2.sh
   artifacts:
     when: "on_failure"  # reports artifacts are always uploaded
     paths:
-    - "coverage.xml"
-    - "_html_out/index.html"
-    - "_temp/local_job/task_*.sh"
-    - "_temp/local_job_logs/*.txt"
-    - "pytest.log"
+      - "coverage.xml"
+      - "_html_out/index.html"
+      - "_temp/local_job/task_*.sh"
+      - "_temp/local_job_logs/*.txt"
+      - "pytest.log"
     reports:
       coverage_report:
         coverage_format: "cobertura"
