@@ -22,8 +22,7 @@ def branch_from_pmos_ver(pmos_ver):
 
 
 def path(branch, device, ui, dir_name):
-    """ :returns: absolute path to where the files for a certain image are
-                  stored. """
+    """ :returns: absolute path to where the files for a certain image are stored. """
     if not branch or not device or not ui or not dir_name:
         raise RuntimeError(f"these can't be empty: branch={branch},"
                            f" device={device}, ui={ui}, dir_name={dir_name}")
@@ -43,6 +42,7 @@ def url_db_obj(obj):
     """ Get the URL pointing to the files for a given image.
     :param obj: suitable database object (Log, Image)
     :returns: url like "https://images.postmarketos.org/bpo/edge/qemu-..."
+
     """
     return os.path.join(bpo.config.args.url_images,
                         pmos_ver(obj.branch),
@@ -53,9 +53,10 @@ def url_db_obj(obj):
 
 def db_obj_from_path(path):
     """ Invert of path_db_obj().
-        :param path: full path to an image directory, as returned by path()
-                     (without trailing slash)
-        :returns: bpo.db.Image object or None """
+        :param path: full path to an image directory, as returned by path() (without trailing slash)
+        :returns: bpo.db.Image object or None
+
+    """
     relpath = os.path.relpath(path, bpo.config.args.images_path)
     pmos_ver, device, ui, dir_name = relpath.split("/")
     branch = branch_from_pmos_ver(pmos_ver)

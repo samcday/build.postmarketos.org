@@ -15,14 +15,12 @@ import bpo.ui
 
 def branch_split(branch):
     """ Split a staging branch name in its components.
-        :param branch: the full branch name, e.g.
-                       "master_staging_lomiri"
-                       "v22.12_staging_sp2"
+        :param branch: the full branch name, e.g. "master_staging_lomiri" "v22.12_staging_sp2"
         :returns: * None if it isn't a valid staging branch
-                  * (branch_orig, name)
-                    * branch_orig: the original branch as in the config
-                                   (e.g. "master")
-                    * name: e.g. "hi_there" (branch "master_staging_hi_there")
+        * (branch_orig, name)
+        * branch_orig: the original branch as in the config(e.g. "master")
+        * name: e.g. "hi_there" (branch "master_staging_hi_there")
+
     """
     if "_staging_" not in branch:
         return None
@@ -39,7 +37,9 @@ def init(branch):
     """ If the staging repository does not exist yet, create the directory
         structure with a README file. The repository will be filled later on,
         when sync_with_orig_repo gets called for the first time.
-        :param branch: staging branch name """
+        :param branch: staging branch name
+
+    """
     branch_orig, name = branch_split(branch)
     path = f"{bpo.config.args.repo_final_path}/staging/{name}/{branch_orig}"
     path_readme = f"{path}/README"
@@ -71,6 +71,7 @@ def sync_with_orig_repo(branch_staging, arch):
     :param branch_staging: name of the staging branch
     :param arch: architecture
     :returns stats: see below
+
     """
     stats = {
         "skip_already_synced": 0,
@@ -143,8 +144,8 @@ def sync_with_orig_repo(branch_staging, arch):
 
 
 def get_branches_with_staging():
-    """ :returns: a copy of bpo.config.const.branches, with staging branches
-                  added. All staging branches have ignore_errors set. """
+    """ :returns: a copy of bpo.config.const.branches, with staging branches added. All staging branches have ignore_errors set.
+    """
     ret = copy.copy(bpo.config.const.branches)
     repo_final_path = bpo.config.args.repo_final_path
 
@@ -163,6 +164,7 @@ def get_branches_with_staging():
 def remove(branch):
     """ Remove a staging branch.
         :param branch: which branch to remove, e.g. master_staging_testbranch
+
     """
     ret = branch_split(branch)
     if not ret:

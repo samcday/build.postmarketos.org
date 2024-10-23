@@ -40,7 +40,8 @@ def file_entry_add_checksums(entry, path):
         if they exist, add them to the "entry" dict.
         :param entry: dict where the checksum will be added
         :param path: to the file, with {path}.sha256 and {path}.sha512 files
-                     in the same dir """
+        in the same dir
+    """
     for checksum in ["sha256", "sha512"]:
         checksum_path = f"{path}.{checksum}"
         if not os.path.exists(checksum_path):

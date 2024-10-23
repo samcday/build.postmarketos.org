@@ -13,11 +13,12 @@ def is_needed(payload):
     needs bootstrap (systemd dir).
 
     :param payload: from the get_depends api call
-                    e.g.: [ { "pkgname": "hello-world",
-                              "repo": "main",  # pmaports directory
-                              "version": "1-r4",
-                              "depends": []}, … ]
+        e.g.: [ { "pkgname": "hello-world",
+        "repo": "main",  # pmaports directory
+        "version": "1-r4",
+        "depends": []}, … ]
     :returns: True if repo_bootstrap is needed, False otherwise
+
     """
     for pkg in payload:
         if pkg["repo"] in bpo.config.const.repo_bootstrap_dirs:
@@ -31,11 +32,12 @@ def init(session, payload, arch, branch, dir_name="/"):
     current branch, and if there is no entry yet.
 
     :param payload: from the get_depends api call
-                    e.g.: [ { "pkgname": "hello-world",
-                              "repo": "main",  # pmaports directory
-                              "version": "1-r4",
-                              "depends": []}, … ]
+        e.g.: [ { "pkgname": "hello-world",
+        "repo": "main",  # pmaports directory
+        "version": "1-r4",
+        "depends": []}, … ]
     :returns: True if a new entry was added to the table, False otherwise
+
     """
     repo_bootstrap = bpo.db.get_repo_bootstrap(session, arch, branch, dir_name)
     if repo_bootstrap:

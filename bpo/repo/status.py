@@ -49,15 +49,13 @@ def fix_disk_vs_db(arch, branch, path, status, is_wip=False, job_id=None):
         sense to delete them beforehand.)
         :param arch: architecture, e.g. "x86_64"
         :param branch: pmaports.git branch, e.g. "master"
-        :param path: wip or final repo path, as returned by
-                     bpo.repo.{wip,final}.get_path()
-        :param status: the package should have when the related apk file exists
-                       e.g. bpo.db.PackageStatus.built
-        :param is_wip: set to True when looking at the wip repo, False when
-                       looking at the final repo.
-        :param job_id: set the job_id for packages that were updated (used by
-                       repo_bootstrap callback)
-        :returns: (count of removed pkgs, count of updated pkgs) """
+        :param path: wip or final repo path, as returned by bpo.repo.{wip,final}.get_path()
+        :param status: the package should have when the related apk file exists e.g. bpo.db.PackageStatus.built
+        :param is_wip: set to True when looking at the wip repo, False when looking at the final repo.
+        :param job_id: set the job_id for packages that were updated (used by repo_bootstrap callback)
+        :returns: (count of removed pkgs, count of updated pkgs)
+
+    """
     removed = 0
     updated = 0
 
@@ -95,10 +93,11 @@ def fix_disk_vs_db(arch, branch, path, status, is_wip=False, job_id=None):
 
 
 def fix_db_vs_disk(arch, branch):
-    """ Iterate over packages in db, fix status of packages that are marked as
-        built/published but are missing on disk.
+    """ Iterate over packages in db, fix status of packages that are marked as built/published but are missing on disk.
         :param arch: architecture, e.g. "x86_64"
-        :param branch: pmaports.git branch, e.g. "master" """
+        :param branch: pmaports.git branch, e.g. "master"
+
+    """
     session = bpo.db.session()
     packages = session.query(bpo.db.Package).filter_by(arch=arch,
                                                        branch=branch)
@@ -125,11 +124,11 @@ def fix_db_vs_disk(arch, branch):
 
 
 def fix(limit_arch=None, limit_branch=None):
-    """" Fix all inconsistencies between the database, the apk files on disk
-         and the running jobs.
+    """" Fix all inconsistencies between the database, the apk files on diskand the running jobs.
         :param limit_arch: architecture, e.g. "x86_64" (default: all)
-        :param limit_branch: pmaports.git branch, e.g. "master"
-                             (default: all) """
+        :param limit_branch: pmaports.git branch, e.g. "master" (default: all)
+
+    """
     branches = bpo.config.const.branches.keys()
     if limit_branch:
         branches = [limit_branch]

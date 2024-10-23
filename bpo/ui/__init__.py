@@ -22,7 +22,9 @@ def update_badge(session, pkgs, imgs):
         :param session: return value of bpo.db.session()
         :param pkgs: return value of bpo.db.get_recent_packages_by_status()
         :param imgs: return value of bpo.db.get_recent_images_by_status()
-        :returns: one of: "up-to-date", "failed", "building" """
+        :returns: one of: "up-to-date", "failed", "building"
+
+        """
     # Get new name
     new = "up-to-date"
     if bpo.db.get_failed_packages_count_relevant(session) \
@@ -45,9 +47,9 @@ def update_badge(session, pkgs, imgs):
 
 
 def log_entries_by_day(session):
-    """ :returns: {"2019-01-01": [a, b, ...],
-                   "2019-01-02": [c, d, ...], ... }
-                   a, b, c, d: bpo.db.Log objects """
+    """ :returns: {"2019-01-01": [a, b, ...], "2019-01-02": [c, d, ...], ... } a, b, c, d: bpo.db.Log objects
+
+    """
     entries = session.query(bpo.db.Log).order_by(bpo.db.Log.id.desc()
                                                  ).limit(50)
     ret = collections.OrderedDict()
@@ -70,7 +72,9 @@ def update_index(session, pkgs, imgs, badge_name):
         :param session: return value of bpo.db.session()
         :param pkgs: return value of bpo.db.get_recent_packages_by_status()
         :param imgs: return value of bpo.db.get_recent_images_by_status()
-        :param badge_name: return value of update_badge() """
+        :param badge_name: return value of update_badge()
+
+        """
     # Query information from DB
     log_entries_days = log_entries_by_day(session)
     pkgcount = session.query(func.count(bpo.db.Package.id)).scalar()
@@ -146,7 +150,9 @@ def log(*args, **kwargs):
 
         NOTE: Make sure that you have committed all changes to any open
               sessions (run session.commit() after doing changes), otherwise
-              you will get a "database is locked" error. """
+              you will get a "database is locked" error.
+
+        """
     msg = bpo.db.Log(*args, **kwargs)
     session = bpo.db.session()
     session.add(msg)
@@ -165,7 +171,9 @@ def log_package(package, action, depend_pkgname=None, commit=None):
 
 def log_image(image, action):
     """ Convenience wrapper
-        :param image: bpo.db.Image object """
+        :param image: bpo.db.Image object
+
+        """
     log(action=action,
         device=image.device,
         branch=image.branch,

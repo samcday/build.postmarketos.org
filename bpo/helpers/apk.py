@@ -26,8 +26,10 @@ def get_abuild_version(lines):
         packages (#56).
 
         :param lines: list of \n-terminated lines as bytes from .PKGINFO file,
-                      as returned by get_pkginfo_lines()
-        :returns: version string like "3.4.0-r1" or None"""
+        as returned by get_pkginfo_lines()
+        :returns: version string like "3.4.0-r1" or None
+
+    """
     if not len(lines):
         return None
     line = lines[0].decode()
@@ -43,12 +45,12 @@ def get_abuild_version(lines):
 def get_metadata(apk):
     """ :param apk: path to apk file
         :returns: ordered dict with relevant metadata from .PKGINFO:
-                  {"abuild_version": "3.5.0_rc1-r1",
-                   "pkgver": "1-r3",
-                   "origin": "hello-world-wrapper"}
-        NOTE: as shown in the example, pkgver is actually the full version
-              ($pkgver-r$pkgrel)!
-        NOTE: entries appear in the same order, as they appear in the .PKGINFO.
+        {"abuild_version": "3.5.0_rc1-r1",
+        "pkgver": "1-r3",
+        "origin": "hello-world-wrapper"}
+
+    NOTE: as shown in the example, pkgver is actually the full version ($pkgver-r$pkgrel)!
+    NOTE: entries appear in the same order, as they appear in the .PKGINFO.
     """
     relevant_keys = ["origin", "pkgver"]
 

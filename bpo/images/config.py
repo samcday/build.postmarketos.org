@@ -24,15 +24,18 @@ def get_device_branches(device):
 
 
 def get_branch_config(device, branch):
-    """ Combine the branch_config_default and images configs into a device and
-        branch specific config.
-        :returns: * None if device/branch was not found in the config
-                  * the combined config, for example:
-                    {"android-recovery-zip": False,
-                     "date-start": "2020-12-29",
-                     "date-interval": "1 week",
-                     "ui": ["phosh", "plasma-mobile", "i3wm"],
-                     "kernels": []} """
+    """
+    Combine the branch_config_default and images configs into a device and branch specific config.
+
+    :returns:
+        - None if device/branch was not found in the config
+        - the combined config, for example:
+          {"android-recovery-zip": False,
+          "date-start": "2020-12-29",
+          "date-interval": "1 week",
+          "ui": ["phosh", "plasma-mobile", "i3wm"],
+          "kernels": []}
+    """
     if branch not in get_device_branches(device):
         logging.warning(f"images config: no entry for device={device},"
                         f"branch={branch}")
@@ -68,7 +71,9 @@ def get_images(now=None):
                            "device": "pine64-pinephone",
                            "ui": "phosh",
                            "date-start": "2020-12-29",
-                           "keep": 3} """
+                           "keep": 3}
+
+        """
     if not now:
         now = datetime.datetime.now()
 

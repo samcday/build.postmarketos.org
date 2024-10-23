@@ -1,12 +1,16 @@
 # Copyright 2022 Oliver Smith
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-""" Database code, using sqlalchemy ORM.
-    Usage example:
-        session = bpo.db.session()
-        log = bpo.db.Log(action="db_init", details="hello world")
-        session.add(log)
-        session.commit() """
+"""
+Database code, using sqlalchemy ORM.
+
+Usage example:
+
+    session = bpo.db.session()
+    log = bpo.db.Log(action="db_init", details="hello world")
+    session.add(logled)
+    session.commit()
+"""
 
 import datetime
 import enum
@@ -355,16 +359,12 @@ def get_repo_bootstrap(session, arch, branch, dir_name="/", job_id=None):
 
 
 def get_recent_packages_by_status(session):
-    """ :returns: a dict like this (pkglist is a list of bpo.db.Package
-                  objects):
-                  {"queued": pkglist1,
-                   "building": pkglist2,
-                   "built": pkglist3,
-                   "published": pkglist4,
-                   "failed": pkglist5,
-                   "built_synced": {"master_staging_test": {"x86_64": 5,
-                                                            "aarch64": 3}},
-                   "published_synced": {...}}  # same format as built_synced
+    """ :returns: a dict like this (pkglist is a list of bpo.db.Package objects):
+
+    {"queued": pkglist1, "building": pkglist2,
+        "built": pkglist3, "published": pkglist4, "failed": pkglist5, "built_synced": {"master_staging_test": {"x86_64": 5, "aarch64": 3}},
+        "published_synced": {...}}  # same format as built_synced
+
     """
     all_branches = bpo.repo.staging.get_branches_with_staging().keys()
 
@@ -419,8 +419,9 @@ def get_recent_packages_by_status(session):
 
 
 def get_recent_images_by_status(session):
-    """ :returns: {"failed": imglist1, "building": imglist2, ...},
-                  imglist is a list of bpo.db.Image objects """
+    """ :returns: {"failed": imglist1, "building": imglist2, ...}, imglist is a list of bpo.db.Image objects
+
+    """
     ret = {}
 
     # Don't list images older than 10 weeks
@@ -436,10 +437,13 @@ def get_recent_images_by_status(session):
 
 
 def get_failed_packages_count_relevant(session):
-    """ :returns: count of failed packages, without the branches where
-                  ignore_errors is set (it's always set for staging branches,
-                  and usually for branches we build for the first time as we
-                  prepare a new release). """
+    """ :returns: count of failed packages, without the branches where ignore_errors is set
+
+    (it's always set for staging branches,
+    and usually for branches we build for the first time as we prepare a new release).
+
+
+    """
     relevant = []
     for branch, branch_data in bpo.config.const.branches.items():
         if not branch_data.get("ignore_errors"):
@@ -452,7 +456,9 @@ def get_failed_packages_count_relevant(session):
 
 def set_package_status(session, package, status, job_id=None):
     """ :param package: bpo.db.Package object
-        :param status: bpo.db.PackageStatus value """
+        :param status: bpo.db.PackageStatus value
+
+    """
     package.status = status
     if job_id:
         package.job_id = job_id
@@ -469,7 +475,8 @@ def set_image_status(session, image, status, job_id=None, dir_name=None,
         :param date: new date (once the image is built, the previous date from
                      when the image was queued gets updated to the date when
                      the image was published)
-        """
+
+    """
     image.status = status
     if job_id:
         image.job_id = job_id

@@ -31,7 +31,8 @@ def get_secrets_by_job_name(name):
         required for particular job types. In practice, this allows having the
         final repo sign key only available when necessary.
         :param name: job name (see bpo/jobs, e.g. "sign_index")
-        :returns: string like "secrets:\n- first\n- second\n" """
+        :returns: string like "secrets:<newline>- first<newline>- second<newline>" (<newline> is backslash-n)
+    """
     tokens = bpo.config.tokens
     secrets = [tokens.job_callback_secret]
 

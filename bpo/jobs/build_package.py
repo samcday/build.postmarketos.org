@@ -26,6 +26,7 @@ def do_build_strict(pkgname):
 
 def run(arch, pkgname, branch):
     """ Start a single package build job.
+
         :returns: True if a new job was started, False if the apk exists
                   already in the WIP repo and the build was skipped. """
     # Load package from db
