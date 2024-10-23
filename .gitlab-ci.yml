@@ -40,6 +40,21 @@ docs:
     paths:
       - public
 
+deploy:
+  only:
+    - master
+  stage: deploy
+  before_script:
+    - apk -q add openssh-client rsync
+  script:
+    - mkdir "${HOME}/.ssh"
+    - echo "${SSH_HOST_KEY}" > "${HOME}/.ssh/known_hosts"
+    - echo "${SSH_PRIVATE_KEY}" > "${HOME}/.ssh/id_ed25519"
+    - chmod 700 "${HOME}/.ssh/id_ed25519"
+    - rsync -hrvz --delete -e "ssh -p ${SSH_PORT}" public/ "${SSH_HOST}":/var/www/docs.postmarketos.org/bpo/
+  environment:
+    name: deploy
+
 pytest:
   image: "alpine:3.18"  # has sqlalchemy<2.0
   before_script:
