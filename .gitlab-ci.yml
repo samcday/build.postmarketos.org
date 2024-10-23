@@ -1,14 +1,16 @@
 ---
 image: "alpine:latest"
-.only-default: &only-default
-  only:
-    - master
-    - wip
-    - merge_requests
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
 
 mr-settings:
-  only:
-    - merge_requests
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   before_script:
     - apk -q add python3
   script:
@@ -16,7 +18,6 @@ mr-settings:
     - python3 ./check_mr_settings.py
 
 ruff:
-  <<: *only-default
   image: "alpine:edge"
   before_script:
     - "echo 'https://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories"
@@ -25,14 +26,12 @@ ruff:
     - ".ci/ruff.sh"
 
 vermin:
-  <<: *only-default
   before_script:
     - "adduser -D build"
   script:
     - ".ci/vermin.sh"
 
 pytest:
-  <<: *only-default
   image: "alpine:3.18"  # has sqlalchemy<2.0
   before_script:
     - wget "https://gitlab.postmarketos.org/postmarketOS/ci-common/-/raw/master/install_pmbootstrap.sh"
@@ -56,7 +55,6 @@ pytest:
   coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
 
 pytest-pmb-v2:
-  <<: *only-default
   image: "alpine:3.18"  # has sqlalchemy<2.0
   before_script:
     - wget "https://gitlab.postmarketos.org/postmarketOS/ci-common/-/raw/master/install_pmbootstrap.sh"
