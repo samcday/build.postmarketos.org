@@ -62,6 +62,7 @@ def get_manifest(name, tasks, branch):
         packages:
         - coreutils
         - losetup
+        - multipathtools
         - procps
         - py3-requests
         - xz
