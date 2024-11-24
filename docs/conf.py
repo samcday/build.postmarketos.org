@@ -36,6 +36,7 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx.ext.doctest",
     "sphinxcontrib.autoprogram",
+    "sphinxcontrib.jquery",
     "myst_parser",
 ]
 
