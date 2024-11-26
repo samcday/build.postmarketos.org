@@ -148,6 +148,7 @@ devices = {
     "wileyfox-crackling": "Wileyfox Swift",
     "xiaomi-beryllium": "Xiaomi POCO F1",
     "xiaomi-daisy": "Xiaomi Mi A2 Lite",
+    "xiaomi-elish": "Xiaomi Mi Pad 5 Pro",
     "xiaomi-markw": "Xiaomi Redmi 4 Prime",
     "xiaomi-mido": "Xiaomi Redmi Note 4",
     "xiaomi-scorpio": "Xiaomi Mi Note 2",
@@ -573,6 +574,19 @@ images = {
         },
     },
     "xiaomi-daisy": {
+    },
+    "xiaomi-elish": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "kernels": [
+                    "boe",
+                    "csot",
+                ],
+            },
+        },
     },
     "xiaomi-markw": {
     },
