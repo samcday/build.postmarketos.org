@@ -132,6 +132,7 @@ devices = {
     "postmarketos-trailblazer": "PostmarketOS Trailblazer",
     "purism-librem5": "Purism Librem5",
     "qemu-amd64": "QEMU amd64",  # just used for test suite
+    "qcom-msm8953": "Generic Qualcomm MSM8953",
     "samsung-a3": "Samsung Galaxy A3 2015",
     "samsung-a5": "Samsung Galaxy A5 2015",
     "samsung-coreprimevelte": "Samsung Galaxy Core Prime VE LTE",
@@ -474,6 +475,11 @@ images = {
     },
     "purism-librem5": {
     },
+    "qcom-msm8953": {
+        "branches": [
+            "master",
+        ],
+    },
     "samsung-a3": {
     },
     "samsung-a5": {
@@ -574,6 +580,9 @@ images = {
         },
     },
     "xiaomi-daisy": {
+        "branches": [
+            "v24.06",
+        ],
     },
     "xiaomi-elish": {
         "branches": [
@@ -589,17 +598,32 @@ images = {
         },
     },
     "xiaomi-markw": {
+        "branches": [
+            "v24.06",
+        ],
     },
     "xiaomi-mido": {
+        "branches": [
+            "v24.06",
+        ],
     },
     "xiaomi-scorpio": {
     },
     "xiaomi-tissot": {
+        "branches": [
+            "v24.06",
+        ],
     },
     "xiaomi-vince": {
+        "branches": [
+            "v24.06",
+        ],
     },
     "xiaomi-wt88047": {
     },
     "xiaomi-ysl": {
+        "branches": [
+            "v24.06",
+        ],
     },
 }
