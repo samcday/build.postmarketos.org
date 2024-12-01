@@ -57,6 +57,7 @@ def get_manifest(name, tasks, branch):
     branches = bpo.repo.staging.get_branches_with_staging()
     pmb_branch = branches[branch].get("pmb_branch",
                                       bpo.config.const.pmb_branch_default)
+    pmb_config = "pmbootstrap_v3.cfg" if pmb_branch == "master" else "pmbootstrap.cfg"
     arches = " ".join(branches[branch]["arches"])
     ret = """
         image: alpine/latest
@@ -89,7 +90,7 @@ def get_manifest(name, tasks, branch):
            # Switch branch and release channel
            mkdir -p ~/.config
            ( echo "[pmbootstrap]"
-             echo "is_default_channel = False" ) > ~/.config/pmbootstrap.cfg
+             echo "is_default_channel = False" ) > ~/.config/""" + pmb_config + """
            git -C pmaports checkout """ + shlex.quote(branch) + """
 
            sudo ln -s "$PWD"/pmbootstrap/pmbootstrap.py /usr/bin/pmbootstrap
