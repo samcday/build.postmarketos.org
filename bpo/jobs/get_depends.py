@@ -7,6 +7,7 @@ import shlex
 import bpo.helpers.job
 import bpo.helpers.pmb
 import bpo.repo.staging
+import bpo.repo.final
 
 
 def run(branch):
@@ -23,9 +24,16 @@ def run(branch):
     branches = bpo.repo.staging.get_branches_with_staging()
 
     for arch in branches[branch]["arches"]:
+        # Ignore missing repos before initial build (bpo#137)
+        env_force_missing_repos = ""
+        final_path = bpo.repo.final.get_path(arch, branch)
+        if not os.path.exists(f"{final_path}/APKINDEX.tar.gz"):
+            env_force_missing_repos = "export PMB_APK_FORCE_MISSING_REPOSITORIES=1"
+
         tasks[f"{branch}_{arch}"] = f"""
             export ARCH={shlex.quote(arch)}
             export JSON="depends.$ARCH.json"
+            {env_force_missing_repos}
 
             # Enable systemd, so pmbootstrap doesn't omit the packages in
             # extra-repos/systemd. For repositories that don't have systemd,
