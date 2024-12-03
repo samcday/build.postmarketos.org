@@ -3,6 +3,7 @@
 
 import collections
 import shlex
+import os
 
 import bpo.helpers.job
 import bpo.helpers.pmb
