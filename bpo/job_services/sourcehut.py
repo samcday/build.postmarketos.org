@@ -3,15 +3,17 @@
 """ Job service for builds.sr.ht, see: https://man.sr.ht/builds.sr.ht """
 
 import logging
+import os
+import re
 import requests
 import shlex
-import re
 
 import bpo.config.args
 import bpo.config.const
 import bpo.config.tokens
 import bpo.db
 import bpo.helpers.pmb
+import bpo.repo.final
 import bpo.repo.staging
 from bpo.job_services.base import JobService
 
@@ -58,7 +60,13 @@ def get_manifest(name, tasks, branch):
     pmb_branch = branches[branch].get("pmb_branch",
                                       bpo.config.const.pmb_branch_default)
     pmb_config = "pmbootstrap_v3.cfg" if pmb_branch == "master" else "pmbootstrap.cfg"
-    arches = " ".join(branches[branch]["arches"])
+    arches = branches[branch]["arches"]
+
+    final_path = bpo.repo.final.get_path(arches[0], branch)
+    env_force_missing_repos = ""
+    if not os.path.exists(f"{final_path}/APKINDEX.tar.gz"):
+        env_force_missing_repos = "export PMB_APK_FORCE_MISSING_REPOSITORIES=1"
+
     ret = """
         image: alpine/latest
         packages:
@@ -84,6 +92,7 @@ def get_manifest(name, tasks, branch):
         tasks:
         - bpo_setup: |
            export BPO_JOB_ID="$JOB_ID"
+           """ + env_force_missing_repos + """
 
            git -C pmbootstrap checkout """ + pmb_branch + """
 
@@ -108,7 +117,7 @@ def get_manifest(name, tasks, branch):
            sudo mkdir -p /mnt/tmpfs-for-apks
            sudo mount -t tmpfs -o size=1500M tmpfs /mnt/tmpfs-for-apks
            WORK="$(pmbootstrap config work)"
-           for arch in """ + arches + """; do
+           for arch in """ + " ".join(arches) + """; do
                mkdir -p /mnt/tmpfs-for-apks/cache_apk_"$arch"
                sudo rm -rf "$WORK"/cache_apk_"$arch"
                ln -s /mnt/tmpfs-for-apks/cache_apk_"$arch" "$WORK"
