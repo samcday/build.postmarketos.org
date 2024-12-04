@@ -128,3 +128,5 @@ ENV/
 
 # JetBrains IDEs (PyCharm, etc)
 .idea
+
+ci-artifacts/
