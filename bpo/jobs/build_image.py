@@ -71,7 +71,7 @@ def run(device, branch, ui):
         # Image prefix format:
         # <YYYYMMDD-HHMM>-postmarketOS-<PMOS VER>-<UI>-<UI VER>-<DEVICE>
         UI_VERSION=$(grep "^pkgver=" "$(pmbootstrap config aports \\
-            )"/{arg_ui_apkbuild} | cut -d= -f2)
+            )"/{arg_ui_apkbuild} | cut -d= -f2 | cut -d ' ' -f 1)
         IMG_PREFIX="$IMG_DATE"-postmarketOS-{arg_pmos_ver}-{arg_ui}
         IMG_PREFIX="$IMG_PREFIX"-"$UI_VERSION"-{arg_device}
         echo "$IMG_PREFIX" > img-prefix
