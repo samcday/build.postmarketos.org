@@ -309,22 +309,12 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop"]),
             },
-            # Disable plasma for master:
-            # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
-            "master": {
-                "ui": get_ui_list(chassis=["laptop"], exclude_ui=["plasma-desktop"]),
-            },
         },
     },
     "google-peach-pit": {
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop"]),
-            },
-            # Disable plasma for master:
-            # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
-            "master": {
-                "ui": get_ui_list(chassis=["laptop"], exclude_ui=["plasma-desktop"]),
             },
         },
     },
@@ -352,11 +342,6 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible"]),
             },
-            # Disable plasma for master:
-            # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
-            "master": {
-                "ui": get_ui_list(chassis=["laptop", "convertible"], exclude_ui=["plasma-desktop"]),
-            }
         },
     },
     "google-x64cros": {
@@ -498,11 +483,6 @@ images = {
     },
     "samsung-e7": {
         "branch_configs": {
-            # Disable plasma for master:
-            # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
-            "master": {
-                "ui": get_ui_list(chassis=["handset"], exclude_ui=["plasma-mobile"]),
-            },
         },
     },
     "samsung-espresso10": {
@@ -525,11 +505,6 @@ images = {
     },
     "samsung-grandmax": {
         "branch_configs": {
-            # Disable plasma for master:
-            # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
-            "master": {
-                "ui": get_ui_list(chassis=["handset"], exclude_ui=["plasma-mobile"]),
-            },
         },
     },
     "samsung-gt510": {
@@ -538,11 +513,6 @@ images = {
     },
     "samsung-m0": {
         "branch_configs": {
-            # Disable plasma for master:
-            # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
-            "master": {
-                "ui": get_ui_list(chassis=["handset"], exclude_ui=["plasma-mobile"]),
-            },
         },
     },
     "samsung-manta": {
@@ -558,11 +528,6 @@ images = {
     },
     "samsung-serranove": {
         "branch_configs": {
-            # Disable plasma for master:
-            # https://gitlab.alpinelinux.org/alpine/aports/-/issues/15638
-            "master": {
-                "ui": get_ui_list(chassis=["handset"], exclude_ui=["plasma-mobile"]),
-            },
         },
     },
     "shift-axolotl": {
