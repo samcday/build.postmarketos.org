@@ -62,6 +62,7 @@ password = "147147"
 branches_default = [
         "master",
         "v24.06",
+        "v24.12",
     ]
 
 # Prevent errors by listing explicitly allowed UIs here. Notably "none" is
@@ -200,16 +201,8 @@ images = {
     "fairphone-fp4": {
     },
     "fairphone-fp5": {
-        "branches": [
-            "master",
-            "v24.06",
-        ],
     },
     "generic-x86_64": {
-        "branches": [
-            "master",
-            "v24.06",
-        ],
         "branch_configs": {
             "all": {
                 # Disable plasma-desktop:
@@ -225,6 +218,7 @@ images = {
     "google-asurada": {
         "branches": [
             "master",
+            "v24.12",
         ],
         "branch_configs": {
             "all": {
@@ -235,6 +229,7 @@ images = {
     "google-cherry": {
         "branches": [
             "master",
+            "v24.12",
         ],
         "branch_configs": {
             "all": {
@@ -245,6 +240,7 @@ images = {
     "google-corsola": {
         "branches": [
             "master",
+            "v24.12",
         ],
         "branch_configs": {
             "all": {
@@ -304,6 +300,7 @@ images = {
     "google-peach-pi": {
         "branches": [
             "master",
+            "v24.12",
         ],
         "branch_configs": {
             "all": {
@@ -321,6 +318,7 @@ images = {
     "google-sargo": {
         "branches": [
             "master",
+            "v24.12",
         ],
     },
     "google-snow": {
@@ -366,10 +364,6 @@ images = {
         },
     },
     "lenovo-21bx": {
-        "branches": [
-            "master",
-            "v24.06",
-        ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop"]),
@@ -381,10 +375,6 @@ images = {
     "lenovo-a6010": {
     },
     "microsoft-surface-rt": {
-        "branches": [
-            "master",
-            "v24.06",
-        ],
         "branch_configs": {
             "all": {
                 # Tablet with detachable keyboard
@@ -406,10 +396,6 @@ images = {
         },
     },
     "nvidia-tegra-armv7": {
-        "branches": [
-            "master",
-            "v24.06",
-        ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["convertible", "tablet", "handset"], supports_gpu=False),
@@ -450,6 +436,7 @@ images = {
     "postmarketos-trailblazer": {
         "branches": [
             "master",
+            # Decided to not ship it in stable releases
         ],
         "branch_configs": {
             "master": {
@@ -463,6 +450,7 @@ images = {
     "qcom-msm8953": {
         "branches": [
             "master",
+            "v24.12",
         ],
     },
     "samsung-a3": {
@@ -470,10 +458,6 @@ images = {
     "samsung-a5": {
     },
     "samsung-coreprimevelte": {
-        "branches": [
-            "master",
-            "v24.06",
-        ],
         "branch_configs": {
             "all": {
                 # Only usable UI at the moment
@@ -516,10 +500,6 @@ images = {
         },
     },
     "samsung-manta": {
-        "branches": [
-            "master",
-            "v24.06",
-        ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["tablet"]),
@@ -552,6 +532,7 @@ images = {
     "xiaomi-elish": {
         "branches": [
             "master",
+            "v24.12",
         ],
         "branch_configs": {
             "all": {
