@@ -42,7 +42,6 @@ branches["v24.12"] = {
     "arches": ["x86_64", "aarch64", "armv7"],
     # Allow override for running the whole testsuite with pmb v2
     "pmb_branch": os.environ.get("BPO_PMA_MASTER_PMB_BRANCH", "master"),
-    "ignore_errors": True,
 }
 
 # Current default is 2.3.x until pmbootstrap v3 is stable:
