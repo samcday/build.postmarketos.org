@@ -343,11 +343,6 @@ images = {
         },
     },
     "google-x64cros": {
-        "branches": [
-            # master is temporarily disabled:
-            # https://gitlab.postmarketos.org/postmarketOS/pmaports/-/issues/3095
-            "v24.06",
-        ],
         "branch_configs": {
             "all": {
                 "kernels": [
