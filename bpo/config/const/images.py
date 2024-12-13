@@ -354,7 +354,10 @@ images = {
                     # for these devices, nothing critical.
                     "edge",
                 ],
-                "ui": get_ui_list(chassis=["laptop", "convertible"]),
+                # Disable plasma-desktop:
+                # https://gitlab.postmarketos.org/postmarketOS/build.postmarketos.org/-/issues/136
+                "ui": get_ui_list(chassis=["laptop", "convertible"],
+                                  exclude_ui=["plasma-desktop"]),
             },
         },
     },
