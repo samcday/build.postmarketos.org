@@ -32,14 +32,14 @@ branches["v24.06"] = {
     "arches": ["x86_64", "aarch64", "armv7"],
 }
 
-branches["master"] = {
-    "arches": ["x86_64", "aarch64", "armv7", "armhf", "x86", "riscv64"],
+branches["v24.12"] = {
+    "arches": ["x86_64", "aarch64", "armv7"],
     # Allow override for running the whole testsuite with pmb v2
     "pmb_branch": os.environ.get("BPO_PMA_MASTER_PMB_BRANCH", "master"),
 }
 
-branches["v24.12"] = {
-    "arches": ["x86_64", "aarch64", "armv7"],
+branches["master"] = {
+    "arches": ["x86_64", "aarch64", "armv7", "armhf", "x86", "riscv64"],
     # Allow override for running the whole testsuite with pmb v2
     "pmb_branch": os.environ.get("BPO_PMA_MASTER_PMB_BRANCH", "master"),
 }
