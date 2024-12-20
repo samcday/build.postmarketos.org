@@ -419,6 +419,11 @@ images = {
         },
     },
     "pine64-pinephone": {
+        "branch_configs": {
+            "v24.12": {
+                "date-start": "2024-12-20",  # Friday
+            },
+        },
     },
     "pine64-pinephonepro": {
     },
