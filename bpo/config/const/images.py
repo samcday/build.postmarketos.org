@@ -445,6 +445,9 @@ images = {
             "master": {
                 "date-interval": 1,
                 "ui": ["gnome", "console"],
+                "kernels": [
+                    "next",
+                ],
             },
         }
     },
