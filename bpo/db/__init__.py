@@ -508,9 +508,10 @@ def set_repo_bootstrap_status(session, rb, status, job_id=None):
     session.commit()
 
 
-def package_has_version(session, pkgname, arch, branch, version):
+def package_has_version(session, pkgname, arch, branch, splitrepo, version):
     count = session.query(bpo.db.Package).filter_by(arch=arch,
                                                     branch=branch,
+                                                    splitrepo=splitrepo,
                                                     pkgname=pkgname,
                                                     version=version).count()
     return True if count else False

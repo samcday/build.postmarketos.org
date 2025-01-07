@@ -316,6 +316,7 @@ def is_apk_origin_in_db(session, arch, branch, apk_path):
     metadata = bpo.helpers.apk.get_metadata(apk_path)
     pkgname = metadata["origin"]
     version = metadata["pkgver"]  # yes, this is actually the full version
-    if bpo.db.package_has_version(session, pkgname, arch, branch, version):
+    splitrepo = None  # FIXME
+    if bpo.db.package_has_version(session, pkgname, arch, branch, splitrepo, version):
         return pkgname
     return False
