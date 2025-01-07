@@ -84,3 +84,10 @@ def upgrade():
                        " ADD COLUMN 'count'"
                        " INT DEFAULT(0)")
         version_set(8)
+
+    # Package: add column "splitrepo"
+    if version_get() == 8:
+        engine.execute("ALTER TABLE 'package'"
+                       " ADD COLUMN 'splitrepo'"
+                       " VARCHAR")
+        version_set(9)

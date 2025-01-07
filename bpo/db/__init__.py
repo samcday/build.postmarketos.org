@@ -60,11 +60,12 @@ class Package(base):
     status = Column(Enum(PackageStatus))
     job_id = Column(Integer)
     retry_count = Column(Integer, default=0, system=True)  # [v4]
+    splitrepo = Column(String, system=True)  # [v9]
 
     # The following columns represent the latest state. We don't store the
     # history in bpo (avoids complexity, we have the git history for that).
     version = Column(String)
-    repo = Column(String)
+    repo = Column(String)  # Use splitrepo instead!
     # Package.depends: see init_relationships() below.
 
     Index("pkgname-arch-branch", pkgname, arch, branch, unique=True)
