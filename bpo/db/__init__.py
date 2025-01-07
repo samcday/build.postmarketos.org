@@ -252,7 +252,7 @@ class RepoBootstrap(base):
     Index("rb:status", status)
     # === END OF DATABASE LAYOUT ===
 
-    def __init__(self, arch, branch, dir_name="/"):
+    def __init__(self, arch, branch, dir_name=None):
         self.arch = arch
         self.branch = branch
         self.dir_name = dir_name
