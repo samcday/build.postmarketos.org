@@ -100,8 +100,9 @@ def sync_with_orig_repo(branch_staging, arch):
         # subpackage) and skip if the origin pkgname + version is not on the
         # staging repository branch.
         apk_full_path = f"{path_repo_orig_final}/{apk}"
+        splitrepo = None  # FIXME
         pkgname = bpo.repo.is_apk_origin_in_db(session, arch, branch_staging,
-                                               apk_full_path)
+                                               splitrepo, apk_full_path)
         if not pkgname:
             stats["skip_not_in_staging_branch"] += 1
             continue

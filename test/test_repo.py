@@ -71,10 +71,11 @@ def test_repo_is_apk_origin_in_db(monkeypatch):
     func = bpo.repo.is_apk_origin_in_db
     arch = "x86_64"
     branch = "master"
+    splitrepo = None
     apk_path = (bpo.config.const.top_dir +
                 "/test/testdata/hello-world-wrapper-subpkg-1-r2.apk")
     session = bpo.db.session()
-    assert func(session, arch, branch, apk_path) == "hello-world-wrapper"
+    assert func(session, arch, branch, splitrepo, apk_path) == "hello-world-wrapper"
 
     # Change version of origin
     origin_pkgname = "hello-world-wrapper"
@@ -84,7 +85,7 @@ def test_repo_is_apk_origin_in_db(monkeypatch):
     session.commit()
 
     # Origin exists in db, but with different version
-    assert func(session, arch, branch, apk_path) is False
+    assert func(session, arch, branch, splitrepo, apk_path) is False
 
     # Delete package from db
     session.delete(package)
@@ -92,7 +93,7 @@ def test_repo_is_apk_origin_in_db(monkeypatch):
     assert bpo.db.get_package(session, origin_pkgname, arch, branch) is None
 
     # Origin not found in db
-    assert func(session, arch, branch, apk_path) is False
+    assert func(session, arch, branch, splitrepo, apk_path) is False
 
 
 def test_build_arch_branch(monkeypatch):

@@ -79,7 +79,8 @@ def clean(arch, branch):
             continue
 
         # Find in db
-        if bpo.repo.is_apk_origin_in_db(session, arch, branch, apk_wip):
+        splitrepo = None  # FIXME
+        if bpo.repo.is_apk_origin_in_db(session, arch, branch, splitrepo, apk_wip):
             logging.debug(apk + ": not in final repo, but found in db ->"
                           " keeping in WIP repo")
         else:

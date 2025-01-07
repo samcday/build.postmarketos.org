@@ -71,7 +71,8 @@ def link_to_all_packages(arch, branch, force=False):
     # Link to relevant packages from final repo
     for apk in bpo.repo.get_apks(repo_final):
         apk_final = os.path.realpath(repo_final + "/" + apk)
-        if bpo.repo.is_apk_origin_in_db(session, arch, branch, apk_final):
+        splitrepo = None  # FIXME
+        if bpo.repo.is_apk_origin_in_db(session, arch, branch, splitrepo, apk_final):
             os.symlink(apk_final, repo_symlink + "/" + apk)
 
 
