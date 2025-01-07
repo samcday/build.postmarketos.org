@@ -319,3 +319,12 @@ def is_apk_origin_in_db(session, arch, branch, splitrepo, apk_path):
     if bpo.db.package_has_version(session, pkgname, arch, branch, splitrepo, version):
         return pkgname
     return False
+
+
+def fmt(arch, branch, splitrepo):
+    """Format arch, branch, splitrepo nicely for log messages"""
+    ret = branch
+    if splitrepo:
+        ret += f":{splitrepo}"
+    ret += f"/{arch}"
+    return ret

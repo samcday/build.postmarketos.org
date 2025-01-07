@@ -65,7 +65,8 @@ def clean(arch, branch, splitrepo):
     """ Delete all apks from WIP repo, that are either in final repo or not in
         the db anymore (pmaport updated or deleted), and update the APKINDEX
         of the WIP repo. """
-    logging.debug("Cleaning WIP repo")
+    fmt = bpo.repo.fmt(arch, branch, splitrepo)
+    logging.debug(f"[{fmt}] Cleaning WIP repo")
     path_repo_wip = get_path(arch, branch)
     path_repo_final = bpo.repo.final.get_path(arch, branch)
     session = bpo.db.session()
