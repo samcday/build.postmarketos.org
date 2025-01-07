@@ -12,15 +12,17 @@ import bpo.repo.final
 import bpo.repo.wip
 
 
-def get_path(arch, branch):
+def get_path(arch, branch, splitrepo):
     # The symlink repo is in the temp path, because it does not take up as much
     # space as the final or wip repos.
     temp_path = bpo.config.args.temp_path
-    return "{}/repo_symlink/{}/{}".format(temp_path, branch, arch)
+    branch_with_splitrepo = f"{branch}:{splitrepo}" if splitrepo else branch
+    return os.path.join(temp_path, "repo_symlink", branch_with_splitrepo, arch)
 
 
 def clean(arch, branch):
-    path = get_path(arch, branch)
+    splitrepo = None  # FIXME
+    path = get_path(arch, branch, splitrepo)
     if os.path.exists(path):
         shutil.rmtree(path)
     os.makedirs(path, exist_ok=True)
@@ -47,7 +49,7 @@ def link_to_all_packages(arch, branch, force=False):
     """ Create symlinks to new packages from WIP repo and to up-to-date
         packages from final repo. """
     splitrepo = None  # FIXME
-    repo_symlink = get_path(arch, branch)
+    repo_symlink = get_path(arch, branch, splitrepo)
     repo_wip = bpo.repo.wip.get_path(arch, branch)
     repo_final = bpo.repo.final.get_path(arch, branch)
     session = bpo.db.session()
@@ -71,15 +73,15 @@ def link_to_all_packages(arch, branch, force=False):
     # Link to relevant packages from final repo
     for apk in bpo.repo.get_apks(repo_final):
         apk_final = os.path.realpath(repo_final + "/" + apk)
-        splitrepo = None  # FIXME
         if bpo.repo.is_apk_origin_in_db(session, arch, branch, splitrepo, apk_final):
             os.symlink(apk_final, repo_symlink + "/" + apk)
 
 
 def sign(arch, branch):
+    splitrepo = None  # FIXME
     # Copy index to wip repo (just because that makes it easy to download it)
     repo_wip_path = bpo.repo.wip.get_path(arch, branch)
-    src = get_path(arch, branch) + "/APKINDEX.tar.gz"
+    src = get_path(arch, branch, splitrepo) + "/APKINDEX.tar.gz"
     dst = repo_wip_path + "/APKINDEX-symlink-repo.tar.gz"
     os.makedirs(repo_wip_path, exist_ok=True)
     shutil.copy(src, dst)
@@ -89,6 +91,7 @@ def sign(arch, branch):
 
 
 def create(arch, branch, force=False):
+    splitrepo = None  # FIXME
     # Skip if WIP repo is empty
     repo_wip_path = bpo.repo.wip.get_path(arch, branch)
     if not force and not len(bpo.repo.get_apks(repo_wip_path)):
@@ -99,5 +102,5 @@ def create(arch, branch, force=False):
     logging.info("{}/{}: creating symlink repo".format(branch, arch))
     clean(arch, branch)
     link_to_all_packages(arch, branch, force)
-    bpo.repo.tools.index(arch, branch, "symlink", get_path(arch, branch))
+    bpo.repo.tools.index(arch, branch, "symlink", get_path(arch, branch, splitrepo))
     sign(arch, branch)

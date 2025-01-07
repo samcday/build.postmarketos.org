@@ -26,7 +26,8 @@ def save_apkindex(request):
     # Save to symlink repo
     branch = bpo.api.get_branch(request)
     arch = bpo.api.get_arch(request, branch)
-    path = bpo.repo.symlink.get_path(arch, branch) + "/APKINDEX.tar.gz"
+    splitrepo = bpo.api.get_splitrepo(request, branch)
+    path = bpo.repo.symlink.get_path(arch, branch, splitrepo) + "/APKINDEX.tar.gz"
     logging.info("Saving " + path)
     files[0].save(path)
 

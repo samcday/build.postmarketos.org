@@ -29,10 +29,11 @@ def get_path(arch, branch):
 
 
 def copy_new_apks(arch, branch):
+    splitrepo = None  # FIXME
     logging.info(branch + "/" + arch + ": copying new apks from symlink to"
                  " final repo")
     repo_final_path = get_path(arch, branch)
-    repo_symlink_path = bpo.repo.symlink.get_path(arch, branch)
+    repo_symlink_path = bpo.repo.symlink.get_path(arch, branch, splitrepo)
 
     os.makedirs(repo_final_path, exist_ok=True)
 
@@ -47,16 +48,18 @@ def copy_new_apks(arch, branch):
 
 
 def copy_new_apkindex(arch, branch):
+    splitrepo = None  # FIXME
     logging.info(branch + "/" + arch + ": copying new APKINDEX")
-    src = bpo.repo.symlink.get_path(arch, branch) + "/APKINDEX.tar.gz"
+    src = bpo.repo.symlink.get_path(arch, branch, splitrepo) + "/APKINDEX.tar.gz"
     dst = get_path(arch, branch) + "/APKINDEX.tar.gz"
     shutil.copy(src, dst)
 
 
 def delete_outdated_apks(arch, branch):
+    splitrepo = None  # FIXME
     logging.info(branch + "/" + arch + ": removing outdated apks")
     repo_final_path = get_path(arch, branch)
-    repo_symlink_path = bpo.repo.symlink.get_path(arch, branch)
+    repo_symlink_path = bpo.repo.symlink.get_path(arch, branch, splitrepo)
 
     for apk in bpo.repo.get_apks(repo_final_path):
         if os.path.exists(repo_symlink_path + "/" + apk):
