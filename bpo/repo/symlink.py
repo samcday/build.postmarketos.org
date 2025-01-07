@@ -46,7 +46,7 @@ def find_apk(wip, final, package):
 def link_to_all_packages(arch, branch, force=False):
     """ Create symlinks to new packages from WIP repo and to up-to-date
         packages from final repo. """
-
+    splitrepo = None  # FIXME
     repo_symlink = get_path(arch, branch)
     repo_wip = bpo.repo.wip.get_path(arch, branch)
     repo_final = bpo.repo.final.get_path(arch, branch)
@@ -60,7 +60,7 @@ def link_to_all_packages(arch, branch, force=False):
             find_apk(repo_wip, repo_final, package)
 
     # Remove outdated packages in WIP repo
-    bpo.repo.wip.clean(arch, branch)
+    bpo.repo.wip.clean(arch, branch, splitrepo)
 
     # Link to everything in WIP repo
     os.makedirs(repo_symlink, exist_ok=True)

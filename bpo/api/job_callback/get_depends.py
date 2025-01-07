@@ -121,6 +121,7 @@ def job_callback_get_depends():
     # Parse input data
     job_id = bpo.api.get_header(request, "Job-Id")
     branch = bpo.api.get_branch(request)
+    splitrepo = bpo.api.get_splitrepo(request, branch)
     payloads = collections.OrderedDict()
     branches_with_staging = bpo.repo.staging.get_branches_with_staging()
     for arch in branches_with_staging[branch]["arches"]:
@@ -134,7 +135,7 @@ def job_callback_get_depends():
         update_or_insert_packages(session, payload, arch, branch)
         update_package_depends(session, payload, arch, branch)
         if remove_deleted_packages_db(session, payload, arch, branch):
-            bpo.repo.wip.clean(arch, branch)
+            bpo.repo.wip.clean(arch, branch, splitrepo)
             # Delete obsolete apks in final repo
             force_repo_update_branch = branch
 

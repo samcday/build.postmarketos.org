@@ -36,6 +36,7 @@ def save_apkindex(request):
 def job_callback_sign_index():
     branch = bpo.api.get_branch(request)
     arch = bpo.api.get_arch(request, branch)
+    splitrepo = bpo.api.get_splitrepo(request, branch)
 
     # FIXME: check if the index signing was expected
     save_apkindex(request)
@@ -43,7 +44,7 @@ def job_callback_sign_index():
     bpo.ui.log("api_job_callback_sign_index", arch=arch, branch=branch)
 
     bpo.repo.final.update_from_symlink_repo(arch, branch)
-    bpo.repo.wip.clean(arch, branch)
+    bpo.repo.wip.clean(arch, branch, splitrepo)
     bpo.repo.final.publish(arch, branch)
 
     bpo.repo.bootstrap.update_to_published(arch, branch, "systemd")  # FIXME

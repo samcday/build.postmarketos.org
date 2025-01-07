@@ -33,6 +33,7 @@ def test_repo_wip_clean(monkeypatch):
     # *** Preparation ***
     arch = "x86_64"
     branch = "master"
+    splitrepo = None
     apk = "hello-world-wrapper-subpkg-1-r2.apk"
     apk_path = bpo.config.const.top_dir + "/test/testdata/" + apk
     wip_path = bpo.repo.wip.get_path(arch, branch)
@@ -50,14 +51,14 @@ def test_repo_wip_clean(monkeypatch):
     # 1. apk is not in final repo, origin is in db => don't remove apk
     os.makedirs(wip_path)
     shutil.copy(apk_path, wip_path)
-    func(arch, branch)
+    func(arch, branch, splitrepo)
     assert bpo.repo.get_apks(wip_path) == [apk]
 
     # 2. apk is in final repo, origin is in db => remove apk
     os.makedirs(final_path)
     shutil.copy(apk_path, wip_path)
     shutil.copy(apk_path, final_path)
-    func(arch, branch)
+    func(arch, branch, splitrepo)
     assert bpo.repo.get_apks(wip_path) == []
 
     # Delete origin from db
@@ -70,11 +71,11 @@ def test_repo_wip_clean(monkeypatch):
 
     # 3. apk is in final repo, origin is not in db => remove apk
     shutil.copy(apk_path, wip_path)
-    func(arch, branch)
+    func(arch, branch, splitrepo)
     assert bpo.repo.get_apks(wip_path) == []
 
     # 4. apk is not in final repo, origin is not in db => remove apk
     os.unlink(final_path + "/" + apk)
     shutil.copy(apk_path, wip_path)
-    func(arch, branch)
+    func(arch, branch, splitrepo)
     assert bpo.repo.get_apks(wip_path) == []

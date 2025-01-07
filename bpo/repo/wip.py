@@ -61,7 +61,7 @@ def update_apkindex(arch, branch):
         sign(arch, branch)
 
 
-def clean(arch, branch):
+def clean(arch, branch, splitrepo):
     """ Delete all apks from WIP repo, that are either in final repo or not in
         the db anymore (pmaport updated or deleted), and update the APKINDEX
         of the WIP repo. """
@@ -79,7 +79,6 @@ def clean(arch, branch):
             continue
 
         # Find in db
-        splitrepo = None  # FIXME
         if bpo.repo.is_apk_origin_in_db(session, arch, branch, splitrepo, apk_wip):
             logging.debug(apk + ": not in final repo, but found in db ->"
                           " keeping in WIP repo")
