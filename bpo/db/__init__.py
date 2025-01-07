@@ -134,12 +134,13 @@ class Log(base):
     dir_name = Column(String, system=True)  # [v6]
     depend_pkgname = Column(String, system=True)  # [v7]
     count = Column(Integer, default=0, system=True)  # [v8]
+    splitrepo = Column(String, system=True)  # [v11]
     # === END OF DATABASE LAYOUT ===
 
     def __init__(self, action, payload=None, arch=None, branch=None,
                  pkgname=None, version=None, job_id=None, retry_count=None,
                  device=None, ui=None, dir_name=None, depend_pkgname=None,
-                 commit=None, count=None):
+                 commit=None, count=None, splitrepo=None):
         self.action = action
         self.payload = json.dumps(payload, indent=4) if payload else None
         self.arch = arch
@@ -154,12 +155,16 @@ class Log(base):
         self.depend_pkgname = depend_pkgname
         self.commit = commit
         self.count = count
+        self.splitrepo = splitrepo
         logging.info("### " + str(self) + " ###")
 
     def __repr__(self):
         ret = self.action
         if self.branch:
-            ret += " " + self.branch + "/"
+            ret += f" {self.branch}"
+            if self.splitrepo:
+                ret += f":{self.splitrepo}"
+            ret += "/"
         if self.arch:
             ret += self.arch + "/"
         if self.pkgname:

@@ -100,3 +100,10 @@ def upgrade():
         engine.execute("CREATE INDEX 'arch-branch-splitrepo'"
                        " ON 'package' (`arch`, `branch`, `splitrepo`)")
         version_set(10)
+
+    # Log: add column "splitrepo"
+    if version_get() == 10:
+        engine.execute("ALTER TABLE 'log'"
+                       " ADD COLUMN 'splitrepo'"
+                       " VARCHAR")
+        version_set(11)
