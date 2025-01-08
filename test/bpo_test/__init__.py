@@ -180,8 +180,8 @@ class BPOServer():
         assert result
 
 
-def assert_package(pkgname, arch="x86_64", branch="master", status=None,
-                   version=None, exists=True, retry_count=0, job_id=False):
+def assert_package(pkgname, arch="x86_64", branch="master", splitrepo=None,
+                   status=None, version=None, exists=True, retry_count=0, job_id=False):
     """ Verify that a package exists, and optionally, that certain attributes
         are set to an expected value. This function is called assert_* but we
         are actually raising exceptions, because we can test if they get thrown
@@ -195,35 +195,35 @@ def assert_package(pkgname, arch="x86_64", branch="master", status=None,
         :param exists: set to False if the package should not exist at all
         :param retry_count: how often build failed previously
         :param job_id: the job_id, set to None or an integer to check """
-    splitrepo = None  # FIXME
     session = bpo.db.session()
     package = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
+
+    fmt = f"{bpo.repo.fmt(arch, branch, splitrepo)}/{pkgname}"
 
     if not exists:
         if not package:
             return
-        raise RuntimeError("Package should NOT exist in db: {}/{}/{}".format(
-            branch, arch, pkgname))
+        raise RuntimeError(f"[{fmt}] Package should NOT exist in db")
 
     if package is None:
-        raise RuntimeError("Expected package to exist in db: {}/{}/{}".format(
-            branch, arch, pkgname))
+        raise RuntimeError(f"[{fmt}] Expected package to exist in db")
 
     if status:
         status_value = bpo.db.PackageStatus[status]
         if package.status != status_value:
-            raise RuntimeError("Expected status {}, but has {}: {}".format(
-                status, package.status.name, package))
+            raise RuntimeError(f"[{fmt}] Expected status {status}, but has {package.status.name}")
 
     if version and package.version != version:
-        raise RuntimeError("Expected version {}: {}".format(version, package))
+        raise RuntimeError(f"[{fmt}] Expected version {version}, but has {package.version}")
 
     if package.retry_count != retry_count:
-        raise RuntimeError("Expected retry_count {}: {}"
-                           .format(retry_count, package))
+        raise RuntimeError(f"[{fmt}] Expected retry_count {retry_count}, but has {package.retry_count}")
 
     if job_id is not False and package.job_id != job_id:
-        raise RuntimeError("Expected job_id {}: {}".format(job_id, package))
+        raise RuntimeError(f"[{fmt}] Expected job_id {job_id}, but has {package.job_id}")
+
+    if package.splitrepo != splitrepo:
+        raise RuntimeError(f"[{fmt}] Expected splitrepo {splitrepo}, but has {package.splitrepo}")
 
 
 def assert_image(device, branch, ui, status=None, count=1):
