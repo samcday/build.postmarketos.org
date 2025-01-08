@@ -44,7 +44,7 @@ def job_callback_sign_index():
 
     bpo.ui.log("api_job_callback_sign_index", arch=arch, branch=branch)
 
-    bpo.repo.final.update_from_symlink_repo(arch, branch)
+    bpo.repo.final.update_from_symlink_repo(arch, branch, splitrepo)
     bpo.repo.wip.clean(arch, branch, splitrepo)
     bpo.repo.final.publish(arch, branch)
 

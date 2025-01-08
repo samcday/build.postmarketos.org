@@ -67,8 +67,7 @@ def delete_outdated_apks(arch, branch, splitrepo):
         os.unlink(repo_final_path + "/" + apk)
 
 
-def update_from_symlink_repo(arch, branch):
-    splitrepo = None  # FIXME
+def update_from_symlink_repo(arch, branch, splitrepo):
     copy_new_apks(arch, branch, splitrepo)
     copy_new_apkindex(arch, branch, splitrepo)
     delete_outdated_apks(arch, branch, splitrepo)
