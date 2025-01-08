@@ -229,14 +229,14 @@ def test_repo_next_package_to_build(monkeypatch):
     splitrepo = None
 
     # First package should be "hello-world"
-    assert func(session, arch, branch) == "hello-world"
+    assert func(session, arch, branch, splitrepo) == "hello-world"
 
     # Change "hello-world" to failed
     package = bpo.db.get_package(session, "hello-world", arch, branch, splitrepo)
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.failed)
 
     # Remaining "hello-world-wrapper" depends on failing package "hello-world"
-    assert func(session, arch, branch) is None
+    assert func(session, arch, branch, splitrepo) is None
 
 
 def test_build_foreign_arch(monkeypatch):

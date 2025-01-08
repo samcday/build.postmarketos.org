@@ -23,21 +23,27 @@ import bpo.repo.wip
 build_cond = threading.Condition()
 
 
-def next_package_to_build(session, arch, branch):
+def next_package_to_build(session, arch, branch, splitrepo):
     """ :returns: pkgname """
 
     # Get all packages for arch where status = failed and retries left
     failed = bpo.db.PackageStatus.failed
     retry_count_max = bpo.config.const.retry_count_max
     result = session.query(bpo.db.Package)\
-                    .filter_by(arch=arch, branch=branch, status=failed)\
+                    .filter_by(arch=arch,
+                               branch=branch,
+                               splitrepo=splitrepo,
+                               status=failed)\
                     .filter(bpo.db.Package.retry_count < retry_count_max)\
                     .all()
 
     # Get all packages for arch where status = queued
     queued = bpo.db.PackageStatus.queued
     result += session.query(bpo.db.Package)\
-                     .filter_by(arch=arch, branch=branch, status=queued)\
+                     .filter_by(arch=arch,
+                                branch=branch,
+                                splitrepo=splitrepo,
+                                status=queued)\
                      .all()
 
     if not len(result):
@@ -188,7 +194,7 @@ def build_arch_branch(session, slots_available, arch, branch, splitrepo,
         return started
 
     while True:
-        pkgname = next_package_to_build(session, arch, branch)
+        pkgname = next_package_to_build(session, arch, branch, splitrepo)
         if not pkgname:
             if not started:
                 if has_unfinished_builds(session, arch, branch):
