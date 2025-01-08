@@ -18,7 +18,7 @@ def is_master(pmaports_branch):
     return pmb_branch == "master"
 
 
-def get_pmos_mirror(branch, mirror_type="main", add_branch=False):
+def get_pmos_mirror(branch, splitrepo, mirror_type="main", add_branch=False):
     mapping = {
         "main": bpo.config.args.mirror,
         "wip": bpo.config.args.url_repo_wip,
@@ -27,6 +27,9 @@ def get_pmos_mirror(branch, mirror_type="main", add_branch=False):
     ret = mapping[mirror_type]
     if not ret:
         return ""
+
+    if splitrepo:
+        ret = os.path.join(ret, "extra-repos", splitrepo)
 
     if "_staging_" in branch:
         branch_orig, name = bpo.repo.staging.branch_split(branch)
@@ -63,13 +66,13 @@ def set_repos_task(arch, branch, add_wip_repo=True):
     """Configure repositories for pmbootstrap v3"""
     splitrepo = None  # FIXME
     wip_path = bpo.repo.wip.get_path(arch, branch, splitrepo)
-    pmaports = get_pmos_mirror(branch) or "none"
+    pmaports = get_pmos_mirror(branch, splitrepo) or "none"
     alpine = bpo.config.const.mirror_alpine
     ret = ""
 
     if add_wip_repo and os.path.exists(f"{wip_path}/APKINDEX.tar.gz"):
         wip_repo_url_line = "pmbootstrap config mirrors.pmaports_custom"
-        wip_repo_url_line += f" {shlex.quote(get_pmos_mirror(branch, 'wip'))}\n"
+        wip_repo_url_line += f" {shlex.quote(get_pmos_mirror(branch, splitrepo, 'wip'))}\n"
         if should_add_wip_repo(branch):
             ret += wip_repo_url_line
 

@@ -20,7 +20,7 @@ def run(arch, branch):
     tasks = collections.OrderedDict()
 
     unsigned_apkindex_url = os.path.join(
-        bpo.helpers.pmb.get_pmos_mirror(branch, "wip", True),
+        bpo.helpers.pmb.get_pmos_mirror(branch, splitrepo, "wip", True),
         arch,
         "APKINDEX-symlink-repo.tar.gz"
     )

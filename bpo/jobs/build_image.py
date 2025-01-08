@@ -17,7 +17,8 @@ def get_pmbootstrap_install_cmd(branch):
 
     pmb_v2_mirrors_arg = ""
     if not bpo.helpers.pmb.is_master(branch):
-        mirror_final = bpo.helpers.pmb.get_pmos_mirror(branch)
+        # NOTE: we don't use pmbv2 to build images with splitrepos
+        mirror_final = bpo.helpers.pmb.get_pmos_mirror(branch, None)
         pmb_v2_mirrors_arg += f" -mp {shlex.quote(mirror_final)}\\\n"
         pmb_v2_mirrors_arg += f" -m {shlex.quote(bpo.config.const.mirror_alpine)}\\\n"
 

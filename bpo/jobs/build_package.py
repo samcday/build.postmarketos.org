@@ -51,11 +51,12 @@ def run(arch, pkgname, branch):
     # Set mirror args (either primary mirror, or WIP + primary)
     pmb_v2_mirrors_arg = ""
     if not bpo.helpers.pmb.is_master(branch):
-        mirror_final = bpo.helpers.pmb.get_pmos_mirror(branch)
+        # NOTE: we don't use pmbv2 to build splitrepo packages
+        mirror_final = bpo.helpers.pmb.get_pmos_mirror(branch, None)
 
         mp_arg_set = False
         if os.path.exists(f"{wip_path}/APKINDEX.tar.gz"):
-            wip_repo_url = bpo.helpers.pmb.get_pmos_mirror(branch, "wip")
+            wip_repo_url = bpo.helpers.pmb.get_pmos_mirror(branch, None, "wip")
             if bpo.helpers.pmb.should_add_wip_repo(branch):
                 pmb_v2_mirrors_arg += f" -mp {shlex.quote(wip_repo_url)}\\\n"
                 mp_arg_set = True
