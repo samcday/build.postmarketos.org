@@ -248,7 +248,7 @@ class RepoBootstrap(base):
 
     # === DATABASE LAYOUT, DO NOT CHANGE! (read docs/db.md) ===
     id = Column(Integer, primary_key=True)
-    dir_name = Column(String)
+    dir_name = Column(String)  # aka splitrepo
     arch = Column(String)
     branch = Column(String)
     status = Column(Enum(RepoBootstrapStatus))
@@ -266,8 +266,9 @@ class RepoBootstrap(base):
         self.status = RepoBootstrapStatus.queued
 
     def __repr__(self):
-        return (f"repo_bootstrap: {self.branch}/{self.arch}"
-                f" (dir_name={self.dir_name}, retry_count={self.retry_count},"
+        fmt = bpo.repo.fmt(self.arch, self.branch, self.dir_name)
+        return (f"repo_bootstrap: {fmt}"
+                f" (retry_count={self.retry_count},"
                 f" job_id={self.job_id}")
 
 
