@@ -10,10 +10,9 @@ import bpo.helpers.job
 import bpo.repo.final
 
 
-def run(arch, branch):
+def run(arch, branch, splitrepo):
     uid = bpo.config.const.pmbootstrap_chroot_uid_user
     rsa = bpo.config.args.final_repo_key_name
-    splitrepo = None  # FIXME
     fmt = bpo.repo.fmt(arch, branch, splitrepo)
     note = f"Sign index: `{fmt}`"
 
@@ -78,7 +77,7 @@ def run(arch, branch):
             export BPO_PAYLOAD_FILES_PREVIOUS=""
             export BPO_PAYLOAD_IS_JSON="0"
             export BPO_PKGNAME=""
-            export BPO_SPLITREPO=""  # FIXME
+            export BPO_SPLITREPO={shlex.quote(splitrepo)}
             export BPO_UI=""
             export BPO_VERSION=""
 

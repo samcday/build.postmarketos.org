@@ -85,7 +85,7 @@ def sign(arch, branch, splitrepo):
     shutil.copy(src, dst)
 
     # Sign it with a job
-    bpo.jobs.sign_index.run(arch, branch)
+    bpo.jobs.sign_index.run(arch, branch, splitrepo)
 
 
 def create(arch, branch, splitrepo, force=False):
