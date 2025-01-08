@@ -58,8 +58,10 @@ def get_package(session, request):
     splitrepo = get_splitrepo(request, branch)
     ret = bpo.db.get_package(session, pkgname, arch, branch, splitrepo, job_id)
     if not ret:
-        raise ValueError("no package found with: pkgname=" + pkgname +
-                         ", arch=" + arch)
+        raise ValueError(f"no package found with: pkgname={pkgname},"
+                         f" branch={branch},"
+                         f" arch={arch},"
+                         f" splitrepo={splitrepo}")
     if ret.version != version:
         raise ValueError(f"unexpected version {version} instead of"
                          f" {ret.version} in package {ret} - old build job"
