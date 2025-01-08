@@ -57,7 +57,9 @@ def test_init():
     assert get_rb(session, arch, branch, dir_name) is None
     # Not existing, needed -> rb gets created
     assert func(session, payload_systemd, arch, branch) is True
-    assert get_rb(session, arch, branch, dir_name)
+    rb = get_rb(session, arch, branch, dir_name)
+    assert rb
+    assert rb.dir_name == "systemd"
     # Existing -> rb not created
     assert func(session, payload_systemd, arch, branch) is False
     assert get_rb(session, arch, branch, dir_name)
