@@ -130,7 +130,6 @@ def fix(limit_arch=None, limit_branch=None):
         :param limit_branch: pmaports.git branch, e.g. "master" (default: all)
 
     """
-    splitrepo = None  # FIXME
     branches = bpo.config.const.branches.keys()
     if limit_branch:
         branches = [limit_branch]
@@ -142,21 +141,23 @@ def fix(limit_arch=None, limit_branch=None):
         if limit_arch:
             arches = [limit_arch]
         for arch in arches:
-            path_final = bpo.repo.final.get_path(arch, branch, splitrepo)
-            path_wip = bpo.repo.wip.get_path(arch, branch, splitrepo)
+            for splitrepo in bpo.config.const.splitrepos:
+                fmt = bpo.repo.fmt(arch, branch, splitrepo)
+                path_final = bpo.repo.final.get_path(arch, branch, splitrepo)
+                path_wip = bpo.repo.wip.get_path(arch, branch, splitrepo)
 
-            # Iterate over apks in wip and final repo
-            logging.info(branch + "/" + arch + ": fix WIP apks vs DB status")
-            fix_disk_vs_db(arch, branch, splitrepo, path_wip,
-                           bpo.db.PackageStatus.built, True)
-            logging.info(branch + "/" + arch + ": fix final apks vs DB status")
-            fix_disk_vs_db(arch, branch, splitrepo, path_final,
-                           bpo.db.PackageStatus.published)
-            bpo.repo.wip.update_apkindex(arch, branch, splitrepo)
+                # Iterate over apks in wip and final repo
+                logging.info(f"[{fmt}] fix WIP apks vs DB status")
+                fix_disk_vs_db(arch, branch, splitrepo, path_wip,
+                               bpo.db.PackageStatus.built, True)
+                logging.info(f"[{fmt}] fix final apks vs DB status")
+                fix_disk_vs_db(arch, branch, splitrepo, path_final,
+                               bpo.db.PackageStatus.published)
+                bpo.repo.wip.update_apkindex(arch, branch, splitrepo)
 
-            # Iterate over packages in db
-            logging.info(branch + "/" + arch + ": fix DB status vs apks")
-            fix_db_vs_disk(arch, branch, splitrepo)
+                # Iterate over packages in db
+                logging.info(f"[{fmt}] fix DB status vs apks")
+                fix_db_vs_disk(arch, branch, splitrepo)
 
     # Fix running job status
     bpo.helpers.job.update_status()
