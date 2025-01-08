@@ -427,6 +427,7 @@ def get_recent_packages_by_status(session):
         fake_pkg = Package(rb.arch, rb.branch, "[repo_bootstrap]", "")
         fake_pkg.retry_count = rb.retry_count
         fake_pkg.job_id = rb.job_id
+        fake_pkg.splitrepo = rb.dir_name
         ret[status] += [fake_pkg]
 
     return ret

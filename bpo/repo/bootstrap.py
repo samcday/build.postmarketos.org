@@ -56,7 +56,8 @@ def init(session, payload, arch, branch):
         session.commit()
 
         bpo.ui.log("repo_bootstrap_add", arch=arch, branch=branch,
-                   pkgname="[repo_bootstrap]", dir_name=splitrepo)
+                   pkgname="[repo_bootstrap]", dir_name=splitrepo,
+                   splitrepo=splitrepo)
         ret = True
 
     return ret
@@ -80,7 +81,8 @@ def update_to_published(arch, branch, dir_name):
                                      bpo.db.RepoBootstrapStatus.published)
 
     bpo.ui.log("repo_bootstrap_published", arch=arch, branch=branch,
-               pkgname="[repo_bootstrap]", dir_name=dir_name)
+               pkgname="[repo_bootstrap]", dir_name=dir_name,
+               splitrepo=dir_name)
 
     bpo.repo.build()
     return True
