@@ -29,13 +29,14 @@ def run(arch, pkgname, branch):
 
         :returns: True if a new job was started, False if the apk exists
                   already in the WIP repo and the build was skipped. """
+    splitrepo = None  # FIXME
     # Load package from db
     session = bpo.db.session()
     package = bpo.db.get_package(session, pkgname, arch, branch)
 
     # Skip if package is already in WIP repo (this can happen, if we had a bug
     # before and changed the package status from built to queued by accident)
-    wip_path = bpo.repo.wip.get_path(arch, branch)
+    wip_path = bpo.repo.wip.get_path(arch, branch, splitrepo)
     apk = "{}/{}-{}.apk".format(wip_path, pkgname, package.version)
     if os.path.exists(apk):
         bpo.ui.log_package(package, "package_exists_in_wip_repo")

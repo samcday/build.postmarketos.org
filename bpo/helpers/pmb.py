@@ -61,7 +61,8 @@ def should_add_wip_repo(branch):
 
 def set_repos_task(arch, branch, add_wip_repo=True):
     """Configure repositories for pmbootstrap v3"""
-    wip_path = bpo.repo.wip.get_path(arch, branch)
+    splitrepo = None  # FIXME
+    wip_path = bpo.repo.wip.get_path(arch, branch, splitrepo)
     pmaports = get_pmos_mirror(branch) or "none"
     alpine = bpo.config.const.mirror_alpine
     ret = ""

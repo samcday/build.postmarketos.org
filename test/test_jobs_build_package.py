@@ -21,13 +21,14 @@ def test_build_package_run_skip_existing(monkeypatch):
     pkgname = "hello-world"
     arch = "x86_64"
     branch = "master"
+    splitrepo = None
     package = bpo.db.get_package(session, pkgname, arch, branch)
     assert package.status == bpo.db.PackageStatus.queued
 
     # Copy hello-world apk to wip repo
     testdata_path = bpo.config.const.top_dir + "/test/testdata/"
     apk_hello = testdata_path + "/hello-world-1-r4.apk"
-    wip_path = bpo.repo.wip.get_path(arch, branch)
+    wip_path = bpo.repo.wip.get_path(arch, branch, splitrepo)
     os.makedirs(wip_path)
     shutil.copy(apk_hello, wip_path)
 

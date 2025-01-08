@@ -91,6 +91,7 @@ def test_fix_disk_vs_db(monkeypatch):
     """ Test all code paths of bpo.repo.status.fix_disk_vs_db() """
     arch = "x86_64"
     branch = "master"
+    splitrepo = None
     testdata = bpo.config.const.top_dir + "/test/testdata/"
     func = bpo.repo.status.fix_disk_vs_db
 
@@ -112,7 +113,7 @@ def test_fix_disk_vs_db(monkeypatch):
     bpo_test.assert_package("hello-world-wrapper", status="queued")
 
     # Wip repo: add hello-world-wrapper and obsolete hello-world
-    wip_path = bpo.repo.wip.get_path(arch, branch)
+    wip_path = bpo.repo.wip.get_path(arch, branch, splitrepo)
     os.makedirs(wip_path)
     shutil.copy(testdata + "/hello-world-wrapper-1-r2.apk", wip_path)
     shutil.copy(testdata + "/hello-world-1-r3.apk", wip_path)
@@ -146,6 +147,7 @@ def test_fix_db_vs_disk_existing_apks(monkeypatch):
         apks in the final/wip repos."""
     arch = "x86_64"
     branch = "master"
+    splitrepo = None
     testdata = bpo.config.const.top_dir + "/test/testdata/"
     session = bpo.db.session()
     func = bpo.repo.status.fix_db_vs_disk
@@ -156,7 +158,7 @@ def test_fix_db_vs_disk_existing_apks(monkeypatch):
         bpo_test.trigger.job_callback_get_depends("master")
 
     # Put hello-world-wrapper apk in wip repo, set to built
-    wip_path = bpo.repo.wip.get_path(arch, branch)
+    wip_path = bpo.repo.wip.get_path(arch, branch, splitrepo)
     os.makedirs(wip_path)
     shutil.copy(testdata + "/hello-world-wrapper-1-r2.apk", wip_path)
     package = bpo.db.get_package(session, "hello-world-wrapper", arch, branch)

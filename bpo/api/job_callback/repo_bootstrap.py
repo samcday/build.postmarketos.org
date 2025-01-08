@@ -43,7 +43,7 @@ def job_callback_repo_bootstrap():
     rb = get_repo_bootstrap(session, request)
     apks = bpo.api.get_apks(request)
 
-    wip = bpo.repo.wip.get_path(rb.arch, rb.branch)
+    wip = bpo.repo.wip.get_path(rb.arch, rb.branch, rb.dir_name)
     os.makedirs(wip, exist_ok=True)
 
     # Remove packages from disk that aren't in the DB (e.g. from a failed
@@ -51,7 +51,7 @@ def job_callback_repo_bootstrap():
     bpo.repo.status.fix_disk_vs_db(
         rb.arch,
         rb.branch,
-        bpo.repo.wip.get_path(rb.arch, rb.branch),
+        bpo.repo.wip.get_path(rb.arch, rb.branch, rb.dir_name),
         bpo.db.PackageStatus.built,
         True)
 
@@ -65,7 +65,7 @@ def job_callback_repo_bootstrap():
     removed, updated = bpo.repo.status.fix_disk_vs_db(
         rb.arch,
         rb.branch,
-        bpo.repo.wip.get_path(rb.arch, rb.branch),
+        bpo.repo.wip.get_path(rb.arch, rb.branch, rb.dir_name),
         bpo.db.PackageStatus.built,
         True,
         rb.job_id)

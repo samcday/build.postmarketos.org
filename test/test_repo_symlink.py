@@ -16,7 +16,7 @@ def test_repo_symlink_link_to_all_packages(monkeypatch):
     arch = "x86_64"
     branch = "master"
     splitrepo = None
-    wip_path = bpo.repo.wip.get_path(arch, branch)
+    wip_path = bpo.repo.wip.get_path(arch, branch, splitrepo)
     final_path = bpo.repo.final.get_path(arch, branch)
     symlink_path = bpo.repo.symlink.get_path(arch, branch, splitrepo)
     func = bpo.repo.symlink.link_to_all_packages

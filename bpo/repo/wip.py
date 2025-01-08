@@ -11,8 +11,11 @@ import bpo.repo.final
 import bpo.repo.staging
 
 
-def get_path(arch, branch):
-    repo_wip_path = bpo.config.args.repo_wip_path
+def get_path(arch, branch, splitrepo):
+    ret = bpo.config.args.repo_wip_path
+
+    if splitrepo:
+        ret = os.path.join(ret, "extra-repos", splitrepo)
 
     if "_staging_" in branch:
         branch_orig, name = bpo.repo.staging.branch_split(branch)
@@ -23,9 +26,14 @@ def get_path(arch, branch):
         # used the branch name (master_staging_test) instead of the branch_orig
         # (master), we would need to add additional complexity to pmbootstrap
         # to figure out the correct full URLs.
-        return f"{repo_wip_path}/staging/{name}/{branch_orig}/{arch}"
+        ret = os.path.join(ret, "staging", name, branch_orig)
+    else:
+        ret = os.path.join(ret, branch)
 
-    return f"{repo_wip_path}/{branch}/{arch}"
+    if arch:
+        ret = os.path.join(ret, arch)
+
+    return ret
 
 
 def do_keygen():
@@ -47,16 +55,19 @@ def do_keygen():
 
 
 def sign(arch, branch):
+    splitrepo = None
     cmd = ["abuild-sign.noinclude",
            "-k", bpo.config.const.repo_wip_keys + "/wip.rsa",
            "APKINDEX.tar.gz"]
-    bpo.repo.tools.run(arch, branch, "WIP", get_path(arch, branch), cmd)
+    bpo.repo.tools.run(arch, branch, "WIP", get_path(arch, branch, splitrepo), cmd)
 
 
 def update_apkindex(arch, branch):
-    path = get_path(arch, branch)
+    splitrepo = None  # FIXME
+    path = get_path(arch, branch, splitrepo)
     if os.path.exists(path):
-        logging.info(branch + "/" + arch + ": update WIP APKINDEX")
+        fmt = bpo.repo.fmt(arch, branch, splitrepo)
+        logging.info(f"[{fmt}] update WIP APKINDEX")
         bpo.repo.tools.index(arch, branch, "WIP", path)
         sign(arch, branch)
 
@@ -67,7 +78,7 @@ def clean(arch, branch, splitrepo):
         of the WIP repo. """
     fmt = bpo.repo.fmt(arch, branch, splitrepo)
     logging.debug(f"[{fmt}] Cleaning WIP repo")
-    path_repo_wip = get_path(arch, branch)
+    path_repo_wip = get_path(arch, branch, splitrepo)
     path_repo_final = bpo.repo.final.get_path(arch, branch)
     session = bpo.db.session()
 

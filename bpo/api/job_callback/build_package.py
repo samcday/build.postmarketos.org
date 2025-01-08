@@ -23,7 +23,7 @@ def job_callback_build_package():
     apks = bpo.api.get_apks(request)
 
     # Create WIP dir
-    wip = bpo.repo.wip.get_path(package.arch, package.branch)
+    wip = bpo.repo.wip.get_path(package.arch, package.branch, package.splitrepo)
     os.makedirs(wip, exist_ok=True)
 
     # Save files to disk

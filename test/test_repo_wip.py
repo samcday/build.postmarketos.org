@@ -19,10 +19,18 @@ def test_get_path(monkeypatch):
     func = bpo.repo.wip.get_path
     arch = "x86_64"
     branch = "master"
-    assert func(arch, branch) == "/repo-wip/master/x86_64"
+    splitrepo = None
+    assert func(arch, branch, splitrepo) == "/repo-wip/master/x86_64"
+
+    splitrepo = "systemd"
+    assert func(arch, branch, splitrepo) == "/repo-wip/extra-repos/systemd/master/x86_64"
 
     branch = "master_staging_test"
-    assert func(arch, branch) == "/repo-wip/staging/test/master/x86_64"
+    splitrepo = None
+    assert func(arch, branch, splitrepo) == "/repo-wip/staging/test/master/x86_64"
+
+    splitrepo = "systemd"
+    assert func(arch, branch, splitrepo) == "/repo-wip/extra-repos/systemd/staging/test/master/x86_64"
 
     # Reset
     monkeypatch.setattr(sys, "argv", ["bpo.py", "local"])
@@ -36,7 +44,7 @@ def test_repo_wip_clean(monkeypatch):
     splitrepo = None
     apk = "hello-world-wrapper-subpkg-1-r2.apk"
     apk_path = bpo.config.const.top_dir + "/test/testdata/" + apk
-    wip_path = bpo.repo.wip.get_path(arch, branch)
+    wip_path = bpo.repo.wip.get_path(arch, branch, splitrepo)
     final_path = bpo.repo.final.get_path(arch, branch)
     func = bpo.repo.wip.clean
 

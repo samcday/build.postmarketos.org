@@ -81,7 +81,7 @@ def sync_with_orig_repo(branch_staging, arch, splitrepo):
 
     branch_orig, name = branch_split(branch_staging)
     path_repo_orig_final = bpo.repo.final.get_path(arch, branch_orig)
-    path_repo_staging_wip = bpo.repo.wip.get_path(arch, branch_staging)
+    path_repo_staging_wip = bpo.repo.wip.get_path(arch, branch_staging, splitrepo)
     path_repo_staging_final = bpo.repo.final.get_path(arch, branch_staging)
 
     session = bpo.db.session()

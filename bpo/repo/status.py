@@ -98,11 +98,12 @@ def fix_db_vs_disk(arch, branch):
         :param branch: pmaports.git branch, e.g. "master"
 
     """
+    splitrepo = None  # FIXME
     session = bpo.db.session()
     packages = session.query(bpo.db.Package).filter_by(arch=arch,
                                                        branch=branch)
     path_final = bpo.repo.final.get_path(arch, branch)
-    path_wip = bpo.repo.wip.get_path(arch, branch)
+    path_wip = bpo.repo.wip.get_path(arch, branch, splitrepo)
 
     for package in packages:
         # Missing published packages: change to "built"
@@ -129,6 +130,7 @@ def fix(limit_arch=None, limit_branch=None):
         :param limit_branch: pmaports.git branch, e.g. "master" (default: all)
 
     """
+    splitrepo = None  # FIXME
     branches = bpo.config.const.branches.keys()
     if limit_branch:
         branches = [limit_branch]
@@ -141,7 +143,7 @@ def fix(limit_arch=None, limit_branch=None):
             arches = [limit_arch]
         for arch in arches:
             path_final = bpo.repo.final.get_path(arch, branch)
-            path_wip = bpo.repo.wip.get_path(arch, branch)
+            path_wip = bpo.repo.wip.get_path(arch, branch, splitrepo)
 
             # Iterate over apks in wip and final repo
             logging.info(branch + "/" + arch + ": fix WIP apks vs DB status")

@@ -48,7 +48,7 @@ def link_to_all_packages(arch, branch, splitrepo, force=False):
     """ Create symlinks to new packages from WIP repo and to up-to-date
         packages from final repo. """
     repo_symlink = get_path(arch, branch, splitrepo)
-    repo_wip = bpo.repo.wip.get_path(arch, branch)
+    repo_wip = bpo.repo.wip.get_path(arch, branch, splitrepo)
     repo_final = bpo.repo.final.get_path(arch, branch)
     session = bpo.db.session()
     packages = session.query(bpo.db.Package).filter_by(arch=arch,
@@ -78,7 +78,7 @@ def link_to_all_packages(arch, branch, splitrepo, force=False):
 
 def sign(arch, branch, splitrepo):
     # Copy index to wip repo (just because that makes it easy to download it)
-    repo_wip_path = bpo.repo.wip.get_path(arch, branch)
+    repo_wip_path = bpo.repo.wip.get_path(arch, branch, splitrepo)
     src = get_path(arch, branch, splitrepo) + "/APKINDEX.tar.gz"
     dst = repo_wip_path + "/APKINDEX-symlink-repo.tar.gz"
     os.makedirs(repo_wip_path, exist_ok=True)
@@ -90,13 +90,12 @@ def sign(arch, branch, splitrepo):
 
 def create(arch, branch, splitrepo, force=False):
     # Skip if WIP repo is empty
-    repo_wip_path = bpo.repo.wip.get_path(arch, branch)
+    repo_wip_path = bpo.repo.wip.get_path(arch, branch, splitrepo)
+    fmt = bpo.repo.fmt(arch, branch, splitrepo)
     if not force and not len(bpo.repo.get_apks(repo_wip_path)):
-        logging.debug("{}/{}: empty WIP repo, skipping creation of symlink"
-                      " repo".format(branch, arch))
+        logging.debug(f"[{fmt}] empty WIP repo, skipping creation of symlink repo")
         return
 
-    fmt = bpo.repo.fmt(arch, branch, splitrepo)
     logging.info(f"[{fmt}] creating symlink repo")
     clean(arch, branch, splitrepo)
     link_to_all_packages(arch, branch, splitrepo, force)

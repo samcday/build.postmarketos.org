@@ -103,7 +103,8 @@ def test_build_final_repo_with_two_pkgs_SLOW_120s(monkeypatch, tmpdir):
     # WIP repo must be empty
     arch = "x86_64"
     branch = "master"
-    path = bpo.repo.wip.get_path(arch, branch)
+    splitrepo = None
+    path = bpo.repo.wip.get_path(arch, branch, splitrepo)
     apks = bpo.repo.get_apks(path)
     assert apks == []
 
