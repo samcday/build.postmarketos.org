@@ -64,19 +64,23 @@ def should_add_wip_repo(branch):
 
 def set_repos_task(arch, branch, add_wip_repo=True):
     """Configure repositories for pmbootstrap v3"""
-    splitrepo = None  # FIXME
-    wip_path = bpo.repo.wip.get_path(arch, branch, splitrepo)
-    pmaports = get_pmos_mirror(branch, splitrepo) or "none"
     alpine = bpo.config.const.mirror_alpine
-    ret = ""
+    ret = f"pmbootstrap config mirrors.alpine {shlex.quote(alpine)}\n"
 
-    if add_wip_repo and os.path.exists(f"{wip_path}/APKINDEX.tar.gz"):
-        wip_repo_url_line = "pmbootstrap config mirrors.pmaports_custom"
-        wip_repo_url_line += f" {shlex.quote(get_pmos_mirror(branch, splitrepo, 'wip'))}\n"
-        if should_add_wip_repo(branch):
-            ret += wip_repo_url_line
+    for splitrepo in bpo.config.const.splitrepos:
+        # Configure mirrors.pmaports or mirrors.systemd
+        # https://docs.postmarketos.org/pmbootstrap/mirrors.html
+        mirror_name = splitrepo or "pmaports"
 
-    ret += f"pmbootstrap config mirrors.pmaports {shlex.quote(pmaports)}\n"
-    ret += f"pmbootstrap config mirrors.alpine {shlex.quote(alpine)}\n"
+        if add_wip_repo:
+            wip_path = bpo.repo.wip.get_path(arch, branch, splitrepo)
+            if wip_path and os.path.exists(os.path.join(wip_path, "APKINDEX.tar.gz")) and should_add_wip_repo(branch):
+                url_wip = get_pmos_mirror(branch, splitrepo, "wip") or "none"
+                ret += f"pmbootstrap config mirrors.{mirror_name}_custom {shlex.quote(url_wip)}\n"
+
+        final_path = bpo.repo.final.get_path(arch, branch, splitrepo)
+        if final_path and os.path.exists(os.path.join(final_path, "APKINDEX.tar.gz")):
+            url = get_pmos_mirror(branch, splitrepo) or "none"
+            ret += f"pmbootstrap config mirrors.{mirror_name} {shlex.quote(url)}\n"
 
     return ret

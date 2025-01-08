@@ -87,6 +87,13 @@ def true(*args, **kwargs):
     return True
 
 
+def false(*args, **kwargs):
+    """ Use this for monkeypatching the bpo code, so a function always returns
+        False. """
+    logging.info("Thread called false: " + threading.current_thread().name)
+    return False
+
+
 def stop_server(*args, **kwargs):
     """ Use this for monkeypatching the bpo code, so a function finishes the
         test instead of performing the original functionallity. For example,
