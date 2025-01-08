@@ -42,7 +42,7 @@ def job_callback_sign_index():
     # FIXME: check if the index signing was expected
     save_apkindex(request)
 
-    bpo.ui.log("api_job_callback_sign_index", arch=arch, branch=branch)
+    bpo.ui.log("api_job_callback_sign_index", arch=arch, branch=branch, splitrepo=splitrepo)
 
     bpo.repo.final.update_from_symlink_repo(arch, branch, splitrepo)
     bpo.repo.wip.clean(arch, branch, splitrepo)
