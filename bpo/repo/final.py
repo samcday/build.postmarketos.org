@@ -28,10 +28,9 @@ def get_path(arch, branch):
     return f"{repo_final_path}/{branch}/{arch}"
 
 
-def copy_new_apks(arch, branch):
-    splitrepo = None  # FIXME
-    logging.info(branch + "/" + arch + ": copying new apks from symlink to"
-                 " final repo")
+def copy_new_apks(arch, branch, splitrepo):
+    fmt = bpo.repo.fmt(arch, branch, splitrepo)
+    logging.info(f"[{fmt}] copying new apks from symlink to final repo")
     repo_final_path = get_path(arch, branch)
     repo_symlink_path = bpo.repo.symlink.get_path(arch, branch, splitrepo)
 
@@ -69,7 +68,8 @@ def delete_outdated_apks(arch, branch):
 
 
 def update_from_symlink_repo(arch, branch):
-    copy_new_apks(arch, branch)
+    splitrepo = None  # FIXME
+    copy_new_apks(arch, branch, splitrepo)
     copy_new_apkindex(arch, branch)
     delete_outdated_apks(arch, branch)
 
