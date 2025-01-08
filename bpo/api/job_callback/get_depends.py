@@ -86,7 +86,7 @@ def update_package_depends(session, payload, arch, branch):
     session.commit()
 
 
-def remove_deleted_packages_db(session, payload, arch, branch):
+def remove_deleted_packages_db(session, payload, arch, branch, splitrepo):
     """ Remove all packages from the database, that have been deleted from
         pmaports.git
         :returns: True if packages were deleted, False otherwise """
@@ -95,11 +95,13 @@ def remove_deleted_packages_db(session, payload, arch, branch):
     # Sort payload by pkgname for faster lookups
     packages_payload = {}
     for package in payload:
-        packages_payload[package["pkgname"]] = package
+        if package["repo"] == splitrepo:
+            packages_payload[package["pkgname"]] = package
 
     # Iterate over packages in db
     packages_db = session.query(bpo.db.Package).filter_by(arch=arch,
-                                                          branch=branch).all()
+                                                          branch=branch,
+                                                          splitrepo=splitrepo).all()
     for package_db in packages_db:
         # Keep entries, that are part of the depends payload
         if package_db.pkgname in packages_payload:
@@ -122,7 +124,6 @@ def job_callback_get_depends():
     # Parse input data
     job_id = bpo.api.get_header(request, "Job-Id")
     branch = bpo.api.get_branch(request)
-    splitrepo = bpo.api.get_splitrepo(request, branch)
     payloads = collections.OrderedDict()
     branches_with_staging = bpo.repo.staging.get_branches_with_staging()
     for arch in branches_with_staging[branch]["arches"]:
@@ -135,10 +136,12 @@ def job_callback_get_depends():
         bpo.repo.bootstrap.init(session, payload, arch, branch)
         update_or_insert_packages(session, payload, arch, branch)
         update_package_depends(session, payload, arch, branch)
-        if remove_deleted_packages_db(session, payload, arch, branch):
-            bpo.repo.wip.clean(arch, branch, splitrepo)
-            # Delete obsolete apks in final repo
-            force_repo_update_branch = branch
+
+        for splitrepo in bpo.config.const.splitrepos:
+            if remove_deleted_packages_db(session, payload, arch, branch, splitrepo):
+                bpo.repo.wip.clean(arch, branch, splitrepo)
+                # Delete obsolete apks in final repo
+                force_repo_update_branch = branch
 
     bpo.ui.log("api_job_callback_get_depends", payload=payload, branch=branch,
                job_id=job_id)
