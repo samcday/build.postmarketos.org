@@ -152,7 +152,9 @@ def build_arch_branch(session, slots_available, arch, branch,
                                   the apks get removed from the final repo.
         :param no_repo_update: never update symlink and final repo (used from
                                the images timer thread, see #98) """
-    logging.info(branch + "/" + arch + ": starting new package build job(s)")
+    splitrepo = None  # FIXME
+    fmt_ = fmt(arch, branch, splitrepo)
+    logging.info(f"[{fmt_}] starting new package build job(s)")
 
     if "_staging_" in branch:
         branch_orig, branch_staging = bpo.repo.staging.branch_split(branch)
@@ -178,7 +180,7 @@ def build_arch_branch(session, slots_available, arch, branch,
                 slots_available -= 1
             elif rb.status == bpo.db.RepoBootstrapStatus.built:
                 logging.info(f"{rb}: publishing")
-                bpo.repo.symlink.create(arch, branch, True)
+                bpo.repo.symlink.create(arch, branch, splitrepo, True)
                 started += 1
                 slots_available -= 1
         else:
@@ -194,13 +196,13 @@ def build_arch_branch(session, slots_available, arch, branch,
                 if has_unfinished_builds(session, arch, branch):
                     set_stuck(arch, branch)
                 else:
-                    logging.info(branch + "/" + arch + ": WIP repo complete")
+                    logging.info(f"[{fmt_}] WIP repo complete")
                     if no_repo_update:
-                        logging.info(f"{branch}/{arch}: build_arch_branch:"
+                        logging.info(f"[{fmt_}] build_arch_branch:"
                                      " skipping bpo.repo.symlink.create"
                                      " (no_repo_update=True)")
                     else:
-                        bpo.repo.symlink.create(arch, branch,
+                        bpo.repo.symlink.create(arch, branch, splitrepo,
                                                 force_repo_update)
             break
 

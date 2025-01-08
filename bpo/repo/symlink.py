@@ -88,8 +88,7 @@ def sign(arch, branch, splitrepo):
     bpo.jobs.sign_index.run(arch, branch)
 
 
-def create(arch, branch, force=False):
-    splitrepo = None  # FIXME
+def create(arch, branch, splitrepo, force=False):
     # Skip if WIP repo is empty
     repo_wip_path = bpo.repo.wip.get_path(arch, branch)
     if not force and not len(bpo.repo.get_apks(repo_wip_path)):
