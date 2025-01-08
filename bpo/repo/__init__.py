@@ -132,11 +132,13 @@ def count_unpublished_packages(session, branch, arch=None, splitrepo=None):
     return q.count()
 
 
-def has_unfinished_builds(session, arch, branch):
+def has_unfinished_builds(session, arch, branch, splitrepo):
     for status in bpo.db.PackageStatus.failed, bpo.db.PackageStatus.building, \
             bpo.db.PackageStatus.queued:
-        if session.query(bpo.db.Package).filter_by(status=status, arch=arch,
-                                                   branch=branch).count():
+        if session.query(bpo.db.Package).filter_by(status=status,
+                                                   arch=arch,
+                                                   branch=branch,
+                                                   splitrepo=splitrepo).count():
             return True
     return False
 
@@ -197,7 +199,7 @@ def build_arch_branch(session, slots_available, arch, branch, splitrepo,
         pkgname = next_package_to_build(session, arch, branch, splitrepo)
         if not pkgname:
             if not started:
-                if has_unfinished_builds(session, arch, branch):
+                if has_unfinished_builds(session, arch, branch, splitrepo):
                     set_stuck(arch, branch)
                 else:
                     logging.info(f"[{fmt_}] WIP repo complete")
