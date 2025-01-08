@@ -152,7 +152,7 @@ def fix(limit_arch=None, limit_branch=None):
             logging.info(branch + "/" + arch + ": fix final apks vs DB status")
             fix_disk_vs_db(arch, branch, path_final,
                            bpo.db.PackageStatus.published)
-            bpo.repo.wip.update_apkindex(arch, branch)
+            bpo.repo.wip.update_apkindex(arch, branch, splitrepo)
 
             # Iterate over packages in db
             logging.info(branch + "/" + arch + ": fix DB status vs apks")

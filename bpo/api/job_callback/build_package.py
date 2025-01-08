@@ -33,7 +33,7 @@ def job_callback_build_package():
         apk.save(path)
 
     # Index and sign WIP APKINDEX
-    bpo.repo.wip.update_apkindex(package.arch, package.branch)
+    bpo.repo.wip.update_apkindex(package.arch, package.branch, package.splitrepo)
 
     # Change status to built
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.built,

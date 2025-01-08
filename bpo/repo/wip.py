@@ -62,8 +62,7 @@ def sign(arch, branch):
     bpo.repo.tools.run(arch, branch, "WIP", get_path(arch, branch, splitrepo), cmd)
 
 
-def update_apkindex(arch, branch):
-    splitrepo = None  # FIXME
+def update_apkindex(arch, branch, splitrepo):
     path = get_path(arch, branch, splitrepo)
     if os.path.exists(path):
         fmt = bpo.repo.fmt(arch, branch, splitrepo)
@@ -98,4 +97,4 @@ def clean(arch, branch, splitrepo):
             logging.debug(apk + ": not found in db, delete from WIP repo")
             os.unlink(apk_wip)
 
-    update_apkindex(arch, branch)
+    update_apkindex(arch, branch, splitrepo)
