@@ -12,6 +12,7 @@ import bpo.repo.symlink
 
 
 def test_repo_symlink_link_to_all_packages(monkeypatch):
+    bpo_test.init_components()
     arch = "x86_64"
     branch = "master"
     wip_path = bpo.repo.wip.get_path(arch, branch)

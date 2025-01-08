@@ -240,3 +240,10 @@ def assert_image(device, branch, ui, status=None, count=1):
 def is_same_file(path_a, path_b):
     with open(path_a, "rb") as f1, open(path_b, "rb") as f2:
         return f1.read() == f2.read()
+
+def init_components():
+    """Initialize the config, logging, etc. - use this when you get errors like
+       "AttributeError: module 'bpo.config.args' has no attribute 'repo_wip_path'"
+       when trying to execute single tests (that do work when executing all tests)."""
+    sys.argv = ["bpo.py", "-t", "test/test_tokens.cfg", "local"]
+    bpo.init_components()
