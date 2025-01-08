@@ -46,9 +46,9 @@ def copy_new_apks(arch, branch, splitrepo):
         shutil.copy(src, dst)
 
 
-def copy_new_apkindex(arch, branch):
-    splitrepo = None  # FIXME
-    logging.info(branch + "/" + arch + ": copying new APKINDEX")
+def copy_new_apkindex(arch, branch, splitrepo):
+    fmt = bpo.repo.fmt(arch, branch, splitrepo)
+    logging.info(f"[{fmt}] copying new APKINDEX")
     src = bpo.repo.symlink.get_path(arch, branch, splitrepo) + "/APKINDEX.tar.gz"
     dst = get_path(arch, branch) + "/APKINDEX.tar.gz"
     shutil.copy(src, dst)
@@ -70,7 +70,7 @@ def delete_outdated_apks(arch, branch):
 def update_from_symlink_repo(arch, branch):
     splitrepo = None  # FIXME
     copy_new_apks(arch, branch, splitrepo)
-    copy_new_apkindex(arch, branch)
+    copy_new_apkindex(arch, branch, splitrepo)
     delete_outdated_apks(arch, branch)
 
     # Set package status to published
