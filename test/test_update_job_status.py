@@ -22,7 +22,7 @@ def test_public_update_job_status(monkeypatch):
 
     # Expect the bpo server to build "second-package" and exit the bpo server
     # as soon as it tries to do that
-    def fake_build_package(arch, pkgname, branch):
+    def fake_build_package(arch, pkgname, branch, splitrepo):
         if pkgname == "second-package":
             logging.info("bpo server tries to build expected package")
             bpo_test.stop_server()

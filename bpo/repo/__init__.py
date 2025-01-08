@@ -205,7 +205,7 @@ def build_arch_branch(session, slots_available, arch, branch, splitrepo,
             break
 
         if slots_available > 0:
-            if bpo.jobs.build_package.run(arch, pkgname, branch):
+            if bpo.jobs.build_package.run(arch, pkgname, branch, splitrepo):
                 started += 1
                 slots_available -= 1
         else:

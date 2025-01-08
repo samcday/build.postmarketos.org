@@ -36,11 +36,12 @@ def test_repo_bootstrap_full(monkeypatch):
         monkeypatch.setattr(bpo.jobs.build_package, "run", fake_step4)
         orig_step3(session, rb, f"{testdata_dir}/pmaports_repo_bootstrap.cfg")
 
-    def fake_step4(arch, pkgname, branch):
+    def fake_step4(arch, pkgname, branch, splitrepo):
         TEST_STEP(4, "Run build_package job")
         assert arch == "x86_64"
         assert pkgname == "hello-world-wrapper"
         assert branch == "master"
+        assert splitrepo == "systemd"
         bpo_test.stop_server()
         return True
 

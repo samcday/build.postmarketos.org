@@ -24,12 +24,11 @@ def do_build_strict(pkgname):
     return True
 
 
-def run(arch, pkgname, branch):
+def run(arch, pkgname, branch, splitrepo):
     """ Start a single package build job.
 
         :returns: True if a new job was started, False if the apk exists
                   already in the WIP repo and the build was skipped. """
-    splitrepo = None  # FIXME
     # Load package from db
     session = bpo.db.session()
     package = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
@@ -78,16 +77,13 @@ def run(arch, pkgname, branch):
     strict_arg = "--strict" if do_build_strict(pkgname) else ""
     timeout = str(bpo.config.const.pmbootstrap_timeout)
 
-    # For now, set systemd=always when we did a repo_bootstrap. This will cause
-    # pmbootstrap to do usr-merge and install our custom apk-tools and abuild
-    # (that were built during repo_bootstrap).
     systemd_arg = "never"
-    if bpo.db.get_repo_bootstrap(session, arch, branch):
+    if splitrepo == "systemd":
         systemd_arg = "always"
 
     # Start job
-    note = "Build package: `{}/{}/{}-{}`".format(branch, arch, pkgname,
-                                                 package.version)
+    fmt = bpo.repo.fmt(arch, branch, splitrepo)
+    note = f"Build package: `{fmt}/{pkgname}-{package.version}`"
     tasks = collections.OrderedDict([])
     tasks["install_pubkey"] = f"""
         echo -n {shlex.quote(pubkey)} \
@@ -127,7 +123,7 @@ def run(arch, pkgname, branch):
         export BPO_PAYLOAD_FILES_PREVIOUS=""
         export BPO_PAYLOAD_IS_JSON="0"
         export BPO_PKGNAME={shlex.quote(pkgname)}
-        export BPO_SPLITREPO=""  # FIXME
+        export BPO_SPLITREPO="{splitrepo}"
         export BPO_UI=""
         export BPO_VERSION={shlex.quote(package.version)}
 

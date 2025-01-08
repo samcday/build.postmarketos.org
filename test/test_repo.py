@@ -112,7 +112,7 @@ def test_build_arch_branch(monkeypatch):
     global build_package_run_called
     global expected_pkgname
 
-    def build_package_run(arch, pkgname, branch):
+    def build_package_run(arch, pkgname, branch, splitrepo):
         global build_package_run_called
         global expected_pkgname
         build_package_run_called = True

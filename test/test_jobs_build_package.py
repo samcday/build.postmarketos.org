@@ -33,5 +33,5 @@ def test_build_package_run_skip_existing(monkeypatch):
     shutil.copy(apk_hello, wip_path)
 
     # Build should be skipped
-    assert bpo.jobs.build_package.run(arch, pkgname, branch) is False
+    assert bpo.jobs.build_package.run(arch, pkgname, branch, splitrepo) is False
     bpo_test.assert_package(pkgname, status="built")
