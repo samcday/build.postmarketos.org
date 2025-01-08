@@ -30,6 +30,8 @@ def parse_arguments():
                         help="package architecture (default: x86_64)")
     parser.add_argument("-b", "--branch", default="master",
                         help="pmaports.git branch (default: master)")
+    parser.add_argument("-s", "--splitrepo", default=None,
+                        help="splitrepo (None or systemd, default: None)")
     parser.add_argument("-d", "--db-path", help="path to sqlite3 database",
                         default=bpo.config.const.args.db_path)
     parser.add_argument("-f", help="when not specifying any pkgnames, instead"
@@ -51,15 +53,17 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def get_all_pkgnames(session, arch, branch, status):
+def get_all_pkgnames(session, arch, branch, splitrepo, status):
     if status:
         status = bpo.db.PackageStatus[status]
         packages = session.query(bpo.db.Package).filter_by(arch=arch,
                                                            branch=branch,
+                                                           splitrepo=splitrepo,
                                                            status=status)
     else:
         packages = session.query(bpo.db.Package).filter_by(arch=arch,
-                                                           branch=branch)
+                                                           branch=branch,
+                                                           splitrepo=splitrepo)
 
     ret = []
     for package in packages:
@@ -75,8 +79,7 @@ def confirm(statement):
         sys.exit(1)
 
 
-def set_status(session, pkgnames, arch, branch, status):
-    splitrepo = None  # FIXME
+def set_status(session, pkgnames, arch, branch, splitrepo, status):
     confirm("Will change status to '" + status + "' for the following"
             " packages: " + str(pkgnames))
 
@@ -89,8 +92,7 @@ def set_status(session, pkgnames, arch, branch, status):
     print()
 
 
-def set_job_id(session, pkgnames, arch, branch, job_id):
-    splitrepo = None  # FIXME
+def set_job_id(session, pkgnames, arch, branch, splitrepo, job_id):
     if len(pkgnames) != 1:
         # We don't want to set the same ID for multiple pkgs by accident
         print("ERROR: changing job id is only allowed for one package at"
@@ -108,8 +110,7 @@ def set_job_id(session, pkgnames, arch, branch, job_id):
     print()
 
 
-def set_retry_count(session, pkgnames, arch, branch, retry_count):
-    splitrepo = None  # FIXME
+def set_retry_count(session, pkgnames, arch, branch, splitrepo, retry_count):
     confirm(f"Will set retry_count '{retry_count}' for the following packages:"
             f" {pkgnames}")
 
@@ -124,8 +125,7 @@ def set_retry_count(session, pkgnames, arch, branch, retry_count):
     print()
 
 
-def get_status(session, pkgnames, arch, branch):
-    splitrepo = None  # FIXME
+def get_status(session, pkgnames, arch, branch, splitrepo):
     format_str = "{:10s} | {:9} | {:12} | {}"
     print(format_str.format("status", "job id", "retry count", "pkgname"))
     print("-" * 50)
@@ -141,6 +141,7 @@ def main():
     pkgnames = args.pkgnames
     arch = args.arch
     branch = args.branch
+    splitrepo = args.splitrepo
     if not os.path.exists(args.db_path):
         print("ERROR: could not find database: " + args.db_path)
         sys.exit(1)
@@ -151,22 +152,22 @@ def main():
     session = bpo.db.session()
 
     if not pkgnames:
-        pkgnames = get_all_pkgnames(session, arch, branch, args.filter_status)
+        pkgnames = get_all_pkgnames(session, arch, branch, splitrepo, args.filter_status)
 
     # List all pkgs before change
-    get_status(session, pkgnames, arch, branch)
+    get_status(session, pkgnames, arch, branch, splitrepo)
     print()
 
     # Ask for confirmation, apply change
     if args.job_id:
-        set_job_id(session, pkgnames, arch, branch, args.job_id)
+        set_job_id(session, pkgnames, arch, branch, splitrepo, args.job_id)
     if args.retry_count:
-        set_retry_count(session, pkgnames, arch, branch, args.retry_count)
+        set_retry_count(session, pkgnames, arch, branch, splitrepo, args.retry_count)
     if args.status:
-        set_status(session, pkgnames, arch, branch, args.status)
+        set_status(session, pkgnames, arch, branch, splitrepo, args.status)
 
     # List result
-    get_status(session, pkgnames, arch, branch)
+    get_status(session, pkgnames, arch, branch, splitrepo)
 
 
 if __name__ == "__main__":
