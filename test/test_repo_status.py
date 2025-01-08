@@ -26,14 +26,14 @@ def test_remove_broken_apk_db(tmpdir, monkeypatch):
 
     func = bpo.repo.status.remove_broken_apk
     apk_path = str(tmpdir) + "/delete-me.apk"
-    func = bpo.repo.status.remove_broken_apk
     session = bpo.db.session()
     arch = "x86_64"
     branch = "master"
+    splitrepo = None
 
     # Check if the apk was deleted
     shutil.copy(__file__, apk_path)
-    func(session, "pkgname-not-in-db", "1.2-r0", arch, branch, apk_path)
+    func(session, "pkgname-not-in-db", "1.2-r0", arch, branch, splitrepo, apk_path)
     assert os.path.exists(apk_path) is False
 
     # Don't reset if package status (version differs)
@@ -43,7 +43,7 @@ def test_remove_broken_apk_db(tmpdir, monkeypatch):
     package = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.built)
     shutil.copy(__file__, apk_path)
-    func(session, pkgname, version, arch, branch, apk_path)
+    func(session, pkgname, version, arch, branch, splitrepo, apk_path)
     bpo_test.assert_package(pkgname, status="built")
 
     # Reset package status to queued (version matches)
@@ -52,7 +52,7 @@ def test_remove_broken_apk_db(tmpdir, monkeypatch):
     package = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.built)
     shutil.copy(__file__, apk_path)
-    func(session, pkgname, version, arch, branch, apk_path)
+    func(session, pkgname, version, arch, branch, splitrepo, apk_path)
     bpo_test.assert_package(pkgname, status="queued")
 
     # Don't reset depending package from to queued (status is not failed)
@@ -62,7 +62,7 @@ def test_remove_broken_apk_db(tmpdir, monkeypatch):
     bpo.db.set_package_status(session, package_depending,
                               bpo.db.PackageStatus.built)
     shutil.copy(__file__, apk_path)
-    func(session, pkgname, version, arch, branch, apk_path)
+    func(session, pkgname, version, arch, branch, splitrepo, apk_path)
     bpo_test.assert_package(pkgname_depending, status="built")
 
     # Don't reset non-depending package from to queued (status is failed)
@@ -75,7 +75,7 @@ def test_remove_broken_apk_db(tmpdir, monkeypatch):
     session.commit()
     bpo_test.assert_package(pkgname_non_depending, status="failed")
     shutil.copy(__file__, apk_path)
-    func(session, pkgname, version, arch, branch, apk_path)
+    func(session, pkgname, version, arch, branch, splitrepo, apk_path)
     bpo_test.assert_package(pkgname_non_depending, status="failed")
 
     # Reset depending package to queued (status is failed)
@@ -84,7 +84,7 @@ def test_remove_broken_apk_db(tmpdir, monkeypatch):
     bpo.db.set_package_status(session, package_depending,
                               bpo.db.PackageStatus.failed)
     shutil.copy(__file__, apk_path)
-    func(session, pkgname, version, arch, branch, apk_path)
+    func(session, pkgname, version, arch, branch, splitrepo, apk_path)
     bpo_test.assert_package(pkgname_depending, status="queued")
 
 

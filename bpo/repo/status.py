@@ -15,11 +15,10 @@ def is_apk_broken(metadata):
     return False
 
 
-def remove_broken_apk(session, pkgname, version, arch, branch, apk_path):
-    splitrepo = None  # FIXME
+def remove_broken_apk(session, pkgname, version, arch, branch, splitrepo, apk_path):
     # Remove from disk
     bpo.ui.log("remove_broken_apk", arch=arch, branch=branch, pkgname=pkgname,
-               version=version)
+               splitrepo=splitrepo, version=version)
     os.unlink(apk_path)
 
     # Reset package status to queued
@@ -68,7 +67,7 @@ def fix_disk_vs_db(arch, branch, splitrepo, path, status, is_wip=False, job_id=N
         version = metadata["pkgver"]  # metadata pkgver is really full version
 
         if is_apk_broken(metadata):
-            remove_broken_apk(session, pkgname, version, arch, branch,
+            remove_broken_apk(session, pkgname, version, arch, branch, splitrepo,
                               path + "/" + apk)
             removed += 1
             continue
