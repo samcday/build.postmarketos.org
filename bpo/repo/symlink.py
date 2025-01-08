@@ -20,8 +20,7 @@ def get_path(arch, branch, splitrepo):
     return os.path.join(temp_path, "repo_symlink", branch_with_splitrepo, arch)
 
 
-def clean(arch, branch):
-    splitrepo = None  # FIXME
+def clean(arch, branch, splitrepo):
     path = get_path(arch, branch, splitrepo)
     if os.path.exists(path):
         shutil.rmtree(path)
@@ -99,8 +98,9 @@ def create(arch, branch, force=False):
                       " repo".format(branch, arch))
         return
 
-    logging.info("{}/{}: creating symlink repo".format(branch, arch))
-    clean(arch, branch)
+    fmt = bpo.repo.fmt(arch, branch, splitrepo)
+    logging.info(f"[{fmt}] creating symlink repo")
+    clean(arch, branch, splitrepo)
     link_to_all_packages(arch, branch, force)
     bpo.repo.tools.index(arch, branch, "symlink", get_path(arch, branch, splitrepo))
     sign(arch, branch)
