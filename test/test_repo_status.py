@@ -101,7 +101,7 @@ def test_fix_disk_vs_db(monkeypatch):
         bpo_test.trigger.job_callback_get_depends("master")
 
     # Final repo: add up-to-date hello-world
-    final_path = bpo.repo.final.get_path(arch, branch)
+    final_path = bpo.repo.final.get_path(arch, branch, splitrepo)
     os.makedirs(final_path)
     shutil.copy(testdata + "/hello-world-1-r4.apk", final_path)
 
@@ -165,7 +165,7 @@ def test_fix_db_vs_disk_existing_apks(monkeypatch):
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.built)
 
     # Put hello-world-wrapper apk in final repo, set to published
-    final_path = bpo.repo.final.get_path(arch, branch)
+    final_path = bpo.repo.final.get_path(arch, branch, splitrepo)
     os.makedirs(final_path)
     shutil.copy(testdata + "/hello-world-1-r4.apk", final_path)
     package = bpo.db.get_package(session, "hello-world", arch, branch)

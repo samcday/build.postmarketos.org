@@ -33,7 +33,8 @@ def test_remove_deleted_package_SLOW_40s(monkeypatch):
         # Put test apks in final repo
         arch = "x86_64"
         branch = "master"
-        final_path = bpo.repo.final.get_path(arch, branch)
+        splitrepo = None
+        final_path = bpo.repo.final.get_path(arch, branch, splitrepo)
         testdata = bpo.config.const.top_dir + "/test/testdata/"
         os.makedirs(final_path, exist_ok=True)
         for apk in ["hello-world-1-r3.apk",  # wrong version
@@ -109,7 +110,7 @@ def test_build_final_repo_with_two_pkgs_SLOW_120s(monkeypatch, tmpdir):
     assert apks == []
 
     # Final repo must have both packages
-    path = bpo.repo.final.get_path(arch, branch)
+    path = bpo.repo.final.get_path(arch, branch, splitrepo)
     apks = bpo.repo.get_apks(path)
     assert apks == ["hello-world-" + v_hello + ".apk",
                     "hello-world-wrapper-" + v_wrapper + ".apk"]

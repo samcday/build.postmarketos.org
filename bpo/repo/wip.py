@@ -77,7 +77,7 @@ def clean(arch, branch, splitrepo):
     fmt = bpo.repo.fmt(arch, branch, splitrepo)
     logging.debug(f"[{fmt}] Cleaning WIP repo")
     path_repo_wip = get_path(arch, branch, splitrepo)
-    path_repo_final = bpo.repo.final.get_path(arch, branch)
+    path_repo_final = bpo.repo.final.get_path(arch, branch, splitrepo)
     session = bpo.db.session()
 
     for apk in bpo.repo.get_apks(path_repo_wip):

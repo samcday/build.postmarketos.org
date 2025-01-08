@@ -11,8 +11,11 @@ import bpo.repo.staging
 import bpo.repo.status
 
 
-def get_path(arch, branch):
-    repo_final_path = bpo.config.args.repo_final_path
+def get_path(arch, branch, splitrepo):
+    ret = bpo.config.args.repo_final_path
+
+    if splitrepo:
+        ret = os.path.join(ret, "extra-repos", splitrepo)
 
     if "_staging_" in branch:
         branch_orig, name = bpo.repo.staging.branch_split(branch)
@@ -23,15 +26,20 @@ def get_path(arch, branch):
         # used the branch name (master_staging_test) instead of the branch_orig
         # (master), we would need to add additional complexity to pmbootstrap
         # to figure out the correct full URLs.
-        return f"{repo_final_path}/staging/{name}/{branch_orig}/{arch}"
+        ret = os.path.join(ret, "staging", name, branch_orig)
+    else:
+        ret = os.path.join(ret, branch)
 
-    return f"{repo_final_path}/{branch}/{arch}"
+    if arch:
+        ret = os.path.join(ret, arch)
+
+    return ret
 
 
 def copy_new_apks(arch, branch, splitrepo):
     fmt = bpo.repo.fmt(arch, branch, splitrepo)
     logging.info(f"[{fmt}] copying new apks from symlink to final repo")
-    repo_final_path = get_path(arch, branch)
+    repo_final_path = get_path(arch, branch, splitrepo)
     repo_symlink_path = bpo.repo.symlink.get_path(arch, branch, splitrepo)
 
     os.makedirs(repo_final_path, exist_ok=True)
@@ -50,14 +58,14 @@ def copy_new_apkindex(arch, branch, splitrepo):
     fmt = bpo.repo.fmt(arch, branch, splitrepo)
     logging.info(f"[{fmt}] copying new APKINDEX")
     src = bpo.repo.symlink.get_path(arch, branch, splitrepo) + "/APKINDEX.tar.gz"
-    dst = get_path(arch, branch) + "/APKINDEX.tar.gz"
+    dst = get_path(arch, branch, splitrepo) + "/APKINDEX.tar.gz"
     shutil.copy(src, dst)
 
 
 def delete_outdated_apks(arch, branch, splitrepo):
     fmt = bpo.repo.fmt(arch, branch, splitrepo)
     logging.info(f"[{fmt}] removing outdated apks")
-    repo_final_path = get_path(arch, branch)
+    repo_final_path = get_path(arch, branch, splitrepo)
     repo_symlink_path = bpo.repo.symlink.get_path(arch, branch, splitrepo)
 
     for apk in bpo.repo.get_apks(repo_final_path):
@@ -73,7 +81,7 @@ def update_from_symlink_repo(arch, branch, splitrepo):
     delete_outdated_apks(arch, branch, splitrepo)
 
     # Set package status to published
-    path = get_path(arch, branch)
+    path = get_path(arch, branch, splitrepo)
     bpo.repo.status.fix_disk_vs_db(arch, branch, path,
                                    bpo.db.PackageStatus.published)
 

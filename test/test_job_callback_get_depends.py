@@ -35,12 +35,13 @@ def test_callback_depends_remove_deleted_packages_db(monkeypatch):
         branch = "master"
         pkgname = "pkg-not-in-payload"
         version = "1337-r42"
+        splitrepo = None
         package_db = bpo.db.Package(arch, branch, pkgname, version)
         session.merge(package_db)
         session.commit()
 
         # Put fake apk with a valid name for the new db entry in final repo
-        final_path = bpo.repo.final.get_path(arch, branch)
+        final_path = bpo.repo.final.get_path(arch, branch, splitrepo)
         apk_path = "{}/{}-{}.apk".format(final_path, pkgname, version)
         os.makedirs(final_path)
         shutil.copy(__file__, apk_path)

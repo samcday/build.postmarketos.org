@@ -102,7 +102,7 @@ def fix_db_vs_disk(arch, branch):
     session = bpo.db.session()
     packages = session.query(bpo.db.Package).filter_by(arch=arch,
                                                        branch=branch)
-    path_final = bpo.repo.final.get_path(arch, branch)
+    path_final = bpo.repo.final.get_path(arch, branch, splitrepo)
     path_wip = bpo.repo.wip.get_path(arch, branch, splitrepo)
 
     for package in packages:
@@ -142,7 +142,7 @@ def fix(limit_arch=None, limit_branch=None):
         if limit_arch:
             arches = [limit_arch]
         for arch in arches:
-            path_final = bpo.repo.final.get_path(arch, branch)
+            path_final = bpo.repo.final.get_path(arch, branch, splitrepo)
             path_wip = bpo.repo.wip.get_path(arch, branch, splitrepo)
 
             # Iterate over apks in wip and final repo

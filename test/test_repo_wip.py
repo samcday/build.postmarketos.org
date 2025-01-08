@@ -45,7 +45,7 @@ def test_repo_wip_clean(monkeypatch):
     apk = "hello-world-wrapper-subpkg-1-r2.apk"
     apk_path = bpo.config.const.top_dir + "/test/testdata/" + apk
     wip_path = bpo.repo.wip.get_path(arch, branch, splitrepo)
-    final_path = bpo.repo.final.get_path(arch, branch)
+    final_path = bpo.repo.final.get_path(arch, branch, splitrepo)
     func = bpo.repo.wip.clean
 
     # Fill the db with "hello-world", "hello-world-wrapper"

@@ -13,7 +13,9 @@ import bpo.repo.final
 def run(arch, branch):
     uid = bpo.config.const.pmbootstrap_chroot_uid_user
     rsa = bpo.config.args.final_repo_key_name
-    note = "Sign index: `{}/{}`".format(branch, arch)
+    splitrepo = None  # FIXME
+    fmt = bpo.repo.fmt(arch, branch, splitrepo)
+    note = f"Sign index: `{fmt}`"
 
     tasks = collections.OrderedDict()
 
@@ -42,7 +44,7 @@ def run(arch, branch):
 
     # Ignore missing repos before initial build (bpo#137)
     env_force_missing_repos = ""
-    final_path = bpo.repo.final.get_path(arch, branch)
+    final_path = bpo.repo.final.get_path(arch, branch, splitrepo)
     if not os.path.exists(f"{final_path}/APKINDEX.tar.gz"):
         env_force_missing_repos = "export PMB_APK_FORCE_MISSING_REPOSITORIES=1"
 

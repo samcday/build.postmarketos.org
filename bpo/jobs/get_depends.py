@@ -13,6 +13,7 @@ import bpo.repo.final
 
 def run(branch):
     tasks = collections.OrderedDict()
+    splitrepo = None  # FIXME
 
     # Configure pmbootstrap mirrors
     pmb_v2_mirrors_arg = ""
@@ -27,7 +28,7 @@ def run(branch):
     for arch in branches[branch]["arches"]:
         # Ignore missing repos before initial build (bpo#137)
         env_force_missing_repos = ""
-        final_path = bpo.repo.final.get_path(arch, branch)
+        final_path = bpo.repo.final.get_path(arch, branch, splitrepo)
         if not os.path.exists(f"{final_path}/APKINDEX.tar.gz"):
             env_force_missing_repos = "export PMB_APK_FORCE_MISSING_REPOSITORIES=1"
 

@@ -54,6 +54,7 @@ def sanitize_task_name(name):
 
 
 def get_manifest(name, tasks, branch):
+    splitrepo = None  # FIXME
     url_api = bpo.config.args.url_api
 
     branches = bpo.repo.staging.get_branches_with_staging()
@@ -62,7 +63,7 @@ def get_manifest(name, tasks, branch):
     pmb_config = "pmbootstrap_v3.cfg" if pmb_branch == "master" else "pmbootstrap.cfg"
     arches = branches[branch]["arches"]
 
-    final_path = bpo.repo.final.get_path(arches[0], branch)
+    final_path = bpo.repo.final.get_path(arches[0], branch, splitrepo)
     env_force_missing_repos = ""
     if not os.path.exists(f"{final_path}/APKINDEX.tar.gz"):
         env_force_missing_repos = "export PMB_APK_FORCE_MISSING_REPOSITORIES=1"

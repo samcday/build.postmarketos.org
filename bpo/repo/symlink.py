@@ -49,7 +49,7 @@ def link_to_all_packages(arch, branch, splitrepo, force=False):
         packages from final repo. """
     repo_symlink = get_path(arch, branch, splitrepo)
     repo_wip = bpo.repo.wip.get_path(arch, branch, splitrepo)
-    repo_final = bpo.repo.final.get_path(arch, branch)
+    repo_final = bpo.repo.final.get_path(arch, branch, splitrepo)
     session = bpo.db.session()
     packages = session.query(bpo.db.Package).filter_by(arch=arch,
                                                        branch=branch,
