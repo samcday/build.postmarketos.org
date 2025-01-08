@@ -109,7 +109,7 @@ def test_fix_disk_vs_db(monkeypatch):
     # Fix hello-world: queued -> published
     bpo_test.assert_package("hello-world", status="queued")
     bpo_test.assert_package("hello-world-wrapper", status="queued")
-    assert (0, 1) == func(arch, branch, final_path, bpo.db.PackageStatus.published)
+    assert (0, 1) == func(arch, branch, splitrepo, final_path, bpo.db.PackageStatus.published)
     bpo_test.assert_package("hello-world", status="published")
     bpo_test.assert_package("hello-world-wrapper", status="queued")
 
@@ -121,7 +121,7 @@ def test_fix_disk_vs_db(monkeypatch):
 
     # Fix hello-world-wrapper: queued -> built; remove obsolete apk
     bpo_test.assert_package("hello-world-wrapper", status="queued")
-    assert (1, 1) == func(arch, branch, wip_path, bpo.db.PackageStatus.built, True)
+    assert (1, 1) == func(arch, branch, splitrepo, wip_path, bpo.db.PackageStatus.built, True)
     bpo_test.assert_package("hello-world-wrapper", status="built")
     assert not os.path.exists(wip_path + "/hello-world-1-r3.apk")
     assert os.path.exists(wip_path + "/hello-world-wrapper-1-r2.apk")
@@ -132,14 +132,14 @@ def test_fix_disk_vs_db(monkeypatch):
                                     branch, splitrepo)
     session.delete(package_db)
     session.commit()
-    assert (1, 0) == func(arch, branch, wip_path, bpo.db.PackageStatus.built, True)
+    assert (1, 0) == func(arch, branch, splitrepo, wip_path, bpo.db.PackageStatus.built, True)
     assert os.path.exists(wip_path + "/hello-world-wrapper-1-r2.apk") is False
 
     # Remove broken apk
     apk_path = final_path + "/hello-world-1-r4.apk"
     monkeypatch.setattr(bpo.repo.status, "is_apk_broken", bpo_test.true)
     assert os.path.exists(apk_path) is True
-    assert (1, 0) == func(arch, branch, final_path, bpo.db.PackageStatus.published)
+    assert (1, 0) == func(arch, branch, splitrepo, final_path, bpo.db.PackageStatus.published)
     assert os.path.exists(apk_path) is False
 
 

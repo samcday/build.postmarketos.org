@@ -51,6 +51,7 @@ def job_callback_repo_bootstrap():
     bpo.repo.status.fix_disk_vs_db(
         rb.arch,
         rb.branch,
+        rb.dir_name,
         bpo.repo.wip.get_path(rb.arch, rb.branch, rb.dir_name),
         bpo.db.PackageStatus.built,
         True)
@@ -65,6 +66,7 @@ def job_callback_repo_bootstrap():
     removed, updated = bpo.repo.status.fix_disk_vs_db(
         rb.arch,
         rb.branch,
+        rb.dir_name,
         bpo.repo.wip.get_path(rb.arch, rb.branch, rb.dir_name),
         bpo.db.PackageStatus.built,
         True,

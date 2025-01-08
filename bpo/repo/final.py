@@ -82,7 +82,7 @@ def update_from_symlink_repo(arch, branch, splitrepo):
 
     # Set package status to published
     path = get_path(arch, branch, splitrepo)
-    bpo.repo.status.fix_disk_vs_db(arch, branch, path,
+    bpo.repo.status.fix_disk_vs_db(arch, branch, splitrepo, path,
                                    bpo.db.PackageStatus.published)
 
 

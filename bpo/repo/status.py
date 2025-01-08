@@ -42,7 +42,7 @@ def remove_broken_apk(session, pkgname, version, arch, branch, apk_path):
         bpo.ui.log_package(package_failed, "remove_broken_apk_reset_failed")
 
 
-def fix_disk_vs_db(arch, branch, path, status, is_wip=False, job_id=None):
+def fix_disk_vs_db(arch, branch, splitrepo, path, status, is_wip=False, job_id=None):
     """ Iterate over apks on disk, fix package status if it is not set to
         built/published but binary packages exist in the wip/final repo. Also
         remove obsolete packages from the wip repo. (Obsolete packages from the
@@ -57,7 +57,6 @@ def fix_disk_vs_db(arch, branch, path, status, is_wip=False, job_id=None):
         :returns: (count of removed pkgs, count of updated pkgs)
 
     """
-    splitrepo = None  # FIXME
     removed = 0
     updated = 0
 
@@ -149,10 +148,10 @@ def fix(limit_arch=None, limit_branch=None):
 
             # Iterate over apks in wip and final repo
             logging.info(branch + "/" + arch + ": fix WIP apks vs DB status")
-            fix_disk_vs_db(arch, branch, path_wip,
+            fix_disk_vs_db(arch, branch, splitrepo, path_wip,
                            bpo.db.PackageStatus.built, True)
             logging.info(branch + "/" + arch + ": fix final apks vs DB status")
-            fix_disk_vs_db(arch, branch, path_final,
+            fix_disk_vs_db(arch, branch, splitrepo, path_final,
                            bpo.db.PackageStatus.published)
             bpo.repo.wip.update_apkindex(arch, branch, splitrepo)
 
