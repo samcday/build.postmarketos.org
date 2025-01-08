@@ -54,8 +54,7 @@ def do_keygen():
                     "wip.rsa.pub"], check=True, cwd=path_dir)
 
 
-def sign(arch, branch):
-    splitrepo = None
+def sign(arch, branch, splitrepo):
     cmd = ["abuild-sign.noinclude",
            "-k", bpo.config.const.repo_wip_keys + "/wip.rsa",
            "APKINDEX.tar.gz"]
@@ -68,7 +67,7 @@ def update_apkindex(arch, branch, splitrepo):
         fmt = bpo.repo.fmt(arch, branch, splitrepo)
         logging.info(f"[{fmt}] update WIP APKINDEX")
         bpo.repo.tools.index(arch, branch, "WIP", path)
-        sign(arch, branch)
+        sign(arch, branch, splitrepo)
 
 
 def clean(arch, branch, splitrepo):
