@@ -114,17 +114,16 @@ def count_running_builds(session):
             count_running_builds_repo_bootstrap(session))
 
 
-def count_unpublished_packages(session, branch, arch=None):
+def count_unpublished_packages(session, branch, arch=None, splitrepo=None):
+    q = session.query(bpo.db.Package)
+    q = q.filter_by(branch=branch)
+
     if arch:
-        return session.query(bpo.db.Package).\
-                filter_by(branch=branch).\
-                filter_by(arch=arch).\
-                filter(bpo.db.Package.status != bpo.db.PackageStatus.published).\
-                count()
-    return session.query(bpo.db.Package).\
-            filter_by(branch=branch).\
-            filter(bpo.db.Package.status != bpo.db.PackageStatus.published).\
-            count()
+        q = q.filter_by(arch=arch)
+
+    q = q.filter_by(splitrepo=splitrepo)
+    q = q.filter(bpo.db.Package.status != bpo.db.PackageStatus.published)
+    return q.count()
 
 
 def has_unfinished_builds(session, arch, branch):
@@ -143,7 +142,7 @@ def set_stuck(arch, branch):
     logging.info(branch + "/" + arch + ": repo is stuck")
 
 
-def build_arch_branch(session, slots_available, arch, branch,
+def build_arch_branch(session, slots_available, arch, branch, splitrepo,
                       force_repo_update=False, no_repo_update=False):
     """ :returns: amount of jobs that were started
         :param force_repo_update: rebuild the symlink and final repo, even if
@@ -152,13 +151,12 @@ def build_arch_branch(session, slots_available, arch, branch,
                                   the apks get removed from the final repo.
         :param no_repo_update: never update symlink and final repo (used from
                                the images timer thread, see #98) """
-    splitrepo = None  # FIXME
     fmt_ = fmt(arch, branch, splitrepo)
     logging.info(f"[{fmt_}] starting new package build job(s)")
 
     if "_staging_" in branch:
         branch_orig, branch_staging = bpo.repo.staging.branch_split(branch)
-        if count_unpublished_packages(session, branch_orig):
+        if count_unpublished_packages(session, branch_orig, splitrepo):
             # As long as the original branch has unpublished packages, don't
             # build any packages for its staging branches. Otherwise we might
             # have a package failing on an orig branch, therefore not getting
@@ -257,19 +255,26 @@ def _build(force_repo_update_branch=None, no_repo_update=False):
     branches_with_staging = bpo.repo.staging.get_branches_with_staging()
     for branch, branch_data in branches_with_staging.items():
         arch_is_first = True
-
         for arch in branch_data["arches"]:
-            force_repo_update = (force_repo_update_branch == branch)
-            slots_available -= build_arch_branch(session, slots_available,
-                                                 arch, branch,
-                                                 force_repo_update,
-                                                 no_repo_update)
+            for splitrepo in bpo.config.const.splitrepos:
+                force_repo_update = (force_repo_update_branch == branch)
+                slots_available -= build_arch_branch(session, slots_available,
+                                                     arch, branch,
+                                                     splitrepo,
+                                                     force_repo_update,
+                                                     no_repo_update)
+                if count_unpublished_packages(session, branch, arch, splitrepo):
+                    fmt_ = bpo.repo.fmt(arch, branch, splitrepo)
+                    logging.info(f"[{fmt_}] has unpublished packages,"
+                                 " not building packages for other splitrepos")
+                    break
+
             # Don't build packages in other architectures unless building the
             # first architecture (the native arch) is complete. Otherwise cross
             # compilers may be missing, etc.
             if arch_is_first:
                 if count_unpublished_packages(session, branch, arch):
-                    logging.info(f"{branch}/{arch}: has unpublished packages,"
+                    logging.info(f"[{branch}/{arch}] has unpublished packages,"
                                  " not building packages for other arches")
                     break
                 arch_is_first = False

@@ -148,13 +148,14 @@ def test_build_arch_branch(monkeypatch):
     slots_available = 1
     arch = "x86_64"
     branch = "master"
+    splitrepo = None
     func = bpo.repo.build_arch_branch
 
     # *** Test building all packages successfully ***
     # Start building "hello-world" (1/2)
     build_package_run_called = False
     expected_pkgname = "hello-world"
-    assert func(session, slots_available, arch, branch) == 1
+    assert func(session, slots_available, arch, branch, splitrepo) == 1
     assert build_package_run_called
     assert build_repo_stuck is False
 
@@ -165,7 +166,7 @@ def test_build_arch_branch(monkeypatch):
     # Start building "hello-world-wrapper" (2/2)
     build_package_run_called = False
     expected_pkgname = "hello-world-wrapper"
-    assert func(session, slots_available, arch, branch) == 1
+    assert func(session, slots_available, arch, branch, splitrepo) == 1
     assert build_package_run_called
     assert build_repo_stuck is False
 
@@ -176,7 +177,7 @@ def test_build_arch_branch(monkeypatch):
     # Create symlink repo
     build_package_run_called = False
     bpo_symlink_create_called = False
-    assert func(session, slots_available, arch, branch) == 0
+    assert func(session, slots_available, arch, branch, splitrepo) == 0
     assert build_package_run_called is False
     assert bpo_symlink_create_called
     assert build_repo_stuck is False
@@ -193,7 +194,7 @@ def test_build_arch_branch(monkeypatch):
     # Expect build_repo_stuck log message
     build_package_run_called = False
     bpo_symlink_create_called = False
-    assert func(session, slots_available, arch, branch) == 0
+    assert func(session, slots_available, arch, branch, splitrepo) == 0
     assert build_package_run_called is False
     assert bpo_symlink_create_called is False
     assert build_repo_stuck is True
@@ -206,7 +207,7 @@ def test_build_arch_branch(monkeypatch):
     # Expect build_repo_stuck log message
     build_package_run_called = False
     bpo_symlink_create_called = False
-    assert func(session, slots_available, arch, branch) == 0
+    assert func(session, slots_available, arch, branch, splitrepo) == 0
     assert build_package_run_called is False
     assert bpo_symlink_create_called is False
     assert build_repo_stuck is True
@@ -259,13 +260,18 @@ def test_build_foreign_arch(monkeypatch):
     pkg = bpo.db.get_package(session, pkgname, "x86_64", branch)
 
     # Override bpo.repo.build_arch_branch
-    def fake_build_arch_branch(session, slots_available, arch, branch,
+    def fake_build_arch_branch(session, slots_available, arch, branch, splitrepo,
                                force_repo_update, no_repo_update):
         global expected_arches
 
         logging.info(f"expected_arches={expected_arches}")
         logging.info(f"fake_build_arch_branch: slots_available={slots_available},"
-                     f" arch={arch}, branch={branch}")
+                     f" arch={arch}, branch={branch}, splitrepo={splitrepo}")
+
+        # In this dummy function, we only have packages to build in the regular
+        # repository (splitrepo is None), not any of the splitrepos.
+        if splitrepo:
+            return 0
 
         assert arch == expected_arches.pop(0)
         assert branch == "master"

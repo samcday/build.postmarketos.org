@@ -53,6 +53,8 @@ staging_arches = ["x86_64", "aarch64", "armv7"]
 # Use this pmbootstrap branch for staging repos
 staging_pmb_branch = os.environ.get("BPO_PMA_STAGING_PMB_BRANCH", "master")
 
+# Split repositories (built in this order)
+splitrepos = [None, "systemd"]
 # Do "repo_bootstrap" for repositories that have packages in the following
 # splitrepo dirs
 repo_bootstrap_dirs = ["systemd"]
