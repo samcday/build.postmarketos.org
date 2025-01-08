@@ -87,15 +87,14 @@ def job_check_rate_limit(action, arch, branch, pkgname, version, device, ui,
                        " There is a bug! Shutting bpo down to avoid API spam!")
 
 
-def run(name, note, tasks, branch=None, arch=None, pkgname=None,
+def run(name, note, tasks, branch=None, arch=None, splitrepo=None, pkgname=None,
         version=None, device=None, ui=None, dir_name=None):
     """ :param note: what to send to the job service as description, rendered
                      as markdown in sourcehut
         :param branch: of pmaports to check out before running the job
         :returns: ID of the generated job, as passed by the backend """
 
-    logging.info("[{}] Run job: {} ({})".format(bpo.config.args.job_service,
-                                                note, name))
+    logging.info(f"[{bpo.config.args.job_service}] Run job: {note} ({name})")
 
     job_check_rate_limit(f"job_{name}", arch, branch, pkgname, version, device,
                          ui, dir_name)
@@ -110,8 +109,15 @@ def run(name, note, tasks, branch=None, arch=None, pkgname=None,
     # Pass to bpo.job_services.(...).run_job()
     job_id = js.run_job(name, note, tasks_formatted, branch)
 
-    bpo.ui.log("job_" + name, arch=arch, branch=branch, pkgname=pkgname,
-               version=version, job_id=job_id, device=device, ui=ui,
+    bpo.ui.log("job_" + name,
+               arch=arch,
+               branch=branch,
+               splitrepo=splitrepo,
+               pkgname=pkgname,
+               version=version,
+               job_id=job_id,
+               device=device,
+               ui=ui,
                dir_name=dir_name)
 
     return job_id

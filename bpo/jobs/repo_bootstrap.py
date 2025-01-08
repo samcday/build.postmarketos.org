@@ -70,8 +70,13 @@ def run(session, rb, test_pmaports_cfg=None):
 
         exec build.postmarketos.org/helpers/submit.py
     """
-    job_id = bpo.helpers.job.run("repo_bootstrap", note, tasks, rb.branch,
-                                 rb.arch, "[repo_bootstrap]",
+    job_id = bpo.helpers.job.run("repo_bootstrap",
+                                 note,
+                                 tasks,
+                                 rb.branch,
+                                 rb.arch,
+                                 rb.dir_name,  # splitrepo
+                                 "[repo_bootstrap]",
                                  dir_name=rb.dir_name)
 
     # Increase retry count

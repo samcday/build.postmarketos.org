@@ -84,4 +84,4 @@ def run(arch, branch, splitrepo):
             exec build.postmarketos.org/helpers/submit.py
     """
 
-    bpo.helpers.job.run("sign_index", note, tasks, branch, arch)
+    bpo.helpers.job.run("sign_index", note, tasks, branch, arch, splitrepo)

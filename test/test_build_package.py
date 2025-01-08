@@ -27,7 +27,7 @@ def test_retry_build(monkeypatch):
     global job_run_fake_count
     job_run_fake_count = 0
 
-    def job_run_fake(name, note, tasks, branch, arch, pkgname, version):
+    def job_run_fake(name, note, tasks, branch, arch, splitrepo, pkgname, version):
         global job_run_fake_count
 
         job_run_fake_count += 1
@@ -36,6 +36,7 @@ def test_retry_build(monkeypatch):
         assert name == "build_package"
         assert branch == "master"
         assert arch == "x86_64"
+        assert splitrepo is None
         assert pkgname == "hello-world"
         assert version == "1-r4"
         assert job_run_fake_count < 3

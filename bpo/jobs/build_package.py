@@ -130,7 +130,7 @@ def run(arch, pkgname, branch, splitrepo):
         exec build.postmarketos.org/helpers/submit.py
     """
     job_id = bpo.helpers.job.run("build_package", note, tasks, branch, arch,
-                                 pkgname, package.version)
+                                 splitrepo, pkgname, package.version)
 
     # Increase retry count
     if package.status == bpo.db.PackageStatus.failed:
