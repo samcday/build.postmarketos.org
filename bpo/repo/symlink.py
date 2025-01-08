@@ -76,8 +76,7 @@ def link_to_all_packages(arch, branch, force=False):
             os.symlink(apk_final, repo_symlink + "/" + apk)
 
 
-def sign(arch, branch):
-    splitrepo = None  # FIXME
+def sign(arch, branch, splitrepo):
     # Copy index to wip repo (just because that makes it easy to download it)
     repo_wip_path = bpo.repo.wip.get_path(arch, branch)
     src = get_path(arch, branch, splitrepo) + "/APKINDEX.tar.gz"
@@ -103,4 +102,4 @@ def create(arch, branch, force=False):
     clean(arch, branch, splitrepo)
     link_to_all_packages(arch, branch, force)
     bpo.repo.tools.index(arch, branch, "symlink", get_path(arch, branch, splitrepo))
-    sign(arch, branch)
+    sign(arch, branch, splitrepo)
