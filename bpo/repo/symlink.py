@@ -44,16 +44,16 @@ def find_apk(wip, final, package):
                        " repository: " + apk)
 
 
-def link_to_all_packages(arch, branch, force=False):
+def link_to_all_packages(arch, branch, splitrepo, force=False):
     """ Create symlinks to new packages from WIP repo and to up-to-date
         packages from final repo. """
-    splitrepo = None  # FIXME
     repo_symlink = get_path(arch, branch, splitrepo)
     repo_wip = bpo.repo.wip.get_path(arch, branch)
     repo_final = bpo.repo.final.get_path(arch, branch)
     session = bpo.db.session()
     packages = session.query(bpo.db.Package).filter_by(arch=arch,
-                                                       branch=branch)
+                                                       branch=branch,
+                                                       splitrepo=splitrepo)
 
     # Sanity check: make sure that all packages exist in wip or final repo
     if not force:
@@ -99,6 +99,6 @@ def create(arch, branch, splitrepo, force=False):
     fmt = bpo.repo.fmt(arch, branch, splitrepo)
     logging.info(f"[{fmt}] creating symlink repo")
     clean(arch, branch, splitrepo)
-    link_to_all_packages(arch, branch, force)
+    link_to_all_packages(arch, branch, splitrepo, force)
     bpo.repo.tools.index(arch, branch, "symlink", get_path(arch, branch, splitrepo))
     sign(arch, branch, splitrepo)

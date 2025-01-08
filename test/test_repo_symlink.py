@@ -41,7 +41,7 @@ def test_repo_symlink_link_to_all_packages(monkeypatch):
 
     # 1. fail sanity check: packages don't exist in wip/final repo
     with pytest.raises(RuntimeError) as e:
-        func(arch, branch)
+        func(arch, branch, splitrepo)
         assert str(e.value).startswith("Found package in database, but not")
 
     # 2. Build repo with all in WIP repo
@@ -50,7 +50,7 @@ def test_repo_symlink_link_to_all_packages(monkeypatch):
     shutil.copy(apk_hello_outdated, wip_path)
     shutil.copy(apk_hello_wrapper, wip_path)
     shutil.copy(apk_hello_wrapper_subpkg, wip_path)
-    func(arch, branch)
+    func(arch, branch, splitrepo)
     assert bpo.repo.get_apks(symlink_path) == expected_symlinks
     assert not os.path.exists(wip_path + "/" + apk_hello_outdated)
 
@@ -58,7 +58,7 @@ def test_repo_symlink_link_to_all_packages(monkeypatch):
     shutil.rmtree(symlink_path)
     os.makedirs(final_path)
     shutil.copy(apk_hello_outdated, final_path)
-    func(arch, branch)
+    func(arch, branch, splitrepo)
     assert bpo.repo.get_apks(symlink_path) == expected_symlinks
 
     # 4. Outdated apk and wrapper + subpkg in final repo, hello in WIP repo
@@ -68,5 +68,5 @@ def test_repo_symlink_link_to_all_packages(monkeypatch):
     shutil.copy(apk_hello, wip_path)
     shutil.copy(apk_hello_wrapper, final_path)
     shutil.copy(apk_hello_wrapper_subpkg, final_path)
-    func(arch, branch)
+    func(arch, branch, splitrepo)
     assert bpo.repo.get_apks(symlink_path) == expected_symlinks
