@@ -164,10 +164,10 @@ def build_arch_branch(session, slots_available, arch, branch,
             # have a package failing on an orig branch, therefore not getting
             # synced to the staging repo, and then we try to build the same
             # package in the staging repo just to have it fail there again.
-            logging.info(f"{branch}/{arch}: skip building packages, as"
+            logging.info(f"[{fmt_}] skip building packages, as"
                          f" {branch_orig} has unpublished packages")
             return 0
-        bpo.repo.staging.sync_with_orig_repo(branch, arch)
+        bpo.repo.staging.sync_with_orig_repo(branch, arch, splitrepo)
 
     started = 0
 

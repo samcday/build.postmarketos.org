@@ -56,7 +56,7 @@ def init(branch):
         handle.write("https://postmarketos.org/staging\n")
 
 
-def sync_with_orig_repo(branch_staging, arch):
+def sync_with_orig_repo(branch_staging, arch, splitrepo):
     """
     For all packages that are the same in the staging repo and the original
     repository, copy the package and update the copy of the package with the
@@ -87,7 +87,8 @@ def sync_with_orig_repo(branch_staging, arch):
     session = bpo.db.session()
 
     # Iterate over WIP and final repos of original branch
-    logging.info(f"{branch_staging}/{arch}: sync with {branch_orig}")
+    fmt = bpo.repo.fmt(arch, branch_staging, splitrepo)
+    logging.info(f"[{fmt}] sync with {branch_orig}")
 
     for apk in bpo.repo.get_apks(path_repo_orig_final):
         # Skip if already synced to staging repo
@@ -100,7 +101,6 @@ def sync_with_orig_repo(branch_staging, arch):
         # subpackage) and skip if the origin pkgname + version is not on the
         # staging repository branch.
         apk_full_path = f"{path_repo_orig_final}/{apk}"
-        splitrepo = None  # FIXME
         pkgname = bpo.repo.is_apk_origin_in_db(session, arch, branch_staging,
                                                splitrepo, apk_full_path)
         if not pkgname:
@@ -109,8 +109,7 @@ def sync_with_orig_repo(branch_staging, arch):
 
         # Create copy in staging repo's WIP repo
         apk_full_path_staging = f"{path_repo_staging_wip}/{apk}"
-        logging.info(f"{branch_staging}/{arch}: syncing {apk} (db +" \
-                     f" copy: {apk_full_path_staging})")
+        logging.info(f"[{fmt}] syncing {apk} (db + copy: {apk_full_path_staging})")
         os.makedirs(path_repo_staging_wip, exist_ok=True)
         shutil.copy(apk_full_path, apk_full_path_staging)
 
@@ -133,12 +132,12 @@ def sync_with_orig_repo(branch_staging, arch):
         package.status = bpo.db.PackageStatus.built
         session.commit()
 
-    logging.info(f"{branch_staging}/{arch}: sync done ({stats})")
+    logging.info(f"[{fmt}] sync done ({stats})")
 
     if stats["synced"]:
         bpo.repo.wip.update_apkindex(arch, branch_staging)
         bpo.ui.log("sync_with_orig_repo", branch=branch_staging, arch=arch,
-                   count=stats["synced"])
+                   splitrepo=splitrepo, count=stats["synced"])
 
     return stats
 
