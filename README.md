@@ -203,9 +203,6 @@ $ mv _repo_final/master/x86_64/hello-world-wrapper-1-r2.apk _repo_wip/master/x86
 $ ./bpo_sourcehut.sh
 ```
 
-There's also the rather dangerous `--force-final-repo-sign`, in case one needs
-to sign an unfinished repository.
-
 ### How to generate test pages from data/templates/images?
 
 Run the following, the same directory structure as on

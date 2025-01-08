@@ -22,7 +22,6 @@ auto_get_depends = False
 url_api = "https://build.postmarketos.org"
 url_repo_wip = "https://build.postmarketos.org/wip"
 url_images = os.getenv("BPO_URL_IMG", "https://images.postmarketos.org/bpo")
-force_final_repo_sign = False
 final_repo_key_name = "build.postmarketos.org.rsa"
 
 # Defaults (local)

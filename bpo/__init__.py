@@ -59,17 +59,10 @@ def main(return_app=False, fill_image_queue=True):
     bpo.images.remove_old()
     bpo.ui.images.write_index_all()
 
-    if bpo.config.args.force_final_repo_sign:
-        # Force final repo sign
-        logging.warning("WARNING: doing force final repo sign (-f)!")
-        for branch, branch_data in bpo.repo.staging.get_branches_with_staging().items():
-            for arch in branch_data["arches"]:
-                bpo.repo.symlink.create(arch, branch, True)
-    else:
-        # Kick off build jobs for queued packages / images
-        if fill_image_queue:
-            bpo.images.queue.timer_iterate(repo_build=False)
-        bpo.repo.build()
+    # Kick off build jobs for queued packages / images
+    if fill_image_queue:
+        bpo.images.queue.timer_iterate(repo_build=False)
+    bpo.repo.build()
 
     # Fill up queue with packages to build
     if bpo.config.args.auto_get_depends:
