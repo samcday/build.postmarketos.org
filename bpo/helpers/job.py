@@ -48,7 +48,7 @@ def remove_additional_indent(script, spaces=12):
     return ret
 
 
-def job_check_rate_limit(action, arch, branch, pkgname, version, device, ui,
+def job_check_rate_limit(action, arch, branch, splitrepo, pkgname, version, device, ui,
                          dir_name):
     """ Check if there is a bug and we keep running the same job (bpo#141).
         If that is the case, shutdown bpo. """
@@ -72,6 +72,7 @@ def job_check_rate_limit(action, arch, branch, pkgname, version, device, ui,
         if entry.action != action \
                 or entry.arch != arch \
                 or entry.branch != branch \
+                or entry.splitrepo != splitrepo \
                 or entry.pkgname != pkgname \
                 or entry.version != version \
                 or entry.device != device \
@@ -96,8 +97,15 @@ def run(name, note, tasks, branch=None, arch=None, splitrepo=None, pkgname=None,
 
     logging.info(f"[{bpo.config.args.job_service}] Run job: {note} ({name})")
 
-    job_check_rate_limit(f"job_{name}", arch, branch, pkgname, version, device,
-                         ui, dir_name)
+    job_check_rate_limit(f"job_{name}",
+                         arch,
+                         branch,
+                         splitrepo,
+                         pkgname,
+                         version,
+                         device,
+                         ui,
+                         dir_name)
 
     js = get_job_service()
 
