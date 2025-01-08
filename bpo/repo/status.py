@@ -93,13 +93,12 @@ def fix_disk_vs_db(arch, branch, splitrepo, path, status, is_wip=False, job_id=N
     return (removed, updated)
 
 
-def fix_db_vs_disk(arch, branch):
+def fix_db_vs_disk(arch, branch, splitrepo):
     """ Iterate over packages in db, fix status of packages that are marked as built/published but are missing on disk.
         :param arch: architecture, e.g. "x86_64"
         :param branch: pmaports.git branch, e.g. "master"
 
     """
-    splitrepo = None  # FIXME
     session = bpo.db.session()
     packages = session.query(bpo.db.Package).filter_by(arch=arch,
                                                        branch=branch)
@@ -157,7 +156,7 @@ def fix(limit_arch=None, limit_branch=None):
 
             # Iterate over packages in db
             logging.info(branch + "/" + arch + ": fix DB status vs apks")
-            fix_db_vs_disk(arch, branch)
+            fix_db_vs_disk(arch, branch, splitrepo)
 
     # Fix running job status
     bpo.helpers.job.update_status()

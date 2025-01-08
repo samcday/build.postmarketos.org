@@ -173,7 +173,7 @@ def test_fix_db_vs_disk_existing_apks(monkeypatch):
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.published)
 
     # Apks are present now -> no status change
-    func(arch, branch)
+    func(arch, branch, splitrepo)
     bpo_test.assert_package("hello-world-wrapper", status="built")
     bpo_test.assert_package("hello-world", status="published")
 
@@ -193,18 +193,18 @@ def test_fix_db_vs_disk_missing_apks(monkeypatch):
         bpo_test.trigger.job_callback_get_depends("master")
 
     # Everything is queued without existing apks -> no status change
-    func(arch, branch)
+    func(arch, branch, splitrepo)
     bpo_test.assert_package("hello-world", status="queued")
     bpo_test.assert_package("hello-world-wrapper", status="queued")
 
     # hello-world: published but missing apk -> status reset to queued
     package = bpo.db.get_package(session, "hello-world", arch, branch, splitrepo)
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.published)
-    func(arch, branch)
+    func(arch, branch, splitrepo)
     bpo_test.assert_package("hello-world", status="queued")
 
     # hello-world-wrapper: built but missing apk -> status reset to queued
     package = bpo.db.get_package(session, "hello-world-wrapper", arch, branch, splitrepo)
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.built)
-    func(arch, branch)
+    func(arch, branch, splitrepo)
     bpo_test.assert_package("hello-world", status="queued")
