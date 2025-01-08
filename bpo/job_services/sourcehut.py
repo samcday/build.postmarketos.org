@@ -53,8 +53,7 @@ def sanitize_task_name(name):
     return re.sub(r'[^a-z0-9_\-]+', '_', name)
 
 
-def get_manifest(name, tasks, branch):
-    splitrepo = None  # FIXME
+def get_manifest(name, tasks, branch, splitrepo):
     url_api = bpo.config.args.url_api
 
     branches = bpo.repo.staging.get_branches_with_staging()
@@ -138,7 +137,7 @@ def get_manifest(name, tasks, branch):
 
 class SourcehutJobService(JobService):
 
-    def run_job(self, name, note, tasks, branch):
+    def run_job(self, name, note, tasks, branch, splitrepo):
         manifest = get_manifest(name, tasks, branch)
         print(manifest)
         result = api_request("jobs", {"manifest": manifest,

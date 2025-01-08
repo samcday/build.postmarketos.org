@@ -272,7 +272,7 @@ class LocalJobServiceThread(threading.Thread):
 
 class LocalJobService(JobService):
 
-    def run_job(self, name, note, tasks, branch):
+    def run_job(self, name, note, tasks, branch, splitrepo):
         global thread
         global job_id
         global jobs

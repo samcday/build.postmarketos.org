@@ -107,7 +107,7 @@ def run(name, note, tasks, branch=None, arch=None, splitrepo=None, pkgname=None,
         tasks_formatted[task] = remove_additional_indent(script)
 
     # Pass to bpo.job_services.(...).run_job()
-    job_id = js.run_job(name, note, tasks_formatted, branch)
+    job_id = js.run_job(name, note, tasks_formatted, branch, splitrepo)
 
     bpo.ui.log("job_" + name,
                arch=arch,
