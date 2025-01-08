@@ -19,7 +19,7 @@ def get_path(arch, branch):
         # Have the branch_orig + arch at the end of the path, so it is in the
         # same format as for the original repositories and pmbootstrap is able
         # to use it with "pmbootstrap --mirror-pmOS=..." with a staging URL
-        # like http://build.postmarketos.org/wip. If we
+        # like https://build.postmarketos.org/wip. If we
         # used the branch name (master_staging_test) instead of the branch_orig
         # (master), we would need to add additional complexity to pmbootstrap
         # to figure out the correct full URLs.
