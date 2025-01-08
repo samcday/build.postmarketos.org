@@ -58,7 +58,7 @@ def test_push_hook_gitlab_reset_to_queued(monkeypatch):
         # Set both packages to failed
         session = bpo.db.session()
         for pkgname in ["hello-world", "hello-world-wrapper"]:
-            package = bpo.db.get_package(session, pkgname, "x86_64", "master")
+            package = bpo.db.get_package(session, pkgname, "x86_64", "master", None)
             package.status = bpo.db.PackageStatus.failed
             package.retry_count = 2
             session.merge(package)

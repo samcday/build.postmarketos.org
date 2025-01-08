@@ -55,7 +55,8 @@ def get_package(session, request):
     job_id = get_header(request, "Job-Id")
     branch = get_branch(request)
     arch = get_arch(request, branch)
-    ret = bpo.db.get_package(session, pkgname, arch, branch, job_id)
+    splitrepo = get_splitrepo(request, branch)
+    ret = bpo.db.get_package(session, pkgname, arch, branch, splitrepo, job_id)
     if not ret:
         raise ValueError("no package found with: pkgname=" + pkgname +
                          ", arch=" + arch)

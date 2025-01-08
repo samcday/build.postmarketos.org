@@ -72,10 +72,10 @@ def test_repo_wip_clean(monkeypatch):
     # Delete origin from db
     session = bpo.db.session()
     origin_pkgname = "hello-world-wrapper"
-    package = bpo.db.get_package(session, origin_pkgname, arch, branch)
+    package = bpo.db.get_package(session, origin_pkgname, arch, branch, splitrepo)
     session.delete(package)
     session.commit()
-    assert bpo.db.get_package(session, origin_pkgname, arch, branch) is None
+    assert bpo.db.get_package(session, origin_pkgname, arch, branch, splitrepo) is None
 
     # 3. apk is in final repo, origin is not in db => remove apk
     shutil.copy(apk_path, wip_path)

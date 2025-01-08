@@ -32,7 +32,7 @@ def run(arch, pkgname, branch):
     splitrepo = None  # FIXME
     # Load package from db
     session = bpo.db.session()
-    package = bpo.db.get_package(session, pkgname, arch, branch)
+    package = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
 
     # Skip if package is already in WIP repo (this can happen, if we had a bug
     # before and changed the package status from built to queued by accident)

@@ -79,7 +79,7 @@ def test_repo_is_apk_origin_in_db(monkeypatch):
 
     # Change version of origin
     origin_pkgname = "hello-world-wrapper"
-    package = bpo.db.get_package(session, origin_pkgname, arch, branch)
+    package = bpo.db.get_package(session, origin_pkgname, arch, branch, splitrepo)
     package.version = "9999-r0"
     session.merge(package)
     session.commit()
@@ -90,7 +90,7 @@ def test_repo_is_apk_origin_in_db(monkeypatch):
     # Delete package from db
     session.delete(package)
     session.commit()
-    assert bpo.db.get_package(session, origin_pkgname, arch, branch) is None
+    assert bpo.db.get_package(session, origin_pkgname, arch, branch, splitrepo) is None
 
     # Origin not found in db
     assert func(session, arch, branch, splitrepo, apk_path) is False
@@ -160,7 +160,7 @@ def test_build_arch_branch(monkeypatch):
     assert build_repo_stuck is False
 
     # Change "hello-world" to built
-    package = bpo.db.get_package(session, "hello-world", arch, branch)
+    package = bpo.db.get_package(session, "hello-world", arch, branch, splitrepo)
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.built)
 
     # Start building "hello-world-wrapper" (2/2)
@@ -171,7 +171,7 @@ def test_build_arch_branch(monkeypatch):
     assert build_repo_stuck is False
 
     # Change "hello-world-wrapper" to built (all packages are built!)
-    package = bpo.db.get_package(session, "hello-world-wrapper", arch, branch)
+    package = bpo.db.get_package(session, "hello-world-wrapper", arch, branch, splitrepo)
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.built)
 
     # Create symlink repo
@@ -184,11 +184,11 @@ def test_build_arch_branch(monkeypatch):
 
     # *** Test repo being stuck ***
     # Change "hello-world" to failed
-    package = bpo.db.get_package(session, "hello-world", arch, branch)
+    package = bpo.db.get_package(session, "hello-world", arch, branch, splitrepo)
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.failed)
 
     # Change "hello-world-wrapper" to queued
-    package = bpo.db.get_package(session, "hello-world-wrapper", arch, branch)
+    package = bpo.db.get_package(session, "hello-world-wrapper", arch, branch, splitrepo)
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.queued)
 
     # Expect build_repo_stuck log message
@@ -201,7 +201,7 @@ def test_build_arch_branch(monkeypatch):
 
     # *** Test repo being stuck (depend is building) ***
     # Change "hello-world" to building
-    package = bpo.db.get_package(session, "hello-world", arch, branch)
+    package = bpo.db.get_package(session, "hello-world", arch, branch, splitrepo)
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.building)
 
     # Expect build_repo_stuck log message
@@ -226,12 +226,13 @@ def test_repo_next_package_to_build(monkeypatch):
     func = bpo.repo.next_package_to_build
     arch = "x86_64"
     branch = "master"
+    splitrepo = None
 
     # First package should be "hello-world"
     assert func(session, arch, branch) == "hello-world"
 
     # Change "hello-world" to failed
-    package = bpo.db.get_package(session, "hello-world", arch, branch)
+    package = bpo.db.get_package(session, "hello-world", arch, branch, splitrepo)
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.failed)
 
     # Remaining "hello-world-wrapper" depends on failing package "hello-world"
@@ -251,13 +252,14 @@ def test_build_foreign_arch(monkeypatch):
     branch = "master"
     pkgname = "hello-world"
     version = "999-r0"
+    splitrepo = None
     pkg = bpo.db.Package(arch, branch, pkgname, version)
     session.merge(pkg)
     arch = "aarch64"
     pkg = bpo.db.Package(arch, branch, pkgname, version)
     session.merge(pkg)
     session.commit()
-    pkg = bpo.db.get_package(session, pkgname, "x86_64", branch)
+    pkg = bpo.db.get_package(session, pkgname, "x86_64", branch, splitrepo)
 
     # Override bpo.repo.build_arch_branch
     def fake_build_arch_branch(session, slots_available, arch, branch, splitrepo,

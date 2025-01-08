@@ -48,7 +48,7 @@ def update_or_insert_packages(session, payload, arch, branch):
         splitrepo = package["repo"]
 
         # Find existing db entry if possible (update or insert logic)
-        package_db = bpo.db.get_package(session, pkgname, arch, branch)
+        package_db = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
         if package_db:
             if package_db.version != version:
                 bpo.jobs.build_package.abort(package_db)
@@ -65,6 +65,7 @@ def update_or_insert_packages(session, payload, arch, branch):
 
 def update_package_depends(session, payload, arch, branch):
     for package in payload:
+        splitrepo = package["repo"]
 
         # Build list of dependencies (DB objects)
         depends = []
@@ -73,13 +74,13 @@ def update_package_depends(session, payload, arch, branch):
             # Avoid complexity by only storing postmarketOS dependencies (which
             # are all in the database at this point), and ignoring Alpine
             # depends.
-            depend = bpo.db.get_package(session, pkgname, arch, branch)
+            depend = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
             if depend:
                 depends.append(depend)
 
         # Write changes
         package_db = bpo.db.get_package(session, package["pkgname"], arch,
-                                        branch)
+                                        branch, splitrepo)
         package_db.depends = depends
         session.merge(package_db)
     session.commit()

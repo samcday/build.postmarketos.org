@@ -51,7 +51,7 @@ def test_callback_depends_remove_deleted_packages_db(monkeypatch):
 
         # Package must not exist in db anymore (it isn't in the payload)
         # (apk still exists, because bpo.repo.build was monkeypatched)
-        assert bpo.db.get_package(session, pkgname, arch, branch) is None
+        assert bpo.db.get_package(session, pkgname, arch, branch, splitrepo) is None
 
 
 def test_callback_depends_update_package(monkeypatch):
@@ -76,7 +76,8 @@ def test_callback_depends_update_package(monkeypatch):
         pkgname = "hello-world"
         arch = "x86_64"
         branch = "master"
-        package = bpo.db.get_package(session, pkgname, arch, branch)
+        splitrepo = None
+        package = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
         package.version = "0-r0"
         package.status = bpo.db.PackageStatus.failed
         session.merge(package)

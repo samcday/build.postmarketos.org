@@ -119,7 +119,7 @@ def sync_with_orig_repo(branch_staging, arch, splitrepo):
         # the logs as they would be too many (only a count of synced packages)
         # so there won't be a link to the log anyway. Also we would need to
         # change the db layout to store the same job_id in 2 packages (unique).
-        package = bpo.db.get_package(session, pkgname, arch, branch_staging)
+        package = bpo.db.get_package(session, pkgname, arch, branch_staging, splitrepo)
 
         if package.job_id is None and package.status == bpo.db.PackageStatus.built:
             # We encountered another subpackage of the same origin package

@@ -16,6 +16,7 @@ def is_apk_broken(metadata):
 
 
 def remove_broken_apk(session, pkgname, version, arch, branch, apk_path):
+    splitrepo = None  # FIXME
     # Remove from disk
     bpo.ui.log("remove_broken_apk", arch=arch, branch=branch, pkgname=pkgname,
                version=version)
@@ -23,7 +24,7 @@ def remove_broken_apk(session, pkgname, version, arch, branch, apk_path):
 
     # Reset package status to queued
     queued = bpo.db.PackageStatus.queued
-    package = bpo.db.get_package(session, pkgname, arch, branch)
+    package = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
     if package and package.version == version:
         bpo.db.set_package_status(session, package, queued)
         bpo.ui.log_package(package, "remove_broken_apk_reset_deleted")
@@ -56,6 +57,7 @@ def fix_disk_vs_db(arch, branch, path, status, is_wip=False, job_id=None):
         :returns: (count of removed pkgs, count of updated pkgs)
 
     """
+    splitrepo = None  # FIXME
     removed = 0
     updated = 0
 
@@ -72,7 +74,7 @@ def fix_disk_vs_db(arch, branch, path, status, is_wip=False, job_id=None):
             removed += 1
             continue
 
-        package = bpo.db.get_package(session, pkgname, arch, branch)
+        package = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
         if not package or package.version != version:
             if is_wip:
                 os.unlink(path + "/" + apk)

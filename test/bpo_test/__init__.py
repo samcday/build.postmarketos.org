@@ -195,8 +195,9 @@ def assert_package(pkgname, arch="x86_64", branch="master", status=None,
         :param exists: set to False if the package should not exist at all
         :param retry_count: how often build failed previously
         :param job_id: the job_id, set to None or an integer to check """
+    splitrepo = None  # FIXME
     session = bpo.db.session()
-    package = bpo.db.get_package(session, pkgname, arch, branch)
+    package = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
 
     if not exists:
         if not package:

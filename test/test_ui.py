@@ -31,20 +31,21 @@ def test_update_badge(monkeypatch):
     func_imgs = bpo.db.get_recent_images_by_status
     arch = "x86_64"
     branch = "master"
+    splitrepo = None
 
     # Building
     badge = func(session, func_pkgs(session), func_imgs(session))
     assert badge == "building"
 
     # Failed
-    pkg_hello = bpo.db.get_package(session, "hello-world", arch, branch)
+    pkg_hello = bpo.db.get_package(session, "hello-world", arch, branch, splitrepo)
     bpo.db.set_package_status(session, pkg_hello, bpo.db.PackageStatus.failed)
     badge = func(session, func_pkgs(session), func_imgs(session))
     assert badge == "failed"
 
     # Up-to-date
     pkg_wrapper = bpo.db.get_package(session, "hello-world-wrapper", arch,
-                                     branch)
+                                     branch, splitrepo)
     bpo.db.set_package_status(session, pkg_hello, bpo.db.PackageStatus.built)
     bpo.db.set_package_status(session, pkg_wrapper, bpo.db.PackageStatus.built)
     badge = func(session, func_pkgs(session), func_imgs(session))

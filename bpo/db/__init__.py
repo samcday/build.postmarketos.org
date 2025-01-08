@@ -343,9 +343,10 @@ def validate_job_id(db_result, job_id):
     return True
 
 
-def get_package(session, pkgname, arch, branch, job_id=None):
+def get_package(session, pkgname, arch, branch, splitrepo, job_id=None):
     result = session.query(bpo.db.Package).filter_by(arch=arch,
                                                      branch=branch,
+                                                     splitrepo=splitrepo,
                                                      pkgname=pkgname).all()
     validate_job_id(result, job_id)
     return result[0] if len(result) else None

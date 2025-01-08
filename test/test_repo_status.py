@@ -39,7 +39,8 @@ def test_remove_broken_apk_db(tmpdir, monkeypatch):
     # Don't reset if package status (version differs)
     pkgname = "hello-world"
     version = "10-r0"
-    package = bpo.db.get_package(session, pkgname, arch, branch)
+    splitrepo = None
+    package = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.built)
     shutil.copy(__file__, apk_path)
     func(session, pkgname, version, arch, branch, apk_path)
@@ -48,7 +49,7 @@ def test_remove_broken_apk_db(tmpdir, monkeypatch):
     # Reset package status to queued (version matches)
     pkgname = "hello-world"
     version = "1-r4"
-    package = bpo.db.get_package(session, pkgname, arch, branch)
+    package = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.built)
     shutil.copy(__file__, apk_path)
     func(session, pkgname, version, arch, branch, apk_path)
@@ -57,7 +58,7 @@ def test_remove_broken_apk_db(tmpdir, monkeypatch):
     # Don't reset depending package from to queued (status is not failed)
     pkgname_depending = "hello-world-wrapper"
     package_depending = bpo.db.get_package(session, pkgname_depending, arch,
-                                           branch)
+                                           branch, splitrepo)
     bpo.db.set_package_status(session, package_depending,
                               bpo.db.PackageStatus.built)
     shutil.copy(__file__, apk_path)
@@ -79,7 +80,7 @@ def test_remove_broken_apk_db(tmpdir, monkeypatch):
 
     # Reset depending package to queued (status is failed)
     package_depending = bpo.db.get_package(session, pkgname_depending, arch,
-                                           branch)
+                                           branch, splitrepo)
     bpo.db.set_package_status(session, package_depending,
                               bpo.db.PackageStatus.failed)
     shutil.copy(__file__, apk_path)
@@ -128,7 +129,7 @@ def test_fix_disk_vs_db(monkeypatch):
     # Remove hello-world-wrapper from db; remove apk
     session = bpo.db.session()
     package_db = bpo.db.get_package(session, "hello-world-wrapper", arch,
-                                    branch)
+                                    branch, splitrepo)
     session.delete(package_db)
     session.commit()
     assert (1, 0) == func(arch, branch, wip_path, bpo.db.PackageStatus.built, True)
@@ -161,14 +162,14 @@ def test_fix_db_vs_disk_existing_apks(monkeypatch):
     wip_path = bpo.repo.wip.get_path(arch, branch, splitrepo)
     os.makedirs(wip_path)
     shutil.copy(testdata + "/hello-world-wrapper-1-r2.apk", wip_path)
-    package = bpo.db.get_package(session, "hello-world-wrapper", arch, branch)
+    package = bpo.db.get_package(session, "hello-world-wrapper", arch, branch, splitrepo)
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.built)
 
     # Put hello-world-wrapper apk in final repo, set to published
     final_path = bpo.repo.final.get_path(arch, branch, splitrepo)
     os.makedirs(final_path)
     shutil.copy(testdata + "/hello-world-1-r4.apk", final_path)
-    package = bpo.db.get_package(session, "hello-world", arch, branch)
+    package = bpo.db.get_package(session, "hello-world", arch, branch, splitrepo)
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.published)
 
     # Apks are present now -> no status change
@@ -182,6 +183,7 @@ def test_fix_db_vs_disk_missing_apks(monkeypatch):
         apks in the final/wip repos."""
     arch = "x86_64"
     branch = "master"
+    splitrepo = None
     session = bpo.db.session()
     func = bpo.repo.status.fix_db_vs_disk
 
@@ -196,13 +198,13 @@ def test_fix_db_vs_disk_missing_apks(monkeypatch):
     bpo_test.assert_package("hello-world-wrapper", status="queued")
 
     # hello-world: published but missing apk -> status reset to queued
-    package = bpo.db.get_package(session, "hello-world", arch, branch)
+    package = bpo.db.get_package(session, "hello-world", arch, branch, splitrepo)
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.published)
     func(arch, branch)
     bpo_test.assert_package("hello-world", status="queued")
 
     # hello-world-wrapper: built but missing apk -> status reset to queued
-    package = bpo.db.get_package(session, "hello-world-wrapper", arch, branch)
+    package = bpo.db.get_package(session, "hello-world-wrapper", arch, branch, splitrepo)
     bpo.db.set_package_status(session, package, bpo.db.PackageStatus.built)
     func(arch, branch)
     bpo_test.assert_package("hello-world", status="queued")

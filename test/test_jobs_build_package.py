@@ -22,7 +22,7 @@ def test_build_package_run_skip_existing(monkeypatch):
     arch = "x86_64"
     branch = "master"
     splitrepo = None
-    package = bpo.db.get_package(session, pkgname, arch, branch)
+    package = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
     assert package.status == bpo.db.PackageStatus.queued
 
     # Copy hello-world apk to wip repo

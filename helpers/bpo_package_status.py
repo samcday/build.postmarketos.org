@@ -76,12 +76,13 @@ def confirm(statement):
 
 
 def set_status(session, pkgnames, arch, branch, status):
+    splitrepo = None  # FIXME
     confirm("Will change status to '" + status + "' for the following"
             " packages: " + str(pkgnames))
 
     status = bpo.db.PackageStatus[status]
     for pkgname in pkgnames:
-        package = bpo.db.get_package(session, pkgname, arch, branch)
+        package = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
         bpo.db.set_package_status(session, package, status)
 
     print("done!")
@@ -89,6 +90,7 @@ def set_status(session, pkgnames, arch, branch, status):
 
 
 def set_job_id(session, pkgnames, arch, branch, job_id):
+    splitrepo = None  # FIXME
     if len(pkgnames) != 1:
         # We don't want to set the same ID for multiple pkgs by accident
         print("ERROR: changing job id is only allowed for one package at"
@@ -99,7 +101,7 @@ def set_job_id(session, pkgnames, arch, branch, job_id):
             f" {pkgnames}")
 
     for pkgname in pkgnames:
-        package = bpo.db.get_package(session, pkgname, arch, branch)
+        package = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
         bpo.db.set_package_status(session, package, package.status, job_id)
 
     print("done!")
@@ -107,11 +109,12 @@ def set_job_id(session, pkgnames, arch, branch, job_id):
 
 
 def set_retry_count(session, pkgnames, arch, branch, retry_count):
+    splitrepo = None  # FIXME
     confirm(f"Will set retry_count '{retry_count}' for the following packages:"
             f" {pkgnames}")
 
     for pkgname in pkgnames:
-        package = bpo.db.get_package(session, pkgname, arch, branch)
+        package = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
         package.retry_count = retry_count
         session.merge(package)
 
@@ -122,11 +125,12 @@ def set_retry_count(session, pkgnames, arch, branch, retry_count):
 
 
 def get_status(session, pkgnames, arch, branch):
+    splitrepo = None  # FIXME
     format_str = "{:10s} | {:9} | {:12} | {}"
     print(format_str.format("status", "job id", "retry count", "pkgname"))
     print("-" * 50)
     for pkgname in pkgnames:
-        package = bpo.db.get_package(session, pkgname, arch, branch)
+        package = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
         print(format_str.format(package.status.name, package.job_id or "-",
                                 package.retry_count, package.pkgname))
 
