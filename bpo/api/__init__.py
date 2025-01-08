@@ -43,7 +43,8 @@ def get_splitrepo(request, branch):
     if splitrepo in ["", "None"]:
         return None
 
-    # FIXME: check against known list of splitrepos from config
+    if splitrepo not in bpo.config.const.splitrepos:
+        raise ValueError(f"invalid X-BPO-Splitrepo: {splitrepo}")
 
     return splitrepo
 
