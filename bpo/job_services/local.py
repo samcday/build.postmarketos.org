@@ -63,7 +63,7 @@ class LocalJobServiceThread(threading.Thread):
         except Exception:
             return False
 
-    def setup_task(self, branch):
+    def setup_task(self, branch, splitrepo):
         """ Setup temp_path with copy of pmaports.git/pmbootstrap.git and
             remove locally built packages.
 
@@ -81,10 +81,14 @@ class LocalJobServiceThread(threading.Thread):
         repo_wip_key = bpo.config.const.repo_wip_keys + "/wip.rsa"
         uid = bpo.config.const.pmbootstrap_chroot_uid_user
 
-        repo_wip_path = f"{bpo.config.args.repo_wip_path}/{branch}"
+        repo_wip_path = bpo.config.args.repo_wip_path
+        if splitrepo:
+            repo_wip_path = os.path.join(repo_wip_path, "extra-repos", splitrepo)
         if "_staging_" in branch:
             branch_orig, name = bpo.repo.staging.branch_split(branch)
-            repo_wip_path = f"{bpo.config.args.repo_wip_path}/staging/{name}/{branch_orig}"
+            repo_wip_path = os.path.join(repo_wip_path, "staging", name, branch_orig)
+        else:
+            repo_wip_path = os.path.join(repo_wip_path, branch)
 
         return """
             # Remove old temp dir
@@ -127,7 +131,7 @@ class LocalJobServiceThread(threading.Thread):
             cp """ + shlex.quote(repo_wip_key) + """ .final.rsa
         """
 
-    def run_job(self, name, note, tasks, branch, job_id):
+    def run_job(self, name, note, tasks, branch, splitrepo, job_id):
         self.job_id = job_id
 
         # Prepare log
@@ -141,7 +145,7 @@ class LocalJobServiceThread(threading.Thread):
         os.symlink(self.log_path, current)
 
         # Begin with setup task
-        tasks["setup"] = self.setup_task(branch)
+        tasks["setup"] = self.setup_task(branch, splitrepo)
         tasks.move_to_end("setup", last=False)
 
         # Create temp dir
@@ -231,6 +235,7 @@ class LocalJobServiceThread(threading.Thread):
                 note = job_data["note"]
                 tasks = job_data["tasks"]
                 branch = job_data["branch"]
+                splitrepo = job_data["splitrepo"]
                 logging.info("Received job: " + name + " (" + note + ")")
 
                 # Set to running
@@ -241,7 +246,7 @@ class LocalJobServiceThread(threading.Thread):
                     jobs[job_id]["status"] = "running"
 
                 # Run the job
-                success = self.run_job(name, note, tasks, branch, job_id)
+                success = self.run_job(name, note, tasks, branch, splitrepo, job_id)
                 status = "success" if success else "failed"
                 logging.info("Job finished (" + status + ")")
 
@@ -293,6 +298,7 @@ class LocalJobService(JobService):
                             "note": note,
                             "tasks": tasks,
                             "branch": branch,
+                            "splitrepo": splitrepo,
                             "status": "queued"}
             jobs_cond.notify()
 
