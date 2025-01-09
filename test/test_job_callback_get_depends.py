@@ -119,3 +119,17 @@ def test_get_payload_splitrepo_pmbv3_nok(monkeypatch):
             bpo_test.trigger.job_callback_get_depends(branch, payload)
 
         assert str(e.value).startswith("Unexpected splitrepo")
+
+
+def test_get_payload_splitrepo_pmbv3_ok(monkeypatch):
+    monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)
+    with bpo_test.BPOServer():
+        branch = "master"
+        payload = "depends_systemd.json"
+        monkeypatch.setattr(bpo.helpers.pmb, "is_master", bpo_test.true)
+
+        bpo_test.trigger.job_callback_get_depends(branch, payload)
+
+        bpo_test.assert_package("hello-world", splitrepo=None)
+        bpo_test.assert_package("hello-world", splitrepo="systemd")
+        bpo_test.assert_package("hello-world-wrapper", splitrepo="systemd")

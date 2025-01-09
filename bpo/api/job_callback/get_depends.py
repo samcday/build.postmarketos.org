@@ -40,9 +40,11 @@ def get_payload(request, arch, branch):
                                f" -- Expected: {bpo.config.const.splitrepos}")
 
         pkgname = package["pkgname"]
-        if pkgname in found:
-            raise RuntimeError("pkgname found twice in payload: " + pkgname)
-        found[pkgname] = True
+        if pkgname not in found:
+            found[pkgname] = []
+        if splitrepo in found[pkgname]:
+            raise RuntimeError(f"pkgname found twice in payload with repo={splitrepo}: {pkgname}")
+        found[pkgname] += [splitrepo]
 
     return ret
 
