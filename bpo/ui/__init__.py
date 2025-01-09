@@ -166,10 +166,16 @@ def log(*args, **kwargs):
 def log_package(package, action, depend_pkgname=None, commit=None):
     """ Convenience wrapper
         :param package: bpo.db.Package object """
-    log(action=action, arch=package.arch, branch=package.branch,
-        pkgname=package.pkgname, version=package.version,
-        job_id=package.job_id, retry_count=package.retry_count,
-        depend_pkgname=depend_pkgname, commit=commit)
+    log(action=action,
+        arch=package.arch,
+        branch=package.branch,
+        splitrepo=package.splitrepo,
+        pkgname=package.pkgname,
+        version=package.version,
+        job_id=package.job_id,
+        retry_count=package.retry_count,
+        depend_pkgname=depend_pkgname,
+        commit=commit)
 
 
 def log_image(image, action):
@@ -193,4 +199,5 @@ def log_repo_bootstrap(rb, action):
         pkgname="[repo_bootstrap]",
         job_id=rb.job_id,
         retry_count=rb.retry_count,
-        dir_name=rb.dir_name)
+        dir_name=rb.dir_name,
+        splitrepo=rb.dir_name)
