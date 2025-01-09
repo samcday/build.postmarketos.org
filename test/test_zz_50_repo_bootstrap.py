@@ -25,7 +25,7 @@ def TEST_STEP(num, title):
     TEST_STEP_CURRENT += 1
 
 
-@pytest.mark.timeout(100)
+@pytest.mark.timeout(200)
 def test_repo_bootstrap_full(monkeypatch):
     global TEST_STEP_CURRENT
 

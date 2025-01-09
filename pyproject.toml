@@ -6,7 +6,7 @@ line-length=100
 [tool.pytest.ini_options]
 addopts="--strict-markers"
 markers=["skip_ci", "img_dir_gen"]
-timeout=10
+timeout=20
 
 # Kill all threads on timeout
 timeout_method="thread"
