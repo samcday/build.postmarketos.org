@@ -3,6 +3,7 @@
 import logging
 import os
 import shutil
+import pytest
 
 import bpo_test
 import bpo_test.trigger
@@ -93,3 +94,28 @@ def test_callback_depends_to_nop(monkeypatch):
         # Trigger job-callback/get-depends
         monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)
         bpo_test.trigger.job_callback_get_depends("master")
+
+
+def test_get_payload_splitrepo_pmbv2_ok(monkeypatch):
+    monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)
+    with bpo_test.BPOServer():
+        branch = "master"
+        payload = "depends.x86_64_pmbv2.json"
+        monkeypatch.setattr(bpo.helpers.pmb, "is_master", bpo_test.false)
+
+        bpo_test.trigger.job_callback_get_depends(branch, payload)
+
+        bpo_test.assert_package("hello-world", splitrepo=None)
+        bpo_test.assert_package("hello-world-wrapper", splitrepo=None)
+
+
+def test_get_payload_splitrepo_pmbv3_nok(monkeypatch):
+    with pytest.raises(AssertionError) as e:
+        with bpo_test.BPOServer():
+            branch = "master"
+            payload = "depends.x86_64_pmbv2.json"
+            monkeypatch.setattr(bpo.helpers.pmb, "is_master", bpo_test.true)
+
+            bpo_test.trigger.job_callback_get_depends(branch, payload)
+
+        assert str(e.value).startswith("Unexpected splitrepo")

@@ -9,6 +9,7 @@ import bpo.api
 import bpo.config.args
 import bpo.db
 import bpo.helpers.job
+import bpo.helpers.pmb
 import bpo.repo
 import bpo.repo.bootstrap
 import bpo.repo.staging
@@ -18,16 +19,26 @@ import bpo.ui
 blueprint = bpo.api.blueprint
 
 
-def get_payload(request, arch):
+def get_payload(request, arch, branch):
     """ Get the get_depends callback specific payload from the POST-data
         and verify it. """
     filename = "depends." + arch + ".json"
     storage = bpo.api.get_file(request, filename)
     ret = json.loads(storage.read().decode("utf-8"))
+    pmb_master = bpo.helpers.pmb.is_master(branch)
 
     # Check for duplicate pkgnames
     found = {}
     for package in ret:
+        # pmbv2 compat
+        if not pmb_master:
+            package["repo"] = None
+
+        splitrepo = package["repo"]
+        if splitrepo not in bpo.config.const.splitrepos:
+            raise RuntimeError(f"Unexpected splitrepo (repo) found in package: {package}"
+                               f" -- Expected: {bpo.config.const.splitrepos}")
+
         pkgname = package["pkgname"]
         if pkgname in found:
             raise RuntimeError("pkgname found twice in payload: " + pkgname)
@@ -127,7 +138,7 @@ def job_callback_get_depends():
     payloads = collections.OrderedDict()
     branches_with_staging = bpo.repo.staging.get_branches_with_staging()
     for arch in branches_with_staging[branch]["arches"]:
-        payloads[arch] = get_payload(request, arch)
+        payloads[arch] = get_payload(request, arch, branch)
 
     # Update packages in DB
     session = bpo.db.session()
