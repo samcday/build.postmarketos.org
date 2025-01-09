@@ -7,6 +7,7 @@ import os
 import logging
 import shutil
 import threading
+from datetime import datetime
 from sqlalchemy import func
 
 import bpo.config.const
@@ -83,6 +84,7 @@ def update_index(session, pkgs, imgs, badge_name):
     # Fill template
     global env
     template = env.get_template("index.html")
+    year = datetime.now().date().strftime("%Y")
     html = template.render(bpo=bpo,
                            commit_link=commit_link,
                            pkgcount=pkgcount,
@@ -91,7 +93,8 @@ def update_index(session, pkgs, imgs, badge_name):
                            imgs=imgs,
                            len=len,
                            log_entries_days=log_entries_days,
-                           badge_name=badge_name)
+                           badge_name=badge_name,
+                           year=year)
 
     # Write to output dir
     output = bpo.config.args.html_out + "/index.html"

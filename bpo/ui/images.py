@@ -78,6 +78,8 @@ def write_index(path, template, **context):
     if "entries" not in context:
         context["entries"] = get_entries(path)
 
+    context["year"] = datetime.now().date().strftime("%Y")
+
     template = bpo.ui.env.get_template(f"images/{template}")
     html = template.render(**context)
     with open(os.path.join(path, "index.html"), "w") as handle:
