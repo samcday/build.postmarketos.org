@@ -91,6 +91,3 @@ def test_callback_depends_to_nop(monkeypatch):
         # Trigger job-callback/get-depends
         monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)
         bpo_test.trigger.job_callback_get_depends("master")
-
-
-# FIXME: test all kinds of errors, e.g. invalid push id
