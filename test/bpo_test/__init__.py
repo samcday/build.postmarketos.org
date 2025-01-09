@@ -118,7 +118,7 @@ def raise_exception(*args, **kwargs):
 
 
 def bpo_test_exception_handler(e):
-    logging.critical(traceback.format_exc())
+    logging.error(traceback.format_exc())
     stop_server_nok()
     return traceback.format_exc(), 500
 
