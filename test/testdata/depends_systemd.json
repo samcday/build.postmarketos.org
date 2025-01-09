@@ -1,4 +1,8 @@
 [
+    {"pkgname": "hello-world",
+     "repo": null,
+     "version": "1-r6",
+     "depends": []},
     {"pkgname": "hello-world-wrapper",
      "repo": "systemd",
      "version": "1-r4",
