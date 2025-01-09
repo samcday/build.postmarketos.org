@@ -89,7 +89,7 @@ pytest \
 	-x \
 	$cov_arg \
 	test \
-		-m "not skip_ci" \
+		-m "not skip_ci and not skip_pmbv2" \
 		"$@"
 
 if command -v coverage >/dev/null; then
