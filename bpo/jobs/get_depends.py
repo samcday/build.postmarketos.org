@@ -16,9 +16,7 @@ def run(branch):
 
     # Configure pmbootstrap mirrors
     pmb_v2_mirrors_arg = ""
-    if bpo.helpers.pmb.is_master(branch):
-        tasks["set_repos"] = bpo.helpers.pmb.set_repos_task(None, branch, False)
-    else:
+    if not bpo.helpers.pmb.is_master(branch):
         mirror_final = bpo.helpers.pmb.get_pmos_mirror(branch, None)
         pmb_v2_mirrors_arg += f" -mp {shlex.quote(mirror_final)}\\\n"
 
@@ -27,9 +25,13 @@ def run(branch):
     for arch in branches[branch]["arches"]:
         # Ignore missing repos before initial build (bpo#137)
         env_force_missing_repos = ""
-        final_path = bpo.repo.final.get_path(arch, branch, None)
-        if not os.path.exists(f"{final_path}/APKINDEX.tar.gz"):
-            env_force_missing_repos = "export PMB_APK_FORCE_MISSING_REPOSITORIES=1"
+
+        if bpo.helpers.pmb.is_master(branch):
+            tasks[f"set_repos_{arch}"] = bpo.helpers.pmb.set_repos_task(arch, branch, False)
+        else:
+            final_path = bpo.repo.final.get_path(arch, branch, None)
+            if not os.path.exists(f"{final_path}/APKINDEX.tar.gz"):
+                env_force_missing_repos = "export PMB_APK_FORCE_MISSING_REPOSITORIES=1"
 
         tasks[f"{branch}_{arch}"] = f"""
             export ARCH={shlex.quote(arch)}
