@@ -3,6 +3,7 @@
 
 import collections
 import json
+import logging
 from flask import request
 from bpo.helpers.headerauth import header_auth
 import bpo.api
@@ -100,8 +101,9 @@ def update_package_depends(session, payload, arch, branch):
         package_db = bpo.db.get_package(session, package["pkgname"], arch,
                                         branch, splitrepo)
         package_db.depends = depends
+        logging.debug(f"update_package_depends: {package_db}")
         session.merge(package_db)
-    session.commit()
+        session.commit()
 
 
 def remove_deleted_packages_db(session, payload, arch, branch, splitrepo):
