@@ -30,7 +30,7 @@ def parse_arguments():
                         help="package architecture (default: x86_64)")
     parser.add_argument("-b", "--branch", default="master",
                         help="pmaports.git branch (default: master)")
-    parser.add_argument("-s", "--splitrepo", default=None,
+    parser.add_argument("-S", "--splitrepo", default=None,
                         help="splitrepo (None or systemd, default: None)")
     parser.add_argument("-d", "--db-path", help="path to sqlite3 database",
                         default=bpo.config.const.args.db_path)
