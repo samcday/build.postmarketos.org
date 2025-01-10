@@ -138,7 +138,7 @@ def get_manifest(name, tasks, branch, splitrepo):
 class SourcehutJobService(JobService):
 
     def run_job(self, name, note, tasks, branch, splitrepo):
-        manifest = get_manifest(name, tasks, branch)
+        manifest = get_manifest(name, tasks, branch, splitrepo)
         print(manifest)
         result = api_request("jobs", {"manifest": manifest,
                                       "note": note,
