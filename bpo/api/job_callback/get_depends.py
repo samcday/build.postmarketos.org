@@ -90,6 +90,12 @@ def update_package_depends(session, payload, arch, branch):
             depend = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
             if depend:
                 depends.append(depend)
+            elif splitrepo:
+                # For splitrepo packages: check if the dependency exists in the
+                # main pmOS repo
+                depend = bpo.db.get_package(session, pkgname, arch, branch, None)
+                if depend:
+                    depends.append(depend)
 
         # Write changes
         package_db = bpo.db.get_package(session, package["pkgname"], arch,
