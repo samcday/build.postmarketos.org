@@ -78,9 +78,11 @@ def set_repos_task(arch, branch, add_wip_repo=True):
                 url_wip = get_pmos_mirror(branch, splitrepo, "wip") or "none"
                 ret += f"pmbootstrap config mirrors.{mirror_name}_custom {shlex.quote(url_wip)}\n"
 
+        url = "none"
         final_path = bpo.repo.final.get_path(arch, branch, splitrepo)
         if final_path and os.path.exists(os.path.join(final_path, "APKINDEX.tar.gz")):
             url = get_pmos_mirror(branch, splitrepo) or "none"
-            ret += f"pmbootstrap config mirrors.{mirror_name} {shlex.quote(url)}\n"
+
+        ret += f"pmbootstrap config mirrors.{mirror_name} {shlex.quote(url)}\n"
 
     return ret

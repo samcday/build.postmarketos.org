@@ -66,7 +66,9 @@ def test_set_repos_task(monkeypatch):
     branch = "master"
     add_wip_repo = False
     assert func(arch, branch, add_wip_repo) == \
-        "pmbootstrap config mirrors.alpine ALPINE\n"
+        "pmbootstrap config mirrors.alpine ALPINE\n" \
+        "pmbootstrap config mirrors.pmaports none\n" \
+        "pmbootstrap config mirrors.systemd none\n"
 
     monkeypatch.setattr(os.path, "exists", bpo_test.true)
 
