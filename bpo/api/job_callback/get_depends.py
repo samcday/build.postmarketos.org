@@ -68,7 +68,6 @@ def update_or_insert_packages(session, payload, arch, branch):
                 package_db.status = bpo.db.PackageStatus.queued
                 package_db.retry_count = 0
             package_db.version = version
-            package_db.splitrepo = splitrepo
         else:
             package_db = bpo.db.Package(arch, branch, pkgname, version,
                                         splitrepo=splitrepo)
