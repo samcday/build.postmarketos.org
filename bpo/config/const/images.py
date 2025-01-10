@@ -192,15 +192,38 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["embedded"]),
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "asus-me176c": {
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
     "bq-paella": {
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
     "fairphone-fp4": {
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
     "fairphone-fp5": {
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
     "generic-x86_64": {
         "branch_configs": {
@@ -213,6 +236,9 @@ images = {
                     "lts",
                 ],
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "google-asurada": {
@@ -223,6 +249,9 @@ images = {
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible"]),
+            },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
             },
         },
     },
@@ -235,6 +264,9 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible"]),
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "google-corsola": {
@@ -246,6 +278,9 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible"]),
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "google-gru": {
@@ -253,12 +288,18 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"]),
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "google-kukui": {
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"]),
+            },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
             },
         },
     },
@@ -276,6 +317,9 @@ images = {
                 ],
                 "ui": get_ui_list(chassis=["laptop"], supports_gpu=False),
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "google-nyan-blaze": {
@@ -288,12 +332,18 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop"], supports_gpu=False),
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "google-oak": {
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible"], supports_gpu=False),
+            },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
             },
         },
     },
@@ -306,12 +356,18 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop"]),
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "google-peach-pit": {
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop"]),
+            },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
             },
         },
     },
@@ -325,6 +381,7 @@ images = {
         "branch_configs": {
             "master": {
                 "ui": get_ui_list(chassis=["laptop"]),
+                "date-start": "2025-01-10",  # Friday
             },
         },
     },
@@ -333,12 +390,18 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"]),
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "google-veyron": {
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible"]),
+            },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
             },
         },
     },
@@ -359,6 +422,9 @@ images = {
                 "ui": get_ui_list(chassis=["laptop", "convertible"],
                                   exclude_ui=["plasma-desktop"]),
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "lenovo-21bx": {
@@ -366,17 +432,33 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop"]),
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "lenovo-a6000": {
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
     "lenovo-a6010": {
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
     "microsoft-surface-rt": {
         "branch_configs": {
             "all": {
                 # Tablet with detachable keyboard
                 "ui": get_ui_list(chassis=["convertible"], supports_gpu=False),
+            },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
             },
         },
     },
@@ -389,7 +471,7 @@ images = {
                 "ui": get_ui_list(chassis=["convertible"], supports_gpu=False),
             },
             "master": {
-                "date-start": "2023-07-07",  # Friday
+                "date-start": "2025-01-10",  # Friday
             },
         },
     },
@@ -398,6 +480,9 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["convertible", "tablet", "handset"], supports_gpu=False),
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "odroid-xu4": {
@@ -405,16 +490,32 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["embedded"]),
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "oneplus-enchilada": {
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
     "oneplus-fajita": {
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
     "pine64-pinebookpro": {
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop"]),
+            },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
             },
         },
     },
@@ -422,6 +523,9 @@ images = {
         "branch_configs": {
             "v24.12": {
                 "date-start": "2024-12-20",  # Friday
+            },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
             },
         },
     },
@@ -433,6 +537,9 @@ images = {
             # https://gitlab.postmarketos.org/postmarketOS/pmaports/-/issues/2650
             "all": {
                 "ui": get_ui_list(chassis=["embedded"]),
+            },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
             },
         },
     },
@@ -448,20 +555,41 @@ images = {
                 "kernels": [
                     "next",
                 ],
+                "date-start": "2025-01-10",  # Friday
             },
         }
     },
     "purism-librem5": {
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        }
     },
     "qcom-msm8953": {
         "branches": [
             "master",
             "v24.12",
         ],
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        }
     },
     "samsung-a3": {
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        }
     },
     "samsung-a5": {
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        }
     },
     "samsung-coreprimevelte": {
         "branch_configs": {
@@ -469,10 +597,16 @@ images = {
                 # Only usable UI at the moment
                 "ui": [ "sxmo-de-sway" ],
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "samsung-e7": {
         "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "samsung-espresso10": {
@@ -481,6 +615,9 @@ images = {
                 "android-recovery-zip": True,
                 "date-start": "2024-06-08",  # Saturday
                 "ui": get_ui_list(chassis=["tablet"], supports_gpu=False),
+            },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
             },
         },
     },
@@ -491,18 +628,37 @@ images = {
                 "date-start": "2024-06-08",  # Saturday
                 "ui": get_ui_list(chassis=["tablet"], supports_gpu=False),
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "samsung-grandmax": {
         "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "samsung-gt510": {
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
     "samsung-gt58": {
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
     "samsung-m0": {
         "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "samsung-manta": {
@@ -510,15 +666,31 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["tablet"]),
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "samsung-serranove": {
         "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "shift-axolotl": {
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
     "wileyfox-crackling": {
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
     "xiaomi-beryllium": {
         "branch_configs": {
@@ -528,12 +700,20 @@ images = {
                     "ebbg",
                 ],
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "xiaomi-daisy": {
         "branches": [
             "v24.06",
         ],
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
     "xiaomi-elish": {
         "branches": [
@@ -547,35 +727,73 @@ images = {
                     "csot",
                 ],
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
         },
     },
     "xiaomi-markw": {
         "branches": [
             "v24.06",
         ],
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
     "xiaomi-mido": {
         "branches": [
             "v24.06",
         ],
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
     "xiaomi-scorpio": {
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
     "xiaomi-tissot": {
         "branches": [
             "v24.06",
         ],
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
     "xiaomi-vince": {
         "branches": [
             "v24.06",
         ],
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
     "xiaomi-wt88047": {
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
     "xiaomi-ysl": {
         "branches": [
             "v24.06",
         ],
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
     },
 }
