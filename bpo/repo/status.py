@@ -82,7 +82,8 @@ def fix_disk_vs_db(arch, branch, splitrepo, path, status, is_wip=False, job_id=N
                     bpo.ui.log_package(package, "obsolete_wip_package")
                 else:
                     bpo.ui.log(action="obsolete_wip_package", arch=arch,
-                               branch=branch, pkgname=pkgname, version=version)
+                               branch=branch, pkgname=pkgname, version=version,
+                               splitrepo=splitrepo)
             continue
         if package.status != status:
             bpo.db.set_package_status(session, package, status, job_id)
