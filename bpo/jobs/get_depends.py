@@ -38,11 +38,7 @@ def run(branch):
             export JSON="depends.$ARCH.json"
             {env_force_missing_repos}
 
-            # Enable systemd, so pmbootstrap doesn't omit the packages in
-            # extra-repos/systemd. For repositories that don't have systemd,
-            # this does not make a difference. An edge case is having packages
-            # with the same name in both systemd and non-systemd repos, but
-            # this is currently not supported (bpo#144).
+            # Get systemd packages too
             pmbootstrap config systemd always
 
             pmbootstrap \\
