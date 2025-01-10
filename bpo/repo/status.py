@@ -31,7 +31,7 @@ def remove_broken_apk(session, pkgname, version, arch, branch, splitrepo, apk_pa
     # Reset packages depending on the deleted apk from failed to queued
     failed = bpo.db.PackageStatus.failed
     result = session.query(bpo.db.Package)\
-        .filter_by(arch=arch, branch=branch, status=failed)
+        .filter_by(arch=arch, branch=branch, splitrepo=splitrepo, status=failed)
     for package_failed in result:
         # There's probably a clever way to do this with sqlalchemy filters, but
         # this is not performance critical
@@ -100,7 +100,8 @@ def fix_db_vs_disk(arch, branch, splitrepo):
     """
     session = bpo.db.session()
     packages = session.query(bpo.db.Package).filter_by(arch=arch,
-                                                       branch=branch)
+                                                       branch=branch,
+                                                       splitrepo=splitrepo)
     path_final = bpo.repo.final.get_path(arch, branch, splitrepo)
     path_wip = bpo.repo.wip.get_path(arch, branch, splitrepo)
 
