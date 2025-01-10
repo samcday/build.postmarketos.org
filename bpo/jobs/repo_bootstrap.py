@@ -40,7 +40,12 @@ def run(session, rb, test_pmaports_cfg=None):
     if bpo.helpers.pmb.is_master(rb.branch):
         tasks["set_repos"] = bpo.helpers.pmb.set_repos_task(rb.arch, rb.branch, False)
 
+    systemd_arg = "never"
+    if rb.dir_name == "systemd":
+        systemd_arg = "always"
+
     tasks["repo_bootstrap"] = f"""
+        pmbootstrap config systemd {shlex.quote(systemd_arg)}
         pmbootstrap \\
             {pmb_v2_mirrors_arg} \\
             --aports=$PWD/pmaports \\
