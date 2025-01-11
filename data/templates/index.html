@@ -276,6 +276,7 @@
         {% for package in pkgs.building %}
         <li> <span class="branch">{{package.branch}}{% if package.splitrepo
                 %}:{{package.splitrepo}}{% endif %}</span>/<span
+            class="arch">{{package.arch}}</span>/<span
             class="pkgname">{{package.pkgname}}</span>{%
                 if package.version %}-<span class="version">{{package.version}}</span>{% endif %}
             <a class="job-log" href="{{ bpo.helpers.job.get_link(package.job_id) }}">[log]</a>
