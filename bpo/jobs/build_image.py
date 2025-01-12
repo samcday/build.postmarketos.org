@@ -8,6 +8,7 @@ import bpo.helpers.job
 import bpo.helpers.pmb
 import bpo.images
 import bpo.images.config
+import bpo.repo.staging
 import bpo.ui
 
 
@@ -62,7 +63,12 @@ def run(device, branch, ui):
 
     # Configure pmbootstrap mirrors
     if bpo.helpers.pmb.is_master(branch):
-        tasks["set_repos"] = bpo.helpers.pmb.set_repos_task(None, branch, False)
+        # We can just pass the native arch to set_repos_task(), as it is only
+        # getting used to check whether paths to the final repository exist
+        # for that arch, and configuring mirrors.pmaports and mirrors.systemd
+        # based on that (which don't include the architecture).
+        arch_native = bpo.repo.staging.get_branches_with_staging()[branch]["arches"][0]
+        tasks["set_repos"] = bpo.helpers.pmb.set_repos_task(arch_native, branch, False)
 
     # Task: img_prepare (generate image prefix, configure pmb, create tmpdir)
     tasks["img_prepare"] = f"""
