@@ -40,6 +40,9 @@ $ pytest --color=yes -vv -x test -m "not skip_ci"
 
 * Use `helpers/pytest_logs.sh` to see the detailed logs
 
+* Open `_html_out/index.html` in your browser and refresh it manually to see
+  the current generated HTML output (if any, this is not with all tests)
+
 ## Running
 ## With local job service
 
@@ -97,30 +100,6 @@ Finally start the bpo server again.
 $ ./bpo_sourcehut.sh
 ```
 
-
-### Running tests
-
-Run all CI tests with:
-
-```
-$ pmbootstrap ci
-```
-
-While pytest is running, follow the logs (in a second terminal) with:
-```
-$ helpers/pytest_logs.sh
-```
-
-Open `_html_out/index.html` in your browser and refresh it manually to see the
-current generated HTML output.
-
-Run one specific pytest, after having `pmbootstrap ci pytest` initialize the
-venv once:
-
-```
-$ source .venv/bin/activate
-pytest -xvv test/test_zz_90_slow_other.py -k test_build_final_repo_with_two_pkgs_SLOW_120s
-```
 
 ### Generating the images.postmarketos.org/bpo directory listing
 
