@@ -85,6 +85,7 @@ def test_depends_SLOW_120s(monkeypatch):
 
 
 @pytest.mark.timeout(120)
+@pytest.mark.skip_ci  # bpo#151
 def test_build_final_repo_with_two_pkgs_SLOW_120s(monkeypatch, tmpdir):
     # Prepare job-callback/get-depends payload
     payload_path = str(tmpdir) + "/payload.json"

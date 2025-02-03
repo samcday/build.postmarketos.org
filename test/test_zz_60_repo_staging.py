@@ -22,6 +22,7 @@ def job_failed():
 
 
 @pytest.mark.timeout(300)
+@pytest.mark.skip_ci  # bpo#151
 def test_no_sync_while_orig_repo_has_unpublished_pkgs(monkeypatch, tmpdir):
     """ Build hello-world in the original repository. While it is still in the
         WIP repository (not published yet), push the staging branch with
@@ -111,6 +112,7 @@ def test_no_sync_while_orig_repo_has_unpublished_pkgs(monkeypatch, tmpdir):
                                                   payload_path=payload_path)
 
 @pytest.mark.timeout(300)
+@pytest.mark.skip_ci  # bpo#151
 def test_build_publish_remove_staging_repo(monkeypatch, tmpdir):
     """ Build hello-world in the original repository, and wait until the
         package is published to the final repository. Afterwards, push the

@@ -27,6 +27,7 @@ def TEST_STEP(num, title):
 
 @pytest.mark.timeout(200)
 @pytest.mark.skip_pmbv2
+@pytest.mark.skip_ci  # pmb#2555
 def test_repo_bootstrap_full(monkeypatch):
     global TEST_STEP_CURRENT
 
