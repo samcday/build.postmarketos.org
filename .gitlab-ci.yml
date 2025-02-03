@@ -77,26 +77,3 @@ pytest:
         path: "coverage.xml"
     expire_in: "1 week"
   coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
-
-pytest-pmb-v2:
-  image: "alpine:3.18"  # has sqlalchemy<2.0
-  before_script:
-    - wget "https://gitlab.postmarketos.org/postmarketOS/ci-common/-/raw/master/install_pmbootstrap.sh"
-    - PMBOOTSTRAP_TAG=2.3.x sh ./install_pmbootstrap.sh
-    - ln -s /tmp/pmbootstrap ../pmbootstrap_v2
-  script:
-    - .ci/pytest-pmb-v2.sh
-  artifacts:
-    when: "on_failure"  # reports artifacts are always uploaded
-    paths:
-      - "coverage.xml"
-      - "_html_out/index.html"
-      - "_temp/local_job/task_*.sh"
-      - "_temp/local_job_logs/*.txt"
-      - "pytest.log"
-    reports:
-      coverage_report:
-        coverage_format: "cobertura"
-        path: "coverage.xml"
-    expire_in: "1 week"
-  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
