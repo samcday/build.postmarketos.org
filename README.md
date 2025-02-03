@@ -2,7 +2,15 @@
 
 ## Installation
 
-Requires python 3.7 or higher.
+NOTE: BPO needs [pmbootstrap](https://wiki.postmarketos.org/wiki/Pmbootstrap)
+installed, which needs root rights to perform a lot of actions. Consider
+setting up a virtual machine for running BPO and/or the BPO testsuite.
+
+* Install [pmbootstrap](https://wiki.postmarketos.org/wiki/Pmbootstrap), e.g.
+  by cloning the git repository (as sibling to the BPO git repo).
+* Run `pmbootstrap init` and use all default settings
+* Make sure `pmbootstrap` is in your `$PATH`
+* Clone this repository and install dependencies into a venv:
 
 ```
 $ git clone https://gitlab.postmarketos.org/postmarketOS/build.postmarketos.org
@@ -14,8 +22,30 @@ $ pip install -r requirements.txt
 
 All commands below are intended to be executed in this venv.
 
+## Running the testsuite
+
+* Install test requirements in the venv:
+
+```
+$ pip install -r requirements-test.txt
+```
+
+* Run the testsuite, e.g.:
+
+```
+$ pytest --color=yes -vv -x test -m "not skip_ci"
+```
+
+* See `pytest -h` for additional option, e.g. `-k` to only run one test.
+
+* Use `helpers/pytest_logs.sh` to see the detailed logs
+
 ## Running
 ## With local job service
+
+NOTE: running BPO fully with a local job service isn't well supported, you will
+run into strange issues. These days the local job service is just for running
+the testsuite (see above).
 
 ```
 $ ./bpo_local.sh
