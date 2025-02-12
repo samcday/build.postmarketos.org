@@ -61,7 +61,6 @@ password = "147147"
 # Branches to build images for, can be overridden per device in 'images' below
 branches_default = [
         "master",
-        "v24.06",
         "v24.12",
     ]
 
@@ -307,7 +306,6 @@ images = {
         "branches": [
             # Disabled on master:
             # https://gitlab.postmarketos.org/postmarketOS/pmaports/-/issues/3186
-            "v24.06",
         ],
         "branch_configs": {
             "all": {
@@ -326,7 +324,6 @@ images = {
         "branches": [
             # Disabled on master:
             # https://gitlab.postmarketos.org/postmarketOS/pmaports/-/issues/3186
-            "v24.06",
         ],
         "branch_configs": {
             "all": {
@@ -533,7 +530,7 @@ images = {
     },
     "pine64-rockpro64": {
         "branch_configs": {
-            # Disable plasma bigscreen for master, v24.06:
+            # Disable plasma bigscreen:
             # https://gitlab.postmarketos.org/postmarketOS/pmaports/-/issues/2650
             "all": {
                 "ui": get_ui_list(chassis=["embedded"]),
@@ -705,16 +702,6 @@ images = {
             },
         },
     },
-    "xiaomi-daisy": {
-        "branches": [
-            "v24.06",
-        ],
-        "branch_configs": {
-            "master": {
-                "date-start": "2025-01-10",  # Friday
-            },
-        },
-    },
     "xiaomi-elish": {
         "branches": [
             "master",
@@ -732,26 +719,6 @@ images = {
             },
         },
     },
-    "xiaomi-markw": {
-        "branches": [
-            "v24.06",
-        ],
-        "branch_configs": {
-            "master": {
-                "date-start": "2025-01-10",  # Friday
-            },
-        },
-    },
-    "xiaomi-mido": {
-        "branches": [
-            "v24.06",
-        ],
-        "branch_configs": {
-            "master": {
-                "date-start": "2025-01-10",  # Friday
-            },
-        },
-    },
     "xiaomi-scorpio": {
         "branch_configs": {
             "master": {
@@ -759,37 +726,7 @@ images = {
             },
         },
     },
-    "xiaomi-tissot": {
-        "branches": [
-            "v24.06",
-        ],
-        "branch_configs": {
-            "master": {
-                "date-start": "2025-01-10",  # Friday
-            },
-        },
-    },
-    "xiaomi-vince": {
-        "branches": [
-            "v24.06",
-        ],
-        "branch_configs": {
-            "master": {
-                "date-start": "2025-01-10",  # Friday
-            },
-        },
-    },
     "xiaomi-wt88047": {
-        "branch_configs": {
-            "master": {
-                "date-start": "2025-01-10",  # Friday
-            },
-        },
-    },
-    "xiaomi-ysl": {
-        "branches": [
-            "v24.06",
-        ],
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
