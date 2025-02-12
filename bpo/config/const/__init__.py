@@ -28,10 +28,6 @@ repo_wip_keys = top_dir + "/_repo_wip_keys"
 #                from branches that are used in production.
 branches = collections.OrderedDict()
 
-branches["v24.06"] = {
-    "arches": ["x86_64", "aarch64", "armv7"],
-}
-
 branches["v24.12"] = {
     "arches": ["x86_64", "aarch64", "armv7"],
     # Allow override for running the whole testsuite with pmb v2
