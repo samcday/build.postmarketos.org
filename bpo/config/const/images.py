@@ -149,10 +149,12 @@ devices = {
     "wileyfox-crackling": "Wileyfox Swift",
     "xiaomi-beryllium": "Xiaomi POCO F1",
     "xiaomi-daisy": "Xiaomi Mi A2 Lite",
+    "xiaomi-davinci": "Xiaomi Mi 9T / Redmi K20",
     "xiaomi-elish": "Xiaomi Mi Pad 5 Pro",
     "xiaomi-markw": "Xiaomi Redmi 4 Prime",
     "xiaomi-mido": "Xiaomi Redmi Note 4",
     "xiaomi-scorpio": "Xiaomi Mi Note 2",
+    "xiaomi-surya": "Xiaomi POCO X3 NFC",
     "xiaomi-tissot": "Xiaomi Mi A1",
     "xiaomi-vince": "Xiaomi Redmi 5 Plus",
     "xiaomi-wt88047": "Xiaomi Redmi 2",
@@ -702,6 +704,16 @@ images = {
             },
         },
     },
+    "xiaomi-davinci": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-02-21",  # Friday
+            },
+        },
+    },
     "xiaomi-elish": {
         "branches": [
             "master",
@@ -723,6 +735,22 @@ images = {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+        },
+    },
+    "xiaomi-surya": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "kernels": [
+                    "huaxing",
+                    "tianma",
+                ],
+            },
+            "master": {
+                "date-start": "2025-02-21",  # Friday
             },
         },
     },
