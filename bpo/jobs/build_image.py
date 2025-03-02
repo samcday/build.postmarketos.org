@@ -93,7 +93,6 @@ def run(device, branch, ui):
 
     # Iterate over kernels to generate the images, with zap in-between
     branch_cfg = bpo.images.config.get_branch_config(device, branch)
-    arg_extra_packages = ["lang", "musl-locales"]
     for kernel in branch_cfg["kernels"]:
         # Task and image name, add kernel suffix if having multiple kernels
         task_name = get_task_name("img", kernel)
@@ -106,7 +105,6 @@ def run(device, branch, ui):
 
             pmbootstrap config kernel {arg_kernel}
             pmbootstrap config extra_space 0
-            pmbootstrap config extra_packages {",".join(arg_extra_packages)}
             pmbootstrap -q -y zap -p
 
             {pmbootstrap_install} \\
