@@ -581,7 +581,7 @@ images = {
         ],
         "branch_configs": {
             "master": {
-                "date-start": "2025-03-14",  # Friday
+                "date-start": "2025-01-10",  # Friday
             },
         },
     },
