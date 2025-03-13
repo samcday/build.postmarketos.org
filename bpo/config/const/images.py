@@ -72,6 +72,7 @@ branches_default = [
 ui_list = {
     "asteroid": "Asteroid",
     "console": "Console",
+    "cosmic": "COSMIC",
     "fbkeyboard": "Fbkeyboard",
     "gnome": "GNOME",
     "gnome-mobile": "GNOME Mobile",
@@ -239,6 +240,7 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
+                "ui": get_ui_list(chassis=["laptop"], add_ui=["cosmic"]),
             },
         },
     },
@@ -433,6 +435,7 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
+                "ui": get_ui_list(chassis=["laptop"], add_ui=["cosmic"]),
             },
         },
     },
