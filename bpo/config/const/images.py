@@ -153,6 +153,7 @@ devices = {
     "xiaomi-elish": "Xiaomi Mi Pad 5 Pro",
     "xiaomi-markw": "Xiaomi Redmi 4 Prime",
     "xiaomi-mido": "Xiaomi Redmi Note 4",
+    "xiaomi-nabu": "Xiaomi Mi Pad 5",
     "xiaomi-scorpio": "Xiaomi Mi Note 2",
     "xiaomi-tissot": "Xiaomi Mi A1",
     "xiaomi-vince": "Xiaomi Redmi 5 Plus",
@@ -725,6 +726,13 @@ images = {
                     "csot",
                 ],
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+        },
+    },
+    "xiaomi-nabu": {
+        "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
