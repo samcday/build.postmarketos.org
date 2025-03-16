@@ -732,6 +732,9 @@ images = {
         },
     },
     "xiaomi-nabu": {
+        "branches": [
+            "master",
+        ],
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
