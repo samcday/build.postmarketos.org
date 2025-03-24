@@ -230,10 +230,7 @@ images = {
     "generic-x86_64": {
         "branch_configs": {
             "all": {
-                # Disable plasma-desktop:
-                # https://gitlab.postmarketos.org/postmarketOS/build.postmarketos.org/-/issues/136
-                "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"],
-                                  exclude_ui=["plasma-desktop"]),
+                "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"]),
                 "kernels": [
                     "lts",
                 ],
@@ -418,10 +415,7 @@ images = {
                     # for these devices, nothing critical.
                     "edge",
                 ],
-                # Disable plasma-desktop:
-                # https://gitlab.postmarketos.org/postmarketOS/build.postmarketos.org/-/issues/136
-                "ui": get_ui_list(chassis=["laptop", "convertible"],
-                                  exclude_ui=["plasma-desktop"]),
+                "ui": get_ui_list(chassis=["laptop", "convertible"]),
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
