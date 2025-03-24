@@ -237,7 +237,7 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
-                "ui": get_ui_list(chassis=["laptop"], add_ui=["cosmic"]),
+                "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"], add_ui=["cosmic"]),
             },
         },
     },
