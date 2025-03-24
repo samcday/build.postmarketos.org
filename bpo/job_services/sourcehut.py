@@ -84,6 +84,7 @@ def get_manifest(name, tasks, branch, splitrepo):
           BPO_TOKEN_FILE: "/home/build/.token"
           BPO_API_HOST: """ + shlex.quote(url_api) + """
           BPO_JOB_NAME: """ + shlex.quote(name) + """
+          PMB_APK_NO_CACHE: 1
         """ + get_secrets_by_job_name(name) + """
         triggers:
         - action: webhook
@@ -112,16 +113,6 @@ def get_manifest(name, tasks, branch, splitrepo):
                echo "ERROR: pmbootstrap switched to the wrong branch: $branch"
                exit 1
            fi
-
-           # Put apk cache into tmpfs to use less disk space (pma#1623)
-           sudo mkdir -p /mnt/tmpfs-for-apks
-           sudo mount -t tmpfs -o size=1500M tmpfs /mnt/tmpfs-for-apks
-           WORK="$(pmbootstrap config work)"
-           for arch in """ + " ".join(arches) + """; do
-               mkdir -p /mnt/tmpfs-for-apks/cache_apk_"$arch"
-               sudo rm -rf "$WORK"/cache_apk_"$arch"
-               ln -s /mnt/tmpfs-for-apks/cache_apk_"$arch" "$WORK"
-           done
     """
 
     ret = bpo.helpers.job.remove_additional_indent(ret, 8)[:-1]
