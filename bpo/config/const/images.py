@@ -734,6 +734,7 @@ images = {
         ],
         "branch_configs": {
             "master": {
+                "ui": get_ui_list(chassis=["convertible", "handset"]),
                 "date-start": "2025-01-10",  # Friday
             },
         },
