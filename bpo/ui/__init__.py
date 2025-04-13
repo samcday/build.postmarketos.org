@@ -18,13 +18,60 @@ env = None
 ui_update_cond = threading.Condition()
 
 
+def update_monitoring_txt(session, pkgs, imgs, list_count_max=5):
+    """ Update html_out/monitoring.txt. The postmarketOS infrastructure
+        monitoring will parse this file and send a message into a matrix room
+        when there are failures.
+        :param session: return value of bpo.db.session()
+        :param pkgs: return value of bpo.db.get_recent_packages_by_status()
+        :param imgs: return value of bpo.db.get_recent_images_by_status()
+        """
+    txt = ""
+    nok_count = len(pkgs["failed"]) + imgs["failed"].count()
+    if nok_count:
+        txt = f"{nok_count} failure"
+        if nok_count > 1:
+            txt += "s"
+        txt += " at https://build.postmarketos.org:\n"
+        listed_count = 0
+
+        for pkg in pkgs["failed"]:
+            if listed_count > list_count_max - 1:
+                    break
+            txt += f"* 📦 {pkg.branch}"
+            if pkg.splitrepo:
+                txt += f":{pkg.splitrepo}"
+            txt += f"/{pkg.arch}/{pkg.pkgname}: "
+            txt += bpo.helpers.job.get_link(pkg.job_id)
+            txt += "\n"
+            listed_count += 1
+
+        for img in imgs["failed"]:
+            if listed_count > list_count_max - 1:
+                    break
+            txt += f"* 🖼️ {img.branch}:{img.device}:{img.ui}: "
+            txt += bpo.helpers.job.get_link(img.job_id)
+            txt += "\n"
+            listed_count += 1
+
+        if listed_count > list_count_max - 1:
+            txt += "* ...\n"
+    else:
+        txt = "OK\n"
+
+    output = bpo.config.args.html_out + "/monitoring.txt"
+    output_temp = output + "_"
+    with open(output_temp, "w") as handle:
+        handle.write(txt)
+    os.rename(output_temp, output)
+
+
 def update_badge(session, pkgs, imgs):
     """ Update html_out/badge.svg
         :param session: return value of bpo.db.session()
         :param pkgs: return value of bpo.db.get_recent_packages_by_status()
         :param imgs: return value of bpo.db.get_recent_images_by_status()
         :returns: one of: "up-to-date", "failed", "building"
-
         """
     # Get new name
     new = "up-to-date"
@@ -114,6 +161,7 @@ def update(session):
     with ui_update_cond:
         badge_name = update_badge(session, pkgs, imgs)
         update_index(session, pkgs, imgs, badge_name)
+        update_monitoring_txt(session, pkgs, imgs)
 
 
 def copy_static():
