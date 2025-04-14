@@ -104,7 +104,8 @@ def test_update_monitoring_txt(monkeypatch):
         func_imgs = bpo.db.get_recent_images_by_status
         bpo.ui.update_monitoring_txt(session, func_pkgs(session),
                                      func_imgs(session),
-                                     list_count_max)
+                                     add_footer=False,
+                                     list_count_max=list_count_max)
 
         output = bpo.config.args.html_out + "/monitoring.txt"
         with open(output) as h:

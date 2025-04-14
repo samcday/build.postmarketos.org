@@ -18,13 +18,16 @@ env = None
 ui_update_cond = threading.Condition()
 
 
-def update_monitoring_txt(session, pkgs, imgs, list_count_max=5):
+def update_monitoring_txt(session, pkgs, imgs, add_footer=True,
+                          list_count_max=5):
     """ Update html_out/monitoring.txt. The postmarketOS infrastructure
         monitoring will parse this file and send a message into a matrix room
         when there are failures.
         :param session: return value of bpo.db.session()
         :param pkgs: return value of bpo.db.get_recent_packages_by_status()
         :param imgs: return value of bpo.db.get_recent_images_by_status()
+        :param add_footer: if NOK, add footer with links to related issues/MRs
+        :param list_count_max: how many entries to display with log links
         """
     txt = ""
     nok_count = len(pkgs["failed"]) + imgs["failed"].count()
@@ -56,6 +59,12 @@ def update_monitoring_txt(session, pkgs, imgs, list_count_max=5):
 
         if listed_count > list_count_max - 1:
             txt += "* ...\n"
+
+        if add_footer:
+            txt += "\n"
+            txt += "Resources:\n"
+            txt += "* MRs: https://gitlab.postmarketos.org/groups/postmarketOS/-/merge_requests/?label_name=failing-in-bpo\n"
+            txt += "* issues: https://gitlab.postmarketos.org/groups/postmarketOS/-/issues/?label_name=failing-in-bpo\n"
     else:
         txt = "OK\n"
 
