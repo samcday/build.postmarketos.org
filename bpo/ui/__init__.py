@@ -35,26 +35,26 @@ def update_monitoring_txt(session, pkgs, imgs, add_footer=True,
         txt = f"{nok_count} failure"
         if nok_count > 1:
             txt += "s"
-        txt += " at https://build.postmarketos.org:\n"
+        txt += " at [bpo](https://build.postmarketos.org):\n"
         listed_count = 0
 
         for pkg in pkgs["failed"]:
             if listed_count > list_count_max - 1:
                     break
-            txt += f"* 📦 {pkg.branch}"
+            txt += f"* 📦 [{pkg.branch}"
             if pkg.splitrepo:
                 txt += f":{pkg.splitrepo}"
-            txt += f"/{pkg.arch}/{pkg.pkgname}: "
+            txt += f"/{pkg.arch}/{pkg.pkgname}]("
             txt += bpo.helpers.job.get_link(pkg.job_id)
-            txt += "\n"
+            txt += ")\n"
             listed_count += 1
 
         for img in imgs["failed"]:
             if listed_count > list_count_max - 1:
                     break
-            txt += f"* 🖼️ {img.branch}:{img.device}:{img.ui}: "
+            txt += f"* 🖼️ [{img.branch}:{img.device}:{img.ui}]("
             txt += bpo.helpers.job.get_link(img.job_id)
-            txt += "\n"
+            txt += ")\n"
             listed_count += 1
 
         if listed_count > list_count_max - 1:
@@ -62,9 +62,9 @@ def update_monitoring_txt(session, pkgs, imgs, add_footer=True,
 
         if add_footer:
             txt += "\n"
-            txt += "Resources:\n"
-            txt += "* MRs: https://gitlab.postmarketos.org/groups/postmarketOS/-/merge_requests/?label_name=failing-in-bpo\n"
-            txt += "* issues: https://gitlab.postmarketos.org/groups/postmarketOS/-/issues/?label_name=failing-in-bpo\n"
+            txt += "[MRs](https://gitlab.postmarketos.org/groups/postmarketOS/-/merge_requests/?label_name=failing-in-bpo)"
+            txt += " | "
+            txt += "[issues](https://gitlab.postmarketos.org/groups/postmarketOS/-/issues/?label_name=failing-in-bpo)"
     else:
         txt = "OK\n"
 

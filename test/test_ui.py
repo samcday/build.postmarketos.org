@@ -129,20 +129,20 @@ def test_update_monitoring_txt(monkeypatch):
     pkgname = "hello-world"
     pkg = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
     bpo.db.set_package_status(session, pkg, bpo.db.PackageStatus.failed, 1)
-    assert_txt_content("1 failure at https://build.postmarketos.org:\n"
-                       "* 📦 master/x86_64/hello-world: http://localhost/1\n")
+    assert_txt_content("1 failure at [bpo](https://build.postmarketos.org):\n"
+                       "* 📦 [master/x86_64/hello-world](http://localhost/1)\n")
 
     # Two failed packages
     pkgname = "hello-world-wrapper"
     pkg = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
     bpo.db.set_package_status(session, pkg, bpo.db.PackageStatus.failed, 2)
-    assert_txt_content("2 failures at https://build.postmarketos.org:\n"
-                       "* 📦 master/x86_64/hello-world: http://localhost/1\n"
-                       "* 📦 master/x86_64/hello-world-wrapper: http://localhost/2\n")
+    assert_txt_content("2 failures at [bpo](https://build.postmarketos.org):\n"
+                       "* 📦 [master/x86_64/hello-world](http://localhost/1)\n"
+                       "* 📦 [master/x86_64/hello-world-wrapper](http://localhost/2)\n")
 
     # Two failed packages, abbreviated
-    assert_txt_content("2 failures at https://build.postmarketos.org:\n"
-                       "* 📦 master/x86_64/hello-world: http://localhost/1\n"
+    assert_txt_content("2 failures at [bpo](https://build.postmarketos.org):\n"
+                       "* 📦 [master/x86_64/hello-world](http://localhost/1)\n"
                        "* ...\n",
                        list_count_max=1)
 
@@ -151,13 +151,13 @@ def test_update_monitoring_txt(monkeypatch):
     ui = "console"
     img = bpo.db.get_image(session, branch, device, ui)
     bpo.db.set_image_status(session, img, bpo.db.ImageStatus.failed, 3)
-    assert_txt_content("3 failures at https://build.postmarketos.org:\n"
-                       "* 📦 master/x86_64/hello-world: http://localhost/1\n"
-                       "* 📦 master/x86_64/hello-world-wrapper: http://localhost/2\n"
-                       "* 🖼️ master:qemu-amd64:console: http://localhost/3\n")
+    assert_txt_content("3 failures at [bpo](https://build.postmarketos.org):\n"
+                       "* 📦 [master/x86_64/hello-world](http://localhost/1)\n"
+                       "* 📦 [master/x86_64/hello-world-wrapper](http://localhost/2)\n"
+                       "* 🖼️ [master:qemu-amd64:console](http://localhost/3)\n")
 
     # Two failed packages, one failed image, abbreviated
-    assert_txt_content("3 failures at https://build.postmarketos.org:\n"
-                       "* 📦 master/x86_64/hello-world: http://localhost/1\n"
+    assert_txt_content("3 failures at [bpo](https://build.postmarketos.org):\n"
+                       "* 📦 [master/x86_64/hello-world](http://localhost/1)\n"
                        "* ...\n",
                        list_count_max=1)
