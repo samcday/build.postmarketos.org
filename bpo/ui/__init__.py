@@ -63,7 +63,7 @@ def update_monitoring_txt(session, pkgs, imgs, add_footer=True,
         if add_footer:
             txt += "\n"
             txt += "[MRs](https://gitlab.postmarketos.org/groups/postmarketOS/-/merge_requests/?label_name=failing-in-bpo), "
-            txt += "[issues](https://gitlab.postmarketos.org/groups/postmarketOS/-/issues/?label_name=failing-in-bpo)\n"
+            txt += "[issues](https://gitlab.postmarketos.org/groups/postmarketOS/-/issues/?label_name=failing-in-bpo)"
     else:
         txt = "OK\n"
 
