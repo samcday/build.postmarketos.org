@@ -18,6 +18,10 @@ env = None
 ui_update_cond = threading.Condition()
 
 
+def format_retry_count(retry_count):
+    return f"try {retry_count + 1}/{bpo.config.const.retry_count_max + 1}"
+
+
 def update_monitoring_txt(session, pkgs, imgs, add_footer=True,
                           list_count_max=10):
     """ Update html_out/monitoring.txt. The postmarketOS infrastructure
@@ -46,7 +50,7 @@ def update_monitoring_txt(session, pkgs, imgs, add_footer=True,
                 txt += f":{pkg.splitrepo}"
             txt += f"/{pkg.arch}/{pkg.pkgname}]("
             txt += bpo.helpers.job.get_link(pkg.job_id)
-            txt += ")\n"
+            txt += f") ({format_retry_count(pkg.retry_count)})\n"
             listed_count += 1
 
         for img in imgs["failed"]:
@@ -54,7 +58,7 @@ def update_monitoring_txt(session, pkgs, imgs, add_footer=True,
                     break
             txt += f"* 🖼️ [{img.branch}:{img.device}:{img.ui}]("
             txt += bpo.helpers.job.get_link(img.job_id)
-            txt += ")\n"
+            txt += f") ({format_retry_count(img.retry_count)})\n"
             listed_count += 1
 
         if listed_count > list_count_max - 1:
