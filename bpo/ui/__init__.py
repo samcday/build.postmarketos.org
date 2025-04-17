@@ -19,7 +19,7 @@ ui_update_cond = threading.Condition()
 
 
 def update_monitoring_txt(session, pkgs, imgs, add_footer=True,
-                          list_count_max=5):
+                          list_count_max=10):
     """ Update html_out/monitoring.txt. The postmarketOS infrastructure
         monitoring will parse this file and send a message into a matrix room
         when there are failures.
