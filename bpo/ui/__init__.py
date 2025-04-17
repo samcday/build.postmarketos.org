@@ -61,7 +61,7 @@ def update_monitoring_txt(session, pkgs, imgs, add_footer=True,
             txt += f") ({format_retry_count(img.retry_count)})\n"
             listed_count += 1
 
-        if listed_count > list_count_max - 1:
+        if nok_count > listed_count:
             txt += "* ...\n"
 
         if add_footer:
