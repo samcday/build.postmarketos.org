@@ -80,6 +80,7 @@ ui_list = {
     "kodi": "Kodi",
     "lxqt": "LXQt",
     "mate": "Mate",
+    "os-installer": "Installer",
     "phosh": "Phosh",
     "plasma-bigscreen": "Plasma Bigscreen",
     "plasma-desktop": "Plasma Desktop",
@@ -237,7 +238,7 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
-                "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"], add_ui=["cosmic"]),
+                "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"], add_ui=["cosmic", "os-installer"]),
             },
         },
     },
@@ -419,6 +420,7 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
+                "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
             },
         },
     },
@@ -429,7 +431,7 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
-                "ui": get_ui_list(chassis=["laptop"], add_ui=["cosmic"]),
+                "ui": get_ui_list(chassis=["laptop"], add_ui=["cosmic", "os-installer"]),
             },
         },
     },
@@ -512,6 +514,7 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
+                "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
             },
         },
     },
@@ -547,7 +550,7 @@ images = {
         "branch_configs": {
             "master": {
                 "date-interval": 1,
-                "ui": ["gnome", "console"],
+                "ui": ["gnome", "console", "os-installer"],
                 "kernels": [
                     "next",
                 ],
