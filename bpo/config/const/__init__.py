@@ -59,8 +59,9 @@ staging_pmb_branch = os.environ.get("BPO_PMA_STAGING_PMB_BRANCH", "master")
 # Split repositories (built in this order)
 splitrepos = [None, "systemd"]
 # Do "repo_bootstrap" for repositories that have packages in the following
-# splitrepo dirs
-repo_bootstrap_dirs = ["systemd"]
+# splitrepo dirs. This was used for initial systemd bringup and is obsolete,
+# will be removed in the future (bpo#158).
+repo_bootstrap_dirs = []
 
 # Alpine mirror, might need to be switched to a different one if dl-cdn has
 # caching errors again. Note that this mirror ends up in the final device
