@@ -35,14 +35,9 @@ def run(arch, branch, splitrepo):
                     APKINDEX.tar.gz
         """
 
-    # Ignore missing repos before initial build (bpo#137)
-    env_force_missing_repos = ""
-    final_path = bpo.repo.final.get_path(arch, branch, splitrepo)
-    if not os.path.exists(f"{final_path}/APKINDEX.tar.gz"):
-        env_force_missing_repos = "export PMB_APK_FORCE_MISSING_REPOSITORIES=1"
+    tasks["set_repos"] = bpo.helpers.pmb.set_repos_task(arch, branch, False)
 
     tasks["sign"] = f"""
-            {env_force_missing_repos}
             pmbootstrap \\
                 --aports=$PWD/pmaports \\
                 --no-ccache \\
