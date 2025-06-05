@@ -91,7 +91,14 @@ def run(arch, pkgname, branch, splitrepo):
     """
 
     if bpo.helpers.pmb.is_master(branch):
-        tasks["set_repos"] = bpo.helpers.pmb.set_repos_task(arch, branch)
+        # When building stable repositories for the first time for foreign
+        # arches, we must enable the pmaports binary repo to use the cross
+        # compilers even if the foreign arch repository doesn't have an
+        # APKINDEX yet. PMB_APK_FORCE_MISSING_REPOSITORIES=1 is set in this
+        # case so pmbootstrap works even though the foreign arch APKINDEX is
+        # not available yet.
+        always_add_main_repo = (arch != bpo.config.const.native_arch)
+        tasks["set_repos"] = bpo.helpers.pmb.set_repos_task(arch, branch, True, always_add_main_repo)
 
     tasks["pmbootstrap_build"] = f"""
         pmbootstrap config systemd {shlex.quote(systemd_arg)}

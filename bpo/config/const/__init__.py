@@ -13,6 +13,9 @@ top_dir = os.path.normpath(os.path.realpath(__file__) + "/../../../..")
 # Keypair for signing the APKINDEX of the WIP repository will be stored here
 repo_wip_keys = top_dir + "/_repo_wip_keys"
 
+# Right now BPO assumes it runs on x86_64
+native_arch = "x86_64"
+
 # Which pmaports.git branches will be built (e.g. "master", "v20.05", ...).
 # The order of branches/arches is the order in which packages will be built.
 # The native arch of the builders must come first.

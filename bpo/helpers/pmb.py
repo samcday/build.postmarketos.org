@@ -62,7 +62,7 @@ def should_add_wip_repo(branch):
     return True
 
 
-def set_repos_task(arch, branch, add_wip_repo=True):
+def set_repos_task(arch, branch, add_wip_repo=True, always_add_main_repo=False):
     """Configure repositories for pmbootstrap v3"""
     alpine = bpo.config.const.mirror_alpine
     ret = f"pmbootstrap config mirrors.alpine {shlex.quote(alpine)}\n"
@@ -80,7 +80,8 @@ def set_repos_task(arch, branch, add_wip_repo=True):
 
         url = "none"
         final_path = bpo.repo.final.get_path(arch, branch, splitrepo)
-        if final_path and os.path.exists(os.path.join(final_path, "APKINDEX.tar.gz")):
+        if (splitrepo is None and always_add_main_repo) or \
+                (final_path and os.path.exists(os.path.join(final_path, "APKINDEX.tar.gz"))):
             url = get_pmos_mirror(branch, splitrepo) or "none"
 
         ret += f"pmbootstrap config mirrors.{mirror_name} {shlex.quote(url)}\n"
