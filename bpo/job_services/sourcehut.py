@@ -100,17 +100,32 @@ def get_manifest(name, tasks, branch, splitrepo):
            # Switch branch and release channel
            mkdir -p ~/.config
            ( echo "[pmbootstrap]"
-             echo "is_default_channel = False" ) > ~/.config/""" + pmb_config + """
+             echo "is_default_channel = False"
+             echo "[mirrors]"
+             echo "pmaports = none"
+             echo "systemd = none" ) > ~/.config/""" + pmb_config + """
            git -C pmaports checkout """ + shlex.quote(branch) + """
 
            sudo ln -s "$PWD"/pmbootstrap/pmbootstrap.py /usr/bin/pmbootstrap
            yes "" | pmbootstrap --aports=$PWD/pmaports -q init
+           pmbootstrap config mirrors.pmaports -r
+           pmbootstrap config mirrors.systemd -r
            sudo modprobe binfmt_misc
            sudo mount -t binfmt_misc none /proc/sys/fs/binfmt_misc
 
            branch="$(git -C pmaports rev-parse --abbrev-ref HEAD)"
            if [ "$branch" != """ + shlex.quote(branch) + """ ]; then
                echo "ERROR: pmbootstrap switched to the wrong branch: $branch"
+               exit 1
+           fi
+
+           if [ "$(pmbootstrap config mirrors.pmaports)" = "none" ]; then
+               echo "ERROR: pmbootstrap failed to reset mirrors.pmaports"
+               exit 1
+           fi
+
+           if [ "$(pmbootstrap config mirrors.systemd)" = "none" ]; then
+               echo "ERROR: pmbootstrap failed to reset mirrors.systemd"
                exit 1
            fi
     """
