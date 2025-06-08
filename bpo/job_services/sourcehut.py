@@ -67,7 +67,7 @@ def get_manifest(name, tasks, branch, splitrepo):
     if not os.path.exists(f"{final_path}/APKINDEX.tar.gz"):
         env_force_missing_repos = "export PMB_APK_FORCE_MISSING_REPOSITORIES=1"
 
-    ret = """
+    ret = f"""
         image: alpine/latest
         packages:
         - coreutils
@@ -82,20 +82,20 @@ def get_manifest(name, tasks, branch, splitrepo):
         - "https://gitlab.postmarketos.org/postmarketOS/build.postmarketos.org.git/"
         environment:
           BPO_TOKEN_FILE: "/home/build/.token"
-          BPO_API_HOST: """ + shlex.quote(url_api) + """
-          BPO_JOB_NAME: """ + shlex.quote(name) + """
+          BPO_API_HOST: {shlex.quote(url_api)}
+          BPO_JOB_NAME: {shlex.quote(name)}
           PMB_APK_NO_CACHE: 1
-        """ + get_secrets_by_job_name(name) + """
+        {get_secrets_by_job_name(name)}
         triggers:
         - action: webhook
           condition: failure
-          url: """ + url_api + """/api/public/update-job-status
+          url: {url_api}/api/public/update-job-status
         tasks:
         - bpo_setup: |
            export BPO_JOB_ID="$JOB_ID"
-           """ + env_force_missing_repos + """
+           {env_force_missing_repos}
 
-           git -C pmbootstrap checkout """ + pmb_branch + """
+           git -C pmbootstrap checkout {pmb_branch}
 
            # Switch branch and release channel
            mkdir -p ~/.config
@@ -103,8 +103,8 @@ def get_manifest(name, tasks, branch, splitrepo):
              echo "is_default_channel = False"
              echo "[mirrors]"
              echo "pmaports = none"
-             echo "systemd = none" ) > ~/.config/""" + pmb_config + """
-           git -C pmaports checkout """ + shlex.quote(branch) + """
+             echo "systemd = none" ) > ~/.config/{pmb_config}
+           git -C pmaports checkout {shlex.quote(branch)}
 
            sudo ln -s "$PWD"/pmbootstrap/pmbootstrap.py /usr/bin/pmbootstrap
            yes "" | pmbootstrap --aports=$PWD/pmaports -q init
@@ -114,7 +114,7 @@ def get_manifest(name, tasks, branch, splitrepo):
            sudo mount -t binfmt_misc none /proc/sys/fs/binfmt_misc
 
            branch="$(git -C pmaports rev-parse --abbrev-ref HEAD)"
-           if [ "$branch" != """ + shlex.quote(branch) + """ ]; then
+           if [ "$branch" != {shlex.quote(branch)} ]; then
                echo "ERROR: pmbootstrap switched to the wrong branch: $branch"
                exit 1
            fi
