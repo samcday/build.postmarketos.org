@@ -76,10 +76,6 @@ def get_manifest(name, tasks, branch, splitrepo):
         - procps
         - py3-requests
         - xz
-        sources:
-        - "https://gitlab.postmarketos.org/postmarketOS/pmaports.git/"
-        - "https://gitlab.postmarketos.org/postmarketOS/pmbootstrap.git/"
-        - "https://gitlab.postmarketos.org/postmarketOS/build.postmarketos.org.git/"
         environment:
           BPO_TOKEN_FILE: "/home/build/.token"
           BPO_API_HOST: {shlex.quote(url_api)}
@@ -91,20 +87,38 @@ def get_manifest(name, tasks, branch, splitrepo):
           condition: failure
           url: {url_api}/api/public/update-job-status
         tasks:
+        - clone_sources: |
+           git clone -q --depth=1 https://gitlab.postmarketos.org/postmarketOS/pmaports.git/ -b {shlex.quote(branch)} &
+           git clone -q --depth=1 https://gitlab.postmarketos.org/postmarketOS/build.postmarketos.org.git/ &
+           git clone -q --depth=1 https://gitlab.postmarketos.org/postmarketOS/pmbootstrap.git/ -b {shlex.quote(pmb_branch)} &
+           wget -q https://gitlab.postmarketos.org/postmarketOS/pmaports/-/raw/master/channels.cfg &
+           wait
+           git -C pmaports show --oneline -s --color=always
+           git -C pmbootstrap show --oneline -s --color=always
+           git -C build.postmarketos.org show --oneline -s --color=always
+           sha512sum channels.cfg
         - bpo_setup: |
            export BPO_JOB_ID="$JOB_ID"
            {env_force_missing_repos}
 
-           git -C pmbootstrap checkout {pmb_branch}
-
-           # Switch branch and release channel
+           # Configure pmbootstrap
            mkdir -p ~/.config
            ( echo "[pmbootstrap]"
              echo "is_default_channel = False"
              echo "[mirrors]"
              echo "pmaports = none"
              echo "systemd = none" ) > ~/.config/{pmb_config}
-           git -C pmaports checkout {shlex.quote(branch)}
+
+           # Hack for shallow pmaports clones, use PMB_CHANNELS_CFG after
+           # https://gitlab.postmarketos.org/postmarketOS/pmbootstrap/-/merge_requests/2620
+           # is merged
+           ( echo "#!/bin/sh"
+             echo 'if [ "$1 $2" = "show origin/master:channels.cfg" ]; then'
+             echo "  cat $PWD/channels.cfg"
+             echo "else"
+             echo '  exec /usr/bin/git "$@"'
+             echo "fi" ) | sudo tee /usr/local/bin/git
+           sudo chmod +x /usr/local/bin/git
 
            sudo ln -s "$PWD"/pmbootstrap/pmbootstrap.py /usr/bin/pmbootstrap
            yes "" | pmbootstrap --aports=$PWD/pmaports -q init
