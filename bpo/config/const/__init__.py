@@ -37,17 +37,16 @@ branches["v24.12"] = {
     "pmb_branch": os.environ.get("BPO_PMA_MASTER_PMB_BRANCH", "master"),
 }
 
-branches["master"] = {
-    "arches": ["x86_64", "aarch64", "armv7", "armhf", "x86", "riscv64"],
-    # Allow override for running the whole testsuite with pmb v2
-    "pmb_branch": os.environ.get("BPO_PMA_MASTER_PMB_BRANCH", "master"),
-}
-
 branches["v25.06"] = {
     "arches": ["x86_64", "aarch64", "armv7"],
     # Allow override for running the whole testsuite with pmb v2
     "pmb_branch": os.environ.get("BPO_PMA_MASTER_PMB_BRANCH", "master"),
-    "ignore_errors": True,
+}
+
+branches["master"] = {
+    "arches": ["x86_64", "aarch64", "armv7", "armhf", "x86", "riscv64"],
+    # Allow override for running the whole testsuite with pmb v2
+    "pmb_branch": os.environ.get("BPO_PMA_MASTER_PMB_BRANCH", "master"),
 }
 
 # Current default is 2.3.x until pmbootstrap v3 is stable:
