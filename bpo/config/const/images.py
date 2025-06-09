@@ -62,6 +62,7 @@ password = "147147"
 branches_default = [
         "master",
         "v24.12",
+        "v25.06",
     ]
 
 # Prevent errors by listing explicitly allowed UIs here. Notably "none" is
@@ -240,13 +241,12 @@ images = {
                 "date-start": "2025-01-10",  # Friday
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"], add_ui=["cosmic", "os-installer"]),
             },
+            "v25.06": {
+                "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"], add_ui=["os-installer"]),
+            },
         },
     },
     "google-asurada": {
-        "branches": [
-            "master",
-            "v24.12",
-        ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible"]),
@@ -257,10 +257,6 @@ images = {
         },
     },
     "google-cherry": {
-        "branches": [
-            "master",
-            "v24.12",
-        ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible"]),
@@ -271,10 +267,6 @@ images = {
         },
     },
     "google-corsola": {
-        "branches": [
-            "master",
-            "v24.12",
-        ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible"]),
@@ -347,10 +339,6 @@ images = {
         },
     },
     "google-peach-pi": {
-        "branches": [
-            "master",
-            "v24.12",
-        ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop"]),
@@ -371,16 +359,15 @@ images = {
         },
     },
     "google-sargo": {
-        "branches": [
-            "master",
-            "v24.12",
-        ],
     },
     "google-snow": {
         "branch_configs": {
             "master": {
                 "ui": get_ui_list(chassis=["laptop"]),
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.06": {
+                "ui": get_ui_list(chassis=["laptop"]),
             },
         },
     },
@@ -422,6 +409,9 @@ images = {
                 "date-start": "2025-01-10",  # Friday
                 "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
             },
+            "v25.06": {
+                "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
+            },
         },
     },
     "lenovo-21bx": {
@@ -432,6 +422,9 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
                 "ui": get_ui_list(chassis=["laptop"], add_ui=["cosmic", "os-installer"]),
+            },
+            "v25.06": {
+                "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
             },
         },
     },
@@ -516,6 +509,9 @@ images = {
                 "date-start": "2025-01-10",  # Friday
                 "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
             },
+            "v25.06": {
+                "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
+            },
         },
     },
     "pine64-pinephone": {
@@ -566,10 +562,6 @@ images = {
         }
     },
     "qcom-msm8953": {
-        "branches": [
-            "master",
-            "v24.12",
-        ],
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
@@ -579,6 +571,7 @@ images = {
     "qcom-sm7150": {
         "branches": [
             "master",
+            "v25.06",
         ],
         "branch_configs": {
             "master": {
@@ -715,10 +708,6 @@ images = {
         },
     },
     "xiaomi-elish": {
-        "branches": [
-            "master",
-            "v24.12",
-        ],
         "branch_configs": {
             "all": {
                 "kernels": [
@@ -734,6 +723,7 @@ images = {
     "xiaomi-nabu": {
         "branches": [
             "master",
+            "v25.06",
         ],
         "branch_configs": {
             "master": {
