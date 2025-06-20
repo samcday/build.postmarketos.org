@@ -168,7 +168,7 @@ devices = {
 branch_config_default = {
     # Schedule a new image each {date-interval} days, start at {date-start}.
     "date-interval": 7,
-    "date-start": "2021-07-21",  # Wednesday
+    "date-start": "2025-06-20",  # Thursday
 
     # User interfaces to build. At least one UI must be set for each device,
     # otherwise no image for that device will be built.
@@ -615,7 +615,6 @@ images = {
         "branch_configs": {
             "all": {
                 "android-recovery-zip": True,
-                "date-start": "2024-06-08",  # Saturday
                 "ui": get_ui_list(chassis=["tablet"], supports_gpu=False),
             },
             "master": {
@@ -627,7 +626,6 @@ images = {
         "branch_configs": {
             "all": {
                 "android-recovery-zip": True,
-                "date-start": "2024-06-08",  # Saturday
                 "ui": get_ui_list(chassis=["tablet"], supports_gpu=False),
             },
             "master": {
