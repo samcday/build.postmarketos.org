@@ -262,6 +262,14 @@ images = {
             "master",
             "v25.06",
         ],
+        "branch_configs": {
+            "all": {
+                "kernels": [
+                    "sdc",
+                    "tianma",
+                ],
+            },
+        },
     },
     "google-cherry": {
         "branch_configs": {
