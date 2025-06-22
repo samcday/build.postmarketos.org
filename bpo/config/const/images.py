@@ -103,6 +103,7 @@ devices = {
     "fairphone-fp5": "Fairphone 5",
     "generic-x86_64": "Generic x86_64 Device",
     "google-asurada": "Google Asurada Chromebooks",
+    "google-bonito": "Google Pixel 3a XL",
     "google-cherry": "Google Cherry Chromebooks",
     "google-corsola": "Google Corsola Chromebooks",
     "google-gru": "Google Gru Chromebooks",
@@ -255,6 +256,12 @@ images = {
                 "date-start": "2025-01-10",  # Friday
             },
         },
+    },
+    "google-bonito": {
+        "branches": [
+            "master",
+            "v25.06",
+        ],
     },
     "google-cherry": {
         "branch_configs": {
