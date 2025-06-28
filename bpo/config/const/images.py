@@ -409,6 +409,21 @@ images = {
     "google-x64cros": {
         "branch_configs": {
             "all": {
+                "ui": get_ui_list(chassis=["laptop", "convertible"]),
+            },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+                "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
+                "kernels": [
+                    # "lts" kernel would be a bit better in theory, but it is
+                    # too big to fit the cgpt_kpart partition:
+                    #   % dd if=…/boot/vmlinuz.kpart of=/dev/installp1
+                    #   dd: error writing '/dev/installp1': No space left on device
+                    "stable",
+                ],
+            },
+            "v25.06": {
+                "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
                 "kernels": [
                     # "lts" kernel would be a bit better in theory, but it is
                     # too big to fit the cgpt_kpart partition:
@@ -418,14 +433,6 @@ images = {
                     # for these devices, nothing critical.
                     "edge",
                 ],
-                "ui": get_ui_list(chassis=["laptop", "convertible"]),
-            },
-            "master": {
-                "date-start": "2025-01-10",  # Friday
-                "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
-            },
-            "v25.06": {
-                "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
             },
         },
     },
