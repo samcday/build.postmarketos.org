@@ -434,6 +434,11 @@ images = {
                     "edge",
                 ],
             },
+            "v24.12": {
+                "kernels": [
+                    "lts",
+                ],
+            },
         },
     },
     "lenovo-21bx": {
