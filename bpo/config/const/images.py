@@ -490,6 +490,13 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
+                "ui": [
+                    "console",
+                    "i3wm",
+                    "sway",
+                    "sxmo-de-dwm"
+                    "sxmo-de-sway",
+                ],
             },
         },
     },
