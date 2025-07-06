@@ -494,7 +494,7 @@ images = {
                     "console",
                     "i3wm",
                     "sway",
-                    "sxmo-de-dwm"
+                    "sxmo-de-dwm",
                     "sxmo-de-sway",
                 ],
             },
