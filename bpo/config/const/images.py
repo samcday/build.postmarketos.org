@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 import re
 
-def get_ui_list(chassis, supports_gpu=True, exclude_ui=[], add_ui=[]):
+def get_ui_list(chassis=["handset"], supports_gpu=True, exclude_ui=[], add_ui=[]):
     ui = set()
 
     if "handset" in chassis:
@@ -173,7 +173,7 @@ branch_config_default = {
 
     # User interfaces to build. At least one UI must be set for each device,
     # otherwise no image for that device will be built.
-    "ui": get_ui_list(chassis=["handset"]),
+    "ui": get_ui_list(),
 
     # Build images with android recovery zip
     "android-recovery-zip": False,
