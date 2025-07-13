@@ -360,6 +360,9 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
+                "ui": get_ui_list(chassis=["laptop"],
+                                  exclude_ui=["plasma-desktop"],  # bpo#161
+                                  ),
             },
         },
     },
@@ -370,6 +373,9 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
+                "ui": get_ui_list(chassis=["laptop"],
+                                  exclude_ui=["plasma-desktop"],  # bpo#161
+                                  ),
             },
         },
     },
@@ -378,7 +384,9 @@ images = {
     "google-snow": {
         "branch_configs": {
             "master": {
-                "ui": get_ui_list(chassis=["laptop"]),
+                "ui": get_ui_list(chassis=["laptop"],
+                                  exclude_ui=["plasma-desktop"],  # bpo#161
+                                  ),
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.06": {
@@ -403,6 +411,9 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
+                "ui": get_ui_list(chassis=["laptop", "convertible"],
+                                  exclude_ui=["plasma-desktop"],  # bpo#161
+                                  ),
             },
         },
     },
@@ -642,6 +653,7 @@ images = {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+                "ui": get_ui_list(exclude_ui=["plasma-mobile"]),  # bpo#161
             },
         },
     },
@@ -671,6 +683,7 @@ images = {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+                "ui": get_ui_list(exclude_ui=["plasma-mobile"]),  # bpo#161
             },
         },
     },
@@ -692,6 +705,7 @@ images = {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+                "ui": get_ui_list(exclude_ui=["plasma-mobile"]),  # bpo#161
             },
         },
     },
@@ -709,6 +723,7 @@ images = {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+                "ui": get_ui_list(exclude_ui=["plasma-mobile"]),  # bpo#161
             },
         },
     },
