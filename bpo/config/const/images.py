@@ -61,7 +61,6 @@ password = "147147"
 # Branches to build images for, can be overridden per device in 'images' below
 branches_default = [
         "master",
-        "v24.12",
         "v25.06",
     ]
 
@@ -445,11 +444,6 @@ images = {
                     "edge",
                 ],
             },
-            "v24.12": {
-                "kernels": [
-                    "lts",
-                ],
-            },
         },
     },
     "lenovo-21bx": {
@@ -561,9 +555,6 @@ images = {
     },
     "pine64-pinephone": {
         "branch_configs": {
-            "v24.12": {
-                "date-start": "2024-12-20",  # Friday
-            },
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
