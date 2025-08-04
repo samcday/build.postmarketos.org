@@ -149,6 +149,7 @@ devices = {
     "samsung-m0": "Samsung Galaxy S III",
     "samsung-manta": "Google Nexus 10",
     "samsung-serranove": "Samsung Galaxy S4 Mini Value Edition",
+    "samsung-starqltechn": "Samsung Galaxy S9 (China/Latam)",
     "shift-axolotl": "SHIFT SHIFT6mq",
     "wileyfox-crackling": "Wileyfox Swift",
     "xiaomi-beryllium": "Xiaomi POCO F1",
@@ -715,6 +716,13 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
                 "ui": get_ui_list(exclude_ui=["plasma-mobile"]),  # bpo#161
+            },
+        },
+    },
+    "samsung-starqltechn": {
+        "branch_configs": {
+            "master": {
+                "date-start": "2025-08-08",  # Friday
             },
         },
     },
