@@ -720,6 +720,9 @@ images = {
         },
     },
     "samsung-starqltechn": {
+        "branches": [
+            "master",
+        ],
         "branch_configs": {
             "master": {
                 "date-start": "2025-08-08",  # Friday
