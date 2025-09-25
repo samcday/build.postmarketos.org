@@ -18,10 +18,12 @@ import bpo.repo.staging
 from bpo.job_services.base import JobService
 
 
-def api_request(path, payload=None, method="POST"):
-    url = "https://builds.sr.ht/api/" + path
-    headers = {"Authorization": "token " + bpo.config.tokens.sourcehut}
-    ret = requests.request(method, url=url, headers=headers, json=payload)
+def api_request(query, variables):
+    """Send a GraphQL request: https://docs.sourcehut.org/builds.sr.ht/"""
+    url = "https://builds.sr.ht/query"
+    headers = {"Authorization": "Bearer " + bpo.config.tokens.sourcehut}
+    payload = {"query": query, "variables": variables}
+    ret = requests.request("POST", url=url, headers=headers, json=payload)
     print("sourcehut response: " + ret.text)
     if not ret.ok:
         raise RuntimeError("sourcehut API request failed: " + url)
@@ -160,18 +162,46 @@ class SourcehutJobService(JobService):
     def run_job(self, name, note, tasks, branch, splitrepo):
         manifest = get_manifest(name, tasks, branch, splitrepo)
         print(manifest)
-        result = api_request("jobs", {"manifest": manifest,
-                                      "note": note,
-                                      "tags": [name],
-                                      "execute": True,
-                                      "secrets": True})
-        job_id = result.json()["id"]
+        result = api_request(
+            """
+            mutation SubmitBuild($manifest: String!,
+                         $tags: [String!],
+                         $note: String,
+                         $secrets: Boolean,
+                         $execute: Boolean,
+                         $visibility: Visibility) {
+                submit(manifest: $manifest,
+                       tags: $tags,
+                       note: $note,
+                       secrets: $secrets,
+                       execute: $execute,
+                       visibility: $visibility) {
+                    id
+                }
+            }
+            """,
+            {"manifest": manifest,
+             "tags": [name],
+             "note": note,
+             "execute": True,
+             "secrets": True,
+             "visibility": "PUBLIC"},
+        )
+        job_id = result.json()["data"]["submit"]["id"]
         logging.info("Job started: " + self.get_link(job_id))
         return job_id
 
     def get_status(self, job_id):
-        result = api_request("jobs/" + str(job_id), method="GET")
-        status = bpo.job_services.base.JobStatus[result.json()["status"]]
+        result = api_request(
+            """
+            query JobStatus($id: Int!) {
+                job(id: $id) { status }
+            }
+            """,
+            {"id": job_id},
+        )
+        status_str = result.json()["data"]["job"]["status"].lower()
+        status = bpo.job_services.base.JobStatus[status_str]
         logging.info("=> status: " + status.name)
         return status
 

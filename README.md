@@ -57,7 +57,8 @@ $ ./bpo_local.sh
 ### With sourcehut job service
 
 After creating a [sr.ht](https://meta.sr.ht/register) account and a dedicated
-[personal access oauth token](https://meta.sr.ht/oauth):
+[personal access oauth2 token](https://meta.sr.ht/oauth2/personal-token)
+with grant string `builds.sr.ht/JOBS:RW builds.sr.ht/SECRETS:RO`:
 
 ```
 $ cp bpo_sourcehut.example.sh bpo_sourcehut.sh
