@@ -9,55 +9,50 @@ import datetime
 
 sys.path.insert(0, os.path.abspath(".."))  # Allow modules to be found
 
-on_rtd = os.environ.get("READTHEDOCS", None) == "True"
-
-if not on_rtd:  # only import and set the theme if we're building docs locally
-    import sphinx_rtd_theme
-
-    html_theme = "sphinx_rtd_theme"
-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
-
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "bpo"
 copyright = str(datetime.date.today().year) + ", postmarketOS developers"
 author = "postmarketOS developers"
-# dummy version since bpo doesn't have verion numbers
-# could parse revision from git repo in the future
-release = "0.0.0"
-version =  "0.0.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
+    "myst_parser",
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.doctest",
     "sphinxcontrib.autoprogram",
     "sphinxcontrib.jquery",
-    "myst_parser",
 ]
 
 templates_path = ["_templates"]
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", ".venv"]
+source_suffix = [".rst", ".md"]
 
 # -- Options for HTML output -------------------------------------------------
-html_theme = "sphinx_rtd_theme"
-html_favicon = "https://wiki.postmarketos.org/favicon.ico"
-
+html_theme = "pmos"
 html_theme_options = {
-    "style_nav_header_background": "008b69",
+    "announcement": "<a class='back-to-index' href='/'>&lt;- postmarketOS Documentation Index</a>",
+    "light_css_variables": {
+        "color-brand-primary": "#008443",
+        "color-brand-content": "#008443",
+        "color-brand-visited": "#008443",
+    },
+    "dark_css_variables": {
+        "color-brand-primary": "#008443",
+        "color-brand-content": "#008443",
+        "color-brand-visited": "#008443",
+    },
+    "source_edit_link": "https://gitlab.postmarketos.org/postmarketOS/pmbootstrap/-/blob/master/docs/{filename}",
+    "top_of_page_buttons": ["edit"],
 }
+html_favicon = "https://postmarketos.org/static/img/favicon.ico"
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = "bpodoc"
-
-html_theme_options = {
-    "display_version": True,
-    "style_external_links": True,
-}
 
 # -- Options for manual page output ---------------------------------------
 
