@@ -1,7 +1,4 @@
 # Configuration file for the Sphinx documentation builder.
-#
-# For the full list of built-in configuration values, see the documentation:
-# https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 import sys
 import os
@@ -9,15 +6,10 @@ import datetime
 
 sys.path.insert(0, os.path.abspath(".."))  # Allow modules to be found
 
-# -- Project information -----------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
-
 project = "bpo"
 copyright = str(datetime.date.today().year) + ", postmarketOS developers"
 author = "postmarketOS developers"
-
-# -- General configuration ---------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
+exclude_patterns = ["_build", "_out", "Thumbs.db", ".DS_Store", ".venv", "README.md"]
 
 extensions = [
     "myst_parser",
@@ -28,33 +20,13 @@ extensions = [
     "sphinxcontrib.jquery",
 ]
 
-templates_path = ["_templates"]
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", ".venv"]
-source_suffix = [".rst", ".md"]
-
-# -- Options for HTML output -------------------------------------------------
 html_theme = "pmos"
 html_theme_options = {
-    "announcement": "<a class='back-to-index' href='/'>&lt;- postmarketOS Documentation Index</a>",
-    "light_css_variables": {
-        "color-brand-primary": "#008443",
-        "color-brand-content": "#008443",
-        "color-brand-visited": "#008443",
-    },
-    "dark_css_variables": {
-        "color-brand-primary": "#008443",
-        "color-brand-content": "#008443",
-        "color-brand-visited": "#008443",
-    },
     "source_edit_link": "https://gitlab.postmarketos.org/postmarketOS/pmbootstrap/-/blob/master/docs/{filename}",
-    "top_of_page_buttons": ["edit"],
 }
-html_favicon = "https://postmarketos.org/static/img/favicon.ico"
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = "bpodoc"
-
-# -- Options for manual page output ---------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
