@@ -98,6 +98,7 @@ ui_list = {
 
 # Pretty name mapping for device codenames
 devices = {
+    "amlogic-aarch64-tvbox": "Amlogic Generic AArch64 TV Box",
     "arrow-db410c": "Arrow DragonBoard 410c",
     "asus-me176c": "ASUS MeMO Pad 7",
     "bq-paella": "BQ Aquaris X5",
@@ -197,6 +198,24 @@ branch_config_default = {
 # https://wiki.postmarketos.org/wiki/<codename>. That is what will show up in
 # the generated readme.html!
 images = {
+    "amlogic-aarch64-tvbox": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": get_ui_list(chassis=["laptop", "convertible", "tablet", "embedded"]),
+                "kernels": [
+                    "ugoos-am3"
+                    "videostrong-kii-pro",
+                    "xiaomi-aquaman",
+                ],
+            },
+            "master": {
+                "date-start": "2025-11-14",  # Friday
+            },
+        },
+    },
     "arrow-db410c": {
         "branch_configs": {
             "all": {
