@@ -123,6 +123,8 @@ devices = {
     "lenovo-21bx": "Lenovo Thinkpad X13s",
     "lenovo-a6000": "Lenovo A6000",
     "lenovo-a6010": "Lenovo A6010",
+    "librecomputer-lafrite": "Libre Computer AML-S805X-AC",
+    "librecomputer-lepotato": "Libre Computer AML-S905X-CC",
     "microsoft-surface-rt": "Microsoft Surface RT",
     "motorola-harpia": "Motorola Moto G4 Play",
     "nokia-n900": "Nokia N900",
@@ -450,6 +452,32 @@ images = {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+        },
+    },
+    "librecomputer-lafrite": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": get_ui_list(chassis=["laptop", "convertible", "tablet", "embedded"]),
+            },
+            "master": {
+                "date-start": "2025-11-14",  # Friday
+            },
+        },
+    },
+    "librecomputer-lepotato": {
+        "branches": [
+            "master",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": get_ui_list(chassis=["laptop", "convertible", "tablet", "embedded"]),
+            },
+            "master": {
+                "date-start": "2025-11-14",  # Friday
             },
         },
     },
