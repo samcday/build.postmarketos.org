@@ -31,6 +31,12 @@ native_arch = "x86_64"
 #                from branches that are used in production.
 branches = collections.OrderedDict()
 
+branches["v25.12"] = {
+    "arches": ["x86_64", "aarch64", "armv7"],
+    # Allow override for running the whole testsuite with pmb v2
+    "pmb_branch": os.environ.get("BPO_PMA_MASTER_PMB_BRANCH", "master"),
+}
+
 branches["v25.06"] = {
     "arches": ["x86_64", "aarch64", "armv7"],
     # Allow override for running the whole testsuite with pmb v2
@@ -39,13 +45,6 @@ branches["v25.06"] = {
 
 branches["master"] = {
     "arches": ["x86_64", "aarch64", "armv7", "armhf", "x86", "riscv64", "ppc64le"],
-    # Allow override for running the whole testsuite with pmb v2
-    "pmb_branch": os.environ.get("BPO_PMA_MASTER_PMB_BRANCH", "master"),
-}
-
-branches["v25.12"] = {
-    "arches": ["x86_64", "aarch64", "armv7"],
-    "ignore_errors": True,
     # Allow override for running the whole testsuite with pmb v2
     "pmb_branch": os.environ.get("BPO_PMA_MASTER_PMB_BRANCH", "master"),
 }
