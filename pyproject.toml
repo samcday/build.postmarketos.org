@@ -7,6 +7,7 @@ line-length=100
 addopts="--strict-markers"
 markers=["skip_ci", "img_dir_gen", "skip_pmbv2"]
 timeout=20
+testpaths = "test"
 
 # Kill all threads on timeout
 timeout_method="thread"
