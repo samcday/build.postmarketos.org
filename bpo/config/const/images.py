@@ -188,7 +188,7 @@ branch_config_default = {
 
     # How many images (image directories) to keep of one branch:device:ui
     # combination. Older images will get deleted to free up space.
-    "keep": 3
+    "keep": 2
 }
 
 # For each image you add here, make sure there is a proper wiki redirect for
