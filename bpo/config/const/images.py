@@ -201,6 +201,7 @@ images = {
     "amlogic-aarch64-tvbox": {
         "branches": [
             "master",
+            "v25.12",
         ],
         "branch_configs": {
             "all": {
@@ -477,6 +478,7 @@ images = {
     "librecomputer-lafrite": {
         "branches": [
             "master",
+            "v25.12",
         ],
         "branch_configs": {
             "all": {
@@ -490,6 +492,7 @@ images = {
     "librecomputer-lepotato": {
         "branches": [
             "master",
+            "v25.12",
         ],
         "branch_configs": {
             "all": {
