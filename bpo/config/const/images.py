@@ -1,5 +1,7 @@
 # Copyright 2022 Oliver Smith
 # SPDX-License-Identifier: AGPL-3.0-or-later
+# What postmarketOS images to build with BPO. After modifying this file, test
+# it with: "pytest test/test_config_const_images.py"
 import re
 
 def get_ui_list(chassis=["handset"], supports_gpu=True, exclude_ui=[], add_ui=[]):
@@ -62,6 +64,7 @@ password = "147147"
 branches_default = [
         "master",
         "v25.06",
+        "v25.12",
     ]
 
 # Prevent errors by listing explicitly allowed UIs here. Notably "none" is
@@ -245,6 +248,9 @@ images = {
             "v25.06": {
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"], add_ui=["os-installer"]),
             },
+            "v25.12": {
+                "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"], add_ui=["os-installer"]),
+            },
         },
     },
     "google-asurada": {
@@ -258,10 +264,6 @@ images = {
         },
     },
     "google-bonito": {
-        "branches": [
-            "master",
-            "v25.06",
-        ],
         "branch_configs": {
             "all": {
                 "kernels": [
@@ -377,12 +379,11 @@ images = {
     },
     "google-snow": {
         "branch_configs": {
-            "master": {
+            "all": {
                 "ui": get_ui_list(chassis=["laptop"]),
-                "date-start": "2025-01-10",  # Friday
             },
-            "v25.06": {
-                "ui": get_ui_list(chassis=["laptop"]),
+            "master": {
+                "date-start": "2025-01-10",  # Friday
             },
         },
     },
@@ -409,10 +410,6 @@ images = {
     "google-x64cros": {
         "branch_configs": {
             "all": {
-                "ui": get_ui_list(chassis=["laptop", "convertible"]),
-            },
-            "master": {
-                "date-start": "2025-01-10",  # Friday
                 "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
                 "kernels": [
                     # "lts" kernel would be a bit better in theory, but it is
@@ -422,8 +419,10 @@ images = {
                     "stable",
                 ],
             },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
             "v25.06": {
-                "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
                 "kernels": [
                     # "lts" kernel would be a bit better in theory, but it is
                     # too big to fit the cgpt_kpart partition:
@@ -439,14 +438,11 @@ images = {
     "lenovo-21bx": {
         "branch_configs": {
             "all": {
-                "ui": get_ui_list(chassis=["laptop"]),
+                "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
                 "ui": get_ui_list(chassis=["laptop"], add_ui=["cosmic", "os-installer"]),
-            },
-            "v25.06": {
-                "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
             },
         },
     },
@@ -480,11 +476,6 @@ images = {
     "nokia-n900": {
         "branch_configs": {
             "all": {
-                # Handset with keyboard
-                "ui": get_ui_list(chassis=["convertible"], supports_gpu=False),
-            },
-            "master": {
-                "date-start": "2025-01-10",  # Friday
                 "ui": [
                     "console",
                     "i3wm",
@@ -492,6 +483,13 @@ images = {
                     "sxmo-de-dwm",
                     "sxmo-de-sway",
                 ],
+            },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+            "v25.06": {
+                # Handset with keyboard
+                "ui": get_ui_list(chassis=["convertible"], supports_gpu=False),
             },
         },
     },
@@ -532,13 +530,10 @@ images = {
     "pine64-pinebookpro": {
         "branch_configs": {
             "all": {
-                "ui": get_ui_list(chassis=["laptop"]),
+                "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
-                "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
-            },
-            "v25.06": {
                 "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
             },
         },
@@ -595,10 +590,6 @@ images = {
         }
     },
     "qcom-sm7150": {
-        "branches": [
-            "master",
-            "v25.06",
-        ],
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
@@ -755,14 +746,15 @@ images = {
         },
     },
     "xiaomi-nabu": {
-        "branches": [
-            "master",
-            "v25.06",
-        ],
         "branch_configs": {
-            "master": {
+            "all": {
                 "ui": get_ui_list(chassis=["convertible", "handset"]),
+            },
+            "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.06": {
+                "ui": get_ui_list(),
             },
         },
     },
