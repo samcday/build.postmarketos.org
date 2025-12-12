@@ -207,7 +207,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet", "embedded"]),
                 "kernels": [
-                    "ugoos-am3"
+                    "ugoos-am3",
                     "videostrong-kii-pro",
                     "xiaomi-aquaman",
                 ],
