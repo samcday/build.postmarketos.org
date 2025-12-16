@@ -215,6 +215,9 @@ images = {
             "master": {
                 "date-start": "2025-11-14",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "arrow-db410c": {
@@ -225,12 +228,18 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "asus-me176c": {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -239,6 +248,9 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "fairphone-fp4": {
@@ -246,12 +258,18 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "fairphone-fp5": {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -272,6 +290,7 @@ images = {
             },
             "v25.12": {
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"], add_ui=["os-installer"]),
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -283,6 +302,9 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "google-bonito": {
@@ -292,6 +314,9 @@ images = {
                     "sdc",
                     "tianma",
                 ],
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -303,6 +328,9 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "google-corsola": {
@@ -312,6 +340,9 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -323,6 +354,9 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "google-kukui": {
@@ -332,6 +366,9 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -351,6 +388,9 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "google-nyan-blaze": {
@@ -365,6 +405,9 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "google-oak": {
@@ -374,6 +417,9 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -385,6 +431,9 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "google-peach-pit": {
@@ -394,6 +443,9 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -407,6 +459,9 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "google-trogdor": {
@@ -417,6 +472,9 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "google-veyron": {
@@ -426,6 +484,9 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -455,6 +516,9 @@ images = {
                     "edge",
                 ],
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "lenovo-21bx": {
@@ -466,12 +530,18 @@ images = {
                 "date-start": "2025-01-10",  # Friday
                 "ui": get_ui_list(chassis=["laptop"], add_ui=["cosmic", "os-installer"]),
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "lenovo-a6000": {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -487,6 +557,9 @@ images = {
             "master": {
                 "date-start": "2025-11-14",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "librecomputer-lepotato": {
@@ -501,12 +574,18 @@ images = {
             "master": {
                 "date-start": "2025-11-14",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "lenovo-a6010": {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -518,6 +597,9 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -541,6 +623,9 @@ images = {
                 # Handset with keyboard
                 "ui": get_ui_list(chassis=["convertible"], supports_gpu=False),
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "nvidia-tegra-armv7": {
@@ -550,6 +635,9 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -561,6 +649,9 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "oneplus-enchilada": {
@@ -568,12 +659,18 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "oneplus-fajita": {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -586,12 +683,18 @@ images = {
                 "date-start": "2025-01-10",  # Friday
                 "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "pine64-pinephone": {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -606,6 +709,9 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -623,12 +729,18 @@ images = {
                 ],
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         }
     },
     "purism-librem5": {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         }
     },
@@ -637,12 +749,18 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         }
     },
     "qcom-sm7150": {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -651,12 +769,18 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         }
     },
     "samsung-a5": {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         }
     },
@@ -669,12 +793,18 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "samsung-e7": {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -687,6 +817,9 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "samsung-espresso7": {
@@ -698,12 +831,18 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "samsung-grandmax": {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -712,6 +851,9 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "samsung-gt58": {
@@ -719,12 +861,18 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "samsung-m0": {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -736,12 +884,18 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "samsung-serranove": {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -754,6 +908,9 @@ images = {
             "master": {
                 "date-start": "2025-08-08",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "shift-axolotl": {
@@ -761,12 +918,18 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "wileyfox-crackling": {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -781,6 +944,9 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "xiaomi-elish": {
@@ -793,6 +959,9 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
@@ -807,6 +976,9 @@ images = {
             "v25.06": {
                 "ui": get_ui_list(),
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "xiaomi-scorpio": {
@@ -814,12 +986,18 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
         },
     },
     "xiaomi-wt88047": {
         "branch_configs": {
             "master": {
                 "date-start": "2025-01-10",  # Friday
+            },
+            "v25.12": {
+                "date-start": "2025-12-15",  # Monday
             },
         },
     },
