@@ -7,7 +7,7 @@ import re
 def get_ui_list(chassis=["handset"], supports_gpu=True, exclude_ui=[], add_ui=[]):
     ui = set()
 
-    if "handset" in chassis:
+    if "handset" in chassis or "tablet" in chassis:
         if supports_gpu:
             ui.add("gnome-mobile")
             ui.add("phosh")
@@ -18,7 +18,7 @@ def get_ui_list(chassis=["handset"], supports_gpu=True, exclude_ui=[], add_ui=[]
             ui.add("xfce4")
             ui.add("sxmo-de-dwm")
 
-    if "convertible" in chassis or "tablet" in chassis:
+    if "convertible" in chassis:
         if supports_gpu:
             ui.add("phosh")
             ui.add("sxmo-de-sway")
