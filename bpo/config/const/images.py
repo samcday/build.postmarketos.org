@@ -748,6 +748,7 @@ images = {
     "samsung-starqltechn": {
         "branches": [
             "master",
+            "v25.12",
         ],
         "branch_configs": {
             "master": {
