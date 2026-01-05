@@ -424,13 +424,6 @@ images = {
         },
     },
     "google-peach-pi": {
-        "branches": [
-            # edge is disabled until this is fixed:
-            # https://gitlab.postmarketos.org/postmarketOS/pmaports/-/issues/4186
-            # "master",
-            "v25.12",
-            "v25.06",
-        ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop"]),
@@ -444,13 +437,6 @@ images = {
         },
     },
     "google-peach-pit": {
-        "branches": [
-            # edge is disabled until this is fixed:
-            # https://gitlab.postmarketos.org/postmarketOS/pmaports/-/issues/4186
-            # "master",
-            "v25.12",
-            "v25.06",
-        ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop"]),
@@ -466,13 +452,6 @@ images = {
     "google-sargo": {
     },
     "google-snow": {
-        "branches": [
-            # edge is disabled until this is fixed:
-            # https://gitlab.postmarketos.org/postmarketOS/pmaports/-/issues/4186
-            # "master",
-            "v25.12",
-            "v25.06",
-        ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop"]),
