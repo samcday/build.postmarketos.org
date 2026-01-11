@@ -44,7 +44,7 @@ branches["v25.06"] = {
 }
 
 branches["master"] = {
-    "arches": ["x86_64", "aarch64", "armv7", "armhf", "x86", "riscv64", "ppc64le"],
+    "arches": ["x86_64", "aarch64", "armv7", "armhf", "x86", "riscv64", "ppc64le", "loongarch64"],
     # Allow override for running the whole testsuite with pmb v2
     "pmb_branch": os.environ.get("BPO_PMA_MASTER_PMB_BRANCH", "master"),
 }
