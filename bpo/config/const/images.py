@@ -133,6 +133,7 @@ devices = {
     "odroid-xu4": "ODROID XU4",
     "oneplus-enchilada": "OnePlus 6",
     "oneplus-fajita": "OnePlus 6T",
+    "pine64-pinenote": "PINE64 PineNote",
     "pine64-pinebookpro": "PINE64 Pinebook Pro",
     "pine64-pinephone": "PINE64 PinePhone",
     "pine64-pinephonepro": "PINE64 PinePhone Pro",
@@ -651,6 +652,23 @@ images = {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
+                "date-start": "2025-12-15",  # Monday
+            },
+        },
+    },
+    "pine64-pinenote": {
+        "branches": [
+            "master",
+            "v25.12",
+        ],
+        "branch_configs": {
+            "all": {
+                "ui": get_ui_list(chassis=["tablet"], add_ui=["sway"]),
+            },
+            "master": {
+                "date-start": "2025-01-10",  # Friday
+            },
+             "v25.12": {
                 "date-start": "2025-12-15",  # Monday
             },
         },
