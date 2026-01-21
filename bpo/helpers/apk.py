@@ -19,16 +19,15 @@ def get_pkginfo_lines(apk):
 
 
 def get_abuild_version(lines):
-    """ Get the abuild version from the .PKGINFO file inside an apk generated
-        by abuild. In contrary to all other key=value pairs in the file, this
-        is just stored as comment on top. We need it to figure out if the apk
-        was built with a broken version of abuild, that generated broken
-        packages (#56).
+    """ 
+    Get the abuild version from the .PKGINFO file inside an apk generated
+    by abuild. In contrary to all other key=value pairs in the file, this
+    is just stored as comment on top. We need it to figure out if the apk
+    was built with a broken version of abuild, that generated broken
+    packages (#56).
 
-        :param lines: list of \n-terminated lines as bytes from .PKGINFO file,
-        as returned by get_pkginfo_lines()
-        :returns: version string like "3.4.0-r1" or None
-
+    :param lines: list of ``\\n``-terminated lines as bytes from .PKGINFO file, as returned by get_pkginfo_lines()
+    :returns: version string like "3.4.0-r1" or None
     """
     if not len(lines):
         return None
@@ -43,8 +42,9 @@ def get_abuild_version(lines):
 
 
 def get_metadata(apk):
-    """ :param apk: path to apk file
-        :returns: ordered dict with relevant metadata from .PKGINFO:
+    """ 
+    :param apk: path to apk file
+    :returns: ordered dict with relevant metadata from .PKGINFO:
         {"abuild_version": "3.5.0_rc1-r1",
         "pkgver": "1-r3",
         "origin": "hello-world-wrapper"}

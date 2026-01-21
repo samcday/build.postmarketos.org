@@ -153,7 +153,9 @@ def run(arch, pkgname, branch, splitrepo):
 
 
 def abort(package):
-    """ Stop a single package build job.
-        :param package: bpo.db.Package object """
-    # FIXME
+    """ 
+    Stop a single package build job.
+
+    :param package: bpo.db.Package object 
+    """
     logging.info(f"STUB: bpo.jobs.build_package (#93): {package}")

@@ -53,8 +53,11 @@ class LocalJobServiceThread(threading.Thread):
             subprocess.run(command, check=True, stdout=handle, stderr=handle)
 
     def run_print_try(self, command):
-        """ Try to execute a shell command.
-            :returns: True if exit code is 0, False otherwise """
+        """ 
+        Try to execute a shell command.
+
+        :returns: True if exit code is 0, False otherwise 
+        """
         try:
             # Put this in an extra function, so we can easily monkeypatch
             # it in the testsuite

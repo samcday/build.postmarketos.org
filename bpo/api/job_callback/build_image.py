@@ -51,11 +51,14 @@ def get_dir_name(request):
 
 
 def get_path_temp(job_id):
-    """ One image consists of multiple files. They get big, especially with the
-        so now we upload only one file at once and put them into this temp dir
-        until all of them are uploaded.
-        :param job_id: already sanitized ID of the image build job
-        :returns: the temporary upload path for the current job """
+    """ 
+    One image consists of multiple files. They get big, especially with the
+    so now we upload only one file at once and put them into this temp dir
+    until all of them are uploaded.
+
+    :param job_id: already sanitized ID of the image build job
+    :returns: the temporary upload path for the current job 
+    """
     return f"{bpo.config.args.temp_path}/image_upload/{job_id}"
 
 

@@ -313,8 +313,11 @@ def build(force_repo_update_branch=None, no_repo_update=False):
 
 
 def get_apks(cwd):
-    """ Get a sorted list of all apks in a repository.
-        :param cwd: path to the repository """
+    """
+    Get a sorted list of all apks in a repository.
+
+    :param cwd: path to the repository 
+    """
     ret = []
     for apk in glob.glob(cwd + "/*.apk"):
         ret += [os.path.basename(apk)]

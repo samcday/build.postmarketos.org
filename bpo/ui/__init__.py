@@ -24,15 +24,17 @@ def format_retry_count(retry_count):
 
 def update_monitoring_txt(session, pkgs, imgs, add_footer=True,
                           list_count_max=10):
-    """ Update html_out/monitoring.txt. The postmarketOS infrastructure
-        monitoring will parse this file and send a message into a matrix room
-        when there are failures.
-        :param session: return value of bpo.db.session()
-        :param pkgs: return value of bpo.db.get_recent_packages_by_status()
-        :param imgs: return value of bpo.db.get_recent_images_by_status()
-        :param add_footer: if NOK, add footer with links to related issues/MRs
-        :param list_count_max: how many entries to display with log links
-        """
+    """
+    Update html_out/monitoring.txt. The postmarketOS infrastructure
+    monitoring will parse this file and send a message into a matrix room
+    when there are failures.
+
+    :param session: return value of bpo.db.session()
+    :param pkgs: return value of bpo.db.get_recent_packages_by_status()
+    :param imgs: return value of bpo.db.get_recent_images_by_status()
+    :param add_footer: if NOK, add footer with links to related issues/MRs
+    :param list_count_max: how many entries to display with log links
+    """
     txt = ""
     nok_count = len(pkgs["failed"]) + imgs["failed"].count()
     if nok_count:
@@ -79,12 +81,14 @@ def update_monitoring_txt(session, pkgs, imgs, add_footer=True,
 
 
 def update_badge(session, pkgs, imgs):
-    """ Update html_out/badge.svg
-        :param session: return value of bpo.db.session()
-        :param pkgs: return value of bpo.db.get_recent_packages_by_status()
-        :param imgs: return value of bpo.db.get_recent_images_by_status()
-        :returns: one of: "up-to-date", "failed", "building"
-        """
+    """
+    Update html_out/badge.svg
+
+    :param session: return value of bpo.db.session()
+    :param pkgs: return value of bpo.db.get_recent_packages_by_status()
+    :param imgs: return value of bpo.db.get_recent_images_by_status()
+    :returns: one of: "up-to-date", "failed", "building"
+    """
     # Get new name
     new = "up-to-date"
     if bpo.db.get_failed_packages_count_relevant(session) \
@@ -128,13 +132,14 @@ def commit_link(commit):
 
 
 def update_index(session, pkgs, imgs, badge_name):
-    """ Update html_out/index.html
-        :param session: return value of bpo.db.session()
-        :param pkgs: return value of bpo.db.get_recent_packages_by_status()
-        :param imgs: return value of bpo.db.get_recent_images_by_status()
-        :param badge_name: return value of update_badge()
+    """
+    Update html_out/index.html
 
-        """
+    :param session: return value of bpo.db.session()
+    :param pkgs: return value of bpo.db.get_recent_packages_by_status()
+    :param imgs: return value of bpo.db.get_recent_images_by_status()
+    :param badge_name: return value of update_badge()
+    """
     # Query information from DB
     log_entries_days = log_entries_by_day(session)
     pkgcount = session.query(func.count(bpo.db.Package.id)).scalar()
@@ -224,8 +229,11 @@ def log(*args, **kwargs):
 
 
 def log_package(package, action, depend_pkgname=None, commit=None):
-    """ Convenience wrapper
-        :param package: bpo.db.Package object """
+    """
+    Convenience wrapper
+
+    :param package: bpo.db.Package object
+    """
     log(action=action,
         arch=package.arch,
         branch=package.branch,
@@ -239,10 +247,11 @@ def log_package(package, action, depend_pkgname=None, commit=None):
 
 
 def log_image(image, action):
-    """ Convenience wrapper
-        :param image: bpo.db.Image object
+    """
+    Convenience wrapper
 
-        """
+    :param image: bpo.db.Image object
+    """
     log(action=action,
         device=image.device,
         branch=image.branch,

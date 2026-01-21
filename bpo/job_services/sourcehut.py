@@ -31,11 +31,13 @@ def api_request(query, variables):
 
 
 def get_secrets_by_job_name(name):
-    """ Have some privilege separation by only enabling the secrets, that are
-        required for particular job types. In practice, this allows having the
-        final repo sign key only available when necessary.
-        :param name: job name (see bpo/jobs, e.g. "sign_index")
-        :returns: string like "secrets:<newline>- first<newline>- second<newline>" (<newline> is backslash-n)
+    """ 
+    Have some privilege separation by only enabling the secrets, that are
+    required for particular job types. In practice, this allows having the
+    final repo sign key only available when necessary.
+
+    :param name: job name (see bpo/jobs, e.g. "sign_index")
+    :returns: string like "secrets:<newline>- first<newline>- second<newline>" (<newline> is backslash-n)
     """
     tokens = bpo.config.tokens
     secrets = [tokens.job_callback_secret]

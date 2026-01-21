@@ -32,9 +32,12 @@ def load():
 
 
 def hash_generate(token):
-    """ Generate a token and save the sha512 hash to the token file.
-        :param token: name of the token, e.g. "push_hook_gitlab"
-        :returns: hash of the generated token """
+    """ 
+    Generate a token and save the sha512 hash to the token file.
+
+    :param token: name of the token, e.g. "push_hook_gitlab"
+    :returns: hash of the generated token 
+    """
     # Generate
     token_plain = os.urandom(50).hex()
     token_hash = hashlib.sha512(token_plain.encode()).hexdigest()

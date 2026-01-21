@@ -46,12 +46,15 @@ def init():
 
 
 def run(arch, branch, repo_name, cwd, cmd):
-    """ Run a tool with a nice log message and a proper PATH.
-        :param cwd: current working dir, where cmd should get executed
-        :param cmd: the command to execute
+    """
+    Run a tool with a nice log message and a proper PATH.
 
-        All other parameters (arch, branch, repo_name) are just for printing a
-        nice log message. """
+    :param cwd: current working dir, where cmd should get executed
+    :param cmd: the command to execute
+
+    All other parameters (arch, branch, repo_name) are just for printing a
+    nice log message. 
+    """
     tools_bin = bpo.config.args.temp_path + "/repo_tools/bin"
     env = {"PATH": tools_bin + ":" + os.getenv("PATH")}
 
@@ -61,9 +64,11 @@ def run(arch, branch, repo_name, cwd, cmd):
 
 
 def index(arch, branch, repo_name, cwd):
-    """ Sign a repository.
-        :param cwd: path to the repository """
+    """
+    Sign a repository.
 
+    :param cwd: path to the repository 
+    """
     # aports-turbo, hosted at pkgs.postmarketos.org, uses the description to
     # check if the APKINDEX was modified. Set it to the current date to make
     # that check work.

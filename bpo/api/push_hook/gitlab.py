@@ -39,9 +39,12 @@ def get_branch(payload):
 
 
 def get_pkgnames_commits(payload):
-    """ Get modified pkgnames from changed (added, modified, removed) files in
-        payload, along with the commit hashes where they were modified.
-        :returns: dict like: {"hello-world": "d34dc4fef00", ...} """
+    """ 
+    Get modified pkgnames from changed (added, modified, removed) files in
+    payload, along with the commit hashes where they were modified.
+
+    :returns: dict like: {"hello-world": "d34dc4fef00", ...} 
+    """
     if "commits" not in payload:
         raise RuntimeError("Missing 'commits' key in payload")
 
@@ -71,10 +74,12 @@ def get_pkgnames_commits(payload):
 
 
 def reset_failed_packages(pkgnames_commits, branch):
-    """ Reset failed packages, which might be fixed by the packages that were
-        modified. These are the packages from the paramter and all packages
-        that depend on them.
-        :param pkgnames_commits: from get_pkgnames_commits()
+    """ 
+    Reset failed packages, which might be fixed by the packages that were
+    modified. These are the packages from the paramter and all packages
+    that depend on them.
+
+    :param pkgnames_commits: from get_pkgnames_commits()
     """
     def reset_package(package, action, commit, depend_pkgname=None):
         if package.status == bpo.db.PackageStatus.building:

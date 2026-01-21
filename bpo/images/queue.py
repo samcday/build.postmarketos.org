@@ -31,9 +31,11 @@ def remove_not_in_config():
 
 
 def fill(now=None):
-    """ Add new entries to the image table, based on
-        bpo/config/const/images.py.
-        :param now: current time, can be overwritten for tests """
+    """ 
+    Add new entries to the image table, based on
+    bpo/config/const/images.py.
+
+    :param now: current time, can be overwritten for tests """
     logging.info("Running bpo.images.queue.fill()")
     session = bpo.db.session()
 
