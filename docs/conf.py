@@ -22,7 +22,7 @@ extensions = [
 
 html_theme = "pmos"
 html_theme_options = {
-    "source_edit_link": "https://gitlab.postmarketos.org/postmarketOS/pmbootstrap/-/blob/master/docs/{filename}",
+    "source_edit_link": "https://gitlab.postmarketos.org/postmarketOS/build.postmarketos.org/-/blob/master/docs/{filename}",
 }
 
 # Output file base name for HTML help builder.
