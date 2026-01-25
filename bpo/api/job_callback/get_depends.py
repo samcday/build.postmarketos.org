@@ -107,9 +107,11 @@ def update_package_depends(session, payload, arch, branch):
 
 
 def remove_deleted_packages_db(session, payload, arch, branch, splitrepo):
-    """ Remove all packages from the database, that have been deleted from
-        pmaports.git
-        :returns: True if packages were deleted, False otherwise """
+    """ 
+    Remove all packages from the database, that have been deleted from
+    pmaports.git
+
+    :returns: True if packages were deleted, False otherwise """
     ret = False
 
     # Sort payload by pkgname for faster lookups

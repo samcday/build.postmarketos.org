@@ -8,9 +8,11 @@ import bpo.config.const.images
 
 
 def get_device_branches(device):
-    """ Get the branches, for which an image should be built for a certain
-        device.
-        :returns: list of branch names, e.g. ["master", "v20.05"] """
+    """ 
+    Get the branches, for which an image should be built for a certain device.
+
+    :returns: list of branch names, e.g. ["master", "v20.05"]
+    """
     images_cfg = bpo.config.const.images.images
 
     if device not in images_cfg:
