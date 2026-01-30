@@ -283,7 +283,7 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
-                "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"], add_ui=["cosmic", "os-installer"]),
+                "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"], add_ui=["os-installer"]),
             },
             "v25.06": {
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"], add_ui=["os-installer"]),
@@ -528,7 +528,7 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
-                "ui": get_ui_list(chassis=["laptop"], add_ui=["cosmic", "os-installer"]),
+                "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
             },
             "v25.12": {
                 "date-start": "2025-12-15",  # Monday
