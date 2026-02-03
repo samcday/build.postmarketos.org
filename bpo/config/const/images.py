@@ -63,7 +63,6 @@ password = "147147"
 # Branches to build images for, can be overridden per device in 'images' below
 branches_default = [
         "master",
-        "v25.06",
         "v25.12",
     ]
 
@@ -285,9 +284,6 @@ images = {
                 "date-start": "2025-01-10",  # Friday
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"], add_ui=["os-installer"]),
             },
-            "v25.06": {
-                "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"], add_ui=["os-installer"]),
-            },
             "v25.12": {
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"], add_ui=["os-installer"]),
                 "date-start": "2025-12-15",  # Monday
@@ -505,17 +501,6 @@ images = {
             "master": {
                 "date-start": "2025-01-10",  # Friday
             },
-            "v25.06": {
-                "kernels": [
-                    # "lts" kernel would be a bit better in theory, but it is
-                    # too big to fit the cgpt_kpart partition:
-                    #   % dd if=…/boot/vmlinuz.kpart of=/dev/installp1
-                    #   dd: error writing '/dev/installp1': No space left on device
-                    # Use "edge" instead, it actually misses only a few configs
-                    # for these devices, nothing critical.
-                    "edge",
-                ],
-            },
             "v25.12": {
                 "date-start": "2025-12-15",  # Monday
             },
@@ -618,10 +603,6 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
-            },
-            "v25.06": {
-                # Handset with keyboard
-                "ui": get_ui_list(chassis=["convertible"], supports_gpu=False),
             },
             "v25.12": {
                 "date-start": "2025-12-15",  # Monday
@@ -972,9 +953,6 @@ images = {
             },
             "master": {
                 "date-start": "2025-01-10",  # Friday
-            },
-            "v25.06": {
-                "ui": get_ui_list(),
             },
             "v25.12": {
                 "date-start": "2025-12-15",  # Monday
