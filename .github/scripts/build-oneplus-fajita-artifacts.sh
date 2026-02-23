@@ -17,7 +17,7 @@ python3 "${PMBOOTSTRAP}" -y build_init
 
 install_ok=0
 for attempt in 1 2 3; do
-  if python3 "${PMBOOTSTRAP}" -y --details-to-stdout install --no-sshd --no-local-pkgs --password "${IMAGE_PASSWORD}"; then
+  if python3 "${PMBOOTSTRAP}" -y --details-to-stdout install --no-sshd --password "${IMAGE_PASSWORD}"; then
     install_ok=1
     break
   fi
