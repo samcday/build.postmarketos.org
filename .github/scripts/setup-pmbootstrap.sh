@@ -87,6 +87,19 @@ EOF
 
 if [ -n "${APK_REPO_BASE_URL}" ]; then
   python3 "${PMB}" config mirrors.pmaports_custom "${APK_REPO_BASE_URL%/}/"
+
+  if [ "${APK_REPO_BASE_URL#file://}" != "${APK_REPO_BASE_URL}" ]; then
+    local_override_base="${APK_REPO_BASE_URL#file://}"
+    local_override_repo="${local_override_base%/}/master/aarch64"
+    work_dir="$(python3 "${PMB}" config work)"
+    local_pmb_repo="${work_dir}/packages/${PMOS_VER}/aarch64"
+
+    if [ -d "${local_override_repo}" ]; then
+      mkdir -p "${local_pmb_repo}"
+      cp "${local_override_repo}"/*.apk "${local_pmb_repo}/"
+      cp "${local_override_repo}/APKINDEX.tar.gz" "${local_pmb_repo}/"
+    fi
+  fi
 fi
 
 if [ -n "${APK_REPO_KEY_URL}" ]; then
