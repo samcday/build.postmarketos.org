@@ -34,39 +34,74 @@ work_rootfs="${work}/chroot_native/home/pmos/rootfs"
 mkdir -p out
 
 if [ -n "${APK_REPO_BASE_URL}" ]; then
-  policy_path="out/apk-policy.txt"
-  sudo chroot "${work_device_rootfs}" apk policy \
+  installed_path="out/installed-target-packages.txt"
+  sudo chroot "${work_device_rootfs}" apk info -e -v \
     linux-postmarketos-qcom-sdm845 \
-    device-oneplus-fajita | tee "${policy_path}"
+    device-oneplus-fajita | tee "${installed_path}"
 
-  python3 - "${policy_path}" "${APK_REPO_BASE_URL%/}" <<'PY'
-import re
+  python3 - "${installed_path}" "${APK_REPO_BASE_URL%/}" <<'PY'
+import io
 import sys
+import tarfile
+import urllib.request
 
-policy_path = sys.argv[1]
+installed_path = sys.argv[1]
 repo_base_url = sys.argv[2]
 targets = ["linux-postmarketos-qcom-sdm845", "device-oneplus-fajita"]
 
-seen = {name: False for name in targets}
-current = None
+index_url = f"{repo_base_url}/master/aarch64/APKINDEX.tar.gz"
+with urllib.request.urlopen(index_url, timeout=30) as response:
+    apkindex_tar = response.read()
 
-with open(policy_path, "r", encoding="utf-8", errors="ignore") as handle:
+with tarfile.open(fileobj=io.BytesIO(apkindex_tar), mode="r:gz") as tar:
+    apkindex_bytes = tar.extractfile("APKINDEX").read()
+
+repo_versions = {}
+current_pkg = None
+for line in apkindex_bytes.decode("utf-8", errors="ignore").splitlines():
+    if line.startswith("P:"):
+        current_pkg = line[2:]
+        continue
+
+    if current_pkg in targets and line.startswith("V:") and current_pkg not in repo_versions:
+        repo_versions[current_pkg] = line[2:]
+        continue
+
+    if line == "":
+        current_pkg = None
+
+installed_versions = {}
+with open(installed_path, "r", encoding="utf-8", errors="ignore") as handle:
     for line in handle:
-        line = line.rstrip("\n")
-        match = re.match(r"^([A-Za-z0-9+._-]+) policy:$", line)
-        if match:
-            current = match.group(1)
-            continue
+        line = line.strip()
+        for pkg in targets:
+            prefix = f"{pkg}-"
+            if line.startswith(prefix):
+                installed_versions[pkg] = line[len(prefix):]
 
-        if current in seen and repo_base_url in line:
-            seen[current] = True
-
-missing = [name for name, found in seen.items() if not found]
-if missing:
-    print("Override APK repo not visible for: " + ", ".join(missing))
+missing_repo = [pkg for pkg in targets if pkg not in repo_versions]
+if missing_repo:
+    print("Override APKINDEX is missing target package metadata for: " + ", ".join(missing_repo))
     sys.exit(1)
 
-print("Verified override APK repo visibility for target packages.")
+missing_installed = [pkg for pkg in targets if pkg not in installed_versions]
+if missing_installed:
+    print("Target package not installed in rootfs: " + ", ".join(missing_installed))
+    sys.exit(1)
+
+mismatches = [
+    f"{pkg}: installed {installed_versions[pkg]} != override {repo_versions[pkg]}"
+    for pkg in targets
+    if installed_versions[pkg] != repo_versions[pkg]
+]
+
+if mismatches:
+    print("Installed versions do not match override APK repo:")
+    for mismatch in mismatches:
+        print("- " + mismatch)
+    sys.exit(1)
+
+print("Verified installed target package versions match override APK repo.")
 PY
 fi
 

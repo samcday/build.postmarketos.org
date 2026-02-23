@@ -22,7 +22,7 @@ jobs:
       PMAPORTS_REPO: samcday/pmaports
       PMAPORTS_REF: master
       APK_REPO_BASE_URL: https://raw.githubusercontent.com/samcday/pmaports-fastboop-apk
-      APK_REPO_KEY_URL: ""
+      APK_REPO_KEY_URL: https://raw.githubusercontent.com/samcday/pmaports-fastboop-apk/master/pmaports-fastboop.rsa.pub
     steps:
       - name: Checkout build.postmarketos.org
         uses: actions/checkout@v4
