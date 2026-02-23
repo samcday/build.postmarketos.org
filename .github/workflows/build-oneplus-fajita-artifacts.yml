@@ -56,6 +56,22 @@ jobs:
           echo "APK_REPO_BASE_URL=${apk_repo_base_url}" >> "${GITHUB_ENV}"
           echo "APK_REPO_KEY_URL=${apk_repo_key_url}" >> "${GITHUB_ENV}"
 
+      - name: Prepare local override APK mirror
+        run: |
+          set -euo pipefail
+
+          apk_repo_sha="$(git ls-remote "https://github.com/${APK_REPO_OWNER}/${APK_REPO_NAME}.git" "refs/heads/${APK_REPO_REF}" | awk '{print $1}')"
+          tarball_url="https://codeload.github.com/${APK_REPO_OWNER}/${APK_REPO_NAME}/tar.gz/${apk_repo_sha}"
+          local_repo_dir="${RUNNER_TEMP}/override-apk-repo"
+
+          rm -rf "${local_repo_dir}"
+          mkdir -p "${local_repo_dir}"
+          curl -fsSL "${tarball_url}" | tar -xz --strip-components=1 -C "${local_repo_dir}"
+
+          echo "Using local override APK mirror at ${local_repo_dir}"
+          echo "APK_REPO_BASE_URL=file://${local_repo_dir}" >> "${GITHUB_ENV}"
+          echo "APK_REPO_KEY_URL=file://${local_repo_dir}/master/pmaports-fastboop.rsa.pub" >> "${GITHUB_ENV}"
+
       - name: Set up pmbootstrap
         run: |
           bash .github/scripts/setup-pmbootstrap.sh \
