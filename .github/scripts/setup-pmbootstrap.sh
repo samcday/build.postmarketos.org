@@ -93,11 +93,14 @@ if [ -n "${APK_REPO_BASE_URL}" ]; then
     local_override_repo="${local_override_base%/}/master/aarch64"
     work_dir="$(python3 "${PMB}" config work)"
     local_pmb_repo="${work_dir}/packages/${PMOS_VER}/aarch64"
+    local_apk_cache="${work_dir}/cache_apk_aarch64"
 
     if [ -d "${local_override_repo}" ]; then
       mkdir -p "${local_pmb_repo}"
+      mkdir -p "${local_apk_cache}"
       cp "${local_override_repo}"/*.apk "${local_pmb_repo}/"
       cp "${local_override_repo}/APKINDEX.tar.gz" "${local_pmb_repo}/"
+      cp "${local_override_repo}"/*.apk "${local_apk_cache}/"
     fi
   fi
 fi
