@@ -5,6 +5,8 @@ PMAPORTS_DIR="${1:?Usage: setup-pmbootstrap.sh <pmaports-dir> [device] [ui] [pmo
 DEVICE="${2:-oneplus-fajita}"
 UI="${3:-phosh}"
 PMOS_VER="${4:-edge}"
+APK_REPO_BASE_URL="${5:-${APK_REPO_BASE_URL:-}}"
+APK_REPO_KEY_URL="${6:-${APK_REPO_KEY_URL:-}}"
 RUNNER_TMP="${RUNNER_TEMP:-/tmp}"
 PMB_DIR="${RUNNER_TMP}/pmbootstrap"
 DEVICE_VENDOR="${DEVICE%%-*}"
@@ -82,3 +84,32 @@ en_US
 
 
 EOF
+
+if [ -n "${APK_REPO_BASE_URL}" ]; then
+  python3 "${PMB}" config mirrors.pmaports_custom "${APK_REPO_BASE_URL%/}/"
+fi
+
+if [ -n "${APK_REPO_KEY_URL}" ]; then
+  key_tmp="$(mktemp)"
+  wget -qO "${key_tmp}" "${APK_REPO_KEY_URL}"
+
+  if ! grep -q "BEGIN PUBLIC KEY" "${key_tmp}"; then
+    echo "Downloaded key from ${APK_REPO_KEY_URL} does not look like a public key"
+    rm -f "${key_tmp}"
+    exit 1
+  fi
+
+  key_name="$(basename "${APK_REPO_KEY_URL}")"
+  if [ -z "${key_name}" ] || [ "${key_name}" = "/" ]; then
+    key_name="pmaports-fastboop.rsa.pub"
+  fi
+
+  work_dir="$(python3 "${PMB}" config work)"
+  mkdir -p "${work_dir}/config_apk_keys"
+  install -m 0644 "${key_tmp}" "${work_dir}/config_apk_keys/${key_name}"
+  install -m 0644 "${key_tmp}" "${PMB_DIR}/pmb/data/keys/${key_name}"
+  rm -f "${key_tmp}"
+fi
+
+python3 "${PMB}" config mirrors.pmaports
+python3 "${PMB}" config mirrors.pmaports_custom

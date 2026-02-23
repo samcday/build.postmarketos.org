@@ -21,6 +21,8 @@ jobs:
       IMAGE_PASSWORD: "147147"
       PMAPORTS_REPO: samcday/pmaports
       PMAPORTS_REF: master
+      APK_REPO_BASE_URL: https://raw.githubusercontent.com/samcday/pmaports-fastboop-apk/main
+      APK_REPO_KEY_URL: ""
     steps:
       - name: Checkout build.postmarketos.org
         uses: actions/checkout@v4
