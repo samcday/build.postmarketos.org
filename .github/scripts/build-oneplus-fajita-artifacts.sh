@@ -13,6 +13,23 @@ if [ -z "${PMBOOTSTRAP:-}" ] || [ -z "${PMB_WORK:-}" ]; then
   exit 1
 fi
 
+work="$(python3 "${PMBOOTSTRAP}" config work)"
+
+if [ -n "${APK_REPO_BASE_URL}" ] && [ "${APK_REPO_BASE_URL#file://}" != "${APK_REPO_BASE_URL}" ]; then
+  local_override_repo="${APK_REPO_BASE_URL#file://}"
+  local_override_repo="${local_override_repo%/}/master/aarch64"
+  local_pmb_repo="${work}/packages/${PMOS_VER}/aarch64"
+  local_apk_cache="${work}/cache_apk_aarch64"
+
+  if [ -d "${local_override_repo}" ]; then
+    mkdir -p "${local_pmb_repo}"
+    mkdir -p "${local_apk_cache}"
+    cp "${local_override_repo}"/*.apk "${local_pmb_repo}/"
+    cp "${local_override_repo}/APKINDEX.tar.gz" "${local_pmb_repo}/"
+    sudo cp "${local_override_repo}"/*.apk "${local_apk_cache}/"
+  fi
+fi
+
 python3 "${PMBOOTSTRAP}" -y build_init
 
 install_ok=0
@@ -44,7 +61,6 @@ fi
 ui_version="$(grep '^pkgver=' "${ui_apkbuild}" | cut -d= -f2 | cut -d ' ' -f1)"
 img_prefix="${img_date}-postmarketOS-${PMOS_VER}-${UI}-${ui_version}-${DEVICE}"
 
-work="$(python3 "${PMBOOTSTRAP}" config work)"
 work_device_rootfs="${work}/chroot_rootfs_${DEVICE}"
 work_rootfs="${work}/chroot_native/home/pmos/rootfs"
 
