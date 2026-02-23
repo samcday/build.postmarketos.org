@@ -1,0 +1,58 @@
+name: Build OnePlus Fajita Artifacts
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-oneplus-fajita-artifacts-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 420
+    env:
+      DEVICE: oneplus-fajita
+      UI: phosh
+      PMOS_VER: edge
+      IMAGE_PASSWORD: "147147"
+      PMAPORTS_REPO: ${{ vars.PMAPORTS_REPO || 'samcday/pmaports' }}
+      PMAPORTS_REF: ${{ vars.PMAPORTS_REF || 'master' }}
+    steps:
+      - name: Checkout build.postmarketos.org
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout pmaports mirror
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.PMAPORTS_REPO }}
+          ref: ${{ env.PMAPORTS_REF }}
+          path: pmaports
+          fetch-depth: 0
+
+      - name: Set up pmbootstrap
+        run: |
+          bash .github/scripts/setup-pmbootstrap.sh \
+            "${GITHUB_WORKSPACE}/pmaports" \
+            "${DEVICE}" \
+            "${UI}" \
+            "${PMOS_VER}"
+
+      - name: Build BPO-style image artifacts
+        run: |
+          bash .github/scripts/build-oneplus-fajita-artifacts.sh \
+            "${GITHUB_WORKSPACE}/pmaports" \
+            "${DEVICE}" \
+            "${PMOS_VER}" \
+            "${UI}"
+
+      - name: Upload image artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: oneplus-fajita-bpo-style-images
+          path: out/
