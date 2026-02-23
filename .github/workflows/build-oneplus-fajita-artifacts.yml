@@ -19,8 +19,8 @@ jobs:
       UI: phosh
       PMOS_VER: edge
       IMAGE_PASSWORD: "147147"
-      PMAPORTS_REPO: ${{ vars.PMAPORTS_REPO || 'samcday/pmaports' }}
-      PMAPORTS_REF: ${{ vars.PMAPORTS_REF || 'master' }}
+      PMAPORTS_REPO: samcday/pmaports
+      PMAPORTS_REF: master
     steps:
       - name: Checkout build.postmarketos.org
         uses: actions/checkout@v4
