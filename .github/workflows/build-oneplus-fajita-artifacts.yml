@@ -68,6 +68,9 @@ jobs:
           mkdir -p "${local_repo_dir}"
           curl -fsSL "${tarball_url}" | tar -xz --strip-components=1 -C "${local_repo_dir}"
 
+          mkdir -p "${local_repo_dir}/master/noarch"
+          cp "${local_repo_dir}/master/aarch64/"*.apk "${local_repo_dir}/master/noarch/"
+
           echo "Using local override APK mirror at ${local_repo_dir}"
           echo "APK_REPO_BASE_URL=file://${local_repo_dir}" >> "${GITHUB_ENV}"
           echo "APK_REPO_KEY_URL=file://${local_repo_dir}/master/pmaports-fastboop.rsa.pub" >> "${GITHUB_ENV}"
