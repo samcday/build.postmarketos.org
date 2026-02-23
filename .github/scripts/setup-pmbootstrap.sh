@@ -91,7 +91,12 @@ fi
 
 if [ -n "${APK_REPO_KEY_URL}" ]; then
   key_tmp="$(mktemp)"
-  wget -qO "${key_tmp}" "${APK_REPO_KEY_URL}"
+
+  if [ "${APK_REPO_KEY_URL#file://}" != "${APK_REPO_KEY_URL}" ]; then
+    cp "${APK_REPO_KEY_URL#file://}" "${key_tmp}"
+  else
+    wget -qO "${key_tmp}" "${APK_REPO_KEY_URL}"
+  fi
 
   if ! grep -q "BEGIN PUBLIC KEY" "${key_tmp}"; then
     echo "Downloaded key from ${APK_REPO_KEY_URL} does not look like a public key"
