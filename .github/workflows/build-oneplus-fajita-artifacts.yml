@@ -21,8 +21,9 @@ jobs:
       IMAGE_PASSWORD: "147147"
       PMAPORTS_REPO: samcday/pmaports
       PMAPORTS_REF: master
-      APK_REPO_BASE_URL: https://raw.githubusercontent.com/samcday/pmaports-fastboop-apk
-      APK_REPO_KEY_URL: https://raw.githubusercontent.com/samcday/pmaports-fastboop-apk/master/pmaports-fastboop.rsa.pub
+      APK_REPO_OWNER: samcday
+      APK_REPO_NAME: pmaports-fastboop-apk
+      APK_REPO_REF: master
     steps:
       - name: Checkout build.postmarketos.org
         uses: actions/checkout@v4
@@ -36,6 +37,24 @@ jobs:
           ref: ${{ env.PMAPORTS_REF }}
           path: pmaports
           fetch-depth: 0
+
+      - name: Resolve immutable override APK repo URLs
+        run: |
+          set -euo pipefail
+
+          apk_repo_sha="$(git ls-remote "https://github.com/${APK_REPO_OWNER}/${APK_REPO_NAME}.git" "refs/heads/${APK_REPO_REF}" | awk '{print $1}')"
+
+          if [ -z "${apk_repo_sha}" ]; then
+            echo "Failed to resolve commit SHA for ${APK_REPO_OWNER}/${APK_REPO_NAME}@${APK_REPO_REF}"
+            exit 1
+          fi
+
+          apk_repo_base_url="https://raw.githubusercontent.com/${APK_REPO_OWNER}/${APK_REPO_NAME}/${apk_repo_sha}"
+          apk_repo_key_url="${apk_repo_base_url}/master/pmaports-fastboop.rsa.pub"
+
+          echo "Resolved ${APK_REPO_OWNER}/${APK_REPO_NAME}@${APK_REPO_REF} to ${apk_repo_sha}"
+          echo "APK_REPO_BASE_URL=${apk_repo_base_url}" >> "${GITHUB_ENV}"
+          echo "APK_REPO_KEY_URL=${apk_repo_key_url}" >> "${GITHUB_ENV}"
 
       - name: Set up pmbootstrap
         run: |
