@@ -152,10 +152,28 @@ jobs:
             echo "Override APK tarball contains no APKs in ${repo_arch_dir}"
             exit 1
           fi
+
+          canonical_arch_dir="${local_repo_dir}/aarch64"
+          mkdir -p "${canonical_arch_dir}"
+          mkdir -p "${local_repo_dir}/master/aarch64"
+          mkdir -p "${local_repo_dir}/noarch"
+
+          if [ "${repo_arch_dir}" != "${canonical_arch_dir}" ]; then
+            cp "${apk_files[@]}" "${canonical_arch_dir}/"
+            cp "${repo_arch_dir}/APKINDEX.tar.gz" "${canonical_arch_dir}/"
+          fi
+
+          canonical_apk_files=("${canonical_arch_dir}"/*.apk)
+          if [ "${#canonical_apk_files[@]}" -eq 0 ]; then
+            echo "Canonical override mirror has no APK files in ${canonical_arch_dir}"
+            exit 1
+          fi
           shopt -u nullglob
 
-          mkdir -p "${local_repo_dir}/noarch"
-          cp "${apk_files[@]}" "${local_repo_dir}/noarch/"
+          cp "${canonical_apk_files[@]}" "${local_repo_dir}/master/aarch64/"
+          cp "${canonical_arch_dir}/APKINDEX.tar.gz" "${local_repo_dir}/master/aarch64/"
+
+          cp "${canonical_apk_files[@]}" "${local_repo_dir}/noarch/"
 
           echo "Using local override APK mirror at ${local_repo_dir}"
           echo "APK_REPO_BASE_URL=file://${local_repo_dir}" >> "${GITHUB_ENV}"
