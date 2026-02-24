@@ -24,15 +24,36 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  validate-input:
+  select-devices:
     runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.select.outputs.matrix }}
     steps:
-      - name: Validate device selection
+      - id: select
+        name: Select build matrix
         run: |
           selected="${{ github.event.inputs.device }}"
+
           case "${selected}" in
-            ""|db410c|arrow-db410c|samsung-a5u-eur|samsung-a5|oneplus-fajita|oneplus-enchilada)
-              echo "Building device selection: ${selected:-all}"
+            "")
+              matrix='[
+                {"device":"db410c","pmbootstrap_device":"arrow-db410c","target_packages":"linux-postmarketos-qcom-msm8916,device-arrow-db410c"},
+                {"device":"samsung-a5u-eur","pmbootstrap_device":"samsung-a5","target_packages":"linux-postmarketos-qcom-msm8916,device-samsung-a5"},
+                {"device":"oneplus-fajita","pmbootstrap_device":"oneplus-fajita","target_packages":"linux-postmarketos-qcom-sdm845,device-oneplus-fajita"},
+                {"device":"oneplus-enchilada","pmbootstrap_device":"oneplus-enchilada","target_packages":"linux-postmarketos-qcom-sdm845,device-oneplus-enchilada"}
+              ]'
+              ;;
+            db410c|arrow-db410c)
+              matrix='[{"device":"db410c","pmbootstrap_device":"arrow-db410c","target_packages":"linux-postmarketos-qcom-msm8916,device-arrow-db410c"}]'
+              ;;
+            samsung-a5u-eur|samsung-a5)
+              matrix='[{"device":"samsung-a5u-eur","pmbootstrap_device":"samsung-a5","target_packages":"linux-postmarketos-qcom-msm8916,device-samsung-a5"}]'
+              ;;
+            oneplus-fajita)
+              matrix='[{"device":"oneplus-fajita","pmbootstrap_device":"oneplus-fajita","target_packages":"linux-postmarketos-qcom-sdm845,device-oneplus-fajita"}]'
+              ;;
+            oneplus-enchilada)
+              matrix='[{"device":"oneplus-enchilada","pmbootstrap_device":"oneplus-enchilada","target_packages":"linux-postmarketos-qcom-sdm845,device-oneplus-enchilada"}]'
               ;;
             *)
               echo "Unsupported device '${selected}'"
@@ -41,27 +62,17 @@ jobs:
               ;;
           esac
 
+          echo "Building device selection: ${selected:-all}"
+          echo "matrix=${matrix}" >> "${GITHUB_OUTPUT}"
+
   build:
-    needs: validate-input
-    if: github.event.inputs.device == '' || github.event.inputs.device == matrix.device || github.event.inputs.device == matrix.pmbootstrap_device
+    needs: select-devices
     runs-on: ubuntu-24.04-arm
     timeout-minutes: 420
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - device: db410c
-            pmbootstrap_device: arrow-db410c
-            target_packages: linux-postmarketos-qcom-msm8916,device-arrow-db410c
-          - device: samsung-a5u-eur
-            pmbootstrap_device: samsung-a5
-            target_packages: linux-postmarketos-qcom-msm8916,device-samsung-a5
-          - device: oneplus-fajita
-            pmbootstrap_device: oneplus-fajita
-            target_packages: linux-postmarketos-qcom-sdm845,device-oneplus-fajita
-          - device: oneplus-enchilada
-            pmbootstrap_device: oneplus-enchilada
-            target_packages: linux-postmarketos-qcom-sdm845,device-oneplus-enchilada
+        include: ${{ fromJSON(needs.select-devices.outputs.matrix) }}
     env:
       DEVICE: ${{ matrix.pmbootstrap_device }}
       DEVICE_ARTIFACT_NAME: ${{ matrix.device }}
