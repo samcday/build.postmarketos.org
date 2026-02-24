@@ -1,29 +1,79 @@
-name: Build OnePlus Fajita Artifacts
+name: Build Phosh Image Artifacts
 
 on:
   workflow_dispatch:
+    inputs:
+      device:
+        description: Device to build (blank means all)
+        required: false
+        default: ""
+      pmaports_ref:
+        description: pmaports ref to build
+        required: false
+        default: master
+      apk_repo_ref:
+        description: Override APK repo ref
+        required: false
+        default: master
 
 permissions:
   contents: read
 
 concurrency:
-  group: build-oneplus-fajita-artifacts-${{ github.ref }}
+  group: build-phosh-image-artifacts-${{ github.ref }}-${{ github.event.inputs.device || 'all' }}
   cancel-in-progress: true
 
 jobs:
+  validate-input:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Validate device selection
+        run: |
+          selected="${{ github.event.inputs.device }}"
+          case "${selected}" in
+            ""|db410c|arrow-db410c|samsung-a5u-eur|samsung-a5|oneplus-fajita|oneplus-enchilada)
+              echo "Building device selection: ${selected:-all}"
+              ;;
+            *)
+              echo "Unsupported device '${selected}'"
+              echo "Allowed values: db410c, samsung-a5u-eur, oneplus-fajita, oneplus-enchilada"
+              exit 1
+              ;;
+          esac
+
   build:
+    needs: validate-input
+    if: github.event.inputs.device == '' || github.event.inputs.device == matrix.device || github.event.inputs.device == matrix.pmbootstrap_device
     runs-on: ubuntu-24.04-arm
     timeout-minutes: 420
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - device: db410c
+            pmbootstrap_device: arrow-db410c
+            target_packages: linux-postmarketos-qcom-msm8916,device-arrow-db410c
+          - device: samsung-a5u-eur
+            pmbootstrap_device: samsung-a5
+            target_packages: linux-postmarketos-qcom-msm8916,device-samsung-a5
+          - device: oneplus-fajita
+            pmbootstrap_device: oneplus-fajita
+            target_packages: linux-postmarketos-qcom-sdm845,device-oneplus-fajita
+          - device: oneplus-enchilada
+            pmbootstrap_device: oneplus-enchilada
+            target_packages: linux-postmarketos-qcom-sdm845,device-oneplus-enchilada
     env:
-      DEVICE: oneplus-fajita
+      DEVICE: ${{ matrix.pmbootstrap_device }}
+      DEVICE_ARTIFACT_NAME: ${{ matrix.device }}
+      TARGET_PACKAGES: ${{ matrix.target_packages }}
       UI: phosh
       PMOS_VER: edge
       IMAGE_PASSWORD: "147147"
       PMAPORTS_REPO: samcday/pmaports
-      PMAPORTS_REF: master
+      PMAPORTS_REF: ${{ github.event.inputs.pmaports_ref || 'master' }}
       APK_REPO_OWNER: samcday
       APK_REPO_NAME: pmaports-fastboop-apk
-      APK_REPO_REF: master
+      APK_REPO_REF: ${{ github.event.inputs.apk_repo_ref || 'master' }}
     steps:
       - name: Checkout build.postmarketos.org
         uses: actions/checkout@v4
@@ -50,11 +100,23 @@ jobs:
           fi
 
           apk_repo_base_url="https://raw.githubusercontent.com/${APK_REPO_OWNER}/${APK_REPO_NAME}/${apk_repo_sha}"
-          apk_repo_key_url="${apk_repo_base_url}/master/pmaports-fastboop.rsa.pub"
+          apk_repo_key_url=""
+
+          if curl -fsSLI "${apk_repo_base_url}/pmaports-fastboop.rsa.pub" >/dev/null; then
+            apk_repo_key_url="${apk_repo_base_url}/pmaports-fastboop.rsa.pub"
+          elif curl -fsSLI "${apk_repo_base_url}/master/pmaports-fastboop.rsa.pub" >/dev/null; then
+            apk_repo_key_url="${apk_repo_base_url}/master/pmaports-fastboop.rsa.pub"
+          fi
 
           echo "Resolved ${APK_REPO_OWNER}/${APK_REPO_NAME}@${APK_REPO_REF} to ${apk_repo_sha}"
           echo "APK_REPO_BASE_URL=${apk_repo_base_url}" >> "${GITHUB_ENV}"
           echo "APK_REPO_KEY_URL=${apk_repo_key_url}" >> "${GITHUB_ENV}"
+
+          if [ -n "${apk_repo_key_url}" ]; then
+            echo "Using override repo key at ${apk_repo_key_url}"
+          else
+            echo "No override repo public key found; proceeding without key install"
+          fi
 
       - name: Prepare local override APK mirror
         run: |
@@ -68,12 +130,35 @@ jobs:
           mkdir -p "${local_repo_dir}"
           curl -fsSL "${tarball_url}" | tar -xz --strip-components=1 -C "${local_repo_dir}"
 
-          mkdir -p "${local_repo_dir}/master/noarch"
-          cp "${local_repo_dir}/master/aarch64/"*.apk "${local_repo_dir}/master/noarch/"
+          repo_arch_dir="${local_repo_dir}/aarch64"
+          if [ ! -d "${repo_arch_dir}" ]; then
+            repo_arch_dir="${local_repo_dir}/master/aarch64"
+          fi
+
+          if [ ! -d "${repo_arch_dir}" ]; then
+            echo "Override APK tarball is missing aarch64 package directory"
+            exit 1
+          fi
+
+          shopt -s nullglob
+          apk_files=("${repo_arch_dir}"/*.apk)
+          if [ "${#apk_files[@]}" -eq 0 ]; then
+            echo "Override APK tarball contains no APKs in ${repo_arch_dir}"
+            exit 1
+          fi
+          shopt -u nullglob
+
+          mkdir -p "${local_repo_dir}/noarch"
+          cp "${apk_files[@]}" "${local_repo_dir}/noarch/"
 
           echo "Using local override APK mirror at ${local_repo_dir}"
           echo "APK_REPO_BASE_URL=file://${local_repo_dir}" >> "${GITHUB_ENV}"
-          echo "APK_REPO_KEY_URL=file://${local_repo_dir}/master/pmaports-fastboop.rsa.pub" >> "${GITHUB_ENV}"
+
+          if [ -f "${local_repo_dir}/pmaports-fastboop.rsa.pub" ]; then
+            echo "APK_REPO_KEY_URL=file://${local_repo_dir}/pmaports-fastboop.rsa.pub" >> "${GITHUB_ENV}"
+          elif [ -f "${local_repo_dir}/master/pmaports-fastboop.rsa.pub" ]; then
+            echo "APK_REPO_KEY_URL=file://${local_repo_dir}/master/pmaports-fastboop.rsa.pub" >> "${GITHUB_ENV}"
+          fi
 
       - name: Set up pmbootstrap
         run: |
@@ -85,14 +170,16 @@ jobs:
 
       - name: Build BPO-style image artifacts
         run: |
-          bash .github/scripts/build-oneplus-fajita-artifacts.sh \
+          bash .github/scripts/build-phosh-artifacts.sh \
             "${GITHUB_WORKSPACE}/pmaports" \
             "${DEVICE}" \
             "${PMOS_VER}" \
-            "${UI}"
+            "${UI}" \
+            "${TARGET_PACKAGES}" \
+            "${DEVICE_ARTIFACT_NAME}"
 
       - name: Upload image artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: oneplus-fajita-bpo-style-images
+          name: phosh-images-${{ matrix.device }}
           path: out/
