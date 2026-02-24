@@ -17,6 +17,106 @@ fi
 
 work="$(python3 "${PMBOOTSTRAP}" config work)"
 
+verify_override_target_versions() {
+  if [ -z "${APK_REPO_BASE_URL}" ] || [ -z "${TARGET_PACKAGES}" ]; then
+    return
+  fi
+
+  python3 - "${PMAPORTS_DIR}" "${APK_REPO_BASE_URL%/}" "${TARGET_PACKAGES}" <<'PY'
+import io
+import re
+import sys
+import tarfile
+import urllib.request
+from pathlib import Path
+
+pmaports_dir = Path(sys.argv[1])
+repo_base_url = sys.argv[2]
+targets = [pkg for pkg in sys.argv[3].split(",") if pkg]
+
+index_candidates = [
+    f"{repo_base_url}/aarch64/APKINDEX.tar.gz",
+    f"{repo_base_url}/master/aarch64/APKINDEX.tar.gz",
+]
+
+apkindex_tar = None
+for index_url in index_candidates:
+    try:
+        with urllib.request.urlopen(index_url, timeout=30) as response:
+            apkindex_tar = response.read()
+        break
+    except Exception:
+        continue
+
+if apkindex_tar is None:
+    print("Failed to download APKINDEX.tar.gz from override repo")
+    sys.exit(1)
+
+with tarfile.open(fileobj=io.BytesIO(apkindex_tar), mode="r:gz") as tar:
+    apkindex_bytes = tar.extractfile("APKINDEX").read()
+
+repo_versions = {}
+current_pkg = None
+for line in apkindex_bytes.decode("utf-8", errors="ignore").splitlines():
+    if line.startswith("P:"):
+        current_pkg = line[2:]
+        continue
+
+    if current_pkg in targets and line.startswith("V:") and current_pkg not in repo_versions:
+        repo_versions[current_pkg] = line[2:]
+        continue
+
+    if line == "":
+        current_pkg = None
+
+expected_versions = {}
+for pkg in targets:
+    matches = list(pmaports_dir.glob(f"**/{pkg}/APKBUILD"))
+    if len(matches) != 1:
+        print(f"Unable to uniquely locate APKBUILD for package: {pkg}")
+        sys.exit(1)
+
+    apkbuild = matches[0].read_text(encoding="utf-8", errors="ignore")
+    pkgver_match = re.search(r"^pkgver=(.+)$", apkbuild, re.MULTILINE)
+    pkgrel_match = re.search(r"^pkgrel=(.+)$", apkbuild, re.MULTILINE)
+    if not pkgver_match or not pkgrel_match:
+        print(f"Unable to parse pkgver/pkgrel for package: {pkg}")
+        sys.exit(1)
+
+    pkgver = pkgver_match.group(1).strip().strip('"')
+    pkgrel = pkgrel_match.group(1).strip().strip('"')
+    expected_versions[pkg] = f"{pkgver}-r{pkgrel}"
+
+missing_repo = [pkg for pkg in targets if pkg not in repo_versions]
+if missing_repo:
+    print("Override APKINDEX is missing target package metadata for: " + ", ".join(missing_repo))
+    sys.exit(1)
+
+mismatches = [
+    f"{pkg}: expected {expected_versions[pkg]} but override has {repo_versions[pkg]}"
+    for pkg in targets
+    if expected_versions[pkg] != repo_versions[pkg]
+]
+
+if mismatches:
+    print("Override APK versions do not match selected pmaports ref:")
+    for mismatch in mismatches:
+        print("- " + mismatch)
+    sys.exit(1)
+
+print("Verified override APK versions match target packages for this pmaports ref.")
+PY
+}
+
+ensure_local_pkg_output_permissions() {
+  local pmos_pkg_dir="${work}/packages/pmos/aarch64"
+  sudo mkdir -p "${pmos_pkg_dir}"
+  sudo chmod 0777 "${work}/packages" "${work}/packages/pmos" "${pmos_pkg_dir}"
+}
+
+verify_override_target_versions
+ensure_local_pkg_output_permissions
+
 if [ -n "${APK_REPO_BASE_URL}" ] && [ "${APK_REPO_BASE_URL#file://}" != "${APK_REPO_BASE_URL}" ]; then
   local_override_repo="${APK_REPO_BASE_URL#file://}"
   local_override_repo="${local_override_repo%/}/aarch64"
@@ -41,6 +141,8 @@ python3 "${PMBOOTSTRAP}" -y build_init
 
 install_ok=0
 for attempt in 1 2 3; do
+  ensure_local_pkg_output_permissions
+
   if python3 "${PMBOOTSTRAP}" -y --details-to-stdout install --no-sshd --password "${IMAGE_PASSWORD}"; then
     install_ok=1
     break
