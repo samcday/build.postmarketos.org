@@ -14,7 +14,7 @@ on:
       apk_repo_ref:
         description: Override APK repo ref
         required: false
-        default: master
+        default: main
 
 permissions:
   contents: read
@@ -79,7 +79,7 @@ jobs:
       PMAPORTS_REF: ${{ github.event.inputs.pmaports_ref || 'master' }}
       APK_REPO_OWNER: samcday
       APK_REPO_NAME: pmaports-fastboop-apk
-      APK_REPO_REF: ${{ github.event.inputs.apk_repo_ref || 'master' }}
+      APK_REPO_REF: ${{ github.event.inputs.apk_repo_ref || 'main' }}
     steps:
       - name: Checkout build.postmarketos.org
         uses: actions/checkout@v4
