@@ -215,15 +215,15 @@ if apkindex_tar is None:
 with tarfile.open(fileobj=io.BytesIO(apkindex_tar), mode="r:gz") as tar:
     apkindex_bytes = tar.extractfile("APKINDEX").read()
 
-repo_versions = {}
+repo_versions = {pkg: set() for pkg in targets}
 current_pkg = None
 for line in apkindex_bytes.decode("utf-8", errors="ignore").splitlines():
     if line.startswith("P:"):
         current_pkg = line[2:]
         continue
 
-    if current_pkg in targets and line.startswith("V:") and current_pkg not in repo_versions:
-        repo_versions[current_pkg] = line[2:]
+    if current_pkg in repo_versions and line.startswith("V:"):
+        repo_versions[current_pkg].add(line[2:])
         continue
 
     if line == "":
@@ -238,7 +238,7 @@ with open(installed_path, "r", encoding="utf-8", errors="ignore") as handle:
             if line.startswith(prefix):
                 installed_versions[pkg] = line[len(prefix):]
 
-missing_repo = [pkg for pkg in targets if pkg not in repo_versions]
+missing_repo = [pkg for pkg in targets if not repo_versions[pkg]]
 if missing_repo:
     print("Override APKINDEX is missing target package metadata for: " + ", ".join(missing_repo))
     sys.exit(1)
@@ -248,11 +248,14 @@ if missing_installed:
     print("Target package not installed in rootfs: " + ", ".join(missing_installed))
     sys.exit(1)
 
-mismatches = [
-    f"{pkg}: installed {installed_versions[pkg]} != override {repo_versions[pkg]}"
-    for pkg in targets
-    if installed_versions[pkg] != repo_versions[pkg]
-]
+mismatches = []
+for pkg in targets:
+    installed = installed_versions[pkg]
+    if installed in repo_versions[pkg]:
+        continue
+
+    available = ", ".join(sorted(repo_versions[pkg]))
+    mismatches.append(f"{pkg}: installed {installed} not in override versions {available}")
 
 if mismatches:
     print("Installed versions do not match override APK repo:")
