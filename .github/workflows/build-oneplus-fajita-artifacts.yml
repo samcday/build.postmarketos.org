@@ -36,12 +36,7 @@ jobs:
 
           case "${selected}" in
             "")
-              matrix='[
-                {"device":"db410c","pmbootstrap_device":"arrow-db410c","target_packages":"linux-postmarketos-qcom-msm8916,device-arrow-db410c"},
-                {"device":"samsung-a5u-eur","pmbootstrap_device":"samsung-a5","target_packages":"linux-postmarketos-qcom-msm8916,device-samsung-a5"},
-                {"device":"oneplus-fajita","pmbootstrap_device":"oneplus-fajita","target_packages":"linux-postmarketos-qcom-sdm845,device-oneplus-fajita"},
-                {"device":"oneplus-enchilada","pmbootstrap_device":"oneplus-enchilada","target_packages":"linux-postmarketos-qcom-sdm845,device-oneplus-enchilada"}
-              ]'
+              matrix='[{"device":"db410c","pmbootstrap_device":"arrow-db410c","target_packages":"linux-postmarketos-qcom-msm8916,device-arrow-db410c"},{"device":"samsung-a5u-eur","pmbootstrap_device":"samsung-a5","target_packages":"linux-postmarketos-qcom-msm8916,device-samsung-a5"},{"device":"oneplus-fajita","pmbootstrap_device":"oneplus-fajita","target_packages":"linux-postmarketos-qcom-sdm845,device-oneplus-fajita"},{"device":"oneplus-enchilada","pmbootstrap_device":"oneplus-enchilada","target_packages":"linux-postmarketos-qcom-sdm845,device-oneplus-enchilada"}]'
               ;;
             db410c|arrow-db410c)
               matrix='[{"device":"db410c","pmbootstrap_device":"arrow-db410c","target_packages":"linux-postmarketos-qcom-msm8916,device-arrow-db410c"}]'
