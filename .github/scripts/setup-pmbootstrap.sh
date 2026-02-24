@@ -114,6 +114,24 @@ if [ -n "${APK_REPO_BASE_URL}" ]; then
   fi
 fi
 
+if [ "${APK_REPO_BASE_URL#file://}" != "${APK_REPO_BASE_URL}" ]; then
+  local_override_base="${APK_REPO_BASE_URL#file://}"
+  shopt -s nullglob
+  local_override_keys=("${local_override_base%/}"/*.pub "${local_override_base%/}/master"/*.pub)
+  shopt -u nullglob
+
+  if [ "${#local_override_keys[@]}" -gt 0 ]; then
+    work_dir="$(python3 "${PMB}" config work)"
+    mkdir -p "${work_dir}/config_apk_keys"
+
+    for key_path in "${local_override_keys[@]}"; do
+      key_name="$(basename "${key_path}")"
+      install -m 0644 "${key_path}" "${work_dir}/config_apk_keys/${key_name}"
+      install -m 0644 "${key_path}" "${PMB_DIR}/pmb/data/keys/${key_name}"
+    done
+  fi
+fi
+
 if [ -n "${APK_REPO_KEY_URL}" ]; then
   key_tmp="$(mktemp)"
 
