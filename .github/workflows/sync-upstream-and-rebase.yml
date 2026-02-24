@@ -2,6 +2,8 @@ name: Sync Upstream And Rebase
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * *"
 
 permissions:
   contents: write
@@ -14,35 +16,40 @@ jobs:
   sync-and-rebase:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout master
+      - name: Checkout main
         uses: actions/checkout@v4
         with:
-          ref: master
+          ref: main
           fetch-depth: 0
 
       - name: Configure git
         run: |
-          git config user.name "Sam Day"
-          git config user.email "me@samcday.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Fetch upstream master
         run: |
+          set -euo pipefail
           if ! git remote get-url upstream >/dev/null 2>&1; then
             git remote add upstream https://gitlab.postmarketos.org/postmarketOS/build.postmarketos.org.git
           fi
-          git fetch upstream master
+          git fetch --prune upstream master
+          git fetch --prune origin
 
       - name: Update upstream mirror branch
         run: |
-          git checkout -B upstream-master upstream/master
-          git push --force-with-lease origin upstream-master
+          set -euo pipefail
+          git checkout -B upstream upstream/master
+          git push --force-with-lease origin upstream
 
-      - name: Rebase master on upstream mirror
+      - name: Rebase main on upstream mirror
         run: |
-          git checkout -B master origin/master
-          if ! git rebase origin/upstream-master; then
+          set -euo pipefail
+          git checkout -B main origin/main
+          if ! git rebase upstream; then
             git rebase --abort || true
-            echo "Rebase failed. Resolve conflicts on master manually."
+            echo "::error::Sync conflict: rebase of main onto upstream failed."
+            echo "::error::Resolve manually: git fetch upstream && git checkout main && git rebase upstream/master"
             exit 1
           fi
-          git push --force-with-lease origin master
+          git push --force-with-lease origin main
