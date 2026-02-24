@@ -113,8 +113,60 @@ PY
 
 ensure_local_pkg_output_permissions() {
   local pmos_pkg_dir="${work}/packages/pmos/aarch64"
+  local channel_pkg_dir="${work}/packages/${PMOS_VER}/aarch64"
+  local -a ccache_dirs=("${work}/cache_ccache_aarch64" "${work}/cache_ccache_x86_64")
+  local ccache_dir
+
   sudo mkdir -p "${pmos_pkg_dir}"
+  sudo mkdir -p "${channel_pkg_dir}"
   sudo chmod 0777 "${work}/packages" "${work}/packages/pmos" "${pmos_pkg_dir}"
+  sudo chmod 0777 "${work}/packages/${PMOS_VER}" "${channel_pkg_dir}"
+
+  for ccache_dir in "${ccache_dirs[@]}"; do
+    sudo mkdir -p "${ccache_dir}/tmp"
+    sudo chmod -R a+rwX "${ccache_dir}"
+    sudo chmod 1777 "${ccache_dir}/tmp"
+  done
+}
+
+assert_bpo_image_name() {
+  local image_path="$1"
+  local image_name
+
+  image_name="$(basename "${image_path}")"
+
+  if [[ ! "${image_name}" =~ ^[0-9]{8}-[0-9]{4}-postmarketOS-.*\.img(\.xz)?$ ]]; then
+    echo "Image name is not in BPO-style format: ${image_name}"
+    exit 1
+  fi
+
+  if [[ "${image_name}" != *"-${ARTIFACT_DEVICE}.img" && "${image_name}" != *"-${ARTIFACT_DEVICE}.img.xz" ]]; then
+    echo "Image name does not end with artifact device '${ARTIFACT_DEVICE}': ${image_name}"
+    exit 1
+  fi
+}
+
+assert_sparse_magic() {
+  local image_xz="$1"
+
+  python3 - "${image_xz}" <<'PY'
+import lzma
+import sys
+from pathlib import Path
+
+image_path = Path(sys.argv[1])
+expected = bytes.fromhex("3aff26ed")
+
+with lzma.open(image_path, "rb") as stream:
+    actual = stream.read(4)
+
+if actual != expected:
+    found = " ".join(f"{b:02x}" for b in actual)
+    print(f"Sparse magic mismatch in {image_path}: expected 3a ff 26 ed, got {found}")
+    sys.exit(1)
+
+print(f"Verified sparse magic for {image_path.name}")
+PY
 }
 
 verify_override_target_versions
@@ -278,6 +330,14 @@ else
   sudo mv "${work_rootfs}/${DEVICE}-root.img" "out/${img_prefix}.img"
 fi
 
+expected_img="out/${img_prefix}.img"
+if [ ! -f "${expected_img}" ]; then
+  echo "Expected BPO-style image output not found: ${expected_img}"
+  exit 1
+fi
+
+assert_bpo_image_name "${expected_img}"
+
 ls -lh out
 
 shopt -s nullglob
@@ -291,6 +351,19 @@ sudo chown "$(id -u):$(id -g)" "${img_files[@]}"
 
 for file in "${img_files[@]}"; do
   xz -0 -T0 "${file}"
+done
+shopt -u nullglob
+
+shopt -s nullglob
+xz_img_files=(out/*.img.xz)
+if [ "${#xz_img_files[@]}" -eq 0 ]; then
+  echo "No .img.xz files produced"
+  exit 1
+fi
+
+for file in "${xz_img_files[@]}"; do
+  assert_bpo_image_name "${file}"
+  assert_sparse_magic "${file}"
 done
 shopt -u nullglob
 

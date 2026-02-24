@@ -124,10 +124,6 @@ en_US
 
 EOF
 
-if [ -d "${HOME}/.local/var/pmbootstrap" ]; then
-  sudo chown -R "$(id -u):$(id -g)" "${HOME}/.local/var/pmbootstrap"
-fi
-
 build_empty_apkindex() {
   local index_file="$1"
   local tmp_dir
