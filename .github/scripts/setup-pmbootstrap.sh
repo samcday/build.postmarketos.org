@@ -9,6 +9,12 @@ APK_REPO_BASE_URL="${5:-${APK_REPO_BASE_URL:-}}"
 APK_REPO_KEY_URL="${6:-${APK_REPO_KEY_URL:-}}"
 RUNNER_TMP="${RUNNER_TEMP:-/tmp}"
 PMB_DIR="${RUNNER_TMP}/pmbootstrap"
+
+if [[ "${DEVICE}" != *-* ]]; then
+  echo "Device must use vendor-codename format (got: ${DEVICE})"
+  exit 1
+fi
+
 DEVICE_VENDOR="${DEVICE%%-*}"
 DEVICE_CODENAME="${DEVICE#*-}"
 
@@ -90,7 +96,10 @@ if [ -n "${APK_REPO_BASE_URL}" ]; then
 
   if [ "${APK_REPO_BASE_URL#file://}" != "${APK_REPO_BASE_URL}" ]; then
     local_override_base="${APK_REPO_BASE_URL#file://}"
-    local_override_repo="${local_override_base%/}/master/aarch64"
+    local_override_repo="${local_override_base%/}/aarch64"
+    if [ ! -d "${local_override_repo}" ]; then
+      local_override_repo="${local_override_base%/}/master/aarch64"
+    fi
     work_dir="$(python3 "${PMB}" config work)"
     local_pmb_repo="${work_dir}/packages/${PMOS_VER}/aarch64"
     local_apk_cache="${work_dir}/cache_apk_aarch64"
