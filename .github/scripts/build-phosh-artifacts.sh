@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PMAPORTS_DIR="${1:?Usage: build-oneplus-fajita-artifacts.sh <pmaports-dir> [device] [pmos-ver] [ui]}"
+PMAPORTS_DIR="${1:?Usage: build-phosh-artifacts.sh <pmaports-dir> [device] [pmos-ver] [ui] [target-packages] [artifact-device]}"
 DEVICE="${2:-oneplus-fajita}"
 PMOS_VER="${3:-edge}"
 UI="${4:-phosh}"
+TARGET_PACKAGES="${5:-}"
+ARTIFACT_DEVICE="${6:-${DEVICE}}"
 IMAGE_PASSWORD="${IMAGE_PASSWORD:-147147}"
 APK_REPO_BASE_URL="${APK_REPO_BASE_URL:-}"
 
@@ -17,7 +19,12 @@ work="$(python3 "${PMBOOTSTRAP}" config work)"
 
 if [ -n "${APK_REPO_BASE_URL}" ] && [ "${APK_REPO_BASE_URL#file://}" != "${APK_REPO_BASE_URL}" ]; then
   local_override_repo="${APK_REPO_BASE_URL#file://}"
-  local_override_repo="${local_override_repo%/}/master/aarch64"
+  local_override_repo="${local_override_repo%/}/aarch64"
+  if [ ! -d "${local_override_repo}" ]; then
+    local_override_repo="${APK_REPO_BASE_URL#file://}"
+    local_override_repo="${local_override_repo%/}/master/aarch64"
+  fi
+
   local_pmb_repo="${work}/packages/${PMOS_VER}/aarch64"
   local_apk_cache="${work}/cache_apk_aarch64"
 
@@ -59,20 +66,20 @@ if [ ! -f "${ui_apkbuild}" ]; then
 fi
 
 ui_version="$(grep '^pkgver=' "${ui_apkbuild}" | cut -d= -f2 | cut -d ' ' -f1)"
-img_prefix="${img_date}-postmarketOS-${PMOS_VER}-${UI}-${ui_version}-${DEVICE}"
+img_prefix="${img_date}-postmarketOS-${PMOS_VER}-${UI}-${ui_version}-${ARTIFACT_DEVICE}"
 
 work_device_rootfs="${work}/chroot_rootfs_${DEVICE}"
 work_rootfs="${work}/chroot_native/home/pmos/rootfs"
 
 mkdir -p out
 
-if [ -n "${APK_REPO_BASE_URL}" ]; then
-  installed_path="out/installed-target-packages.txt"
-  sudo chroot "${work_device_rootfs}" apk info -e -v \
-    linux-postmarketos-qcom-sdm845 \
-    device-oneplus-fajita | tee "${installed_path}"
+if [ -n "${APK_REPO_BASE_URL}" ] && [ -n "${TARGET_PACKAGES}" ]; then
+  IFS=',' read -r -a target_pkgs <<< "${TARGET_PACKAGES}"
+  installed_path="out/installed-target-packages-${ARTIFACT_DEVICE}.txt"
 
-  python3 - "${installed_path}" "${APK_REPO_BASE_URL%/}" <<'PY'
+  sudo chroot "${work_device_rootfs}" apk info -e -v "${target_pkgs[@]}" | tee "${installed_path}"
+
+  python3 - "${installed_path}" "${APK_REPO_BASE_URL%/}" "${TARGET_PACKAGES}" <<'PY'
 import io
 import sys
 import tarfile
@@ -80,11 +87,25 @@ import urllib.request
 
 installed_path = sys.argv[1]
 repo_base_url = sys.argv[2]
-targets = ["linux-postmarketos-qcom-sdm845", "device-oneplus-fajita"]
+targets = [pkg for pkg in sys.argv[3].split(",") if pkg]
 
-index_url = f"{repo_base_url}/master/aarch64/APKINDEX.tar.gz"
-with urllib.request.urlopen(index_url, timeout=30) as response:
-    apkindex_tar = response.read()
+index_candidates = [
+    f"{repo_base_url}/aarch64/APKINDEX.tar.gz",
+    f"{repo_base_url}/master/aarch64/APKINDEX.tar.gz",
+]
+
+apkindex_tar = None
+for index_url in index_candidates:
+    try:
+        with urllib.request.urlopen(index_url, timeout=30) as response:
+            apkindex_tar = response.read()
+        break
+    except Exception:
+        continue
+
+if apkindex_tar is None:
+    print("Failed to download APKINDEX.tar.gz from override repo")
+    sys.exit(1)
 
 with tarfile.open(fileobj=io.BytesIO(apkindex_tar), mode="r:gz") as tar:
     apkindex_bytes = tar.extractfile("APKINDEX").read()
