@@ -184,10 +184,10 @@ if [ -n "${APK_REPO_BASE_URL}" ] && [ "${APK_REPO_BASE_URL#file://}" != "${APK_R
   local_apk_cache="${work}/cache_apk_aarch64"
 
   if [ -d "${local_override_repo}" ]; then
-    mkdir -p "${local_pmb_repo}"
-    mkdir -p "${local_apk_cache}"
-    cp "${local_override_repo}"/*.apk "${local_pmb_repo}/"
-    cp "${local_override_repo}/APKINDEX.tar.gz" "${local_pmb_repo}/"
+    sudo mkdir -p "${local_pmb_repo}"
+    sudo mkdir -p "${local_apk_cache}"
+    sudo cp "${local_override_repo}"/*.apk "${local_pmb_repo}/"
+    sudo cp "${local_override_repo}/APKINDEX.tar.gz" "${local_pmb_repo}/"
     sudo cp "${local_override_repo}"/*.apk "${local_apk_cache}/"
   fi
 fi
