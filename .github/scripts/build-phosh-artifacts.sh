@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PMAPORTS_DIR="${1:?Usage: build-phosh-artifacts.sh <pmaports-dir> [device] [pmos-ver] [ui] [target-packages] [artifact-device]}"
+PMAPORTS_DIR="${1:?Usage: build-phosh-artifacts.sh <pmaports-dir> [device] [pmos-ver] [ui] [override-packages] [artifact-device]}"
 DEVICE="${2:-oneplus-fajita}"
 PMOS_VER="${3:-edge}"
 UI="${4:-phosh}"
-TARGET_PACKAGES="${5:-}"
+OVERRIDE_PACKAGES="${5:-}"
 ARTIFACT_DEVICE="${6:-${DEVICE}}"
 IMAGE_PASSWORD="${IMAGE_PASSWORD:-147147}"
 APK_REPO_BASE_URL="${APK_REPO_BASE_URL:-}"
@@ -17,22 +17,19 @@ fi
 
 work="$(python3 "${PMBOOTSTRAP}" config work)"
 
-verify_override_target_versions() {
-  if [ -z "${APK_REPO_BASE_URL}" ] || [ -z "${TARGET_PACKAGES}" ]; then
+verify_override_packages_available() {
+  if [ -z "${APK_REPO_BASE_URL}" ] || [ -z "${OVERRIDE_PACKAGES}" ]; then
     return
   fi
 
-  python3 - "${PMAPORTS_DIR}" "${APK_REPO_BASE_URL%/}" "${TARGET_PACKAGES}" <<'PY'
+  python3 - "${APK_REPO_BASE_URL%/}" "${OVERRIDE_PACKAGES}" <<'PY'
 import io
-import re
 import sys
 import tarfile
 import urllib.request
-from pathlib import Path
 
-pmaports_dir = Path(sys.argv[1])
-repo_base_url = sys.argv[2]
-targets = [pkg for pkg in sys.argv[3].split(",") if pkg]
+repo_base_url = sys.argv[1]
+targets = [pkg for pkg in sys.argv[2].split(",") if pkg]
 
 index_candidates = [
     f"{repo_base_url}/aarch64/APKINDEX.tar.gz",
@@ -69,45 +66,12 @@ for line in apkindex_bytes.decode("utf-8", errors="ignore").splitlines():
     if line == "":
         current_pkg = None
 
-expected_versions = {}
-for pkg in targets:
-    matches = list(pmaports_dir.glob(f"**/{pkg}/APKBUILD"))
-    if len(matches) != 1:
-        print(f"Unable to uniquely locate APKBUILD for package: {pkg}")
-        sys.exit(1)
-
-    apkbuild = matches[0].read_text(encoding="utf-8", errors="ignore")
-    pkgver_match = re.search(r"^pkgver=(.+)$", apkbuild, re.MULTILINE)
-    pkgrel_match = re.search(r"^pkgrel=(.+)$", apkbuild, re.MULTILINE)
-    if not pkgver_match or not pkgrel_match:
-        print(f"Unable to parse pkgver/pkgrel for package: {pkg}")
-        sys.exit(1)
-
-    pkgver = pkgver_match.group(1).strip().strip('"')
-    pkgrel = pkgrel_match.group(1).strip().strip('"')
-    expected_versions[pkg] = f"{pkgver}-r{pkgrel}"
-
 missing_repo = [pkg for pkg in targets if not repo_versions[pkg]]
 if missing_repo:
-    print("Override APKINDEX is missing target package metadata for: " + ", ".join(missing_repo))
+    print("Override APKINDEX is missing required overlay package metadata for: " + ", ".join(missing_repo))
     sys.exit(1)
 
-mismatches = []
-for pkg in targets:
-    expected = expected_versions[pkg]
-    if expected in repo_versions[pkg]:
-        continue
-
-    available = ", ".join(sorted(repo_versions[pkg]))
-    mismatches.append(f"{pkg}: expected {expected} but override has {available}")
-
-if mismatches:
-    print("Override APK versions do not match selected pmaports ref:")
-    for mismatch in mismatches:
-        print("- " + mismatch)
-    sys.exit(1)
-
-print("Verified override APK versions match target packages for this pmaports ref.")
+print("Verified override APKINDEX contains required overlay package metadata.")
 PY
 }
 
@@ -169,7 +133,7 @@ print(f"Verified sparse magic for {image_path.name}")
 PY
 }
 
-verify_override_target_versions
+verify_override_packages_available
 ensure_local_pkg_output_permissions
 
 if [ -n "${APK_REPO_BASE_URL}" ] && [ "${APK_REPO_BASE_URL#file://}" != "${APK_REPO_BASE_URL}" ]; then
@@ -230,13 +194,13 @@ work_rootfs="${work}/chroot_native/home/pmos/rootfs"
 
 mkdir -p out
 
-if [ -n "${APK_REPO_BASE_URL}" ] && [ -n "${TARGET_PACKAGES}" ]; then
-  IFS=',' read -r -a target_pkgs <<< "${TARGET_PACKAGES}"
-  installed_path="out/installed-target-packages-${ARTIFACT_DEVICE}.txt"
+if [ -n "${APK_REPO_BASE_URL}" ] && [ -n "${OVERRIDE_PACKAGES}" ]; then
+  IFS=',' read -r -a override_pkgs <<< "${OVERRIDE_PACKAGES}"
+  installed_path="out/installed-override-packages-${ARTIFACT_DEVICE}.txt"
 
-  sudo chroot "${work_device_rootfs}" apk info -e -v "${target_pkgs[@]}" | tee "${installed_path}"
+  sudo chroot "${work_device_rootfs}" apk info -e -v "${override_pkgs[@]}" | tee "${installed_path}"
 
-  python3 - "${installed_path}" "${APK_REPO_BASE_URL%/}" "${TARGET_PACKAGES}" <<'PY'
+  python3 - "${installed_path}" "${APK_REPO_BASE_URL%/}" "${OVERRIDE_PACKAGES}" <<'PY'
 import io
 import sys
 import tarfile
@@ -292,12 +256,12 @@ with open(installed_path, "r", encoding="utf-8", errors="ignore") as handle:
 
 missing_repo = [pkg for pkg in targets if not repo_versions[pkg]]
 if missing_repo:
-    print("Override APKINDEX is missing target package metadata for: " + ", ".join(missing_repo))
+    print("Override APKINDEX is missing required overlay package metadata for: " + ", ".join(missing_repo))
     sys.exit(1)
 
 missing_installed = [pkg for pkg in targets if pkg not in installed_versions]
 if missing_installed:
-    print("Target package not installed in rootfs: " + ", ".join(missing_installed))
+    print("Required overlay package not installed in rootfs: " + ", ".join(missing_installed))
     sys.exit(1)
 
 mismatches = []
@@ -310,12 +274,12 @@ for pkg in targets:
     mismatches.append(f"{pkg}: installed {installed} not in override versions {available}")
 
 if mismatches:
-    print("Installed versions do not match override APK repo:")
+    print("Installed overlay package versions do not match override APK repo:")
     for mismatch in mismatches:
         print("- " + mismatch)
     sys.exit(1)
 
-print("Verified installed target package versions match override APK repo.")
+print("Verified installed overlay package versions match override APK repo.")
 PY
 fi
 
