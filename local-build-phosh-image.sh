@@ -12,7 +12,7 @@ PMOS_VER="${PMOS_VER:-edge}"
 IMAGE_PASSWORD="${IMAGE_PASSWORD:-147147}"
 LOCAL_ARTIFACTS_DIR="${LOCAL_ARTIFACTS_DIR:-${WORKSPACE_ROOT}/local-artifacts}"
 
-OVERRIDE_REPO_DEFAULT=""
+OVERRIDE_REPO_DEFAULT="https://pmos.samcday.com"
 OVERRIDE_REPO="${OVERRIDE_REPO:-${APK_REPO_BASE_URL:-${OVERRIDE_REPO_DEFAULT}}}"
 OVERRIDE_KEY="${OVERRIDE_KEY:-${APK_REPO_KEY_URL:-}}"
 
@@ -62,11 +62,15 @@ if [ -z "${OVERRIDE_REPO}" ]; then
   echo "Building without override APK repo (set OVERRIDE_REPO to enable it)."
 fi
 
+if [ -z "${OVERRIDE_KEY}" ] && [ -n "${OVERRIDE_REPO}" ] && [[ "${OVERRIDE_REPO}" != file://* ]]; then
+  OVERRIDE_KEY="${OVERRIDE_REPO%/}/pmos.samcday.com.rsa.pub"
+fi
+
 if [ -z "${OVERRIDE_KEY}" ] && [ -n "${OVERRIDE_REPO}" ] && [[ "${OVERRIDE_REPO}" == file://* ]]; then
-  if [ -f "${OVERRIDE_REPO#file://}/master/pmaports-fastboop.rsa.pub" ]; then
-    OVERRIDE_KEY="${OVERRIDE_REPO}/master/pmaports-fastboop.rsa.pub"
-  elif [ -f "${OVERRIDE_REPO#file://}/pmaports-fastboop.rsa.pub" ]; then
-    OVERRIDE_KEY="${OVERRIDE_REPO}/pmaports-fastboop.rsa.pub"
+  if [ -f "${OVERRIDE_REPO#file://}/master/pmos.samcday.com.rsa.pub" ]; then
+    OVERRIDE_KEY="${OVERRIDE_REPO}/master/pmos.samcday.com.rsa.pub"
+  elif [ -f "${OVERRIDE_REPO#file://}/pmos.samcday.com.rsa.pub" ]; then
+    OVERRIDE_KEY="${OVERRIDE_REPO}/pmos.samcday.com.rsa.pub"
   fi
 fi
 

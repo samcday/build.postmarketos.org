@@ -11,10 +11,14 @@ on:
         description: pmaports ref to build
         required: false
         default: master
-      apk_repo_ref:
-        description: Override APK repo ref
+      apk_repo_base_url:
+        description: Override APK repo base URL
         required: false
-        default: main
+        default: https://pmos.samcday.com
+      apk_repo_key_url:
+        description: Override APK repo public key URL
+        required: false
+        default: https://pmos.samcday.com/pmos.samcday.com.rsa.pub
 
 permissions:
   contents: read
@@ -77,9 +81,8 @@ jobs:
       IMAGE_PASSWORD: "147147"
       PMAPORTS_REPO: samcday/pmaports
       PMAPORTS_REF: ${{ github.event.inputs.pmaports_ref || 'master' }}
-      APK_REPO_OWNER: samcday
-      APK_REPO_NAME: pmaports-fastboop-apk
-      APK_REPO_REF: ${{ github.event.inputs.apk_repo_ref || 'main' }}
+      APK_REPO_BASE_URL: ${{ github.event.inputs.apk_repo_base_url || vars.APK_REPO_BASE_URL || 'https://pmos.samcday.com' }}
+      APK_REPO_KEY_URL: ${{ github.event.inputs.apk_repo_key_url || vars.APK_REPO_KEY_URL || 'https://pmos.samcday.com/pmos.samcday.com.rsa.pub' }}
     steps:
       - name: Checkout build.postmarketos.org
         uses: actions/checkout@v4
@@ -94,95 +97,45 @@ jobs:
           path: pmaports
           fetch-depth: 0
 
-      - name: Resolve immutable override APK repo URLs
+      - name: Validate override APK repo URLs
         run: |
           set -euo pipefail
 
-          apk_repo_sha="$(git ls-remote "https://github.com/${APK_REPO_OWNER}/${APK_REPO_NAME}.git" "refs/heads/${APK_REPO_REF}" | awk '{print $1}')"
+          apk_repo_base_url="${APK_REPO_BASE_URL%/}"
+          apk_repo_key_url="${APK_REPO_KEY_URL:-}"
 
-          if [ -z "${apk_repo_sha}" ]; then
-            echo "Failed to resolve commit SHA for ${APK_REPO_OWNER}/${APK_REPO_NAME}@${APK_REPO_REF}"
+          if [ -z "${apk_repo_base_url}" ]; then
+            echo "APK_REPO_BASE_URL must not be empty"
             exit 1
           fi
 
-          apk_repo_base_url="https://raw.githubusercontent.com/${APK_REPO_OWNER}/${APK_REPO_NAME}/${apk_repo_sha}"
-          apk_repo_key_url=""
-
-          if curl -fsSLI "${apk_repo_base_url}/pmaports-fastboop.rsa.pub" >/dev/null; then
-            apk_repo_key_url="${apk_repo_base_url}/pmaports-fastboop.rsa.pub"
-          elif curl -fsSLI "${apk_repo_base_url}/master/pmaports-fastboop.rsa.pub" >/dev/null; then
-            apk_repo_key_url="${apk_repo_base_url}/master/pmaports-fastboop.rsa.pub"
+          if ! curl -fsSLI "${apk_repo_base_url}/aarch64/APKINDEX.tar.gz" >/dev/null; then
+            if ! curl -fsSLI "${apk_repo_base_url}/master/aarch64/APKINDEX.tar.gz" >/dev/null; then
+              echo "Failed to reach override APKINDEX under ${apk_repo_base_url}"
+              exit 1
+            fi
           fi
 
-          echo "Resolved ${APK_REPO_OWNER}/${APK_REPO_NAME}@${APK_REPO_REF} to ${apk_repo_sha}"
+          if [ -z "${apk_repo_key_url}" ]; then
+            if curl -fsSLI "${apk_repo_base_url}/pmos.samcday.com.rsa.pub" >/dev/null; then
+              apk_repo_key_url="${apk_repo_base_url}/pmos.samcday.com.rsa.pub"
+            elif curl -fsSLI "${apk_repo_base_url}/master/pmos.samcday.com.rsa.pub" >/dev/null; then
+              apk_repo_key_url="${apk_repo_base_url}/master/pmos.samcday.com.rsa.pub"
+            else
+              echo "Failed to find override repo key under ${apk_repo_base_url}"
+              exit 1
+            fi
+          fi
+
+          if ! curl -fsSLI "${apk_repo_key_url}" >/dev/null; then
+            echo "Failed to reach override repo key URL: ${apk_repo_key_url}"
+            exit 1
+          fi
+
+          echo "Using override repo base URL: ${apk_repo_base_url}"
+          echo "Using override repo key URL: ${apk_repo_key_url}"
           echo "APK_REPO_BASE_URL=${apk_repo_base_url}" >> "${GITHUB_ENV}"
           echo "APK_REPO_KEY_URL=${apk_repo_key_url}" >> "${GITHUB_ENV}"
-
-          if [ -n "${apk_repo_key_url}" ]; then
-            echo "Using override repo key at ${apk_repo_key_url}"
-          else
-            echo "No override repo public key found; proceeding without key install"
-          fi
-
-      - name: Prepare local override APK mirror
-        run: |
-          set -euo pipefail
-
-          apk_repo_sha="$(git ls-remote "https://github.com/${APK_REPO_OWNER}/${APK_REPO_NAME}.git" "refs/heads/${APK_REPO_REF}" | awk '{print $1}')"
-          tarball_url="https://codeload.github.com/${APK_REPO_OWNER}/${APK_REPO_NAME}/tar.gz/${apk_repo_sha}"
-          local_repo_dir="${RUNNER_TEMP}/override-apk-repo"
-
-          rm -rf "${local_repo_dir}"
-          mkdir -p "${local_repo_dir}"
-          curl -fsSL "${tarball_url}" | tar -xz --strip-components=1 -C "${local_repo_dir}"
-
-          repo_arch_dir="${local_repo_dir}/aarch64"
-          if [ ! -d "${repo_arch_dir}" ]; then
-            repo_arch_dir="${local_repo_dir}/master/aarch64"
-          fi
-
-          if [ ! -d "${repo_arch_dir}" ]; then
-            echo "Override APK tarball is missing aarch64 package directory"
-            exit 1
-          fi
-
-          shopt -s nullglob
-          apk_files=("${repo_arch_dir}"/*.apk)
-          if [ "${#apk_files[@]}" -eq 0 ]; then
-            echo "Override APK tarball contains no APKs in ${repo_arch_dir}"
-            exit 1
-          fi
-
-          canonical_arch_dir="${local_repo_dir}/aarch64"
-          mkdir -p "${canonical_arch_dir}"
-          mkdir -p "${local_repo_dir}/master/aarch64"
-          mkdir -p "${local_repo_dir}/noarch"
-
-          if [ "${repo_arch_dir}" != "${canonical_arch_dir}" ]; then
-            cp "${apk_files[@]}" "${canonical_arch_dir}/"
-            cp "${repo_arch_dir}/APKINDEX.tar.gz" "${canonical_arch_dir}/"
-          fi
-
-          canonical_apk_files=("${canonical_arch_dir}"/*.apk)
-          if [ "${#canonical_apk_files[@]}" -eq 0 ]; then
-            echo "Canonical override mirror has no APK files in ${canonical_arch_dir}"
-            exit 1
-          fi
-          shopt -u nullglob
-
-          cp "${canonical_apk_files[@]}" "${local_repo_dir}/master/aarch64/"
-          cp "${canonical_arch_dir}/APKINDEX.tar.gz" "${local_repo_dir}/master/aarch64/"
-
-          cp "${canonical_apk_files[@]}" "${local_repo_dir}/noarch/"
-
-          echo "Using local override APK mirror at ${local_repo_dir}"
-          echo "APK_REPO_BASE_URL=file://${local_repo_dir}" >> "${GITHUB_ENV}"
-
-          if [ -f "${local_repo_dir}/pmaports-fastboop.rsa.pub" ]; then
-            echo "APK_REPO_KEY_URL=file://${local_repo_dir}/pmaports-fastboop.rsa.pub" >> "${GITHUB_ENV}"
-          elif [ -f "${local_repo_dir}/master/pmaports-fastboop.rsa.pub" ]; then
-            echo "APK_REPO_KEY_URL=file://${local_repo_dir}/master/pmaports-fastboop.rsa.pub" >> "${GITHUB_ENV}"
-          fi
 
       - name: Set up pmbootstrap
         run: |

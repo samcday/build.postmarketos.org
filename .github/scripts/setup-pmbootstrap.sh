@@ -315,7 +315,7 @@ if [ -n "${APK_REPO_KEY_URL}" ]; then
 
   key_name="$(basename "${APK_REPO_KEY_URL}")"
   if [ -z "${key_name}" ] || [ "${key_name}" = "/" ]; then
-    key_name="pmaports-fastboop.rsa.pub"
+    key_name="pmos.samcday.com.rsa.pub"
   fi
 
   work_dir="$(python3 "${PMB}" config work)"
