@@ -245,6 +245,110 @@ prepare_local_override_repo() {
   fi
 }
 
+sync_missing_remote_noarch_packages() {
+  local repo_base="$1"
+  local work_root="$2"
+  local pmos_ver="$3"
+  local tmp_dir
+  local index_url=""
+  local index_root=""
+  local noarch_repo
+  local local_apk_cache
+  local mirrored_count=0
+  local apk_name
+
+  tmp_dir="$(mktemp -d)"
+
+  for candidate in "${repo_base}/aarch64/APKINDEX.tar.gz" "${repo_base}/master/aarch64/APKINDEX.tar.gz"; do
+    if curl -fsSL "${candidate}" -o "${tmp_dir}/APKINDEX.tar.gz"; then
+      index_url="${candidate}"
+      index_root="${candidate%/aarch64/APKINDEX.tar.gz}"
+      break
+    fi
+  done
+
+  if [ -z "${index_url}" ]; then
+    rm -rf "${tmp_dir}"
+    return 0
+  fi
+
+  python3 - "${tmp_dir}/APKINDEX.tar.gz" <<'PY' > "${tmp_dir}/noarch-packages.txt"
+import sys
+import tarfile
+
+index_tar = sys.argv[1]
+
+with tarfile.open(index_tar, "r:gz") as tar:
+    source = tar.extractfile("APKINDEX")
+    if source is None:
+        raise SystemExit(0)
+
+    pkg = None
+    ver = None
+    arch = None
+
+    for line in source.read().decode("utf-8", errors="ignore").splitlines():
+        if line.startswith("P:"):
+            pkg = line[2:].strip()
+            continue
+
+        if line.startswith("V:"):
+            ver = line[2:].strip()
+            continue
+
+        if line.startswith("A:"):
+            arch = line[2:].strip()
+            continue
+
+        if line == "":
+            if pkg and ver and arch == "noarch":
+                print(f"{pkg}-{ver}.apk")
+
+            pkg = None
+            ver = None
+            arch = None
+
+    if pkg and ver and arch == "noarch":
+        print(f"{pkg}-{ver}.apk")
+PY
+
+  if [ ! -s "${tmp_dir}/noarch-packages.txt" ]; then
+    rm -rf "${tmp_dir}"
+    return 0
+  fi
+
+  noarch_repo="${work_root}/packages/${pmos_ver}/noarch"
+  local_apk_cache="${work_root}/cache_apk_aarch64"
+
+  sudo mkdir -p "${noarch_repo}"
+  sudo mkdir -p "${local_apk_cache}"
+
+  while IFS= read -r apk_name; do
+    if [ -z "${apk_name}" ]; then
+      continue
+    fi
+
+    if curl -fsSLI "${index_root}/noarch/${apk_name}" >/dev/null; then
+      continue
+    fi
+
+    if ! curl -fsSL "${index_root}/aarch64/${apk_name}" -o "${tmp_dir}/${apk_name}"; then
+      echo "Warning: failed to mirror fallback noarch APK ${apk_name} from ${index_root}/aarch64"
+      continue
+    fi
+
+    sudo install -m 0644 "${tmp_dir}/${apk_name}" "${noarch_repo}/${apk_name}"
+    sudo install -m 0644 "${tmp_dir}/${apk_name}" "${local_apk_cache}/${apk_name}"
+    mirrored_count=$((mirrored_count + 1))
+  done < "${tmp_dir}/noarch-packages.txt"
+
+  if [ "${mirrored_count}" -gt 0 ]; then
+    echo "Mirrored ${mirrored_count} fallback noarch APK(s) into local pmbootstrap cache"
+  fi
+
+  rm -rf "${tmp_dir}"
+}
+
 if [ -n "${APK_REPO_BASE_URL}" ]; then
   work_dir="$(python3 "${PMB}" config work)"
   local_override_url="${APK_REPO_BASE_URL%/}/"
@@ -276,6 +380,10 @@ if [ -n "${APK_REPO_BASE_URL}" ]; then
     sudo cp "${local_override_repo}"/*.apk "${local_pmb_repo}/"
     sudo cp "${local_override_repo}/APKINDEX.tar.gz" "${local_pmb_repo}/"
     sudo cp "${local_override_repo}"/*.apk "${local_apk_cache}/"
+  fi
+
+  if [ "${APK_REPO_BASE_URL#file://}" = "${APK_REPO_BASE_URL}" ]; then
+    sync_missing_remote_noarch_packages "${local_override_url%/}" "${work_dir}" "${PMOS_VER}"
   fi
 
   python3 "${PMB}" config mirrors.pmaports_custom "${local_override_url}"
