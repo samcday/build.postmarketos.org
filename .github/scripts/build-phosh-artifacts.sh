@@ -75,6 +75,112 @@ print("Verified override APKINDEX contains required overlay package metadata.")
 PY
 }
 
+mirror_fallback_noarch_packages() {
+  if [ -z "${APK_REPO_BASE_URL}" ]; then
+    return
+  fi
+
+  if [ "${APK_REPO_BASE_URL#file://}" != "${APK_REPO_BASE_URL}" ]; then
+    return
+  fi
+
+  local repo_base="${APK_REPO_BASE_URL%/}"
+  local tmp_dir
+  local index_url=""
+  local index_root=""
+  local noarch_repo="${work}/packages/${PMOS_VER}/noarch"
+  local local_apk_cache="${work}/cache_apk_aarch64"
+  local mirrored_count=0
+  local apk_name
+
+  tmp_dir="$(mktemp -d)"
+
+  for candidate in "${repo_base}/aarch64/APKINDEX.tar.gz" "${repo_base}/master/aarch64/APKINDEX.tar.gz"; do
+    if curl -fsSL "${candidate}" -o "${tmp_dir}/APKINDEX.tar.gz"; then
+      index_url="${candidate}"
+      index_root="${candidate%/aarch64/APKINDEX.tar.gz}"
+      break
+    fi
+  done
+
+  if [ -z "${index_url}" ]; then
+    rm -rf "${tmp_dir}"
+    return
+  fi
+
+  python3 - "${tmp_dir}/APKINDEX.tar.gz" <<'PY' > "${tmp_dir}/noarch-packages.txt"
+import sys
+import tarfile
+
+index_tar = sys.argv[1]
+
+with tarfile.open(index_tar, "r:gz") as tar:
+    source = tar.extractfile("APKINDEX")
+    if source is None:
+        raise SystemExit(0)
+
+    pkg = None
+    ver = None
+    arch = None
+
+    for line in source.read().decode("utf-8", errors="ignore").splitlines():
+        if line.startswith("P:"):
+            pkg = line[2:].strip()
+            continue
+
+        if line.startswith("V:"):
+            ver = line[2:].strip()
+            continue
+
+        if line.startswith("A:"):
+            arch = line[2:].strip()
+            continue
+
+        if line == "":
+            if pkg and ver and arch == "noarch":
+                print(f"{pkg}-{ver}.apk")
+
+            pkg = None
+            ver = None
+            arch = None
+
+    if pkg and ver and arch == "noarch":
+        print(f"{pkg}-{ver}.apk")
+PY
+
+  if [ ! -s "${tmp_dir}/noarch-packages.txt" ]; then
+    rm -rf "${tmp_dir}"
+    return
+  fi
+
+  mkdir -p "${noarch_repo}" "${local_apk_cache}"
+
+  while IFS= read -r apk_name; do
+    if [ -z "${apk_name}" ]; then
+      continue
+    fi
+
+    if curl -fsSLI "${index_root}/noarch/${apk_name}" >/dev/null; then
+      continue
+    fi
+
+    if ! curl -fsSL "${index_root}/aarch64/${apk_name}" -o "${tmp_dir}/${apk_name}"; then
+      echo "Warning: failed to mirror fallback noarch APK ${apk_name} from ${index_root}/aarch64"
+      continue
+    fi
+
+    cp -f "${tmp_dir}/${apk_name}" "${noarch_repo}/${apk_name}"
+    cp -f "${tmp_dir}/${apk_name}" "${local_apk_cache}/${apk_name}"
+    mirrored_count=$((mirrored_count + 1))
+  done < "${tmp_dir}/noarch-packages.txt"
+
+  if [ "${mirrored_count}" -gt 0 ]; then
+    echo "Mirrored ${mirrored_count} fallback noarch APK(s) after build_init"
+  fi
+
+  rm -rf "${tmp_dir}"
+}
+
 ensure_local_pkg_output_permissions() {
   local pmos_pkg_dir="${work}/packages/pmos/aarch64"
   local channel_pkg_dir="${work}/packages/${PMOS_VER}/aarch64"
@@ -157,6 +263,7 @@ if [ -n "${APK_REPO_BASE_URL}" ] && [ "${APK_REPO_BASE_URL#file://}" != "${APK_R
 fi
 
 python3 "${PMBOOTSTRAP}" -y build_init
+mirror_fallback_noarch_packages
 
 install_ok=0
 for attempt in 1 2 3; do
