@@ -153,7 +153,7 @@ PY
     return
   fi
 
-  mkdir -p "${noarch_repo}" "${local_apk_cache}"
+  sudo mkdir -p "${noarch_repo}" "${local_apk_cache}"
 
   while IFS= read -r apk_name; do
     if [ -z "${apk_name}" ]; then
@@ -169,8 +169,8 @@ PY
       continue
     fi
 
-    cp -f "${tmp_dir}/${apk_name}" "${noarch_repo}/${apk_name}"
-    cp -f "${tmp_dir}/${apk_name}" "${local_apk_cache}/${apk_name}"
+    sudo install -m 0644 "${tmp_dir}/${apk_name}" "${noarch_repo}/${apk_name}"
+    sudo install -m 0644 "${tmp_dir}/${apk_name}" "${local_apk_cache}/${apk_name}"
     mirrored_count=$((mirrored_count + 1))
   done < "${tmp_dir}/noarch-packages.txt"
 
