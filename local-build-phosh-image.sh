@@ -25,17 +25,17 @@ case "${REQUESTED_DEVICE}" in
   oneplus-fajita)
     PMBOOTSTRAP_DEVICE="oneplus-fajita"
     ARTIFACT_DEVICE="oneplus-fajita"
-    TARGET_PACKAGES="linux-postmarketos-qcom-sdm845,device-oneplus-fajita"
+    OVERRIDE_PACKAGES="linux-postmarketos-qcom-sdm845"
     ;;
   samsung-a5u-eur|samsung-a5)
     PMBOOTSTRAP_DEVICE="samsung-a5"
     ARTIFACT_DEVICE="samsung-a5u-eur"
-    TARGET_PACKAGES="linux-postmarketos-qcom-msm8916,device-samsung-a5"
+    OVERRIDE_PACKAGES="linux-postmarketos-qcom-msm8916"
     ;;
   arrow-db410c|db410c)
     PMBOOTSTRAP_DEVICE="arrow-db410c"
     ARTIFACT_DEVICE="db410c"
-    TARGET_PACKAGES="linux-postmarketos-qcom-msm8916,device-arrow-db410c"
+    OVERRIDE_PACKAGES="linux-postmarketos-qcom-msm8916"
     ;;
   *)
     echo "Unsupported device '${REQUESTED_DEVICE}'."
@@ -113,7 +113,7 @@ bash "${SCRIPT_DIR}/.github/scripts/build-phosh-artifacts.sh" \
   "${PMBOOTSTRAP_DEVICE}" \
   "${PMOS_VER}" \
   "${UI}" \
-  "${TARGET_PACKAGES}" \
+  "${OVERRIDE_PACKAGES}" \
   "${ARTIFACT_DEVICE}"
 
 mkdir -p "${LOCAL_ARTIFACTS_DIR}"
