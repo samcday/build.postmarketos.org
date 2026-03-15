@@ -85,6 +85,7 @@ def get_manifest(name, tasks, branch, splitrepo):
           BPO_API_HOST: {shlex.quote(url_api)}
           BPO_JOB_NAME: {shlex.quote(name)}
           PMB_APK_NO_CACHE: 1
+          PMB_CHANNELS_CFG: "/home/build/channels.cfg"
         {get_secrets_by_job_name(name)}
         triggers:
         - action: webhook
@@ -112,17 +113,6 @@ def get_manifest(name, tasks, branch, splitrepo):
              echo "[mirrors]"
              echo "pmaports = none"
              echo "systemd = none" ) > ~/.config/{pmb_config}
-
-           # Hack for shallow pmaports clones, use PMB_CHANNELS_CFG after
-           # https://gitlab.postmarketos.org/postmarketOS/pmbootstrap/-/merge_requests/2620
-           # is merged
-           ( echo "#!/bin/sh"
-             echo 'if [ "$1 $2" = "show origin/main:channels.cfg" ]; then'
-             echo "  cat $PWD/channels.cfg"
-             echo "else"
-             echo '  exec /usr/bin/git "$@"'
-             echo "fi" ) | sudo tee /usr/local/bin/git
-           sudo chmod +x /usr/local/bin/git
 
            sudo ln -s "$PWD"/pmbootstrap/pmbootstrap.py /usr/bin/pmbootstrap
            yes "" | pmbootstrap --aports=$PWD/pmaports -q init
