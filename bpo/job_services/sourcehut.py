@@ -31,7 +31,7 @@ def api_request(query, variables):
 
 
 def get_secrets_by_job_name(name):
-    """ 
+    """
     Have some privilege separation by only enabling the secrets, that are
     required for particular job types. In practice, this allows having the
     final repo sign key only available when necessary.
