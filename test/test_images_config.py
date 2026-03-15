@@ -9,26 +9,26 @@ import bpo.images.config
 
 def test_get_device_branches(monkeypatch):
     monkeypatch.setattr(bpo.config.const.images, "branches_default",
-                        ["master"])
+                        ["main"])
     monkeypatch.setattr(bpo.config.const.images, "images", {
                         "nokia-n900": {},
                         "qemu-amd64": {
-                            "branches": ["master", "v20.05"]
+                            "branches": ["main", "v20.05"]
                         }})
 
     func = bpo.images.config.get_device_branches
     assert func("invalid-device") == []
-    assert func("qemu-amd64") == ["master", "v20.05"]
-    assert func("nokia-n900") == ["master"]
+    assert func("qemu-amd64") == ["main", "v20.05"]
+    assert func("nokia-n900") == ["main"]
 
 
 def test_get_branch_config(monkeypatch):
     monkeypatch.setattr(bpo.config.const.images, "images", {
                         "qemu-amd64": {
-                            "branches": ["master", "v20.05"],
+                            "branches": ["main", "v20.05"],
                             "branch_configs": {
                                 "all": {"keep": 5},
-                                "master": {"keep": 10},
+                                "main": {"keep": 10},
                             }
                         }})
     monkeypatch.setattr(bpo.config.const.images, "branch_config_default", {
@@ -37,14 +37,14 @@ def test_get_branch_config(monkeypatch):
     func = bpo.images.config.get_branch_config
     assert func("invalid-device", "invalid-branch") is None
     assert func("qemu-amd64", "invalid-branch") is None
-    assert func("qemu-amd64", "master") == {"keep": 10}
+    assert func("qemu-amd64", "main") == {"keep": 10}
     assert func("qemu-amd64", "v20.05") == {"keep": 5}
 
 
 def test_get_images(monkeypatch):
     monkeypatch.setattr(bpo.config.const.images, "images", {
                         "qemu-amd64": {
-                            "branches": ["master", "v20.05"],
+                            "branches": ["main", "v20.05"],
                         }})
     monkeypatch.setattr(bpo.config.const.images, "branch_config_default", {
                         "date-interval": 7,
@@ -60,7 +60,7 @@ def test_get_images(monkeypatch):
 
     # Let the generator run twice
     ret = list(bpo.images.config.get_images(now))
-    assert ret == [{"branch": "master",
+    assert ret == [{"branch": "main",
                     "device": "qemu-amd64",
                     "ui": "sxmo-de-sway",
                     "date-start": date_expected,

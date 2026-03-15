@@ -11,7 +11,7 @@ def get_device_branches(device):
     """ 
     Get the branches, for which an image should be built for a certain device.
 
-    :returns: list of branch names, e.g. ["master", "v20.05"]
+    :returns: list of branch names, e.g. ["main", "v20.05"]
     """
     images_cfg = bpo.config.const.images.images
 
@@ -69,7 +69,7 @@ def get_images(now=None):
         having the date in the future.
 
         :param now: current time, can be overwritten for tests
-        :yields: example: {"branch": "master",
+        :yields: example: {"branch": "main",
                            "device": "pine64-pinephone",
                            "ui": "phosh",
                            "date-start": "2020-12-29",

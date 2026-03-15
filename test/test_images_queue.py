@@ -13,9 +13,9 @@ import bpo.images.queue
 def test_remove_not_in_config(monkeypatch):
     monkeypatch.setattr(bpo.config.const.images, "images", {
                         "qemu-amd64": {
-                            "branches": ["master"],
+                            "branches": ["main"],
                             "branch_configs": {
-                                "master": {"ui": ["sxmo-de-sway"]}
+                                "main": {"ui": ["sxmo-de-sway"]}
                                 }
                         }})
 
@@ -26,7 +26,7 @@ def test_remove_not_in_config(monkeypatch):
 
     # 1. queued, does exist in config
     device = "qemu-amd64"
-    branch = "master"
+    branch = "main"
     ui = "sxmo-de-sway"
     image = bpo.db.Image(device, branch, ui)
     session.merge(image)
@@ -60,9 +60,9 @@ def test_remove_not_in_config(monkeypatch):
 def test_fill(monkeypatch):
     monkeypatch.setattr(bpo.config.const.images, "images", {
                         "qemu-amd64": {
-                            "branches": ["master"],
+                            "branches": ["main"],
                             "branch_configs": {
-                                "master": {"date-start": "2021-01-01",
+                                "main": {"date-start": "2021-01-01",
                                            "date-interval": 7,
                                            "ui": ["first",
                                                   "second",
@@ -74,7 +74,7 @@ def test_fill(monkeypatch):
     date_within_interval = datetime.datetime.fromisoformat("2021-01-08")
     date_before_interval = datetime.datetime.fromisoformat("2021-01-07")
     device = "qemu-amd64"
-    branch = "master"
+    branch = "main"
 
     # Init and clear DB
     monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)

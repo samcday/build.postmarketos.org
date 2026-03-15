@@ -14,20 +14,20 @@ def test_validate_job_id(monkeypatch):
     # Fill the db with "hello-world", "hello-world-wrapper"
     with bpo_test.BPOServer():
         monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)
-        bpo_test.trigger.job_callback_get_depends("master")
+        bpo_test.trigger.job_callback_get_depends("main")
 
     # result is empty, job_id == 1337
     session = bpo.db.session()
     func = bpo.db.validate_job_id
     result_empty = session.query(bpo.db.Package).filter_by(arch="x86_64",
-                                                           branch="master",
+                                                           branch="main",
                                                            pkgname="404").all()
     assert func(result_empty, "1337") is False
 
     # Fill result with one package
     pkgname = "hello-world"
     arch = "x86_64"
-    branch = "master"
+    branch = "main"
     result = session.query(bpo.db.Package).filter_by(arch=arch,
                                                      branch=branch,
                                                      pkgname=pkgname).all()
@@ -56,7 +56,7 @@ def test_get_recent_packages_by_status(monkeypatch):
     monkeypatch.setattr(bpo.config.const, "branches",
                         {"v22.12": {},
                          "v23.06": {},
-                         "master": {}})
+                         "main": {}})
 
     # Initialize bpo
     bpo_test.reset()
@@ -66,7 +66,7 @@ def test_get_recent_packages_by_status(monkeypatch):
 
     # Fill the DB with test packages
     session = bpo.db.session()
-    session.merge(bpo.db.Package("x86_64", "master", "hello-world", "1.0.0"))
+    session.merge(bpo.db.Package("x86_64", "main", "hello-world", "1.0.0"))
     session.merge(bpo.db.Package("x86_64", "v22.12", "hello-world", "1.0.0"))
     session.merge(bpo.db.Package("x86_64", "v23.06", "hello-world", "1.0.0"))
     session.merge(bpo.db.Package("x86_64", "v22.06", "hello-world", "1.0.0"))
@@ -77,7 +77,7 @@ def test_get_recent_packages_by_status(monkeypatch):
     # Verify that the v22.06 package does not get returned, as it is not in
     # bpo.config.const.branches
     assert len(q) == 3
-    assert q[0].branch == "master"
+    assert q[0].branch == "main"
     assert q[1].branch == "v22.12"
     assert q[2].branch == "v23.06"
 
@@ -86,7 +86,7 @@ def test_get_recent_images_by_status(monkeypatch):
     monkeypatch.setattr(bpo.config.const, "branches",
                         {"v22.12": {},
                          "v23.06": {},
-                         "master": {}})
+                         "main": {}})
 
     # Initialize bpo
     bpo_test.reset()
@@ -97,11 +97,11 @@ def test_get_recent_images_by_status(monkeypatch):
     # Fill the DB with test images
     session = bpo.db.session()
 
-    img = bpo.db.Image("qemu-amd64", "master", "phosh")
+    img = bpo.db.Image("qemu-amd64", "main", "phosh")
     img.date = datetime.datetime.fromisoformat("2022-01-01")
     session.merge(img)
 
-    session.merge(bpo.db.Image("qemu-amd64", "master", "phosh"))
+    session.merge(bpo.db.Image("qemu-amd64", "main", "phosh"))
     session.merge(bpo.db.Image("qemu-amd64", "v22.12", "phosh"))
     session.merge(bpo.db.Image("qemu-amd64", "v23.06", "phosh"))
     session.merge(bpo.db.Image("qemu-amd64", "v22.06", "phosh"))
@@ -111,6 +111,6 @@ def test_get_recent_images_by_status(monkeypatch):
 
     # Verify that old images (by date, and the v22.06 image) don't get returned
     assert q.count() == 3
-    assert q[0].branch == "master"
+    assert q[0].branch == "main"
     assert q[1].branch == "v22.12"
     assert q[2].branch == "v23.06"

@@ -20,7 +20,7 @@ def run(session, rb, test_pmaports_cfg=None):
     """
     # Set mirror args (pmOS mirror is needed for cross compilers)
     pmb_v2_mirrors_arg = ""
-    if not bpo.helpers.pmb.is_master(rb.branch):
+    if not bpo.helpers.pmb.is_main(rb.branch):
         # NOTE: we don't use pmbv2 to build splitrepo packages
         mirror_final = bpo.helpers.pmb.get_pmos_mirror(rb.branch, None)
         pmb_v2_mirrors_arg += f" -mp {shlex.quote(mirror_final)}\\\n"
@@ -37,7 +37,7 @@ def run(session, rb, test_pmaports_cfg=None):
             cp {shlex.quote(test_pmaports_cfg)} pmaports/pmaports.cfg
         """
 
-    if bpo.helpers.pmb.is_master(rb.branch):
+    if bpo.helpers.pmb.is_main(rb.branch):
         tasks["set_repos"] = bpo.helpers.pmb.set_repos_task(rb.arch, rb.branch, False)
 
     systemd_arg = "never"

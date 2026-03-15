@@ -28,12 +28,12 @@ def test_callback_depends_remove_deleted_packages_db(monkeypatch):
 
     # Fill the db with "hello-world", "hello-world-wrapper"
     with bpo_test.BPOServer():
-        bpo_test.trigger.job_callback_get_depends("master")
+        bpo_test.trigger.job_callback_get_depends("main")
 
         # Insert a new package, that does not exist in the depends payload
         session = bpo.db.session()
         arch = "x86_64"
-        branch = "master"
+        branch = "main"
         pkgname = "pkg-not-in-payload"
         version = "1337-r42"
         splitrepo = None
@@ -48,7 +48,7 @@ def test_callback_depends_remove_deleted_packages_db(monkeypatch):
         shutil.copy(__file__, apk_path)
 
         # Indirectly trigger bpo.get_depends.remove_deleted_packages_db()
-        bpo_test.trigger.job_callback_get_depends("master")
+        bpo_test.trigger.job_callback_get_depends("main")
 
         # Package must not exist in db anymore (it isn't in the payload)
         # (apk still exists, because bpo.repo.build was monkeypatched)
@@ -70,13 +70,13 @@ def test_callback_depends_update_package(monkeypatch):
 
     # Fill the db with "hello-world", "hello-world-wrapper"
     with bpo_test.BPOServer():
-        bpo_test.trigger.job_callback_get_depends("master")
+        bpo_test.trigger.job_callback_get_depends("main")
 
         # hello-world: decrease version, change status to failed
         session = bpo.db.session()
         pkgname = "hello-world"
         arch = "x86_64"
-        branch = "master"
+        branch = "main"
         splitrepo = None
         package = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
         package.version = "0-r0"
@@ -85,7 +85,7 @@ def test_callback_depends_update_package(monkeypatch):
         session.commit()
 
         # Fill the db with "hello-world", "hello-world-wrapper" again
-        bpo_test.trigger.job_callback_get_depends("master")
+        bpo_test.trigger.job_callback_get_depends("main")
         bpo_test.assert_package(pkgname, status="queued", version="1-r4")
 
 
@@ -93,15 +93,15 @@ def test_callback_depends_to_nop(monkeypatch):
     with bpo_test.BPOServer():
         # Trigger job-callback/get-depends
         monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)
-        bpo_test.trigger.job_callback_get_depends("master")
+        bpo_test.trigger.job_callback_get_depends("main")
 
 
 def test_get_payload_splitrepo_pmbv2_ok(monkeypatch):
     monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)
     with bpo_test.BPOServer():
-        branch = "master"
+        branch = "main"
         payload = "depends.x86_64_pmbv2.json"
-        monkeypatch.setattr(bpo.helpers.pmb, "is_master", bpo_test.false)
+        monkeypatch.setattr(bpo.helpers.pmb, "is_main", bpo_test.false)
 
         bpo_test.trigger.job_callback_get_depends(branch, payload)
 
@@ -112,9 +112,9 @@ def test_get_payload_splitrepo_pmbv2_ok(monkeypatch):
 def test_get_payload_splitrepo_pmbv3_nok(monkeypatch):
     with pytest.raises(AssertionError) as e:
         with bpo_test.BPOServer():
-            branch = "master"
+            branch = "main"
             payload = "depends.x86_64_pmbv2.json"
-            monkeypatch.setattr(bpo.helpers.pmb, "is_master", bpo_test.true)
+            monkeypatch.setattr(bpo.helpers.pmb, "is_main", bpo_test.true)
 
             bpo_test.trigger.job_callback_get_depends(branch, payload)
 
@@ -124,9 +124,9 @@ def test_get_payload_splitrepo_pmbv3_nok(monkeypatch):
 def test_get_payload_splitrepo_pmbv3_ok(monkeypatch):
     monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)
     with bpo_test.BPOServer():
-        branch = "master"
+        branch = "main"
         payload = "depends_systemd.json"
-        monkeypatch.setattr(bpo.helpers.pmb, "is_master", bpo_test.true)
+        monkeypatch.setattr(bpo.helpers.pmb, "is_main", bpo_test.true)
 
         bpo_test.trigger.job_callback_get_depends(branch, payload)
 

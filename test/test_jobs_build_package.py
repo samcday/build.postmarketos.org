@@ -14,13 +14,13 @@ def test_build_package_run_skip_existing(monkeypatch):
     # Fill the db with "hello-world", "hello-world-wrapper"
     with bpo_test.BPOServer():
         monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)
-        bpo_test.trigger.job_callback_get_depends("master")
+        bpo_test.trigger.job_callback_get_depends("main")
 
     # Package status should be "queued"
     session = bpo.db.session()
     pkgname = "hello-world"
     arch = "x86_64"
-    branch = "master"
+    branch = "main"
     splitrepo = None
     package = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
     assert package.status == bpo.db.PackageStatus.queued

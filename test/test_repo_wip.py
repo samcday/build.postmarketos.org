@@ -18,19 +18,19 @@ def test_get_path(monkeypatch):
 
     func = bpo.repo.wip.get_path
     arch = "x86_64"
-    branch = "master"
+    branch = "main"
     splitrepo = None
-    assert func(arch, branch, splitrepo) == "/repo-wip/master/x86_64"
+    assert func(arch, branch, splitrepo) == "/repo-wip/main/x86_64"
 
     splitrepo = "systemd"
-    assert func(arch, branch, splitrepo) == "/repo-wip/extra-repos/systemd/master/x86_64"
+    assert func(arch, branch, splitrepo) == "/repo-wip/extra-repos/systemd/main/x86_64"
 
-    branch = "master_staging_test"
+    branch = "main_staging_test"
     splitrepo = None
-    assert func(arch, branch, splitrepo) == "/repo-wip/staging/test/master/x86_64"
+    assert func(arch, branch, splitrepo) == "/repo-wip/staging/test/main/x86_64"
 
     splitrepo = "systemd"
-    assert func(arch, branch, splitrepo) == "/repo-wip/extra-repos/systemd/staging/test/master/x86_64"
+    assert func(arch, branch, splitrepo) == "/repo-wip/extra-repos/systemd/staging/test/main/x86_64"
 
     # Reset
     monkeypatch.setattr(sys, "argv", ["bpo.py", "local"])
@@ -40,7 +40,7 @@ def test_get_path(monkeypatch):
 def test_repo_wip_clean(monkeypatch):
     # *** Preparation ***
     arch = "x86_64"
-    branch = "master"
+    branch = "main"
     splitrepo = None
     apk = "hello-world-wrapper-subpkg-1-r2.apk"
     apk_path = bpo.config.const.top_dir + "/test/testdata/" + apk
@@ -51,7 +51,7 @@ def test_repo_wip_clean(monkeypatch):
     # Fill the db with "hello-world", "hello-world-wrapper"
     with bpo_test.BPOServer():
         monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)
-        bpo_test.trigger.job_callback_get_depends("master")
+        bpo_test.trigger.job_callback_get_depends("main")
 
     # Skip updating apkindex at the end of clean()
     monkeypatch.setattr(bpo.repo.wip, "update_apkindex", bpo_test.nop)

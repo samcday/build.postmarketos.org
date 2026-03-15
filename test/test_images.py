@@ -13,7 +13,7 @@ import bpo.ui.images
 
 def test_pmos_ver():
     func = bpo.images.pmos_ver
-    assert func("master") == "edge"
+    assert func("main") == "edge"
     assert func("v20.05") == "v20.05"
 
 
@@ -22,20 +22,20 @@ def test_path(monkeypatch):
     bpo.config.args.init()
 
     func = bpo.images.path
-    assert func("master", "qemu-amd64", "sxmo-de-sway", "20210105-1617") == \
+    assert func("main", "qemu-amd64", "sxmo-de-sway", "20210105-1617") == \
         "/mnt/test/edge/qemu-amd64/sxmo-de-sway/20210105-1617"
 
 
 def test_remove_old(monkeypatch):
     monkeypatch.setattr(bpo.config.const.images, "images", {
                         "qemu-amd64": {
-                            "branches": ["master"],
+                            "branches": ["main"],
                             "branch_configs": {
-                                "master": {"ui": ["sxmo-de-sway"],
+                                "main": {"ui": ["sxmo-de-sway"],
                                            "keep": 2}
                                 }
                         }})
-    branch = "master"
+    branch = "main"
     device = "qemu-amd64"
     ui = "sxmo-de-sway"
 

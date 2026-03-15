@@ -26,13 +26,13 @@ def get_payload(request, arch, branch):
     filename = "depends." + arch + ".json"
     storage = bpo.api.get_file(request, filename)
     ret = json.loads(storage.read().decode("utf-8"))
-    pmb_master = bpo.helpers.pmb.is_master(branch)
+    pmb_main = bpo.helpers.pmb.is_main(branch)
 
     # Check for duplicate pkgnames
     found = {}
     for package in ret:
         # pmbv2 compat
-        if not pmb_master:
+        if not pmb_main:
             package["repo"] = None
 
         splitrepo = package["repo"]

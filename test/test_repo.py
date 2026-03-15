@@ -65,12 +65,12 @@ def test_repo_is_apk_origin_in_db(monkeypatch):
     # Fill the db with "hello-world", "hello-world-wrapper"
     with bpo_test.BPOServer():
         monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)
-        bpo_test.trigger.job_callback_get_depends("master")
+        bpo_test.trigger.job_callback_get_depends("main")
 
     # Origin exists in db with same version
     func = bpo.repo.is_apk_origin_in_db
     arch = "x86_64"
-    branch = "master"
+    branch = "main"
     splitrepo = None
     apk_path = (bpo.config.const.top_dir +
                 "/test/testdata/hello-world-wrapper-subpkg-1-r2.apk")
@@ -141,13 +141,13 @@ def test_build_arch_branch(monkeypatch):
     # Fill the db with "hello-world", "hello-world-wrapper"
     with bpo_test.BPOServer():
         monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)
-        bpo_test.trigger.job_callback_get_depends("master")
+        bpo_test.trigger.job_callback_get_depends("main")
 
     # Function and arguments variables
     session = bpo.db.session()
     slots_available = 1
     arch = "x86_64"
-    branch = "master"
+    branch = "main"
     splitrepo = None
     func = bpo.repo.build_arch_branch
 
@@ -220,12 +220,12 @@ def test_repo_next_package_to_build(monkeypatch):
     # Fill the db with "hello-world", "hello-world-wrapper"
     with bpo_test.BPOServer():
         monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)
-        bpo_test.trigger.job_callback_get_depends("master")
+        bpo_test.trigger.job_callback_get_depends("main")
 
     session = bpo.db.session()
     func = bpo.repo.next_package_to_build
     arch = "x86_64"
-    branch = "master"
+    branch = "main"
     splitrepo = None
 
     # First package should be "hello-world"
@@ -249,7 +249,7 @@ def test_build_foreign_arch(monkeypatch):
 
     # Create hello-world x86_64 and aarch64 pkgs in DB
     arch = "x86_64"
-    branch = "master"
+    branch = "main"
     pkgname = "hello-world"
     version = "999-r0"
     splitrepo = None
@@ -276,7 +276,7 @@ def test_build_foreign_arch(monkeypatch):
             return 0
 
         assert arch == expected_arches.pop(0)
-        assert branch == "master"
+        assert branch == "main"
 
         return 1
 
@@ -284,7 +284,7 @@ def test_build_foreign_arch(monkeypatch):
 
     # Override branches config
     branches = collections.OrderedDict()
-    branches["master"] = {"arches": ["x86_64", "aarch64"]}
+    branches["main"] = {"arches": ["x86_64", "aarch64"]}
     monkeypatch.setattr(bpo.config.const, "branches", branches)
 
     logging.info("--- x86_64 pkg is queued -> attempt to build x86_64 pkg")

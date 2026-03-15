@@ -63,7 +63,7 @@ def get_manifest(name, tasks, branch, splitrepo):
     branches = bpo.repo.staging.get_branches_with_staging()
     pmb_branch = branches[branch].get("pmb_branch",
                                       bpo.config.const.pmb_branch_default)
-    pmb_config = "pmbootstrap_v3.cfg" if pmb_branch == "master" else "pmbootstrap.cfg"
+    pmb_config = "pmbootstrap_v3.cfg" if pmb_branch == "main" else "pmbootstrap.cfg"
     arches = branches[branch]["arches"]
 
     final_path = bpo.repo.final.get_path(arches[0], branch, splitrepo)
@@ -95,7 +95,7 @@ def get_manifest(name, tasks, branch, splitrepo):
            git clone -q --depth=1 https://gitlab.postmarketos.org/postmarketOS/pmaports.git/ -b {shlex.quote(branch)} &
            git clone -q --depth=1 https://gitlab.postmarketos.org/postmarketOS/build.postmarketos.org.git/ &
            git clone -q --depth=1 https://gitlab.postmarketos.org/postmarketOS/pmbootstrap.git/ -b {shlex.quote(pmb_branch)} &
-           wget -q https://gitlab.postmarketos.org/postmarketOS/pmaports/-/raw/master/channels.cfg &
+           wget -q https://gitlab.postmarketos.org/postmarketOS/pmaports/-/raw/main/channels.cfg &
            wait
            git -C pmaports show --oneline -s --color=always
            git -C pmbootstrap show --oneline -s --color=always
@@ -117,7 +117,7 @@ def get_manifest(name, tasks, branch, splitrepo):
            # https://gitlab.postmarketos.org/postmarketOS/pmbootstrap/-/merge_requests/2620
            # is merged
            ( echo "#!/bin/sh"
-             echo 'if [ "$1 $2" = "show origin/master:channels.cfg" ]; then'
+             echo 'if [ "$1 $2" = "show origin/main:channels.cfg" ]; then'
              echo "  cat $PWD/channels.cfg"
              echo "else"
              echo '  exec /usr/bin/git "$@"'

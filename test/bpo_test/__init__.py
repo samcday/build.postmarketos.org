@@ -180,7 +180,7 @@ class BPOServer():
         assert result
 
 
-def assert_package(pkgname, arch="x86_64", branch="master", splitrepo=None,
+def assert_package(pkgname, arch="x86_64", branch="main", splitrepo=None,
                    status=None, version=None, exists=True, retry_count=0, job_id=False):
     """ Verify that a package exists, and optionally, that certain attributes
         are set to an expected value. This function is called assert_* but we

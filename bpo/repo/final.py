@@ -23,8 +23,8 @@ def get_path(arch, branch, splitrepo):
         # same format as for the original repositories and pmbootstrap is able
         # to use it with "pmbootstrap --mirror-pmOS=..." with a staging URL
         # like https://mirror.postmarketos.org/postmarketos/staging/test. If we
-        # used the branch name (master_staging_test) instead of the branch_orig
-        # (master), we would need to add additional complexity to pmbootstrap
+        # used the branch name (main_staging_test) instead of the branch_orig
+        # (main), we would need to add additional complexity to pmbootstrap
         # to figure out the correct full URLs.
         ret = os.path.join(ret, "staging", name, branch_orig)
     else:

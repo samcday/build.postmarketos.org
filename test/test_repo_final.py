@@ -14,14 +14,14 @@ def test_get_path():
 
     func = bpo.repo.final.get_path
     arch = "x86_64"
-    branch = "master"
+    branch = "main"
     splitrepo = None
-    assert func(arch, branch, splitrepo) == "/repo-final/master/x86_64"
+    assert func(arch, branch, splitrepo) == "/repo-final/main/x86_64"
     splitrepo = "systemd"
-    assert func(arch, branch, splitrepo) == "/repo-final/extra-repos/systemd/master/x86_64"
+    assert func(arch, branch, splitrepo) == "/repo-final/extra-repos/systemd/main/x86_64"
 
     splitrepo = None
-    branch = "master_staging_test"
-    assert func(arch, branch, splitrepo) == "/repo-final/staging/test/master/x86_64"
+    branch = "main_staging_test"
+    assert func(arch, branch, splitrepo) == "/repo-final/staging/test/main/x86_64"
     splitrepo = "systemd"
-    assert func(arch, branch, splitrepo) == "/repo-final/extra-repos/systemd/staging/test/master/x86_64"
+    assert func(arch, branch, splitrepo) == "/repo-final/extra-repos/systemd/staging/test/main/x86_64"

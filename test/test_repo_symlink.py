@@ -14,7 +14,7 @@ import bpo.repo.symlink
 def test_repo_symlink_link_to_all_packages(monkeypatch):
     bpo_test.init_components()
     arch = "x86_64"
-    branch = "master"
+    branch = "main"
     splitrepo = None
     wip_path = bpo.repo.wip.get_path(arch, branch, splitrepo)
     final_path = bpo.repo.final.get_path(arch, branch, splitrepo)
@@ -37,7 +37,7 @@ def test_repo_symlink_link_to_all_packages(monkeypatch):
     # Fill the db with "hello-world", "hello-world-wrapper"
     with bpo_test.BPOServer():
         monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)
-        bpo_test.trigger.job_callback_get_depends("master")
+        bpo_test.trigger.job_callback_get_depends("main")
 
     # 1. fail sanity check: packages don't exist in wip/final repo
     with pytest.raises(RuntimeError) as e:

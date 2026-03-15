@@ -4,7 +4,7 @@ The database layout is defined in `bpo/db/__init__.py`. The initial layout of
 each table **must not be modified**, unless following strict rules listed
 below. Otherwise the live deployment of the bpo server can't migrate properly
 to the new version. Remember that we roll out each commit that is pushed to
-master automatically to the live instance.
+main automatically to the live instance.
 
 ## Extending the DB layout
 Using a "proper" migration framework was considered, but the amount of effort

@@ -49,7 +49,7 @@ def run(arch, pkgname, branch, splitrepo):
 
     # Set mirror args (either primary mirror, or WIP + primary)
     pmb_v2_mirrors_arg = ""
-    if not bpo.helpers.pmb.is_master(branch):
+    if not bpo.helpers.pmb.is_main(branch):
         # NOTE: we don't use pmbv2 to build splitrepo packages
         mirror_final = bpo.helpers.pmb.get_pmos_mirror(branch, None)
 
@@ -90,7 +90,7 @@ def run(arch, pkgname, branch, splitrepo):
             > pmbootstrap/pmb/data/keys/wip.rsa.pub
     """
 
-    if bpo.helpers.pmb.is_master(branch):
+    if bpo.helpers.pmb.is_main(branch):
         # When building stable repositories for the first time for foreign
         # arches, we must enable the pmaports binary repo to use the cross
         # compilers even if the foreign arch repository doesn't have an

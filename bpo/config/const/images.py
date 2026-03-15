@@ -62,7 +62,7 @@ password = "147147"
 
 # Branches to build images for, can be overridden per device in 'images' below
 branches_default = [
-        "master",
+        "main",
         "v25.12",
     ]
 
@@ -200,7 +200,7 @@ branch_config_default = {
 images = {
     "amlogic-aarch64-tvbox": {
         "branches": [
-            "master",
+            "main",
             "v25.12",
         ],
         "branch_configs": {
@@ -212,7 +212,7 @@ images = {
                     "xiaomi-aquaman",
                 ],
             },
-            "master": {
+            "main": {
                 "date-start": "2025-11-14",  # Friday
             },
             "v25.12": {
@@ -225,7 +225,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["embedded"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -235,7 +235,7 @@ images = {
     },
     "asus-me176c": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -245,7 +245,7 @@ images = {
     },
     "bq-paella": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -255,7 +255,7 @@ images = {
     },
     "fairphone-fp4": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -265,7 +265,7 @@ images = {
     },
     "fairphone-fp5": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -281,7 +281,7 @@ images = {
                     "lts",
                 ],
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"], add_ui=["os-installer"]),
             },
@@ -296,7 +296,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -322,7 +322,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -335,7 +335,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -348,7 +348,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -361,7 +361,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -371,7 +371,7 @@ images = {
     },
     "google-nyan-big": {
         "branches": [
-            # Disabled on master:
+            # Disabled on main:
             # https://gitlab.postmarketos.org/postmarketOS/pmaports/-/issues/3186
         ],
         "branch_configs": {
@@ -382,7 +382,7 @@ images = {
                 ],
                 "ui": get_ui_list(chassis=["laptop"], supports_gpu=False),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -392,14 +392,14 @@ images = {
     },
     "google-nyan-blaze": {
         "branches": [
-            # Disabled on master:
+            # Disabled on main:
             # https://gitlab.postmarketos.org/postmarketOS/pmaports/-/issues/3186
         ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop"], supports_gpu=False),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -412,7 +412,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible"], supports_gpu=False),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -425,7 +425,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -438,7 +438,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -453,7 +453,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -466,7 +466,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -479,7 +479,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -499,7 +499,7 @@ images = {
                     "stable",
                 ],
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -512,7 +512,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
                 "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
             },
@@ -523,7 +523,7 @@ images = {
     },
     "lenovo-a6000": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -533,14 +533,14 @@ images = {
     },
     "librecomputer-lafrite": {
         "branches": [
-            "master",
+            "main",
             "v25.12",
         ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet", "embedded"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-11-14",  # Friday
             },
             "v25.12": {
@@ -550,14 +550,14 @@ images = {
     },
     "librecomputer-lepotato": {
         "branches": [
-            "master",
+            "main",
             "v25.12",
         ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["laptop", "convertible", "tablet", "embedded"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-11-14",  # Friday
             },
             "v25.12": {
@@ -567,7 +567,7 @@ images = {
     },
     "lenovo-a6010": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -581,7 +581,7 @@ images = {
                 # Tablet with detachable keyboard
                 "ui": get_ui_list(chassis=["convertible"], supports_gpu=False),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -602,7 +602,7 @@ images = {
                     "sxmo-de-sway",
                 ],
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -615,7 +615,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["convertible", "tablet", "handset"], supports_gpu=False),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -628,7 +628,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["embedded"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -638,7 +638,7 @@ images = {
     },
     "oneplus-enchilada": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -648,7 +648,7 @@ images = {
     },
     "oneplus-fajita": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -658,14 +658,14 @@ images = {
     },
     "pine64-pinenote": {
         "branches": [
-            "master",
+            "main",
             "v25.12",
         ],
         "branch_configs": {
             "all": {
                 "ui": get_ui_list(chassis=["tablet"], add_ui=["sway"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
              "v25.12": {
@@ -678,7 +678,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
                 "ui": get_ui_list(chassis=["laptop"], add_ui=["os-installer"]),
             },
@@ -689,7 +689,7 @@ images = {
     },
     "pine64-pinephone": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -706,7 +706,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["embedded"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -716,11 +716,11 @@ images = {
     },
     "postmarketos-trailblazer": {
         "branches": [
-            "master",
+            "main",
             # Decided to not ship it in stable releases
         ],
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-interval": 1,
                 "ui": ["gnome", "console", "os-installer"],
                 "kernels": [
@@ -735,7 +735,7 @@ images = {
     },
     "purism-librem5": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -745,7 +745,7 @@ images = {
     },
     "qcom-msm8953": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -755,7 +755,7 @@ images = {
     },
     "qcom-sm7150": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -765,7 +765,7 @@ images = {
     },
     "samsung-a3": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -775,7 +775,7 @@ images = {
     },
     "samsung-a5": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -789,7 +789,7 @@ images = {
                 # Only usable UI at the moment
                 "ui": [ "sxmo-de-sway" ],
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -799,7 +799,7 @@ images = {
     },
     "samsung-e7": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -813,7 +813,7 @@ images = {
                 "android-recovery-zip": True,
                 "ui": get_ui_list(chassis=["tablet"], supports_gpu=False),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -827,7 +827,7 @@ images = {
                 "android-recovery-zip": True,
                 "ui": get_ui_list(chassis=["tablet"], supports_gpu=False),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -837,7 +837,7 @@ images = {
     },
     "samsung-grandmax": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -847,7 +847,7 @@ images = {
     },
     "samsung-gt510": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -857,7 +857,7 @@ images = {
     },
     "samsung-gt58": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -867,7 +867,7 @@ images = {
     },
     "samsung-m0": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -880,7 +880,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["tablet"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -890,7 +890,7 @@ images = {
     },
     "samsung-serranove": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -900,11 +900,11 @@ images = {
     },
     "samsung-starqltechn": {
         "branches": [
-            "master",
+            "main",
             "v25.12",
         ],
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-08-08",  # Friday
             },
             "v25.12": {
@@ -914,7 +914,7 @@ images = {
     },
     "shift-axolotl": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -924,7 +924,7 @@ images = {
     },
     "wileyfox-crackling": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -940,7 +940,7 @@ images = {
                     "ebbg",
                 ],
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -956,7 +956,7 @@ images = {
                     "csot",
                 ],
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -969,7 +969,7 @@ images = {
             "all": {
                 "ui": get_ui_list(chassis=["convertible", "handset"]),
             },
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -979,7 +979,7 @@ images = {
     },
     "xiaomi-scorpio": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {
@@ -989,7 +989,7 @@ images = {
     },
     "xiaomi-wt88047": {
         "branch_configs": {
-            "master": {
+            "main": {
                 "date-start": "2025-01-10",  # Friday
             },
             "v25.12": {

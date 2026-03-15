@@ -13,7 +13,7 @@ import bpo.ui
 
 def test_update_badge(monkeypatch):
     branches = collections.OrderedDict()
-    branches["master"] = {"arches": ["x86_64",
+    branches["main"] = {"arches": ["x86_64",
                                      "armhf",
                                      "aarch64",
                                      "armv7",
@@ -23,14 +23,14 @@ def test_update_badge(monkeypatch):
     # Fill the db with "hello-world", "hello-world-wrapper"
     with bpo_test.BPOServer():
         monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)
-        bpo_test.trigger.job_callback_get_depends("master")
+        bpo_test.trigger.job_callback_get_depends("main")
 
     session = bpo.db.session()
     func = bpo.ui.update_badge
     func_pkgs = bpo.db.get_recent_packages_by_status
     func_imgs = bpo.db.get_recent_images_by_status
     arch = "x86_64"
-    branch = "master"
+    branch = "main"
     splitrepo = None
 
     # Building
@@ -75,7 +75,7 @@ def test_update_badge(monkeypatch):
 def test_update_monitoring_txt(monkeypatch):
     # Set branch config
     branches = collections.OrderedDict()
-    branches["master"] = {"arches": ["x86_64",
+    branches["main"] = {"arches": ["x86_64",
                                      "armhf",
                                      "aarch64",
                                      "armv7",
@@ -85,9 +85,9 @@ def test_update_monitoring_txt(monkeypatch):
     # Set image config
     monkeypatch.setattr(bpo.config.const.images, "images",
                         {"qemu-amd64": {
-                            "branches": ["master"],
+                            "branches": ["main"],
                             "branch_configs": {
-                                "master": {
+                                "main": {
                                     "ui": ["console"],
                                     "kernels": ["virt"],
                                 }
@@ -115,7 +115,7 @@ def test_update_monitoring_txt(monkeypatch):
     # Fill the db with test packages and image
     with bpo_test.BPOServer(fill_image_queue=True):
         monkeypatch.setattr(bpo.repo, "build", bpo_test.stop_server)
-        bpo_test.trigger.job_callback_get_depends("master")
+        bpo_test.trigger.job_callback_get_depends("main")
 
     session = bpo.db.session()
 
@@ -124,25 +124,25 @@ def test_update_monitoring_txt(monkeypatch):
 
     # One failed package
     arch = "x86_64"
-    branch = "master"
+    branch = "main"
     splitrepo = None
     pkgname = "hello-world"
     pkg = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
     bpo.db.set_package_status(session, pkg, bpo.db.PackageStatus.failed, 1)
     assert_txt_content("1 failure at [bpo](https://build.postmarketos.org):\n"
-                       "* 📦 [master/x86_64/hello-world](http://localhost/1) (try 1/3)\n")
+                       "* 📦 [main/x86_64/hello-world](http://localhost/1) (try 1/3)\n")
 
     # Two failed packages
     pkgname = "hello-world-wrapper"
     pkg = bpo.db.get_package(session, pkgname, arch, branch, splitrepo)
     bpo.db.set_package_status(session, pkg, bpo.db.PackageStatus.failed, 2)
     assert_txt_content("2 failures at [bpo](https://build.postmarketos.org):\n"
-                       "* 📦 [master/x86_64/hello-world](http://localhost/1) (try 1/3)\n"
-                       "* 📦 [master/x86_64/hello-world-wrapper](http://localhost/2) (try 1/3)\n")
+                       "* 📦 [main/x86_64/hello-world](http://localhost/1) (try 1/3)\n"
+                       "* 📦 [main/x86_64/hello-world-wrapper](http://localhost/2) (try 1/3)\n")
 
     # Two failed packages, abbreviated
     assert_txt_content("2 failures at [bpo](https://build.postmarketos.org):\n"
-                       "* 📦 [master/x86_64/hello-world](http://localhost/1) (try 1/3)\n"
+                       "* 📦 [main/x86_64/hello-world](http://localhost/1) (try 1/3)\n"
                        "* ...\n",
                        list_count_max=1)
 
@@ -152,12 +152,12 @@ def test_update_monitoring_txt(monkeypatch):
     img = bpo.db.get_image(session, branch, device, ui)
     bpo.db.set_image_status(session, img, bpo.db.ImageStatus.failed, 3)
     assert_txt_content("3 failures at [bpo](https://build.postmarketos.org):\n"
-                       "* 📦 [master/x86_64/hello-world](http://localhost/1) (try 1/3)\n"
-                       "* 📦 [master/x86_64/hello-world-wrapper](http://localhost/2) (try 1/3)\n"
-                       "* 🖼️ [master:qemu-amd64:console](http://localhost/3) (try 1/3)\n")
+                       "* 📦 [main/x86_64/hello-world](http://localhost/1) (try 1/3)\n"
+                       "* 📦 [main/x86_64/hello-world-wrapper](http://localhost/2) (try 1/3)\n"
+                       "* 🖼️ [main:qemu-amd64:console](http://localhost/3) (try 1/3)\n")
 
     # Two failed packages, one failed image, abbreviated
     assert_txt_content("3 failures at [bpo](https://build.postmarketos.org):\n"
-                       "* 📦 [master/x86_64/hello-world](http://localhost/1) (try 1/3)\n"
+                       "* 📦 [main/x86_64/hello-world](http://localhost/1) (try 1/3)\n"
                        "* ...\n",
                        list_count_max=1)

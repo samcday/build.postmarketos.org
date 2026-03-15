@@ -112,7 +112,7 @@ class LocalJobServiceThread(threading.Thread):
             pmbootstrap -q -y zap -p
 
             # Create staging branch
-            git -C pmaports checkout -B master_staging_test_1234 master
+            git -C pmaports checkout -B main_staging_test_1234 main
 
             # Switch branch and release channel
             git -C pmaports checkout """ + shlex.quote(branch) + """

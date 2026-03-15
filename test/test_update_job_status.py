@@ -12,7 +12,7 @@ import bpo.jobs.build_package
 
 def test_public_update_job_status(monkeypatch):
     arch = "x86_64"
-    branch = "master"
+    branch = "main"
     pkgname = "hello-world"
     pkgname2 = "second-package"
     version = "1-r4"

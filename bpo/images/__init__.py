@@ -8,8 +8,8 @@ import bpo.config.args
 
 
 def pmos_ver(branch):
-    """ Just like in Alpine, name the images from master branch "edge". """
-    if branch == "master":
+    """ Just like in Alpine, name the images from main branch "edge". """
+    if branch == "main":
         return "edge"
     return branch
 
@@ -17,7 +17,7 @@ def pmos_ver(branch):
 def branch_from_pmos_ver(pmos_ver):
     """ Invert of pmos_ver(). """
     if pmos_ver == "edge":
-        return "master"
+        return "main"
     return pmos_ver
 
 

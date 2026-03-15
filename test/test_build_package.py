@@ -34,7 +34,7 @@ def test_retry_build(monkeypatch):
         logging.info("job_run_fake_count: " + str(job_run_fake_count))
 
         assert name == "build_package"
-        assert branch == "master"
+        assert branch == "main"
         assert arch == "x86_64"
         assert splitrepo is None
         assert pkgname == "hello-world"
@@ -52,7 +52,7 @@ def test_retry_build(monkeypatch):
         # Fill the db with "hello-world", "hello-world-wrapper" and let the bpo
         # server start building "hello-world". The actual building is prevented
         # in this test by the job_run_fake() override above.
-        bpo_test.trigger.job_callback_get_depends("master")
+        bpo_test.trigger.job_callback_get_depends("main")
         bpo_test.assert_package(pkgname, status="building", retry_count=0,
                                 job_id=1234)
         assert job_run_fake_count == 1

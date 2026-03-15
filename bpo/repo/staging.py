@@ -17,11 +17,11 @@ def branch_split(branch):
     """ 
     Split a staging branch name in its components.
 
-    :param branch: the full branch name, e.g. "master_staging_lomiri" "v22.12_staging_sp2"
+    :param branch: the full branch name, e.g. "main_staging_lomiri" "v22.12_staging_sp2"
     :returns: * None if it isn't a valid staging branch
         * (branch_orig, name)
-        * branch_orig: the original branch as in the config(e.g. "master")
-        * name: e.g. "hi_there" (branch "master_staging_hi_there")
+        * branch_orig: the original branch as in the config(e.g. "main")
+        * name: e.g. "hi_there" (branch "main_staging_hi_there")
 
     """
     if "_staging_" not in branch:
@@ -167,7 +167,7 @@ def remove(branch):
     """
     Remove a staging branch.
 
-    :param branch: which branch to remove, e.g. master_staging_testbranch
+    :param branch: which branch to remove, e.g. main_staging_testbranch
     """
     ret = branch_split(branch)
     if not ret:

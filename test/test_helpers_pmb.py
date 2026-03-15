@@ -13,41 +13,41 @@ def test_get_pmos_mirror(monkeypatch):
 
     func = bpo.helpers.pmb.get_pmos_mirror
 
-    branch = "master"
+    branch = "main"
     splitrepo = None
     mirror_type = "main"
     add_branch = False
     assert func(branch, splitrepo, mirror_type, add_branch) == "MAIN/"
 
-    branch = "master"
+    branch = "main"
     splitrepo = None
     mirror_type = "wip"
     add_branch = False
     assert func(branch, splitrepo, mirror_type, add_branch) == "WIP/"
 
-    branch = "master"
+    branch = "main"
     splitrepo = None
     mirror_type = "main"
     add_branch = True
-    assert func(branch, splitrepo, mirror_type, add_branch) == "MAIN/master/"
+    assert func(branch, splitrepo, mirror_type, add_branch) == "MAIN/main/"
 
-    branch = "master"
+    branch = "main"
     splitrepo = "systemd"
     mirror_type = "main"
     add_branch = True
-    assert func(branch, splitrepo, mirror_type, add_branch) == "MAIN/extra-repos/systemd/master/"
+    assert func(branch, splitrepo, mirror_type, add_branch) == "MAIN/extra-repos/systemd/main/"
 
-    branch = "master_staging_TODO"
+    branch = "main_staging_TODO"
     splitrepo = None
     mirror_type = "main"
     add_branch = True
-    assert func(branch, splitrepo, mirror_type, add_branch) == "MAIN/staging/TODO/master/"
+    assert func(branch, splitrepo, mirror_type, add_branch) == "MAIN/staging/TODO/main/"
 
-    branch = "master_staging_TODO"
+    branch = "main_staging_TODO"
     splitrepo = "systemd"
     mirror_type = "main"
     add_branch = True
-    assert func(branch, splitrepo, mirror_type, add_branch) == "MAIN/extra-repos/systemd/staging/TODO/master/"
+    assert func(branch, splitrepo, mirror_type, add_branch) == "MAIN/extra-repos/systemd/staging/TODO/main/"
 
 
 def test_set_repos_task(monkeypatch):
@@ -63,7 +63,7 @@ def test_set_repos_task(monkeypatch):
 
     monkeypatch.setattr(os.path, "exists", bpo_test.false)
 
-    branch = "master"
+    branch = "main"
     add_wip_repo = False
     assert func(arch, branch, add_wip_repo) == \
         "pmbootstrap config mirrors.alpine ALPINE\n" \
@@ -72,14 +72,14 @@ def test_set_repos_task(monkeypatch):
 
     monkeypatch.setattr(os.path, "exists", bpo_test.true)
 
-    branch = "master"
+    branch = "main"
     add_wip_repo = False
     assert func(arch, branch, add_wip_repo) == \
         "pmbootstrap config mirrors.alpine ALPINE\n" \
         "pmbootstrap config mirrors.pmaports PMOS_MAIN/\n" \
         "pmbootstrap config mirrors.systemd PMOS_MAIN/extra-repos/systemd/\n"
 
-    branch = "master_staging_TODO"
+    branch = "main_staging_TODO"
     add_wip_repo = False
     assert func(arch, branch, add_wip_repo) == \
         "pmbootstrap config mirrors.alpine ALPINE\n" \
@@ -87,7 +87,7 @@ def test_set_repos_task(monkeypatch):
         "pmbootstrap config mirrors.systemd PMOS_MAIN/extra-repos/systemd/staging/TODO/\n"
 
     monkeypatch.setattr(os.path, "exists", bpo_test.true)
-    branch = "master"
+    branch = "main"
     add_wip_repo = True
     assert func(arch, branch, add_wip_repo) == \
         "pmbootstrap config mirrors.alpine ALPINE\n" \

@@ -23,7 +23,7 @@ def test_remove_deleted_package_SLOW_40s(monkeypatch):
     # Only one arch, so the bpo server doesn't attempt to run multiple repo
     # indexing jobs at once.
     branches = collections.OrderedDict()
-    branches["master"] = {"arches": ["x86_64"]}
+    branches["main"] = {"arches": ["x86_64"]}
     monkeypatch.setattr(bpo.config.const, "branches", branches)
 
     # Stop server when it would publish the packages
@@ -32,7 +32,7 @@ def test_remove_deleted_package_SLOW_40s(monkeypatch):
     with bpo_test.BPOServer():
         # Put test apks in final repo
         arch = "x86_64"
-        branch = "master"
+        branch = "main"
         splitrepo = None
         final_path = bpo.repo.final.get_path(arch, branch, splitrepo)
         testdata = bpo.config.const.top_dir + "/test/testdata/"
@@ -53,7 +53,7 @@ def test_remove_deleted_package_SLOW_40s(monkeypatch):
 
         # pmaports.git only has "hello-world", not "hello-world-wrapper"
         payload = "depends.x86_64_hello-world_only.json"
-        bpo_test.trigger.job_callback_get_depends("master", payload)
+        bpo_test.trigger.job_callback_get_depends("main", payload)
 
     # Check if database was updated properly
     bpo_test.assert_package("hello-world", status="published", version="1-r4")
@@ -76,7 +76,7 @@ def test_depends_SLOW_120s(monkeypatch):
 
     # Limit to two arches (more would increase test time)
     branches = collections.OrderedDict()
-    branches["master"] = {"arches": ["x86_64", "armv7"]}
+    branches["main"] = {"arches": ["x86_64", "armv7"]}
     monkeypatch.setattr(bpo.config.const, "branches", branches)
 
     with bpo_test.BPOServer():
@@ -99,12 +99,12 @@ def test_build_final_repo_with_two_pkgs_SLOW_120s(monkeypatch, tmpdir):
         # Trigger job-callback/get-depends and let it run all the way until the
         # final repository is ready to be published
         monkeypatch.setattr(bpo.repo.final, "publish", bpo_test.stop_server)
-        bpo_test.trigger.job_callback_get_depends("master",
+        bpo_test.trigger.job_callback_get_depends("main",
                                                   payload_path=payload_path)
 
     # WIP repo must be empty
     arch = "x86_64"
-    branch = "master"
+    branch = "main"
     splitrepo = None
     path = bpo.repo.wip.get_path(arch, branch, splitrepo)
     apks = bpo.repo.get_apks(path)

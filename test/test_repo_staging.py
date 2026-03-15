@@ -16,8 +16,8 @@ import bpo.db
 def test_branch_split():
     func = bpo.repo.staging.branch_split
 
-    assert func("master") is None
-    assert func("master_staging_test_branch") == ("master", "test_branch")
+    assert func("main") is None
+    assert func("main_staging_test_branch") == ("main", "test_branch")
 
     # Orig branch not in config
     assert func("v20.05_staging_test_branch") is None
@@ -27,7 +27,7 @@ def test_get_branches_with_staging(monkeypatch, tmp_path):
     # Fake bpo.config.const.branches
     branches = collections.OrderedDict()
     branches["v23.06"] = {"arches": ["x86_64", "aarch64"]}
-    branches["master"] = {"arches": ["x86_64",
+    branches["main"] = {"arches": ["x86_64",
                                      "aarch64",
                                      "riscv64"]}
     monkeypatch.setattr(bpo.config.const, "branches", branches)
@@ -38,7 +38,7 @@ def test_get_branches_with_staging(monkeypatch, tmp_path):
     # branches["v22.12"] is not set above
     repo_final_path = f"{tmp_path}"
     setattr(bpo.config.args, "repo_final_path", repo_final_path)
-    for branch in ["v22.12", "v23.06", "master"]:
+    for branch in ["v22.12", "v23.06", "main"]:
         branch_dir = f"{repo_final_path}/staging/test_branch/{branch}"
         os.makedirs(branch_dir)
         pathlib.Path(f"{branch_dir}/README").touch()
@@ -48,32 +48,32 @@ def test_get_branches_with_staging(monkeypatch, tmp_path):
     pmb_branch = bpo.config.const.staging_pmb_branch
     assert func() == collections.OrderedDict({
         "v23.06": {"arches": ["x86_64", "aarch64"]},
-        "master": {"arches": ["x86_64", "aarch64", "riscv64"]},
+        "main": {"arches": ["x86_64", "aarch64", "riscv64"]},
         "v23.06_staging_test_branch": {"arches": ["aarch64", "riscv64"],
                                        "ignore_errors": True,
                                        "pmb_branch": pmb_branch},
-        "master_staging_test_branch": {"arches": ["aarch64", "riscv64"],
+        "main_staging_test_branch": {"arches": ["aarch64", "riscv64"],
                                        "ignore_errors": True,
                                        "pmb_branch": pmb_branch},
     })
 
 
 def test_remove_wrong_branch():
-    assert bpo.repo.staging.remove("master") is False
+    assert bpo.repo.staging.remove("main") is False
 
 
 def test_remove(monkeypatch):
     branches = collections.OrderedDict()
     branches["v23.06"] = {"arches": ["x86_64", "aarch64", "armv7"]}
-    branches["master"] = branches["v23.06"]
+    branches["main"] = branches["v23.06"]
     monkeypatch.setattr(bpo.config.const, "branches", branches)
 
     repo_final_path = bpo.config.const.args.repo_final_path
     repo_wip_path = bpo.config.const.args.repo_wip_path
 
-    branch_1 = "master_staging_test_branch"
-    path_final_1 = f"{repo_final_path}/staging/test_branch/master"
-    path_wip_1 = f"{repo_wip_path}/staging/test_branch/master"
+    branch_1 = "main_staging_test_branch"
+    path_final_1 = f"{repo_final_path}/staging/test_branch/main"
+    path_wip_1 = f"{repo_wip_path}/staging/test_branch/main"
 
     branch_2 = "v23.06_staging_test_branch"
     path_final_2 = f"{repo_final_path}/staging/test_branch/v23.06"

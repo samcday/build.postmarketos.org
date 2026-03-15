@@ -50,7 +50,7 @@ def fix_disk_vs_db(arch, branch, splitrepo, path, status, is_wip=False, job_id=N
     sense to delete them beforehand.)
 
     :param arch: architecture, e.g. "x86_64"
-    :param branch: pmaports.git branch, e.g. "master"
+    :param branch: pmaports.git branch, e.g. "main"
     :param path: wip or final repo path, as returned by bpo.repo.{wip,final}.get_path()
     :param status: the package should have when the related apk file exists e.g. bpo.db.PackageStatus.built
     :param is_wip: set to True when looking at the wip repo, False when looking at the final repo.
@@ -99,7 +99,7 @@ def fix_db_vs_disk(arch, branch, splitrepo):
     Iterate over packages in db, fix status of packages that are marked as built/published but are missing on disk.
 
     :param arch: architecture, e.g. "x86_64"
-    :param branch: pmaports.git branch, e.g. "master"
+    :param branch: pmaports.git branch, e.g. "main"
     """
     session = bpo.db.session()
     packages = session.query(bpo.db.Package).filter_by(arch=arch,
@@ -132,7 +132,7 @@ def fix(limit_arch=None, limit_branch=None):
     Fix all inconsistencies between the database, the apk files on diskand the running jobs.
 
     :param limit_arch: architecture, e.g. "x86_64" (default: all)
-    :param limit_branch: pmaports.git branch, e.g. "master" (default: all)
+    :param limit_branch: pmaports.git branch, e.g. "main" (default: all)
     """
     branches = bpo.config.const.branches.keys()
     if limit_branch:

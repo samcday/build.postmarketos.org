@@ -42,7 +42,7 @@ def test_repo_bootstrap_full(monkeypatch):
         TEST_STEP(4, "Run build_package job")
         assert arch == "x86_64"
         assert pkgname == "hello-world-wrapper"
-        assert branch == "master"
+        assert branch == "main"
         assert splitrepo == "systemd"
         bpo_test.stop_server()
         return True
@@ -55,5 +55,5 @@ def test_repo_bootstrap_full(monkeypatch):
     with bpo_test.BPOServer():
         TEST_STEP(2, "Run get_depends job callback")
         payload_path = f"{testdata_dir}/depends_systemd.json"
-        bpo_test.trigger.job_callback_get_depends("master",
+        bpo_test.trigger.job_callback_get_depends("main",
                                                   payload_path=payload_path)

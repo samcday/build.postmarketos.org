@@ -17,7 +17,7 @@ def get_pmbootstrap_install_cmd(branch):
         function, so we can override it with a stub in a test. """
 
     pmb_v2_mirrors_arg = ""
-    if not bpo.helpers.pmb.is_master(branch):
+    if not bpo.helpers.pmb.is_main(branch):
         # NOTE: we don't use pmbv2 to build images with splitrepos
         mirror_final = bpo.helpers.pmb.get_pmos_mirror(branch, None)
         pmb_v2_mirrors_arg += f" -mp {shlex.quote(mirror_final)}\\\n"
@@ -62,7 +62,7 @@ def run(device, branch, ui):
     tasks = collections.OrderedDict()
 
     # Configure pmbootstrap mirrors
-    if bpo.helpers.pmb.is_master(branch):
+    if bpo.helpers.pmb.is_main(branch):
         # We can just pass the native arch to set_repos_task(), as it is only
         # getting used to check whether paths to the final repository exist
         # for that arch, and configuring mirrors.pmaports and mirrors.systemd

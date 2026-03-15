@@ -16,7 +16,7 @@ repo_wip_keys = top_dir + "/_repo_wip_keys"
 # Right now BPO assumes it runs on x86_64
 native_arch = "x86_64"
 
-# Which pmaports.git branches will be built (e.g. "master", "v20.05", ...).
+# Which pmaports.git branches will be built (e.g. "main", "v20.05", ...).
 # The order of branches/arches is the order in which packages will be built.
 # The native arch of the builders must come first.
 # Format:
@@ -34,13 +34,13 @@ branches = collections.OrderedDict()
 branches["v25.12"] = {
     "arches": ["x86_64", "aarch64", "armv7"],
     # Allow override for running the whole testsuite with pmb v2
-    "pmb_branch": os.environ.get("BPO_PMA_MASTER_PMB_BRANCH", "master"),
+    "pmb_branch": os.environ.get("BPO_PMA_MAIN_PMB_BRANCH", "main"),
 }
 
-branches["master"] = {
+branches["main"] = {
     "arches": ["x86_64", "aarch64", "armv7", "armhf", "x86", "riscv64", "ppc64le", "loongarch64"],
     # Allow override for running the whole testsuite with pmb v2
-    "pmb_branch": os.environ.get("BPO_PMA_MASTER_PMB_BRANCH", "master"),
+    "pmb_branch": os.environ.get("BPO_PMA_MAIN_PMB_BRANCH", "main"),
 }
 
 # Current default is 2.3.x until pmbootstrap v3 is stable:
@@ -50,7 +50,7 @@ pmb_branch_default = "2.3.x"
 # Build staging repositories for these architectures
 staging_arches = ["x86_64", "aarch64", "armv7"]
 # Use this pmbootstrap branch for staging repos
-staging_pmb_branch = os.environ.get("BPO_PMA_STAGING_PMB_BRANCH", "master")
+staging_pmb_branch = os.environ.get("BPO_PMA_STAGING_PMB_BRANCH", "main")
 
 # Split repositories (built in this order)
 splitrepos = [None, "systemd"]
@@ -66,7 +66,7 @@ mirror_alpine = "http://dl-cdn.alpinelinux.org/alpine/"
 
 # Omit the --strict argument for pmbootstrap build for these packages (fnmatch)
 # gcc*-*: https://gitlab.alpinelinux.org/alpine/apk-tools/issues/10649
-#         (fix is merged to abuild master, not yet in latest abuild release)
+#         (fix is merged to abuild main, not yet in latest abuild release)
 no_build_strict = ["gcc*-*"]
 
 # How many build jobs can run in parallel (across all arches)

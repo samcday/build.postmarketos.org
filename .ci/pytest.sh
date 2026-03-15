@@ -62,8 +62,8 @@ if python -c "import pytest_cov" >/dev/null 2>&1; then
 	cov_arg="--cov=bpo"
 fi
 
-export BPO_PMA_MASTER_PMB_BRANCH="master"
-export BPO_PMA_STAGING_PMB_BRANCH="master"
+export BPO_PMA_MAIN_PMB_BRANCH="main"
+export BPO_PMA_STAGING_PMB_BRANCH="main"
 export BPO_PMA_PATH="$(pmbootstrap -q config aports)"
 
 # Reset pmbootstrap config options

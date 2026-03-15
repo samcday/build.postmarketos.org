@@ -209,7 +209,7 @@ the repository and sign it.
 
 ```
 $ pytest -xvv test/test_zz_90_slow_other.py
-$ mv _repo_final/master/x86_64/hello-world-wrapper-1-r2.apk _repo_wip/master/x86_64/
+$ mv _repo_final/main/x86_64/hello-world-wrapper-1-r2.apk _repo_wip/main/x86_64/
 $ ./bpo_sourcehut.sh
 ```
 

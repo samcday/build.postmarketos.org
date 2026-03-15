@@ -22,7 +22,7 @@ def test_push_hook_gitlab_to_nop(monkeypatch):
 
 def test_push_hook_gitlab_get_pkgnames_commits():
     payload = {"object_kind": "push",
-               "ref": "refs/heads/master",
+               "ref": "refs/heads/main",
                "checkout_sha": "deadbeef",
                "commits":
                [{"id": "1337f00",
@@ -53,12 +53,12 @@ def test_push_hook_gitlab_reset_to_queued(monkeypatch):
         # Fill the db with "hello-world", "hello-world-wrapper"
         monkeypatch.setattr(bpo.helpers.job, "update_status", bpo_test.nop)
         monkeypatch.setattr(bpo.repo, "build", bpo_test.nop)
-        bpo_test.trigger.job_callback_get_depends("master")
+        bpo_test.trigger.job_callback_get_depends("main")
 
         # Set both packages to failed
         session = bpo.db.session()
         for pkgname in ["hello-world", "hello-world-wrapper"]:
-            package = bpo.db.get_package(session, pkgname, "x86_64", "master", None)
+            package = bpo.db.get_package(session, pkgname, "x86_64", "main", None)
             package.status = bpo.db.PackageStatus.failed
             package.retry_count = 2
             session.merge(package)

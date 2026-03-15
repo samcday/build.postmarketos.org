@@ -10,12 +10,12 @@ import os
 import shlex
 
 
-def is_master(pmaports_branch):
-    """Is using pmbootstrap master, instead of 2.3.x"""
+def is_main(pmaports_branch):
+    """Is using pmbootstrap main, instead of 2.3.x"""
     branches = bpo.repo.staging.get_branches_with_staging()
     pmb_branch = branches[pmaports_branch].get(
         "pmb_branch", bpo.config.const.pmb_branch_default)
-    return pmb_branch == "master"
+    return pmb_branch == "main"
 
 
 def get_pmos_mirror(branch, splitrepo, mirror_type="main", add_branch=False):

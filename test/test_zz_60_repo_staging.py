@@ -28,7 +28,7 @@ def test_no_sync_while_orig_repo_has_unpublished_pkgs(monkeypatch, tmpdir):
         WIP repository (not published yet), push the staging branch with
         hello-world and hello-world-wrapper packages, and test that hello-world
         does *not* get copied from the original repository's WIP repo. """
-    branch_staging = "master_staging_test_1234"
+    branch_staging = "main_staging_test_1234"
     payload_path = str(tmpdir) + "/payload.json"
 
     bpo_jobs_get_depends_run = bpo.jobs.get_depends.run
@@ -47,15 +47,15 @@ def test_no_sync_while_orig_repo_has_unpublished_pkgs(monkeypatch, tmpdir):
         # happen as long as the original repository has unpublished packages.
         logging.info(" ### [part 7] staging: verify packages not synced")
         hello_apk = f"hello-world-{v_hello}.apk"
-        path_hello_orig = f"{repo_final_path}/master/x86_64/{hello_apk}"
-        path_hello_staging = f"{repo_final_path}/staging/test_1234/master/x86_64/{hello_apk}"
+        path_hello_orig = f"{repo_final_path}/main/x86_64/{hello_apk}"
+        path_hello_staging = f"{repo_final_path}/staging/test_1234/main/x86_64/{hello_apk}"
         assert os.path.exists(path_hello_orig)
         assert not os.path.exists(path_hello_staging)
 
         bpo_test.stop_server()
 
     def jobs_get_depends_run(branch):
-        readme_path = f"{repo_final_path}/staging/test_1234/master/README"
+        readme_path = f"{repo_final_path}/staging/test_1234/main/README"
         logging.info(f" ### [part 3] check for {readme_path}")
         assert os.path.exists(readme_path)
 
@@ -72,7 +72,7 @@ def test_no_sync_while_orig_repo_has_unpublished_pkgs(monkeypatch, tmpdir):
 
         logging.info(" ### [part 5] check for hello-world in wip orig repo")
         hello_apk = f"hello-world-{v_hello}.apk"
-        path_hello_orig = f"{repo_wip_path}/master/x86_64/{hello_apk}"
+        path_hello_orig = f"{repo_wip_path}/main/x86_64/{hello_apk}"
         assert os.path.exists(path_hello_orig)
 
         # Run get_depends job callback:
@@ -108,7 +108,7 @@ def test_no_sync_while_orig_repo_has_unpublished_pkgs(monkeypatch, tmpdir):
     # Trigger job-callback/get-depends to trigger the package build
     with bpo_test.BPOServer():
         monkeypatch.setattr(bpo.repo.symlink, "sign", repo_symlink_sign)
-        bpo_test.trigger.job_callback_get_depends("master",
+        bpo_test.trigger.job_callback_get_depends("main",
                                                   payload_path=payload_path)
 
 @pytest.mark.timeout(300)
@@ -121,7 +121,7 @@ def test_build_publish_remove_staging_repo(monkeypatch, tmpdir):
         repository's final repo. Build hello-world-wrapper from the staging
         repo. Wait until it is published and remove the staging repository.
     """
-    branch_staging = "master_staging_test_1234"
+    branch_staging = "main_staging_test_1234"
     payload_path = str(tmpdir) + "/payload.json"
 
     repo_final_path = bpo.config.const.args.repo_final_path
@@ -132,7 +132,7 @@ def test_build_publish_remove_staging_repo(monkeypatch, tmpdir):
     def bpo_ui_log(action, *args, **kwargs):
         assert action == "delete_staging_repo"
         assert not os.path.exists(f"{repo_final_path}/staging/test_1234")
-        assert not os.path.exists(f"{repo_wip_path}/staging/test_1234/master")
+        assert not os.path.exists(f"{repo_wip_path}/staging/test_1234/main")
         logging.info(" ### [part 8] done, stopping bpo server")
         bpo_test.stop_server()
 
@@ -142,24 +142,24 @@ def test_build_publish_remove_staging_repo(monkeypatch, tmpdir):
         # CI where instead of hardlinking we have to actually copy the file.)
         logging.info(" ### [part 6] staging: verify packages in repository")
         hello_apk = f"hello-world-{v_hello}.apk"
-        path_hello_orig = f"{repo_final_path}/master/x86_64/{hello_apk}"
-        path_hello_staging = f"{repo_final_path}/staging/test_1234/master/x86_64/{hello_apk}"
+        path_hello_orig = f"{repo_final_path}/main/x86_64/{hello_apk}"
+        path_hello_staging = f"{repo_final_path}/staging/test_1234/main/x86_64/{hello_apk}"
         assert bpo_test.is_same_file(path_hello_orig, path_hello_staging)
 
         hello_wrapper_apk = f"hello-world-wrapper-{v_wrapper}.apk"
-        path_hello_wrapper = (f"{repo_final_path}/staging/test_1234/master/"
+        path_hello_wrapper = (f"{repo_final_path}/staging/test_1234/main/"
                               f"x86_64/{hello_wrapper_apk}")
         assert os.path.exists(path_hello_wrapper)
 
         logging.info(" ### [part 7] staging: remove")
         monkeypatch.setattr(bpo.ui, "log", bpo_ui_log)
         assert os.path.exists(f"{repo_final_path}/staging/test_1234")
-        assert os.path.exists(f"{repo_wip_path}/staging/test_1234/master")
+        assert os.path.exists(f"{repo_wip_path}/staging/test_1234/main")
         bpo_test.trigger.push_hook_gitlab(branch=branch_staging, background=True,
                                           after="0000000000000000000000000000000000000000")
 
     def jobs_get_depends_run(branch):
-        readme_path = f"{repo_final_path}/staging/test_1234/master/README"
+        readme_path = f"{repo_final_path}/staging/test_1234/main/README"
         logging.info(f" ### [part 3] check for {readme_path}")
         assert os.path.exists(readme_path)
 
@@ -195,7 +195,7 @@ def test_build_publish_remove_staging_repo(monkeypatch, tmpdir):
     with bpo_test.BPOServer():
         try:
             monkeypatch.setattr(bpo.repo.final, "publish", repo_final_publish)
-            bpo_test.trigger.job_callback_get_depends("master",
+            bpo_test.trigger.job_callback_get_depends("main",
                                                       payload_path=payload_path)
         except Exception:
             logging.critical("### Exception from test case", file=sys.stderr)

@@ -53,7 +53,7 @@ def api_request(path, headers={}, payload=None, files=None, background=False):
         bpo_test.stop_server_nok()
 
 
-def push_hook_gitlab(branch="master", background=False, after="deadbeef"):
+def push_hook_gitlab(branch="main", background=False, after="deadbeef"):
     token = bpo.config.const.test_tokens["push_hook_gitlab"]
     headers = {"X-Gitlab-Token": token}
     payload = {"object_kind": "push",
@@ -108,7 +108,7 @@ def override_depends_json(output, overrides, testfile="depends.x86_64.json"):
 def job_callback_get_depends(branch, payload="depends.x86_64.json",
                              payload_path=None, background=False):
     """ Call job-callback/get-depends with a supplied payload file for
-        master/x86_64 and empty lists for all other arches.
+        main/x86_64 and empty lists for all other arches.
         :param branch: pmaports.git branch
         :param payload: path to payload in test/testdata
         :param payload_path: full path to payload. If set, this overrides the
@@ -120,7 +120,7 @@ def job_callback_get_depends(branch, payload="depends.x86_64.json",
     if not payload_path:
         payload_path = (bpo.config.const.top_dir + "/test/testdata/" + payload)
 
-    # master/x86_64: supplied payload file
+    # main/x86_64: supplied payload file
     upload_name = "depends.x86_64.json"
     files = [("file[]", (upload_name, open(payload_path, "rb"),
                          "application/octet-stream"))]

@@ -16,7 +16,7 @@ def run(branch):
 
     # Configure pmbootstrap mirrors
     pmb_v2_mirrors_arg = ""
-    if not bpo.helpers.pmb.is_master(branch):
+    if not bpo.helpers.pmb.is_main(branch):
         mirror_final = bpo.helpers.pmb.get_pmos_mirror(branch, None)
         pmb_v2_mirrors_arg += f" -mp {shlex.quote(mirror_final)}\\\n"
 
@@ -26,7 +26,7 @@ def run(branch):
         # Ignore missing repos before initial build (bpo#137)
         env_force_missing_repos = ""
 
-        if bpo.helpers.pmb.is_master(branch):
+        if bpo.helpers.pmb.is_main(branch):
             tasks[f"set_repos_{arch}"] = bpo.helpers.pmb.set_repos_task(arch, branch, False)
         else:
             final_path = bpo.repo.final.get_path(arch, branch, None)

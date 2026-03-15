@@ -376,7 +376,7 @@ def get_recent_packages_by_status(session):
     """ :returns: a dict like this (pkglist is a list of bpo.db.Package objects):
 
     {"queued": pkglist1, "building": pkglist2,
-        "built": pkglist3, "published": pkglist4, "failed": pkglist5, "built_synced": {"master_staging_test": {"x86_64": 5, "aarch64": 3}},
+        "built": pkglist3, "published": pkglist4, "failed": pkglist5, "built_synced": {"main_staging_test": {"x86_64": 5, "aarch64": 3}},
         "published_synced": {...}}  # same format as built_synced
 
     """

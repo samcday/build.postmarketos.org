@@ -17,9 +17,9 @@ def build_image(monkeypatch):
         then without the stub. """
     monkeypatch.setattr(bpo.config.const.images, "images",
                         {"qemu-amd64": {
-                            "branches": ["master"],
+                            "branches": ["main"],
                             "branch_configs": {
-                                "master": {
+                                "main": {
                                     "ui": ["console"],
                                     "kernels": ["virt"],
                                 }
@@ -27,7 +27,7 @@ def build_image(monkeypatch):
                         }})
 
     device = "qemu-amd64"
-    branch = "master"
+    branch = "main"
     ui = "console"
 
     with bpo_test.BPOServer(disable_pmos_mirror=False, fill_image_queue=True):

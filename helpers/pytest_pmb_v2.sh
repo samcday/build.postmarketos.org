@@ -19,7 +19,7 @@ if ! pmbootstrap --version | grep -q '^2\.'; then
 	exit 1
 fi
 
-export BPO_PMA_MASTER_PMB_BRANCH="2.3.x"
+export BPO_PMA_MAIN_PMB_BRANCH="2.3.x"
 export BPO_PMA_STAGING_PMB_BRANCH="2.3.x"
 export BPO_PMB_PATH="$(realpath "$PWD/../pmbootstrap_v2")"
 export BPO_PMA_PATH="$(pmbootstrap -q config aports)"
