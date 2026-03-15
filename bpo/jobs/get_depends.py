@@ -44,7 +44,7 @@ def run(branch):
             pmbootstrap \\
                 {pmb_v2_mirrors_arg} \\
                 --aports=$PWD/pmaports \\
-                repo_missing --built --arch "$ARCH" \\
+                repo_missing --arch "$ARCH" \\
                 > "$JSON"
             cat "$JSON"
             """
